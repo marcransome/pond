@@ -2,9 +2,13 @@
 
 @test 'create pond succeeds' (pond create test >/dev/null 2>&1) $status -eq 0
 
-@test 'list ponds succeeds' (pond list >/dev/null 2>&1) $status -eq 0
+@test 'create pond fails when pond already exists' (pond create test >/dev/null 2>&1) $status -eq 1
 
-@test 'remove pond succeeds' (echo 'y' | pond remove test >/dev/null 2>&1) $status -eq 0
+@test 'list ponds succeeds when ponds exist' (pond list >/dev/null 2>&1) $status -eq 0
+
+@test 'remove pond succeeds when pond exists' (echo 'y' | pond remove test >/dev/null 2>&1) $status -eq 0
+
+@test 'remove pond fails when pond does not exist' (echo 'y' | pond remove test >/dev/null 2>&1) $status -eq 1
 
 @test 'list ponds fails when no ponds exist' (pond list >/dev/null 2>&1) $status -eq 1
 

@@ -36,7 +36,7 @@ set pond_version 0.2.0
 @test 'create pond reports correctly when pond already exists' (pond create $test_pond 2>&1) = "pond: A pond named '$test_pond' already exists"
 
 @test 'list pond reports correctly when ponds exist' (pond list | string collect) = "pond: Found the following ponds:
-  test"
+  $test_pond"
 
 @test 'remove pond reports correctly when pond exists' (echo 'y' | pond remove $test_pond) = "pond: Removed pond '$test_pond'"
 

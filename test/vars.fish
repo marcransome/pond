@@ -33,7 +33,7 @@ pond create pond
 
 # variable command output tests
 
-@test 'set pond variable reports correctly' (pond var set $test_pond $test_variable $test_value) = "pond: Set variable '$test_variable' in pond '$test_value'"
+@test 'set pond variable reports correctly' (pond var set $test_pond $test_variable $test_value) = "pond: Set variable '$test_variable' in pond '$test_pond'"
 
 @test 'set pond variable reports correctly for a non-existent pond' (pond var set none $test_variable $test_value) = "pond: A pond named 'none' does not exist"
 

@@ -2,6 +2,8 @@ set fail 1
 set success 0
 set pond_version 0.2.0
 
+# setup
+
 set -x test_pond pond
 
 # pond command tests

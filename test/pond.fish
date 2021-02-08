@@ -1,6 +1,6 @@
 set fail 1
 set success 0
-set version 0.1.0
+set pond_version 0.1.0
 
 # basic commands
 
@@ -26,9 +26,9 @@ set version 0.1.0
 
 # stdout tests
 
-@test 'short version option reports correctly' (pond -v) = $version
+@test 'short version option reports correctly' (pond -v) = "pond $pond_version"
 
-@test 'long version option reports correctly' (pond --version)  = $version
+@test 'long version option reports correctly' (pond --version) = "pond $pond_version"
 
 @test 'create pond reports correctly' (pond create test) = "pond: Created an empty pond named 'test'"
 

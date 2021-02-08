@@ -1,6 +1,6 @@
 set fail 1
 set success 0
-set pond_version 0.1.0
+set pond_version 0.2.0
 
 # basic commands
 

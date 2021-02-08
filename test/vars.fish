@@ -7,7 +7,7 @@ set -x test_value 123
 
 # setup
 
-pond create test
+pond create $test_pond
 
 # variable command tests
 

@@ -1,13 +1,6 @@
 set fail 1
 set success 0
 
-Variable management:
-       pond var set     <pond> <var> <value>  Set pond variable to value
-       pond var get     <pond> [var]          Get all pond variables or one if name provided
-       pond var remove  <pond> <var>          Remove pond variable
-
-pond create test
-
 # variable commands
 
 @test 'set pond variable succeeds' (pond var set test ABC 123 >/dev/null 2>&1) $status -eq $success

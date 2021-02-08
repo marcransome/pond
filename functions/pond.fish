@@ -155,7 +155,7 @@ function pond --argument-names cmd --description "An environment manager for Fis
                         grep -ve "^.*set.*-.* $var_name .*\$" $pond_tree/$pond_name/$pond_vars > $pond_tree/$pond_name/$pond_vars.rmop
                         mv $pond_tree/$pond_name/$pond_vars.rmop $pond_tree/$pond_name/$pond_vars
                         set -u $var_name
-                        echo "$pond_prefix: Variable '$var_name' removed from pond '$pond_name'" >&2 && return 1
+                        echo "$pond_prefix: Variable '$var_name' removed from pond '$pond_name'" >&2
                     else
                         echo "$pond_prefix: No variable named '$var_name' in pond '$pond_name'" >&2 && return 1
                     end

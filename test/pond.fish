@@ -2,7 +2,7 @@ set fail 1
 set success 0
 set pond_version 0.2.0
 
-# basic commands
+# pond commands
 
 @test 'short version option succeeds' (pond -v >/dev/null 2>&1) $status -eq $success
 
@@ -24,7 +24,7 @@ set pond_version 0.2.0
 
 @test 'list ponds fails when no ponds exist' (pond list >/dev/null 2>&1) $status -eq $fail
 
-# stdout tests
+# output tests
 
 @test 'short version option reports correctly' (pond -v) = "pond $pond_version"
 

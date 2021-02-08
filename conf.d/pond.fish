@@ -1,5 +1,5 @@
 function _pond_install --on-event pond_install
-    set -U pond_tree" $__fish_config_dir/ponds"
+    set -U pond_tree "$__fish_config_dir/ponds"
     set -U pond_vars "env_vars.fish"
     set -U pond_funcs "functions"
     set -U pond_prefix "pond"

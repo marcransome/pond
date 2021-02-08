@@ -10,3 +10,6 @@ jobs:
       - name: Install fisher and fishtape
         run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
         shell: fish {0}
+      - name: Test plugin installation
+        run: $GITHUB_WORKSPACE && fisher install .
+        shell: fish {0}

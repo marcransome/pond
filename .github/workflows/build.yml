@@ -7,3 +7,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install fish shell
         run: brew install fish
+      - name: Install fisher and fishtape
+        run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
+        shell: fish {0}

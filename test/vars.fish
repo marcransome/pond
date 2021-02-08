@@ -1,8 +1,9 @@
 set fail 1
 set success 0
-set test_pond pond
-set test_variable ABC
-set test_value 123
+
+set -x test_pond pond
+set -x test_variable ABC
+set -x test_value 123
 
 # setup
 

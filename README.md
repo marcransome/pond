@@ -1,6 +1,6 @@
 # Pond
 
-![build](https://github.com/marcransome/pond/workflows/ci/badge.svg?branch=main)
+[![build](https://github.com/marcransome/pond/workflows/ci/badge.svg?branch=main)](https://github.com/marcransome/pond/actions?query=workflow%3Aci)
 
 Pond is an environment manager for the [Fish shell](https://fishshell.com).
 

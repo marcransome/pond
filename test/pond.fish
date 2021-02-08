@@ -1,7 +1,16 @@
 set fail 1
 set success 0
+set version 0.1.0
 
 # basic commands
+
+@test 'short version option succeeds' (pond -v >/dev/null 2>&1) $status -eq $success
+
+@test 'long version option succeeds' (pond --version >/dev/null 2>&1) $status -eq $success
+
+@test 'short help option succeeds' (pond -h >/dev/null 2>&1) $status -eq $success
+
+@test 'long help option succeeds' (pond --help >/dev/null 2>&1) $status -eq $success
 
 @test 'create pond succeeds' (pond create test >/dev/null 2>&1) $status -eq $success
 
@@ -16,6 +25,10 @@ set success 0
 @test 'list ponds fails when no ponds exist' (pond list >/dev/null 2>&1) $status -eq $fail
 
 # stdout tests
+
+@test 'short version option reports correctly' (pond -v) = $version
+
+@test 'long version option reports correctly' (pond --version)  = $version
 
 @test 'create pond reports correctly' (pond create test) = "pond: Created an empty pond named 'test'"
 

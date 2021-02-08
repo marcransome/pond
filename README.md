@@ -2,7 +2,7 @@
 
 [![build](https://github.com/marcransome/pond/workflows/build/badge.svg?branch=main)](https://github.com/marcransome/pond/actions?query=workflow%3Abuild)
 
-Pond is an environment manager for the [Fish shell](https://fishshell.com).
+Pond is an environment manager for the [fish shell](https://fishshell.com).
 
 Group functions and environment variables into named _ponds_, `load` and `unload` them in your shell at will, or `enable` and `disable` them for future shell sessions.
 

@@ -1,10 +1,6 @@
 # Pond
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmarcransome%2Fpond%2Fbadge%3Fref%3Dmain&style=flat&label=build)](https://github.com/marcransome/pond/actions?query=workflow%3Abuild)
-
-[![License](https://img.shields.io/badge/license-MIT-green)](http://opensource.org/licenses/mit-license.php)
-
-[![fish]https://img.shields.io/badge/fish-3.1.2-green](https://fishshell.com)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmarcransome%2Fpond%2Fbadge%3Fref%3Dmain&style=flat&label=build)](https://github.com/marcransome/pond/actions?query=workflow%3Abuild) [![License](https://img.shields.io/badge/license-MIT-green)](http://opensource.org/licenses/mit-license.php) [![fish](https://img.shields.io/badge/fish-3.1.2-green)](https://fishshell.com)
 
 Pond is an environment manager for the [fish shell](https://fishshell.com).
 

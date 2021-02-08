@@ -148,7 +148,7 @@ function pond --argument-names cmd --description "An environment manager for Fis
                         echo "$pond_prefix: A variable named '$var_name' already exists in pond '$pond_name'" >&2 && return 1
                     else
                         echo "set -xg $var_name $var_value" >> $pond_tree/$pond_name/$pond_vars
-                        echo "$pond_prefix: Set variable '$var_name' in pond '$pond_name'" >&2 && return 1
+                        echo "$pond_prefix: Set variable '$var_name' in pond '$pond_name'" >&2
                     end
                 case rm remove
                     if grep -q "^.*set.*-.* $var_name .*\$" $pond_tree/$pond_name/$pond_vars

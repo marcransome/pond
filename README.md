@@ -14,6 +14,8 @@ $ fisher install marcransome/pond
 
 ## Usage
 
+You can create, remove and list ponds easily, and manage environment variables in each by setting, getting, listing, or removing variables as needed. Tab completions are provided for all Pond subcommands discussed here.
+
 ### Managing ponds
 
 A _pond_ represents a collection of environment variables (and in a future release _functions_) in the fish shell. Ponds are used to group related environment variables together. Naming ponds after individual applications or local development environments is a good way to separate them by their use-case.
@@ -45,7 +47,7 @@ $ pond remove my-app
 pond: Are you sure you want to remove pond 'my-app'? y
 ```
 
-#### Adding pond variables
+#### Adding pond variables
 
 Add a single variable to a pond using the `variable set` subcommand (or the shortened version `var set`), along with the pond name, variable name, and variable value:
 
@@ -54,11 +56,11 @@ $ pond variable set my-app MEMORY_LIMIT 123
 pond: Set variable 'MEMORY_LIMIT' in pond 'my-app'
 ```
 
-Each variable added this way is written to the pond variables file (typically located in `~/.config/fish/ponds/<pond-name>/env_vars.fish`) as a `set` command of the format `set -xg <variable-name> <variable-value>`. Pond variable files are automatically sourced into each new shell session and made available in the shell environment.
+Each variable added this way is written to the pond variables file (typically located in `~/.config/fish/ponds/<pond-name>/env_vars.fish`) as a `set` command in the format `set -xg <variable-name> <variable-value>`. Pond variable files are automatically sourced into each new shell session and made available in the shell environment.
 
 #### Listing pond variables
 
-View all variables belonging to a pond using the `variable list` subcommand (or the shortened version `var ls`):
+View all variables belonging to a pond using the `variable list` subcommand (or the shortened version `var ls`) along with the pond name:
 
 ```console
 $ pond variable list my-app
@@ -73,10 +75,6 @@ Remove a single variable from a pond using the `variable remove` subcommand (or 
 $ pond variable remove my-app MEMORY_LIMIT
 pond: Variable 'MEMORY_LIMIT' removed from pond 'my-app'
 ```
-
-#### Tab completions
-
-Tab completions are provided for all Pond subcommands here.
 
 ### Managing environment variables
 

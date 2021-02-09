@@ -16,7 +16,7 @@ $ fisher install marcransome/pond
 
 ### Managing ponds
 
-A _pond_ represents a collection of environment variables (and in a future release functions) in the fish shell. Ponds are used to group related environment variables together. Naming ponds after individual applications or local development environments is a good way to separate them by their use-case.
+A _pond_ represents a collection of environment variables (and in a future release _functions_) in the fish shell. Ponds are used to group related environment variables together. Naming ponds after individual applications or local development environments is a good way to separate them by their use-case.
 
 #### Creating ponds
 

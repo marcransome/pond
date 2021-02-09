@@ -6,6 +6,9 @@ function _pond_install --on-event pond_install
     set -U pond_functions "functions"
     set -U pond_message_prefix "pond"
     set -U pond_enable_on_create 1
+
+    mkdir -p $pond_data >/dev/null 2>&1
+    mkdir -p $pond_links >/dev/null 2>&1
 end
 
 function _pond_uninstall --on-event pond_uninstall
@@ -29,9 +32,6 @@ function _pond_uninstall --on-event pond_uninstall
 end
 
 function _pond_init
-    mkdir -p $pond_data >/dev/null 2>&1
-    mkdir -p $pond_links >/dev/null 2>&1
-
     for vars in $pond_links/*/$pond_vars
         source $vars
     end

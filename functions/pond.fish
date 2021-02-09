@@ -7,10 +7,10 @@ function pond --argument-names cmd --description "An environment manager for Fis
         echo "       pond create  <name>  Create a new pond"
         echo "       pond remove  <name>  Remove a pond and associated configuration"
         echo "       pond list            List all ponds"
-        echo "       pond show            Show all pond files"
         echo "Variable management:"
-        echo "       pond var set     <pond> <var> <value>  Set pond variable to value"
-        echo "       pond var get     <pond> [var]          Get all pond variables or one if name provided"
+        echo "       pond var list    <pond>                List all pond variables"
+        echo "       pond var set     <pond> <var> <value>  Set pond variable"
+        echo "       pond var get     <pond> <var>          Get pond variable"
         echo "       pond var remove  <pond> <var>          Remove pond variable"
         echo "Options:"
         echo "       -v or --version  Print version"
@@ -66,9 +66,8 @@ function pond --argument-names cmd --description "An environment manager for Fis
             if test (count $pond_paths) -eq 0
                 echo "$pond_prefix: No ponds found; create one with 'create'" >&2 && return 1
             else
-                echo "$pond_prefix: Found the following ponds:"
                 for pond_path in $pond_paths
-                    echo "  "(basename $pond_path)
+                    echo (basename $pond_path)
                 end
             end
         case rm remove
@@ -91,7 +90,7 @@ function pond --argument-names cmd --description "An environment manager for Fis
             else
                 echo "$pond_prefix: A pond named '$pond_name' does not exist" >&2 && return 1
             end
-        case v var variable
+        case var variable
             set --local var_action "$argv[2]"
             set --local pond_name "$argv[3]"
             set --local var_name "$argv[4]"

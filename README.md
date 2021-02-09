@@ -1,8 +1,12 @@
+<img alt="pond" src="images/fish-pond.png" width="180" align=left>
+
 # Pond
 
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmarcransome%2Fpond%2Fbadge%3Fref%3Dmain&style=flat&label=build)](https://github.com/marcransome/pond/actions?query=workflow%3Abuild) [![License](https://img.shields.io/badge/license-MIT-brightgreen)](http://opensource.org/licenses/mit-license.php) [![fish](https://img.shields.io/badge/fish-3.1.2-brightgreen)](https://fishshell.com)
 
 Pond is a shell environment manager for the [fish shell](https://fishshell.com).
+
+<hr>
 
 ## Installation
 
@@ -76,7 +80,7 @@ $ pond variable remove my-app MEMORY_LIMIT
 pond: Variable 'MEMORY_LIMIT' removed from pond 'my-app'
 ```
 
-## Acknowledgements
+## Acknowledgements
 
 Icons made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com/).
 

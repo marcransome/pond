@@ -20,7 +20,7 @@ $ fisher install marcransome/pond
 
 You can create, remove and list ponds easily. Manage environment variables across ponds by setting, getting, listing, or removing variables as needed. Tab completions are provided for all Pond subcommands discussed here.
 
-:exclamation: Pond won't protect you from yourself! If you define variables with the same name in multiple ponds and enable them for a new shell session.. fun things may happen!
+:exclamation: Pond won't protect you from yourself! If you define variables with the same name in multiple ponds and enable them for a new shell session.. fun things may happen. Bonus points for a [pull-request](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/creating-an-issue-or-pull-request).
 
 ### Managing ponds
 

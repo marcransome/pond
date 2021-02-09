@@ -164,6 +164,8 @@ function pond --argument-names cmd --description "An environment manager for Fis
                 echo "enabled: no"
             end
 
+            set matches (grep "^set -xg .* .*\$" $pond_data/$pond_name/$pond_vars)
+            echo "variables: "(count $matches)
             echo "path: $pond_data/$pond_name"
         case load
             set --local pond_name "$argv[2]"

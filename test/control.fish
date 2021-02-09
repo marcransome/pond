@@ -35,12 +35,14 @@ pond create $test_pond # enables pond by default
 
 @test 'status reports correctly for disabled pond' (pond status $test_pond 2>&1 | string collect) = "name: pond
 enabled: no
+variables: 0
 path: $__fish_config_dir/pond/ponds/$test_pond"
 
 @test 'enable pond succeeds' (pond enable $test_pond) = "Enabled pond '$test_pond'"
 
 @test 'status reports correctly for enabled pond' (pond status $test_pond 2>&1 | string collect) = "name: pond
 enabled: yes
+variables: 0
 path: $__fish_config_dir/pond/ponds/$test_pond"
 
 @test 'status reports correctly for non-existent pond' (pond status none 2>&1) = "Pond 'none' does not exist"

@@ -186,7 +186,6 @@ function pond --argument-names cmd --description "An environment manager for Fis
             switch $var_action
                 case ls list
                     while read -la line
-                        # ignore comments and empty lines
                         if test -z "$line"; or string match -r '^#' "$line" -q
                             continue
                         end

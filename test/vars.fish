@@ -9,7 +9,7 @@ set -x test_value 123
 
 pond create $test_pond
 
-# variable command tests
+# variable management tests
 
 @test 'set pond variable succeeds' (pond var set $test_pond $test_variable $test_value >/dev/null 2>&1) $status -eq $success
 
@@ -29,9 +29,9 @@ pond create $test_pond
 
 # setup
 
-pond create pond
+pond create $test_pond
 
-# variable command output tests
+# variable management output tests
 
 @test 'set pond variable reports correctly' (pond var set $test_pond $test_variable $test_value) = "Set variable '$test_variable' in pond '$test_pond'"
 
@@ -48,3 +48,7 @@ pond create pond
 @test 'remove pond variable reports correctly for a non-existent variable' (pond var remove $test_pond NONE 2>&1) = "No variable 'NONE' in pond '$test_pond'"
 
 @test 'remove pond variable reports correctly for a non-existent pond' (pond var remove none $test_variable 2>&1) = "Pond 'none' does not exist"
+
+# tear-down
+
+echo 'y' | pond remove $test_pond

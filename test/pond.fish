@@ -2,11 +2,9 @@ set fail 1
 set success 0
 set pond_version 0.2.0
 
-# setup
-
 set -x test_pond pond
 
-# pond command tests
+# pond management tests
 
 @test 'short version option succeeds' (pond -v >/dev/null 2>&1) $status -eq $success
 
@@ -28,7 +26,7 @@ set -x test_pond pond
 
 @test 'list ponds fails when no ponds exist' (pond list >/dev/null 2>&1) $status -eq $fail
 
-# pond command output tests
+# pond management output tests
 
 @test 'short version option reports correctly' (pond -v) = "pond $pond_version"
 
@@ -45,3 +43,7 @@ set -x test_pond pond
 @test 'remove pond reports correctly when pond does not exist' (pond remove $test_pond 2>&1) = "Pond '$test_pond' does not exist"
 
 @test 'list pond reports correctly when no ponds exist' (pond list 2>&1) = "No ponds found; create one with 'create'"
+
+# tear-down
+
+echo 'y' | pond remove $test_pond

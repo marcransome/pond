@@ -113,7 +113,7 @@ function pond --argument-names cmd --description "An environment manager for Fis
             end
 
             if test -L $pond_links/$pond_name
-                echo "Pond is already enabled" >&2 && return 1
+                echo "Pond '$pond_name' is already enabled" >&2 && return 1
             else
                 ln -s $pond_data/$pond_name $pond_links/$pond_name >/dev/null 2>&1
                 if test $status -ne 0
@@ -134,7 +134,7 @@ function pond --argument-names cmd --description "An environment manager for Fis
             end
 
             if ! test -L $pond_links/$pond_name
-                echo "Pond is already disabled" >&2 && return 1
+                echo "Pond '$pond_name' is already disabled" >&2 && return 1
             else
                 unlink $pond_links/$pond_name >/dev/null 2>&1
                 if test $status -ne 0

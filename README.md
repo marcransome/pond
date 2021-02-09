@@ -53,6 +53,7 @@ Remove a pond using the `remove` subcommand (or its alias `rm`):
 ```console
 $ pond remove my-app
 Are you sure you want to remove pond 'my-app'? y
+Removed pond 'my-app'
 ```
 
 #### Enabling ponds
@@ -98,7 +99,7 @@ View all variables belonging to a pond using the `variable list` subcommand (or 
 
 ```console
 $ pond variable list my-app
-set -xg MEMORY_LIMIT 123
+MEMORY_LIMIT=123
 ```
 
 #### Removing pond variables

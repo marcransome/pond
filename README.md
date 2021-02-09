@@ -76,6 +76,10 @@ $ pond variable remove my-app MEMORY_LIMIT
 pond: Variable 'MEMORY_LIMIT' removed from pond 'my-app'
 ```
 
+## Acknowledgements
+
+Icons made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com/).
+
 ## License
 Pond is provided under the terms of the [MIT License](http://opensource.org/licenses/mit-license.php).
 

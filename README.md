@@ -76,8 +76,6 @@ $ pond variable remove my-app MEMORY_LIMIT
 pond: Variable 'MEMORY_LIMIT' removed from pond 'my-app'
 ```
 
-### Managing environment variables
-
 ## License
 `Pond` is provided under the terms of the [MIT License](http://opensource.org/licenses/mit-license.php).
 

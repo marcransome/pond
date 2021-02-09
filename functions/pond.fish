@@ -9,6 +9,8 @@ function pond --argument-names cmd --description "An environment manager for Fis
         echo "       pond list            List all ponds"
         echo "       pond enable          Enable a pond for new shell sessions"
         echo "       pond disable         Disable a pond for new shell sessions"
+        echo "       pond load            Load pond variables into current shell session"
+        echo "       pond unload          Unload pond variables from current shell session"
         echo "       pond status          View pond status information"
         echo "Variable management:"
         echo "       pond var list    <pond>                List all pond variables"
@@ -163,6 +165,39 @@ function pond --argument-names cmd --description "An environment manager for Fis
             end
 
             echo "path: $pond_data/$pond_name"
+        case load
+            set --local pond_name "$argv[2]"
+
+            if test -z $pond_name
+                echo "Missing pond name for subcommand: \"$cmd\"" >&2 && return 1
+            end
+
+            source $pond_data/$pond_name/$pond_vars
+            if test $status -ne 0
+                echo "Unable to source variables file at $pond_data/$pond_name/$pond_vars" >&2 && return 1
+            end
+
+            echo "Pond '$pond_name' variables loaded into current shell session"
+        case unload
+            set --local pond_name "$argv[2]"
+
+            if test -z $pond_name
+                echo "Missing pond name for subcommand: \"$cmd\"" >&2 && return 1
+            end
+
+            while read -la line
+                if test -z "$line"; or string match -r '^#' "$line" -q
+                    continue
+                end
+
+                set tokens (string match -r '^set -xg (.*) (.*)$' "$line")
+                set -e $tokens[2]
+                if test $status -ne 0
+                    echo "Unable to erase variables from environment '$tokens[2]'" >&2 && return 1
+                end
+            end < $pond_data/$pond_name/$pond_vars
+
+            echo "Pond '$pond_name' variables unloaded from current shell session"
         case var variable
             set --local var_action "$argv[2]"
             set --local pond_name "$argv[3]"

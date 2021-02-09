@@ -2,7 +2,7 @@ function pond --argument-names cmd --description "An environment manager for Fis
     set --local pond_version 0.2.0
 
     function _pond_usage
-        echo "Usage: pond <command> [arguments]"
+        echo "Usage: pond <command> ..."
         echo "Pond management:"
         echo "       pond create  <name>  Create a new pond"
         echo "       pond remove  <name>  Remove a pond and associated configuration"
@@ -19,7 +19,7 @@ function pond --argument-names cmd --description "An environment manager for Fis
     end
 
     function _pond_var_usage
-        echo "Usage: pond var set|get|remove <pond> ..."
+        echo "Usage: pond var list|set|get|remove <pond> ..."
         echo "Variable management:"
         echo "       pond var list    <pond>                List all pond variables"
         echo "       pond var set     <pond> <var> <value>  Set pond variable"

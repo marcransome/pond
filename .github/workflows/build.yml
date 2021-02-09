@@ -7,12 +7,30 @@ on:
     branches:
       - main
 jobs:
-  test:
+  test-mac:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Install fish shell
         run: brew install fish
+      - name: Install fisher and fishtape
+        run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
+        shell: fish {0}
+      - name: Test plugin installation
+        run: $GITHUB_WORKSPACE && fisher install .
+        shell: fish {0}
+      - name: Run tests
+        run: $GITHUB_WORKSPACE && fishtape test/*.fish
+        shell: fish {0}
+  test-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install fish shell
+        run: |
+          sudo apt-add-repository -yn ppa:fish-shell/release-3
+          sudo apt-get update
+          sudo apt-get install -y fish
       - name: Install fisher and fishtape
         run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
         shell: fish {0}

@@ -74,6 +74,26 @@ $ pond disable my-app
 Disabled pond 'my-app'
 ```
 
+#### Loading ponds
+
+To load a pond and expose all of its variables temporarily within the current shell session use the `load` subcommand:
+
+```console
+$ pond load my-app
+Pond 'my-app' variables loaded into current shell session
+```
+
+#### Unloading ponds
+
+To unload a pond and remove all of its variables from the current shell session use the `unload` subcommand:
+
+```console
+$ pond unload my-app
+Pond 'my-app' variables unloaded from current shell session
+```
+
+If the pond is _enabled_ this action will not stop pond variables from being exposed to new shell sessions, instead `disable` the pond.
+
 ### Viewing pond status
 
 To view the status of a pond use the `status` subcommand:

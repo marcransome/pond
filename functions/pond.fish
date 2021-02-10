@@ -96,7 +96,7 @@ function pond -a command -d "A fish shell environment manager"
             set -l pond_paths $pond_data/*
 
             if test (count $pond_paths) -eq 0
-                echo "No ponds found'" >&2 && return 1
+                echo "No ponds found" >&2 && return 1
             else
                 for pond_path in $pond_paths
                     echo (basename $pond_path)

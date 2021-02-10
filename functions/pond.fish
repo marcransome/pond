@@ -67,7 +67,7 @@ function pond -a command -d "A fish shell environment manager"
             set -l pond_name "$argv[2]"
 
             if test -z $pond_name; __pond_show_name_missing_error && return 1; end
-            if __pond_exists $pond_name; __pond_show_exists_error >&2 && return 1; end
+            if __pond_exists $pond_name; __pond_show_exists_error && return 1; end
 
             mkdir -p $pond_data/$pond_name >/dev/null 2>&1
             if test $status -ne 0
@@ -118,13 +118,13 @@ function pond -a command -d "A fish shell environment manager"
                     end
                 end
             else
-                echo "Pond does not exist: $pond_name" >&2 && return 1
+                __pond_show_not_exists_error && return 1
             end
         case link enable
             set -l pond_name "$argv[2]"
 
             if test -z $pond_name; __pond_show_name_missing_error && return 1; end
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error >&2 && return 1; end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
 
             if test -L $pond_links/$pond_name
                 echo "Pond is already enabled: $pond_name" >&2 && return 1
@@ -140,7 +140,7 @@ function pond -a command -d "A fish shell environment manager"
             set -l pond_name "$argv[2]"
 
             if test -z $pond_name; __pond_show_name_missing_error && return 1; end
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error >&2 && return 1; end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
 
 
             if ! test -L $pond_links/$pond_name
@@ -157,7 +157,7 @@ function pond -a command -d "A fish shell environment manager"
             set -l pond_name "$argv[2]"
 
             if test -z $pond_name; __pond_show_name_missing_error && return 1; end
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error >&2 && return 1; end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
 
             echo "name: $pond_name"
             echo "enabled: "(test -L $pond_links/$pond_name; and echo 'yes'; or echo 'no')
@@ -205,11 +205,14 @@ function pond -a command -d "A fish shell environment manager"
             if test -z $var_operation; __pond_show_var_operation_missing_error && return 1; end
             if test -z $pond_name; __pond_show_name_missing_error && return 1; end
 
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error >&2 && return 1; end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
 
             switch $var_operation
                 case ls list
-                    grep -E '^set -xg [A-Za-z0-9_]+ .*$' $pond_data/$pond_name/$pond_vars
+                    set matches (grep --color=never -E '^set -xg [A-Za-z0-9_]+ .*$' $pond_data/$pond_name/$pond_vars)
+                    for match in $matches
+                        echo $match
+                    end
                     return 0
                 case get
                     if test -z $var_name; __pond_show_var_name_missing_error && return 1; end

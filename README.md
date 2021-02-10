@@ -74,7 +74,7 @@ $ pond disable my-app
 Disabled pond 'my-app'
 ```
 
-#### Loading ponds
+#### Loading ponds
 
 To load a pond and expose all of its variables temporarily within the current shell session use the `load` subcommand:
 

@@ -38,5 +38,5 @@ jobs:
         run: $GITHUB_WORKSPACE && fisher install .
         shell: fish {0}
       - name: Run tests
-        run: $GITHUB_WORKSPACE && fishtape test/*.fish
+        run: $GITHUB_WORKSPACE && fishtape test/variable/*.fish
         shell: fish {0}

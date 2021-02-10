@@ -204,7 +204,6 @@ function pond -a command -d "A fish shell environment manager"
 
             if test -z $var_operation; __pond_show_var_operation_missing_error && return 1; end
             if test -z $pond_name; __pond_show_name_missing_error && return 1; end
-            if test -z $var_name; __pond_show_var_name_missing_error && return 1; end
 
             if ! __pond_exists $pond_name; __pond_show_not_exists_error >&2 && return 1; end
 
@@ -212,6 +211,7 @@ function pond -a command -d "A fish shell environment manager"
                 case ls list
                     grep -E '^set -xg [A-Za-z0-9_]+ .*$' $pond_data/$pond_name/$pond_vars
                 case get
+                    if test -z $var_name; __pond_show_var_name_missing_error && return 1; end
                     while read -la line
                         if set tokens (string match -r '^set -xg ([A-Za-z0-9_]+) (.*)$' "$line") $status -eq 0
                             if test $tokens[2] = $var_name
@@ -222,6 +222,7 @@ function pond -a command -d "A fish shell environment manager"
                     end < $pond_data/$pond_name/$pond_vars
                     echo "No pond variable found: $var_name" >&2 && return 1
                 case set
+                    if test -z $var_name; __pond_show_var_name_missing_error && return 1; end
                     if test -z $var_value; __pond_show_var_value_missing_error && return 1; end
 
                     if grep -q "^set -xg $var_name .*\$" $pond_data/$pond_name/$pond_vars
@@ -231,6 +232,7 @@ function pond -a command -d "A fish shell environment manager"
                         echo "Set pond variable: $var_name"
                     end
                 case rm remove
+                    if test -z $var_name; __pond_show_var_name_missing_error && return 1; end
                     if grep -q "^set -xg $var_name .*\$" $pond_data/$pond_name/$pond_vars
                         grep -v "^set -xg $var_name .*\$" $pond_data/$pond_name/$pond_vars > $pond_data/$pond_name/$pond_vars.rmop
                         mv $pond_data/$pond_name/$pond_vars.rmop $pond_data/$pond_name/$pond_vars

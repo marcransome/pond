@@ -101,6 +101,7 @@ To view the status of a pond use the `status` subcommand:
 ```console
 name: my-app
 enabled: no
+variables: 0
 path: /Users/<username>/.config/fish/pond/ponds/my-app
 ```
 

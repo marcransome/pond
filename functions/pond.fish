@@ -210,6 +210,7 @@ function pond -a command -d "A fish shell environment manager"
             switch $var_operation
                 case ls list
                     grep -E '^set -xg [A-Za-z0-9_]+ .*$' $pond_data/$pond_name/$pond_vars
+                    return 0
                 case get
                     if test -z $var_name; __pond_show_var_name_missing_error && return 1; end
                     while read -la line

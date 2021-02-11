@@ -18,28 +18,37 @@ $ fisher install marcransome/pond
 
 ## Usage
 
-You can create, remove and list ponds easily. Manage environment variables across ponds by setting, getting, listing, or removing variables as needed. Tab completions are provided for all Pond subcommands discussed here.
+A _pond_ represents a collection of environment variables (and in a future release _functions_) in the fish shell. Ponds are used to group related environment variables together. Naming ponds after individual applications or local development environments is a good way to separate them by their use-case.
 
-:exclamation: Pond won't protect you from yourself! If you define variables with the same name in multiple ponds and enable them for a new shell session.. fun things may happen. Bonus points for a [pull-request](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/creating-an-issue-or-pull-request).
+You can `create`, `remove`, and `edit` ponds easily. Manage the variables that are sourced into shell sessions with `enable`, `disable`, `load` or `unload`. Tab completions are provided for all pond commands and options discussed here.
+
+:exclamation: Pond won't protect you from yourself! If you define multiple variables of the same name in more than one pond and either `enable` or `load` more than one.. fun things may happen. Bonus points for a [pull-request](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/creating-an-issue-or-pull-request).
 
 ### Managing ponds
 
-A _pond_ represents a collection of environment variables (and in a future release _functions_) in the fish shell. Ponds are used to group related environment variables together. Naming ponds after individual applications or local development environments is a good way to separate them by their use-case.
-
 #### Creating ponds
 
-Create an empty pond using the `create` subcommand (or its alias `new`):
+Create a new pond using the `create` command:
 
 ```console
 $ pond create my-app
-Created an empty pond 'my-app'
 ```
 
-Ponds are enabled by default, meaning any environment variables added to them will be made available to all new shell sessions. To disable this behaviour set the universal variable `pond_enable_on_create` to `0`.
+This command opens an editor in your shell (one of `$EDITOR` `vim`, `vi`, `emacs`, `nano`; whichever exists from left to right). If you wish to override the editor used, set the universal variable `pond_editor` to a valid path (e.g `set pond_editor /usr/local/bin/my-editor`).
+
+Ponds are _enabled_ by default, meaning any environment variables added will be made available to all future shell sessions. To disable this behaviour set the universal variable `pond_enable_on_create` to `no`.
+
+To create an empty pond (without opening an editor) for later use:
+
+```console
+$ pond create -e my-app
+or
+$ pond create --empty my-app
+```
 
 #### Listing ponds
 
-List available ponds using the `list` subcommand:
+List available ponds using the `list` command:
 
 ```console
 $ pond list
@@ -48,89 +57,89 @@ my-app
 
 #### Removing ponds
 
-Remove a pond using the `remove` subcommand (or its alias `rm`):
+Remove a pond using the `remove` command:
 
 ```console
 $ pond remove my-app
-Are you sure you want to remove pond 'my-app'? y
-Removed pond 'my-app'
+Remove pond: abc? y
+Removed pond: abc
+```
+
+To silence the confirmation prompt add the `-s` or `--silent` option:
+
+```console
+$ pond remove --silent my-app
+Removed pond: abc
 ```
 
 #### Enabling ponds
 
-To enable a pond and ensure all new shell sessions source its environment variables use the `enable` subcommand:
+To make variables in a pond available to future shell sessions, use the `enable` command:
 
 ```console
 $ pond enable my-app
-Enabled pond 'my-app'
+Enabled pond: abc
 ```
 
 #### Disabling ponds
 
-To enable a pond and ensure all new shell sessions _do not_ source its environment variables use the `disable` subcommand:
+To make variables in a pond inaccessible to future shell sessions, use the `disable` command:
 
 ```console
 $ pond disable my-app
-Disabled pond 'my-app'
+Disabled pond: my-app
 ```
 
 #### Loading ponds
 
-To load a pond and expose all of its variables temporarily within the current shell session use the `load` subcommand:
+To make variables in a pond available to the current shell session temporarily, use the `load` command:
 
 ```console
 $ pond load my-app
-Pond 'my-app' variables loaded into current shell session
+Pond loaded: my-app
 ```
 
 #### Unloading ponds
 
-To unload a pond and remove all of its variables from the current shell session use the `unload` subcommand:
+To unload a pond and remove all of its variables from the current shell session use the `unload` command:
 
 ```console
 $ pond unload my-app
-Pond 'my-app' variables unloaded from current shell session
+Pond unloaded: my-app
 ```
 
-If the pond is _enabled_ this action will not stop pond variables from being exposed to new shell sessions, instead `disable` the pond.
+If the pond is _enabled_ this action will not stop pond variables from being exposed to new shell sessions. Instead, `disable` the pond to make the changes persist.
 
 ### Viewing pond status
 
-To view the status of a pond use the `status` subcommand:
+To view the status of a pond use the `status` command:
 
 ```console
+$ pond status my-app
 name: my-app
 enabled: no
 variables: 0
 path: /Users/<username>/.config/fish/pond/ponds/my-app
 ```
 
-#### Adding pond variables
+### Draining ponds
 
-Add a single variable to a pond using the `variable set` subcommand (or the shortened version `var set`), along with the pond name, variable name, and variable value:
-
-```console
-$ pond variable set my-app MEMORY_LIMIT 123
-Set variable 'MEMORY_LIMIT' in pond 'my-app'
-```
-
-#### Listing pond variables
-
-View all variables belonging to a pond using the `variable list` subcommand (or the shortened version `var ls`) along with the pond name:
+To drain a pond of all its variables but retain the pond, use the `drain` command:
 
 ```console
-$ pond variable list my-app
-MEMORY_LIMIT=123
+$ pond drain my-app
+Drain pond: abc? y
+Drained pond: abc
 ```
 
-#### Removing pond variables
-
-Remove a single variable from a pond using the `variable remove` subcommand (or the shortened version `var rm`), along with the pond name, and variable name:
+To silence the confirmation prompt add the `-s` or `--silent` option:
 
 ```console
-$ pond variable remove my-app MEMORY_LIMIT
-Variable 'MEMORY_LIMIT' removed from pond 'my-app'
+$ pond drain --silent my-app
+Drained pond: abc
 ```
+
+Note, draining a pond will not unexport variables from the current shell session. Instead, `unload` the pond first.
 
 ## Acknowledgements
 

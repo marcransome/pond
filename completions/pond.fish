@@ -1,23 +1,42 @@
-set -l commands new create ls list rm remove enable disable status load unload var variable get set
+set -l commands_without_options edit enable disable load status
+set -l commands_with_options create remove drain unload
+set -l commands "$commands_without_options $commands_with_options"
 
 # Disable file completion as no subcommand requires a file path
 complete -c pond -f
 
-# Complete subcommands if no subcommand has been given so far
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a "new create ls list rm remove enable disable status load unload var variable"
+# Complete commands if no subcommand has been given so far
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'create' -d 'Create a new pond'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'remove' -d 'Remove a pond and associated data'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'edit' -d 'Edit an existing pond'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'enable' -d 'Enable a pond for new shell sessions'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'disable' -d 'Disable a pond for new shell sessions'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'load' -d 'Load pond data into current shell session'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'unload' -d 'Unload pond data from current shell session'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'status' -d 'View pond status'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'drain' -d 'Drain all data from pond'
 
-# Offer output of `pond list` as completions for commands that accept a pond name ingoring any 'var' or 'variable' subcommands
-complete -c pond -n "__fish_seen_subcommand_from rm remove enable disable status load unload; and not __fish_seen_subcommand_from var variable" -a "(pond list 2>/dev/null || echo)"
+# Complete pond name for commands that do not support options
+complete -c pond -n "__fish_seen_subcommand_from $commands_without_options; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
 
-# If the 'var' or 'variable' subcommands are used without an operation, offer operation completions
-complete -c pond -n "__fish_seen_subcommand_from var variable; and not __fish_seen_subcommand_from get set ls list rm remove" -a "get set ls list rm remove"
+# Complete options for create command
+complete -c pond -n "__fish_seen_subcommand_from create; and not __fish_seen_subcommand_from -e --empty" -a "-e --empty" -d "Create pond without opening editor"
 
-# If the 'var' or 'variable' subcommands are used with an operation but without a pond name offer pond name completions
-complete -c pond -n "__fish_seen_subcommand_from var variable; and __fish_seen_subcommand_from get set ls list rm remove; and not __fish_seen_subcommand_from (pond list 2>/dev/null || echo)" -a "(pond list 2>/dev/null || echo)"
+# Complete options or pond name for remove command
+complete -c pond -n "__fish_seen_subcommand_from remove; and not __fish_seen_subcommand_from -s --silent" -a "-s --silent" -d "Silence confirmation prompt"
+complete -c pond -n "__fish_seen_subcommand_from remove; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
+complete -c pond -n "__fish_seen_subcommand_from remove; and __fish_seen_subcommand_from -s --silent" -a "(pond list 2>/dev/null)"
 
-# If the 'var' or 'variable' subcommands are used with an operation and a pond name do not offer variable name completion
-complete -c pond -n "__fish_seen_subcommand_from var variable; and __fish_seen_subcommand_from get set ls list rm remove; and __fish_seen_subcommand_from (pond list 2>/dev/null || echo)" -a ""
+# Complete options or pond name for drain command
+complete -c pond -n "__fish_seen_subcommand_from drain; and not __fish_seen_subcommand_from -s --silent" -a "-s --silent" -d "Silence confirmation prompt"
+complete -c pond -n "__fish_seen_subcommand_from drain; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
+complete -c pond -n "__fish_seen_subcommand_from drain; and __fish_seen_subcommand_from -s --silent" -a "(pond list 2>/dev/null)"
 
-# Complete long and short option flags with descriptions
-complete -c pond -s h -l help -d 'Print a short help text and exit'
-complete -c pond -l version -d 'Print a short version string and exit'
+# Complete options or pond name for unload command
+complete -c pond -n "__fish_seen_subcommand_from unload; and not __fish_seen_subcommand_from -v --verbose" -a "-v --verbose" -d "Output variable names during unload"
+complete -c pond -n "__fish_seen_subcommand_from unload; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
+complete -c pond -n "__fish_seen_subcommand_from unload; and __fish_seen_subcommand_from -v --verbose" -a "(pond list 2>/dev/null)"
+
+# Complete long and short options
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -s h -l help -d 'Print a short help text and exit'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -s v -l version -d 'Print a short version string and exit'

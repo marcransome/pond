@@ -22,6 +22,7 @@ function pond -a command -d "A fish shell environment manager"
         echo "    load     Load pond data into current shell session"
         echo "    unload   Unload pond data into from current shell session"
         echo "    status   View pond status"
+        echo "    drain    Drain all data from pond"
         echo
     end
 
@@ -88,16 +89,6 @@ function pond -a command -d "A fish shell environment manager"
         echo
     end
 
-    function __pond_status_command_usage
-        functions -e __pond_status_command_usage
-        echo "Usage:"
-        echo "    pond status <name>"
-        echo
-        echo "Arguments:"
-        echo "    name  The name of the pond"
-        echo
-    end
-
     function __pond_load_command_usage
         functions -e __pond_load_command_usage
         echo "Usage:"
@@ -115,6 +106,26 @@ function pond -a command -d "A fish shell environment manager"
         echo
         echo "Arguments:"
         echo "    name  The name of the pond to unload"
+        echo
+    end
+
+    function __pond_status_command_usage
+        functions -e __pond_status_command_usage
+        echo "Usage:"
+        echo "    pond status <name>"
+        echo
+        echo "Arguments:"
+        echo "    name  The name of the pond"
+        echo
+    end
+
+    function __pond_drain_command_usage
+        functions -e __pond_drain_command_usage
+        echo "Usage:"
+        echo "    pond drain <name>"
+        echo
+        echo "Arguments:"
+        echo "    name  The name of the pond to drain"
         echo
     end
 
@@ -150,7 +161,7 @@ function pond -a command -d "A fish shell environment manager"
         set -l answer
 
         if test $silent -ne 0
-            read --prompt-str "Are you sure you want to remove pond: $pond_name? " answer
+            read --prompt-str "Remove pond: $pond_name? " answer
             if ! string length -q $answer; or ! string match -i -r '^(y|yes)$' -q $answer
                 return 0;
             end
@@ -208,13 +219,6 @@ function pond -a command -d "A fish shell environment manager"
         end
     end
 
-    function __pond_status_operation -a pond_name
-        functions -e __pond_status_operation
-        echo "name: $pond_name"
-        echo "enabled: "(test -L $pond_links/$pond_name; and echo 'yes'; or echo 'no')
-        echo "path: $pond_data/$pond_name"
-    end
-
     function __pond_load_operation -a pond_name
         functions -e __pond_load_operation
 
@@ -244,19 +248,45 @@ function pond -a command -d "A fish shell environment manager"
         echo "Pond unloaded: $pond_name"
     end
 
+    function __pond_status_operation -a pond_name
+        functions -e __pond_status_operation
+        echo "name: $pond_name"
+        echo "enabled: "(test -L $pond_links/$pond_name; and echo 'yes'; or echo 'no')
+        echo "path: $pond_data/$pond_name"
+    end
+
+    function __pond_drain_operation -a pond_name silent
+        functions -e __pond_drain_operation
+        set -l answer
+
+        if test $silent -ne 0
+            read --prompt-str "Drain pond: $pond_name? " answer
+            if ! string length -q $answer; or ! string match -i -r '^(y|yes)$' -q $answer
+                return 0;
+            end
+        end
+
+        echo > $pond_data/$pond_name/$pond_vars
+        if test $status -eq 0
+            echo "Drained pond: $pond_name"
+        else
+            echo "Unable to drain pond: $pond_name" >&2 && return 1
+        end
+    end
+
     function __pond_exists -a pond_name
         functions -e __pond_exists
         test -d $pond_data/$pond_name
     end
 
-    function __pond_show_exists_error
+    function __pond_show_exists_error -a pond_name
         functions -e __pond_show_exists_error
-        echo "Pond already exists" >&2
+        echo "Pond already exists: $pond_name" >&2
     end
 
-    function __pond_show_not_exists_error
+    function __pond_show_not_exists_error -a pond_name
         functions -e __pond_show_not_exists_error
-        echo "Pond does not exist" >&2
+        echo "Pond does not exist: $pond_name" >&2
     end
 
     function __pond_show_name_missing_error
@@ -284,7 +314,7 @@ function pond -a command -d "A fish shell environment manager"
             else
                 __pond_create_command_usage && return 1
             end
-            if __pond_exists $pond_name; __pond_show_exists_error && return 1; end
+            if __pond_exists $pond_name; __pond_show_exists_error $pond_name && return 1; end
 
             switch $pond_command_option
                 case -e --empty
@@ -302,7 +332,7 @@ function pond -a command -d "A fish shell environment manager"
             else
                 __pond_edit_command_usage && return 1
             end
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
             $pond_editor $pond_data/$pond_name/$pond_vars
         case remove
@@ -320,7 +350,7 @@ function pond -a command -d "A fish shell environment manager"
             else
                 __pond_remove_command_usage && return 1
             end
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
             switch $pond_command_option
                 case -s --silent
@@ -341,7 +371,7 @@ function pond -a command -d "A fish shell environment manager"
             else
                 __pond_enable_command_usage && return 1
             end
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
             __pond_enable_operation
         case disable
@@ -353,21 +383,9 @@ function pond -a command -d "A fish shell environment manager"
             else
                 __pond_disable_command_usage && return 1
             end
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
             __pond_disable_operation
-        case status
-            set -l pond_name
-
-            if test (count $argv) -eq 2;
-                and string match -r '^([A-Za-z0-9]{1}[A-Za-z0-9-_]*)$' -q -- $argv[2];
-              set pond_name $argv[2]
-            else
-                __pond_status_command_usage && return 1
-            end
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
-
-            __pond_status_operation
         case load
             set -l pond_name
 
@@ -377,7 +395,7 @@ function pond -a command -d "A fish shell environment manager"
             else
                 __pond_load_command_usage && return 1
             end
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
             __pond_load_operation
         case unload
@@ -389,9 +407,44 @@ function pond -a command -d "A fish shell environment manager"
             else
                 __pond_unload_command_usage && return 1
             end
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error && return 1; end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
             __pond_unload_operation
+        case status
+            set -l pond_name
+
+            if test (count $argv) -eq 2;
+                and string match -r '^([A-Za-z0-9]{1}[A-Za-z0-9-_]*)$' -q -- $argv[2];
+              set pond_name $argv[2]
+            else
+                __pond_status_command_usage && return 1
+            end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
+
+            __pond_status_operation
+        case drain
+            set -l pond_name
+            set -l pond_command_option
+
+            if test (count $argv) -eq 2;
+                and string match -r '^([A-Za-z0-9]{1}[A-Za-z0-9-_]*)$' -q -- $argv[2];
+              set pond_name $argv[2]
+            else if test (count $argv) -eq 3;
+                and string match -r '^(-s|--silent)$' -q -- $argv[2];
+                and string match -r '^([A-Za-z0-9]+[A-Za-z0-9-_]*)$' -q -- $argv[3]
+              set pond_command_option $argv[2]
+              set pond_name $argv[3]
+            else
+                __pond_drain_command_usage && return 1
+            end
+            if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
+
+            switch $pond_command_option
+                case -s --silent
+                    __pond_drain_operation $pond_name 0
+                case '*'
+                    __pond_drain_operation $pond_name 1
+            end
         case '*'
             __pond_usage
             echo "Unknown command: $command" >&2 && return 1

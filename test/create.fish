@@ -26,19 +26,19 @@ end
 @test 'pond create: success invoking editor' (pond create $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_data/$pond_name
 @test "pond create: pond functions directory created" -d $pond_data/$pond_name/$pond_functions
-@test "pond create: pond environment variables file created" -f $pond_data/$pond_name/$pond_vars
+@test "pond create: pond variables file created" -f $pond_data/$pond_name/$pond_vars
 __pond_tear_down
 
 @test 'pond create: success with -e option' (pond create -e $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_data/$pond_name
 @test "pond create: pond functions directory created" -d $pond_data/$pond_name/$pond_functions
-@test "pond create: pond environment variables file created" -f $pond_data/$pond_name/$pond_vars
+@test "pond create: pond variables file created" -f $pond_data/$pond_name/$pond_vars
 __pond_tear_down
 
 @test 'pond create: success with --empty option' (pond create --empty $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_data/$pond_name
 @test "pond create: pond functions directory created" -d $pond_data/$pond_name/$pond_functions
-@test "pond create: pond environment variables file created" -f $pond_data/$pond_name/$pond_vars
+@test "pond create: pond variables file created" -f $pond_data/$pond_name/$pond_vars
 __pond_tear_down
 
 # failure exit code tests
@@ -61,14 +61,14 @@ __pond_setup
 @test 'pond create: command usage shown for missing pond name' (pond create 2>&1 | string collect) = $command_usage
 @test 'pond create: command usage shown for trailing arguments' (pond create $pond_name trailing 2>&1 | string collect) = $command_usage
 @test 'pond create: command usage shown for missing pond name' (pond create 2>&1 | string collect) = $command_usage
-@test 'pond create: fails for malformed pond name' (pond create _invalid 2>&1 | string collect) = $command_usage
-@test 'pond create: fails for short invalid option' (pond create -i 2>&1 | string collect) = $command_usage
-@test 'pond create: fails for long invalid option' (pond create --invalid 2>&1 | string collect) = $command_usage
-@test 'pond create: fails for valid short option and missing pond name' (pond create -e 2>&1 | string collect) = $command_usage
-@test 'pond create: fails for valid long option and missing pond name' (pond create --empty 2>&1 | string collect) = $command_usage
-@test 'pond create: fails for invalid short option and valid pond name' (pond create -i $pond_name 2>&1 | string collect) = $command_usage
-@test 'pond create: fails for invalid long option and valid pond name' (pond create --invalid $pond_name 2>&1 | string collect) = $command_usage
-@test 'pond create: fails for existing pond' (pond create $pond_name 2>&1 | string collect) = "Pond already exists: pond"
+@test 'pond create: command usage shown for malformed pond name' (pond create _invalid 2>&1 | string collect) = $command_usage
+@test 'pond create: command usage shown for short invalid option' (pond create -i 2>&1 | string collect) = $command_usage
+@test 'pond create: command usage shown for long invalid option' (pond create --invalid 2>&1 | string collect) = $command_usage
+@test 'pond create: command usage shown for valid short option and missing pond name' (pond create -e 2>&1 | string collect) = $command_usage
+@test 'pond create: command usage shown for valid long option and missing pond name' (pond create --empty 2>&1 | string collect) = $command_usage
+@test 'pond create: command usage shown for invalid short option and valid pond name' (pond create -i $pond_name 2>&1 | string collect) = $command_usage
+@test 'pond create: command usage shown for invalid long option and valid pond name' (pond create --invalid $pond_name 2>&1 | string collect) = $command_usage
+@test 'pond create: command usage shown for existing pond' (pond create $pond_name 2>&1 | string collect) = "Pond already exists: pond"
 __pond_tear_down
 
 set -e __pond_setup

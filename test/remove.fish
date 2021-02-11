@@ -55,14 +55,14 @@ __pond_setup
 @test 'pond remove: command usage shown for missing pond name' (pond remove 2>&1 | string collect) = $command_usage
 @test 'pond remove: command usage shown for trailing arguments' (pond remove $pond_name trailing 2>&1 | string collect) = $command_usage
 @test 'pond remove: command usage shown for missing pond name' (pond remove 2>&1 | string collect) = $command_usage
-@test 'pond remove: fails for malformed pond name' (pond remove _invalid 2>&1 | string collect) = $command_usage
-@test 'pond remove: fails for short invalid option' (pond remove -i 2>&1 | string collect) = $command_usage
-@test 'pond remove: fails for long invalid option' (pond remove --invalid 2>&1 | string collect) = $command_usage
-@test 'pond remove: fails for valid short option and missing pond name' (pond remove -e 2>&1 | string collect) = $command_usage
-@test 'pond remove: fails for valid long option and missing pond name' (pond remove --empty 2>&1 | string collect) = $command_usage
-@test 'pond remove: fails for invalid short option and valid pond name' (pond remove -i $pond_name 2>&1 | string collect) = $command_usage
-@test 'pond remove: fails for invalid long option and valid pond name' (pond remove --invalid $pond_name 2>&1 | string collect) = $command_usage
-@test 'pond remove: fails for non-existent pond' (pond remove non-exist 2>&1 | string collect) = "Pond does not exist: non-exist"
+@test 'pond remove: command usage shown for malformed pond name' (pond remove _invalid 2>&1 | string collect) = $command_usage
+@test 'pond remove: command usage shown for short invalid option' (pond remove -i 2>&1 | string collect) = $command_usage
+@test 'pond remove: command usage shown for long invalid option' (pond remove --invalid 2>&1 | string collect) = $command_usage
+@test 'pond remove: command usage shown for valid short option and missing pond name' (pond remove -e 2>&1 | string collect) = $command_usage
+@test 'pond remove: command usage shown for valid long option and missing pond name' (pond remove --empty 2>&1 | string collect) = $command_usage
+@test 'pond remove: command usage shown for invalid short option and valid pond name' (pond remove -i $pond_name 2>&1 | string collect) = $command_usage
+@test 'pond remove: command usage shown for invalid long option and valid pond name' (pond remove --invalid $pond_name 2>&1 | string collect) = $command_usage
+@test 'pond remove: command usage shown for non-existent pond' (pond remove non-exist 2>&1 | string collect) = "Pond does not exist: non-exist"
 __pond_tear_down
 
 set -e __pond_setup

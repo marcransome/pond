@@ -24,10 +24,21 @@ end
 
 # success tests
 @test 'pond create: success invoking editor' (pond create $pond_name >/dev/null 2>&1) $status -eq $success
+@test "pond create: pond directory created" -d $pond_data/$pond_name
+@test "pond create: pond functions directory created" -d $pond_data/$pond_name/$pond_functions
+@test "pond create: pond environment variables file created" -f $pond_data/$pond_name/$pond_vars
 __pond_tear_down
+
 @test 'pond create: success with -e option' (pond create -e $pond_name >/dev/null 2>&1) $status -eq $success
+@test "pond create: pond directory created" -d $pond_data/$pond_name
+@test "pond create: pond functions directory created" -d $pond_data/$pond_name/$pond_functions
+@test "pond create: pond environment variables file created" -f $pond_data/$pond_name/$pond_vars
 __pond_tear_down
+
 @test 'pond create: success with --empty option' (pond create --empty $pond_name >/dev/null 2>&1) $status -eq $success
+@test "pond create: pond directory created" -d $pond_data/$pond_name
+@test "pond create: pond functions directory created" -d $pond_data/$pond_name/$pond_functions
+@test "pond create: pond environment variables file created" -f $pond_data/$pond_name/$pond_vars
 __pond_tear_down
 
 # failure exit code tests

@@ -384,7 +384,7 @@ Arguments:
                     __pond_remove_operation $pond_name 1
             end
         case list
-            if test (count $argv) -ne 1; and __pond_list_command_usage && return 1; end
+            if test (count $argv) -gt 1; __pond_list_command_usage && return 1; end
 
             __pond_list_operation
         case enable

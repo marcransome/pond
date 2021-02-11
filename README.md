@@ -138,6 +138,8 @@ $ pond drain --silent my-app
 Drained pond: abc
 ```
 
+Note, draining a pond will not unexport variables from the current shell session. Instead, `unload` the pond first.
+
 ## Acknowledgements
 
 Icons made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com/).

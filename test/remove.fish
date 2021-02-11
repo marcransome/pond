@@ -25,10 +25,15 @@ end
 # success tests
 __pond_setup
 @test 'pond remove: success with confirmation' (echo 'y' | pond remove $pond_name >/dev/null 2>&1) $status -eq $success
+@test "pond remove: pond directory removed" ! -d $pond_data/$pond_name
+
 __pond_setup
 @test 'pond remove: success with -s option' (pond remove -s $pond_name >/dev/null 2>&1) $status -eq $success
+@test "pond remove: pond directory removed" ! -d $pond_data/$pond_name
+
 __pond_setup
 @test 'pond remove: success with --silent option' (pond remove --silent $pond_name >/dev/null 2>&1) $status -eq $success
+@test "pond remove: pond directory removed" ! -d $pond_data/$pond_name
 
 # failure exit code tests
 __pond_setup

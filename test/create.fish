@@ -45,7 +45,6 @@ __pond_tear_down
 __pond_setup
 @test 'pond create: fails for missing pond name' (pond create >/dev/null 2>&1) $status -eq $fail
 @test 'pond create: fails for trailing arguments' (pond create $pond_name trailing >/dev/null 2>&1) $status -eq $fail
-@test 'pond create: fails for missing pond name' (pond create >/dev/null 2>&1) $status -eq $fail
 @test 'pond create: fails for malformed pond name' (pond create _invalid >/dev/null 2>&1) $status -eq $fail
 @test 'pond create: fails for short invalid option' (pond create -i >/dev/null 2>&1) $status -eq $fail
 @test 'pond create: fails for long invalid option' (pond create --invalid >/dev/null 2>&1) $status -eq $fail
@@ -60,7 +59,6 @@ __pond_tear_down
 __pond_setup
 @test 'pond create: command usage shown for missing pond name' (pond create 2>&1 | string collect) = $command_usage
 @test 'pond create: command usage shown for trailing arguments' (pond create $pond_name trailing 2>&1 | string collect) = $command_usage
-@test 'pond create: command usage shown for missing pond name' (pond create 2>&1 | string collect) = $command_usage
 @test 'pond create: command usage shown for malformed pond name' (pond create _invalid 2>&1 | string collect) = $command_usage
 @test 'pond create: command usage shown for short invalid option' (pond create -i 2>&1 | string collect) = $command_usage
 @test 'pond create: command usage shown for long invalid option' (pond create --invalid 2>&1 | string collect) = $command_usage
@@ -68,7 +66,7 @@ __pond_setup
 @test 'pond create: command usage shown for valid long option and missing pond name' (pond create --empty 2>&1 | string collect) = $command_usage
 @test 'pond create: command usage shown for invalid short option and valid pond name' (pond create -i $pond_name 2>&1 | string collect) = $command_usage
 @test 'pond create: command usage shown for invalid long option and valid pond name' (pond create --invalid $pond_name 2>&1 | string collect) = $command_usage
-@test 'pond create: command usage shown for existing pond' (pond create $pond_name 2>&1 | string collect) = "Pond already exists: pond"
+@test 'pond create: command error shown for existing pond' (pond create $pond_name 2>&1 | string collect) = "Pond already exists: pond"
 __pond_tear_down
 
 set -e __pond_setup

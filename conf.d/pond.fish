@@ -1,11 +1,11 @@
 function __pond_install --on-event pond_install
-    set -U pond_home "$__fish_config_dir/pond"
-    set -U pond_data  "$pond_home/ponds"
-    set -U pond_links "$pond_home/enabled"
-    set -U pond_vars "env_vars.fish"
-    set -U pond_functions "functions"
-    set -U pond_message_prefix "pond"
-    set -U pond_enable_on_create 1
+    set -U pond_home $__fish_config_dir/pond
+    set -U pond_data  $pond_home/ponds
+    set -U pond_links $pond_home/enabled
+    set -U pond_vars env_vars.fish
+    set -U pond_functions functions
+    set -U pond_message_prefix pond
+    set -U pond_enable_on_create yes
 
     set editors (command -s $EDITOR vim vi emacs nano)
     if test $status -eq 0

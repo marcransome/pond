@@ -147,25 +147,25 @@ Arguments:
         functions -e __pond_create_operation
         mkdir -p $pond_data/$pond_name >/dev/null 2>&1
         if test $status -ne 0
-            echo "Could not create pond directory at $pond_data/$pond_name" >&2 && return 1
+            echo "Failed to create pond directory: $pond_data/$pond_name" >&2 && return 1
         end
 
         touch $pond_data/$pond_name/$pond_vars 2>/dev/null
         if test $status -ne 0
-            echo "Could not create pond variables file $pond_data/$pond_name/$pond_vars" >&2 && return 1
+            echo "Failed to create pond variables file: $pond_data/$pond_name/$pond_vars" >&2 && return 1
         end
 
         mkdir -p $pond_data/$pond_name/$pond_functions >/dev/null 2>&1
         if test $status -ne 0
-            echo "Could not create pond functions directory $pond_data/$pond_name/$pond_functions" >&2 && return 1
+            echo "Failed to create pond functions directory: $pond_data/$pond_name/$pond_functions" >&2 && return 1
         end
 
         echo "Created pond: $pond_name"
 
-        if test $pond_enable_on_create -eq 1
+        if test "$pond_enable_on_create" = "yes"
             ln -s $pond_data/$pond_name $pond_links/$pond_name >/dev/null 2>&1
             if test $status -ne 0
-                echo "Could not create pond symbolic link at $pond_links/$pond_name" >&2 && return 1
+                echo "Failed to create symbolic link: $pond_links/$pond_name" >&2 && return 1
             end
         end
     end
@@ -187,6 +187,11 @@ Arguments:
         else
             echo "Unable to remove pond: $pond_name" >&2 && return 1
         end
+
+        unlink $pond_links/$pond_name >/dev/null 2>&1
+        if test $status -ne 0
+            echo "Failed to remove symbolic link: $pond_links/$pond_name" >&2 && return 1
+        end
     end
 
     function __pond_list_operation
@@ -207,11 +212,11 @@ Arguments:
         functions -e __pond_enable_operation
 
         if test -L $pond_links/$pond_name
-            echo "Pond is already enabled: $pond_name" >&2 && return 1
+            echo "Pond already enabled: $pond_name" >&2 && return 1
         else
             ln -s $pond_data/$pond_name $pond_links/$pond_name >/dev/null 2>&1
             if test $status -ne 0
-                echo "Could not create symbolic link at $pond_links/$pond_name" >&2 && return 1
+                echo "Failed to create symbolic link: $pond_links/$pond_name" >&2 && return 1
             end
 
             echo "Enabled pond: $pond_name"
@@ -226,7 +231,7 @@ Arguments:
         else
             unlink $pond_links/$pond_name >/dev/null 2>&1
             if test $status -ne 0
-                echo "Could not remove symbolic link at $pond_links/$pond_name" >&2 && return 1
+                echo "Failed to remove symbolic link: $pond_links/$pond_name" >&2 && return 1
             end
 
             echo "Disabled pond: $pond_name"
@@ -238,7 +243,7 @@ Arguments:
 
         source $pond_data/$pond_name/$pond_vars
         if test $status -ne 0
-            echo "Unable to source variables file at $pond_data/$pond_name/$pond_vars" >&2 && return 1
+            echo "Failed to source file: $pond_data/$pond_name/$pond_vars" >&2 && return 1
         end
 
         echo "Pond loaded: $pond_name"

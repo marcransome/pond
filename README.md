@@ -46,6 +46,15 @@ or
 $ pond create --empty my-app
 ```
 
+### Editing ponds
+
+To open a pond for editing use the `edit` command:
+
+```console
+$ pond edit my-app
+...
+```
+
 #### Listing ponds
 
 List available ponds using the `list` command:
@@ -117,8 +126,7 @@ To view the status of a pond use the `status` command:
 ```console
 $ pond status my-app
 name: my-app
-enabled: no
-variables: 0
+enabled: yes
 path: /Users/<username>/.config/fish/pond/ponds/my-app
 ```
 

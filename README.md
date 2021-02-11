@@ -20,9 +20,9 @@ $ fisher install marcransome/pond
 
 A _pond_ represents a collection of environment variables (and in a future release _functions_) in the fish shell. Ponds are used to group related environment variables together. Naming ponds after individual applications or local development environments is a good way to separate them by their use-case.
 
-You can create, remove, and edit ponds easily. Manage the variables that are sourced into shell sessions with enable, disable, load or unload. Tab completions are provided for all pond commands and options discussed here.
+You can `create`, `remove`, and `edit` ponds easily. Manage the variables that are sourced into shell sessions with `enable`, `disable`, `load` or `unload`. Tab completions are provided for all pond commands and options discussed here.
 
-:exclamation: Pond won't protect you from yourself! If you define multiple variables of the same name in more than one pond and either enable or load more than one.. fun things may happen. Bonus points for a [pull-request](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/creating-an-issue-or-pull-request).
+:exclamation: Pond won't protect you from yourself! If you define multiple variables of the same name in more than one pond and either `enable` or `load` more than one.. fun things may happen. Bonus points for a [pull-request](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/creating-an-issue-or-pull-request).
 
 ### Managing ponds
 

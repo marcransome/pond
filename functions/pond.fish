@@ -17,13 +17,11 @@ function pond -a command -d "A fish shell environment manager"
         echo "    create   Create a new pond"
         echo "    remove   Remove a pond and associated data"
         echo "    edit     Edit an existing pond"
-        echo "    show     Show pond data"
         echo "    enable   Enable a pond for new shell sessions"
         echo "    disable  Disable a pond for new shell sessions"
         echo "    load     Load pond data into current shell session"
         echo "    unload   Unload pond data into from current shell session"
         echo "    status   View pond status"
-        echo "    drain    Drain pond data"
         echo
     end
 
@@ -33,7 +31,7 @@ function pond -a command -d "A fish shell environment manager"
         echo "    pond create [options] <name>"
         echo
         echo "Options:"
-        echo "    -e, --empty  Create an empty pond without opening EDITOR"
+        echo "    -e, --empty  Create pond without opening editor"
         echo
         echo "Arguments:"
         echo "    name  The name of the pond to create"
@@ -326,7 +324,6 @@ function pond -a command -d "A fish shell environment manager"
 
             switch $pond_command_option
                 case -s --silent
-                    echo "silllll"
                     __pond_remove_operation $pond_name 0
                 case '*'
                     __pond_remove_operation $pond_name 1

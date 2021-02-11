@@ -2,18 +2,42 @@ set fail 1
 set success 0
 set pond_version 0.3.0
 
-# exit code tests
+set -x __pond_under_test yes
 
-@test 'short version option succeeds' (pond -v >/dev/null 2>&1) $status -eq $success
+set pond_usage "\
+Usage:
+    pond [options] or pond [command-options] <command> ...
 
-@test 'long version option succeeds' (pond --version >/dev/null 2>&1) $status -eq $success
+Help Options:
+    -h, --help            Show this help message
+    <command> -h, --help  Show command help
 
-@test 'short help option succeeds' (pond -h >/dev/null 2>&1) $status -eq $success
+Application Options:
+    -v, --version           Print the version string
 
-@test 'long help option succeeds' (pond --help >/dev/null 2>&1) $status -eq $success
+Commands:
+    create   Create a new pond
+    remove   Remove a pond and associated data
+    edit     Edit an existing pond
+    enable   Enable a pond for new shell sessions
+    disable  Disable a pond for new shell sessions
+    load     Load pond data into current shell session
+    unload   Unload pond data into from current shell session
+    status   View pond status
+    drain    Drain all data from pond"
 
-# output tests
+# success exit code tests
+@test 'pond -v success' (pond -v >/dev/null 2>&1) $status -eq $success
+@test 'pond --version success' (pond --version >/dev/null 2>&1) $status -eq $success
+@test 'pond -h success' (pond -h >/dev/null 2>&1) $status -eq $success
+@test 'pond --help success' (pond --help >/dev/null 2>&1) $status -eq $success
 
-@test 'short version option reports correctly' (pond -v) = "pond $pond_version"
+# version option output tests
+@test 'pond -v repots version' (pond -v) = "pond $pond_version"
+@test 'pond --version reports version' (pond --version) = "pond $pond_version"
 
-@test 'long version option reports correctly' (pond --version) = "pond $pond_version"
+# help option usage tests
+@test 'pond -h repots usage' (pond -h 2>&1 | string collect) = $pond_usage
+@test 'pond --help repots usage' (pond --help 2>&1 | string collect) = $pond_usage
+
+set -e __pond_under_test

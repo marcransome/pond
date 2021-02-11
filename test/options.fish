@@ -22,7 +22,7 @@ Commands:
     enable   Enable a pond for new shell sessions
     disable  Disable a pond for new shell sessions
     load     Load pond data into current shell session
-    unload   Unload pond data into from current shell session
+    unload   Unload pond data from current shell session
     status   View pond status
     drain    Drain all data from pond"
 

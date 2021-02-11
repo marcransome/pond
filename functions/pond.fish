@@ -5,7 +5,7 @@ function pond -a command -d "A fish shell environment manager"
         functions -e __pond_usage
         echo "\
 Usage:
-    pond [options] or pond [command-options] <command> ...
+    pond [options] or pond <command> [command-options] ...
 
 Help Options:
     -h, --help            Show this help message
@@ -21,7 +21,7 @@ Commands:
     enable   Enable a pond for new shell sessions
     disable  Disable a pond for new shell sessions
     load     Load pond data into current shell session
-    unload   Unload pond data into from current shell session
+    unload   Unload pond data from current shell session
     status   View pond status
     drain    Drain all data from pond" >&2
         echo
@@ -111,7 +111,10 @@ Arguments:
         functions -e __pond_unload_command_usage
         echo "\
 Usage:
-    pond unload <name>
+    pond unload [options] <name>
+
+Options:
+    -v, --verbose  Output variable names during unload
 
 Arguments:
     name  The name of the pond to unload" >&2
@@ -241,7 +244,7 @@ Arguments:
         echo "Pond loaded: $pond_name"
     end
 
-    function __pond_unload_operation -a pond_name
+    function __pond_unload_operation -a pond_name verbose
         functions -e __pond_unload_operation
 
         while read -la line
@@ -249,10 +252,15 @@ Arguments:
                 continue
             end
 
-            set tokens (string match -r '^set -xg [A-Za-z0-9_]+ (.*)$' "$line")
+            set tokens (string match -r '\s*set\s+-{1,2}[A-Za-z]+\s+([^\s]+)' -- "$line")
+
+            if test $verbose = "yes"
+                echo "Erasing variable: $tokens[2]"
+            end
+
             set -e $tokens[2]
             if test $status -ne 0
-                echo "Unable to erase variable from environment '$tokens[2]'" >&2 && return 1
+                echo "Failed to erase variable: $tokens[2]" >&2 && return 1
             end
         end < $pond_data/$pond_name/$pond_vars
 
@@ -270,7 +278,7 @@ Arguments:
         functions -e __pond_drain_operation
         set -l answer
 
-        if test $silent -ne 0
+        if test $silent = "no"
             read --prompt-str "Drain pond: $pond_name? " answer
             if ! string length -q $answer; or ! string match -i -r '^(y|yes)$' -q $answer
                 return 0;
@@ -412,16 +420,27 @@ Arguments:
             __pond_load_operation $pond_name
         case unload
             set -l pond_name
+            set -l pond_command_option
 
             if test (count $argv) -eq 2;
                 and string match -r '^([A-Za-z0-9]{1}[A-Za-z0-9-_]*)$' -q -- $argv[2];
               set pond_name $argv[2]
+            else if test (count $argv) -eq 3;
+                and string match -r '^(-v|--verbose)$' -q -- $argv[2];
+                and string match -r '^([A-Za-z0-9]+[A-Za-z0-9-_]*)$' -q -- $argv[3]
+              set pond_command_option $argv[2]
+              set pond_name $argv[3]
             else
                 __pond_unload_command_usage && return 1
             end
             if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
-            __pond_unload_operation $pond_name
+            switch $pond_command_option
+                case -v --verbose
+                    __pond_unload_operation $pond_name yes
+                case '*'
+                    __pond_unload_operation $pond_name no
+            end
         case status
             set -l pond_name
 
@@ -453,9 +472,9 @@ Arguments:
 
             switch $pond_command_option
                 case -s --silent
-                    __pond_drain_operation $pond_name 0
+                    __pond_drain_operation $pond_name yes
                 case '*'
-                    __pond_drain_operation $pond_name 1
+                    __pond_drain_operation $pond_name no
             end
         case '*'
             __pond_usage

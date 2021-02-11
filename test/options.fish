@@ -6,7 +6,7 @@ set -x __pond_under_test yes
 
 set pond_usage "\
 Usage:
-    pond [options] or pond [command-options] <command> ...
+    pond [options] or pond <command> [command-options] ...
 
 Help Options:
     -h, --help            Show this help message

@@ -90,7 +90,7 @@ $ pond disable my-app
 Disabled pond: my-app
 ```
 
-#### Loading ponds
+#### Loading ponds
 
 To make variables in a pond available to the current shell session temporarily, use the `load` command:
 
@@ -118,6 +118,7 @@ To view the status of a pond use the `status` command:
 $ pond status my-app
 name: my-app
 enabled: no
+variables: 0
 path: /Users/<username>/.config/fish/pond/ponds/my-app
 ```
 

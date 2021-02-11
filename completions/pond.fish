@@ -1,5 +1,5 @@
-set -l commands_without_options edit enable disable load unload status drain
-set -l commands_with_options create remove
+set -l commands_without_options edit enable disable load unload status
+set -l commands_with_options create remove drain
 set -l commands "$commands_without_options $commands_with_options"
 
 # Disable file completion as no subcommand requires a file path
@@ -15,6 +15,9 @@ complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'load' -d 'Lo
 complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'unload' -d 'Unload pond data into from current shell session'
 complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'status' -d 'View pond status'
 complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'drain' -d 'Drain all data from pond'
+
+# Complete pond name for commands that do not support options
+complete -c pond -n "__fish_seen_subcommand_from $commands_without_options; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
 
 # Complete options for create command
 complete -c pond -n "__fish_seen_subcommand_from create; and not __fish_seen_subcommand_from -e --empty" -a "-e --empty" -d "Create pond without opening editor"

@@ -7,6 +7,14 @@ function _pond_install --on-event pond_install
     set -U pond_message_prefix "pond"
     set -U pond_enable_on_create 1
 
+    set editors (command -s $EDITOR vim vi emacs nano)
+    if test $status -eq 0
+        set -U pond_editor vim
+    else
+        echo "Unable to determine editor; some commands may not function"
+        echo "correctly (e.g. 'edit'); Set editor with: set pond_editor <path>"
+    end
+
     mkdir -p $pond_data >/dev/null 2>&1
     mkdir -p $pond_links >/dev/null 2>&1
 end
@@ -29,6 +37,7 @@ function _pond_uninstall --on-event pond_uninstall
     set -e pond_functions
     set -e pond_message_prefix
     set -e pond_enable_on_create
+    set -e pond_editor
 end
 
 function _pond_init

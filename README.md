@@ -46,7 +46,7 @@ or
 $ pond create --empty my-app
 ```
 
-### Editing ponds
+#### Editing ponds
 
 To open a pond for editing use the `edit` command:
 

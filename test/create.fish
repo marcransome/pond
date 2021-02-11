@@ -22,7 +22,7 @@ function __pond_tear_down
     echo 'y' | pond remove $pond_name
 end
 
-# success tests
+@echo 'create command success tests'
 @test 'pond create: success invoking editor' (pond create $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_data/$pond_name
 @test "pond create: pond functions directory created" -d $pond_data/$pond_name/$pond_functions
@@ -41,7 +41,7 @@ __pond_tear_down
 @test "pond create: pond variables file created" -f $pond_data/$pond_name/$pond_vars
 __pond_tear_down
 
-# failure exit code tests
+@echo 'create command failure exit code tests'
 __pond_setup
 @test 'pond create: fails for missing pond name' (pond create >/dev/null 2>&1) $status -eq $fail
 @test 'pond create: fails for trailing arguments' (pond create $pond_name trailing >/dev/null 2>&1) $status -eq $fail
@@ -56,7 +56,7 @@ __pond_setup
 @test 'pond create: fails for existing pond' (pond create $pond_name >/dev/null 2>&1) $status -eq $fail
 __pond_tear_down
 
-# failure usage output tests
+@echo 'create command failure usage output tests'
 __pond_setup
 @test 'pond create: command usage shown for missing pond name' (pond create 2>&1 | string collect) = $command_usage
 @test 'pond create: command usage shown for trailing arguments' (pond create $pond_name trailing 2>&1 | string collect) = $command_usage

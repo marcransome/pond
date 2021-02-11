@@ -22,7 +22,7 @@ function __pond_tear_down
     echo 'y' | pond remove $pond_name
 end
 
-# success tests
+@echo 'remove command success tests'
 __pond_setup
 @test 'pond remove: success with confirmation' (echo 'y' | pond remove $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond remove: pond directory removed" ! -d $pond_data/$pond_name
@@ -35,7 +35,7 @@ __pond_setup
 @test 'pond remove: success with --silent option' (pond remove --silent $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond remove: pond directory removed" ! -d $pond_data/$pond_name
 
-# failure exit code tests
+@echo 'remove command failure exit code tests'
 __pond_setup
 @test 'pond remove: fails for missing pond name' (pond remove >/dev/null 2>&1) $status -eq $fail
 @test 'pond remove: fails for trailing arguments' (pond remove $pond_name trailing >/dev/null 2>&1) $status -eq $fail
@@ -50,7 +50,7 @@ __pond_setup
 @test 'pond remove: fails for non-existent pond' (pond remove non-exist >/dev/null 2>&1) $status -eq $fail
 __pond_tear_down
 
-# failure usage output tests
+@echo 'remove command failure usage output tests'
 __pond_setup
 @test 'pond remove: command usage shown for missing pond name' (pond remove 2>&1 | string collect) = $command_usage
 @test 'pond remove: command usage shown for trailing arguments' (pond remove $pond_name trailing 2>&1 | string collect) = $command_usage

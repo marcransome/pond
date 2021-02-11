@@ -1,4 +1,4 @@
-function _pond_install --on-event pond_install
+function __pond_install --on-event pond_install
     set -U pond_home "$__fish_config_dir/pond"
     set -U pond_data  "$pond_home/ponds"
     set -U pond_links "$pond_home/enabled"
@@ -19,7 +19,7 @@ function _pond_install --on-event pond_install
     mkdir -p $pond_links >/dev/null 2>&1
 end
 
-function _pond_uninstall --on-event pond_uninstall
+function __pond_uninstall --on-event pond_uninstall
     read --prompt-str "$pond_message_prefix: Purge all pond data when uninstalling plugin? " answer
     if string length -q $answer; and string match -i -r '^(y|yes)$' -q $answer
         rm -rf $pond_home
@@ -40,7 +40,7 @@ function _pond_uninstall --on-event pond_uninstall
     set -e pond_editor
 end
 
-function _pond_init
+function __pond_init
     for vars in $pond_links/*/$pond_vars
         source $vars
     end
@@ -50,4 +50,4 @@ function _pond_init
     end
 end
 
-_pond_init
+__pond_init

@@ -3,129 +3,140 @@ function pond -a command -d "A fish shell environment manager"
 
     function __pond_usage
         functions -e __pond_usage
-        echo "Usage:"
-        echo "    pond [options] or pond [command-options] <command> ..."
-        echo
-        echo "Help Options:"
-        echo "    -h, --help            Show this help message"
-        echo "    <command> -h, --help  Show command help"
-        echo
-        echo "Application Options:"
-        echo "    -v, --version           Print the version string"
-        echo
-        echo "Commands:"
-        echo "    create   Create a new pond"
-        echo "    remove   Remove a pond and associated data"
-        echo "    edit     Edit an existing pond"
-        echo "    enable   Enable a pond for new shell sessions"
-        echo "    disable  Disable a pond for new shell sessions"
-        echo "    load     Load pond data into current shell session"
-        echo "    unload   Unload pond data into from current shell session"
-        echo "    status   View pond status"
-        echo "    drain    Drain all data from pond"
+        echo "\
+Usage:
+    pond [options] or pond [command-options] <command> ...
+
+Help Options:
+    -h, --help            Show this help message
+    <command> -h, --help  Show command help
+
+Application Options:
+    -v, --version           Print the version string
+
+Commands:
+    create   Create a new pond
+    remove   Remove a pond and associated data
+    edit     Edit an existing pond
+    enable   Enable a pond for new shell sessions
+    disable  Disable a pond for new shell sessions
+    load     Load pond data into current shell session
+    unload   Unload pond data into from current shell session
+    status   View pond status
+    drain    Drain all data from pond" >&2
         echo
     end
 
     function __pond_create_command_usage
         functions -e __pond_create_command_usage
-        echo "Usage:"
-        echo "    pond create [options] <name>"
-        echo
-        echo "Options:"
-        echo "    -e, --empty  Create pond without opening editor"
-        echo
-        echo "Arguments:"
-        echo "    name  The name of the pond to create"
+        echo "\
+Usage:
+    pond create [options] <name>
+
+Options:
+    -e, --empty  Create pond without opening editor
+
+Arguments:
+    name  The name of the pond to create" >&2
         echo
     end
 
     function __pond_remove_command_usage
         functions -e __pond_remove_command_usage
-        echo "Usage:"
-        echo "    pond remove [options] <name>"
-        echo
-        echo "Options:"
-        echo "    -s, --silent  Silence confirmation prompt"
-        echo
-        echo "Arguments:"
-        echo "    name  The name of the pond to remove"
+        echo "\
+Usage:
+    pond remove [options] <name>
+
+Options:
+    -s, --silent  Silence confirmation prompt
+
+Arguments:
+    name  The name of the pond to remove" >&2
         echo
     end
 
     function __pond_list_command_usage
         functions -e __pond_list_command_usage
-        echo "Usage:"
-        echo "    pond list"
+        echo "\
+Usage:
+    pond list" >&2
         echo
     end
 
     function __pond_edit_command_usage
         functions -e __pond_edit_command_usage
-        echo "Usage:"
-        echo "    pond edit <name>"
-        echo
-        echo "Arguments:"
-        echo "    name  The name of the pond to edit"
+        echo "\
+Usage:
+    pond edit <name>
+
+Arguments:
+    name  The name of the pond to edit" >&2
         echo
     end
 
     function __pond_enable_command_usage
         functions -e __pond_enable_command_usage
-        echo "Usage:"
-        echo "    pond enable <name>"
-        echo
-        echo "Arguments:"
-        echo "    name  The name of the pond to enable"
+        echo "\
+Usage:
+    pond enable <name>
+
+Arguments:
+    name  The name of the pond to enable" >&2
         echo
     end
 
     function __pond_disable_command_usage
         functions -e __pond_disable_command_usage
-        echo "Usage:"
-        echo "    pond disable <name>"
-        echo
-        echo "Arguments:"
-        echo "    name  The name of the pond to disable"
+        echo "\
+Usage:
+    pond disable <name>
+
+Arguments:
+    name  The name of the pond to disable" >&2
         echo
     end
 
     function __pond_load_command_usage
         functions -e __pond_load_command_usage
-        echo "Usage:"
-        echo "    pond load <name>"
-        echo
-        echo "Arguments:"
-        echo "    name  The name of the pond to load"
+        echo "\
+Usage:
+    pond load <name>
+
+Arguments:
+    name  The name of the pond to load" >&2
         echo
     end
 
     function __pond_unload_command_usage
         functions -e __pond_unload_command_usage
-        echo "Usage:"
-        echo "    pond unload <name>"
-        echo
-        echo "Arguments:"
-        echo "    name  The name of the pond to unload"
+        echo "\
+Usage:
+    pond unload <name>
+
+Arguments:
+    name  The name of the pond to unload" >&2
         echo
     end
 
     function __pond_status_command_usage
         functions -e __pond_status_command_usage
-        echo "Usage:"
-        echo "    pond status <name>"
-        echo
-        echo "Arguments:"
-        echo "    name  The name of the pond"
+        echo "\
+Usage:
+    pond status <name>
+
+Arguments:
+    name  The name of the pond" >&2
         echo
     end
 
     function __pond_drain_command_usage
         functions -e __pond_drain_command_usage
-        echo "Usage:"
-        echo "    pond drain <name>"
-        echo
-        echo "Arguments:"
-        echo "    name  The name of the pond to drain"
+        echo "\
+Usage:
+    pond drain <name>
+
+Arguments:
+    name  The name of the pond to drain" >&2
         echo
     end
 
@@ -148,7 +159,7 @@ function pond -a command -d "A fish shell environment manager"
 
         echo "Created pond: $pond_name"
 
-        if test $pond_enable_on_create
+        if test $pond_enable_on_create -eq 1
             ln -s $pond_data/$pond_name $pond_links/$pond_name >/dev/null 2>&1
             if test $status -ne 0
                 echo "Could not create pond symbolic link at $pond_links/$pond_name" >&2 && return 1
@@ -321,6 +332,7 @@ function pond -a command -d "A fish shell environment manager"
                     __pond_create_operation $pond_name
                 case '*'
                     __pond_create_operation $pond_name
+                    if test -n "$__pond_under_test"; and return 0; end
                     $pond_editor $pond_data/$pond_name/$pond_vars
             end
         case edit
@@ -373,7 +385,7 @@ function pond -a command -d "A fish shell environment manager"
             end
             if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
-            __pond_enable_operation
+            __pond_enable_operation $pond_name
         case disable
             set -l pond_name
 
@@ -385,7 +397,7 @@ function pond -a command -d "A fish shell environment manager"
             end
             if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
-            __pond_disable_operation
+            __pond_disable_operation $pond_name
         case load
             set -l pond_name
 
@@ -397,7 +409,7 @@ function pond -a command -d "A fish shell environment manager"
             end
             if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
-            __pond_load_operation
+            __pond_load_operation $pond_name
         case unload
             set -l pond_name
 
@@ -409,7 +421,7 @@ function pond -a command -d "A fish shell environment manager"
             end
             if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
-            __pond_unload_operation
+            __pond_unload_operation $pond_name
         case status
             set -l pond_name
 
@@ -421,7 +433,7 @@ function pond -a command -d "A fish shell environment manager"
             end
             if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
 
-            __pond_status_operation
+            __pond_status_operation $pond_name
         case drain
             set -l pond_name
             set -l pond_command_option

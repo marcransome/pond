@@ -35,7 +35,7 @@ Create a new pond using the `create` command:
 $ pond create my-app
 ```
 
-This command opens an editor in your shell (one of `$EDITOR` `vim`, `vi`, `emacs`, `nano`; whichever exists from left to right). If you wish to override the editor used, set the universal variable `pond_editor` to a valid path (e.g `set pond_editor /usr/local/bin/my-editor`).
+This command opens an editor in your shell (one of `$EDITOR` `vim`, `vi`, `emacs`, `nano`; whichever is found first in your `$PATH`). If you wish to override the editor used, set the universal variable `pond_editor` to a valid command name (e.g `set pond_editor my-editor`).
 
 Ponds are _enabled_ by default, meaning any environment variables added will be made available to all future shell sessions. To disable this behaviour set the universal variable `pond_enable_on_create` to `no`.
 

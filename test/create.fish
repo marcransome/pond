@@ -3,6 +3,7 @@ set success 0
 
 set -x __pond_under_test yes
 set pond_name pond
+set pond_editor_before_test $pond_editor
 
 set command_usage "\
 Usage:
@@ -22,6 +23,14 @@ function __pond_tear_down
     echo 'y' | pond remove $pond_name
 end
 
+function __pond_intercept_editor_call -a pond_path
+    if ! test $pond_path = $pond_data/$pond_name/$pond_vars
+        return 1
+    end
+end
+
+set -x pond_editor __pond_intercept_editor_call
+
 @echo 'pond create: success tests'
 @test 'pond create: success invoking editor' (pond create $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_data/$pond_name
@@ -29,13 +38,13 @@ end
 @test "pond create: pond variables file created" -f $pond_data/$pond_name/$pond_vars
 __pond_tear_down
 
-@test 'pond create: success with -e option' (pond create -e $pond_name >/dev/null 2>&1) $status -eq $success
+@test 'pond create: success creating empty pond with -e' (pond create -e $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_data/$pond_name
 @test "pond create: pond functions directory created" -d $pond_data/$pond_name/$pond_functions
 @test "pond create: pond variables file created" -f $pond_data/$pond_name/$pond_vars
 __pond_tear_down
 
-@test 'pond create: success with --empty option' (pond create --empty $pond_name >/dev/null 2>&1) $status -eq $success
+@test 'pond create: success creating empty pond with --empty' (pond create --empty $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_data/$pond_name
 @test "pond create: pond functions directory created" -d $pond_data/$pond_name/$pond_functions
 @test "pond create: pond variables file created" -f $pond_data/$pond_name/$pond_vars
@@ -70,5 +79,7 @@ __pond_setup
 __pond_tear_down
 
 set -e __pond_setup
+set -e __pond_intercept_editor_call
 set -e __pond_tear_down
 set -e __pond_under_test
+set pond_editor $pond_editor_before_test

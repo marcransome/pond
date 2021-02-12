@@ -189,9 +189,11 @@ Arguments:
             echo "Unable to remove pond: $pond_name" >&2 && return 1
         end
 
-        unlink $pond_links/$pond_name >/dev/null 2>&1
-        if test $status -ne 0
-            echo "Failed to remove symbolic link: $pond_links/$pond_name" >&2 && return 1
+        if test -L $pond_links/$pond_name
+            unlink $pond_links/$pond_name >/dev/null 2>&1
+            if test $status -ne 0
+                echo "Failed to remove symbolic link: $pond_links/$pond_name" >&2 && return 1
+            end
         end
     end
 
@@ -346,7 +348,12 @@ Arguments:
                     __pond_create_operation $pond_name
                 case '*'
                     __pond_create_operation $pond_name
-                    if test -n "$__pond_under_test"; and return 0; end
+
+                    if test -z "$__pond_under_test"
+                        and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
+                        echo "Editor not found: $pond_editor" >&2 && return 1
+                    end
+
                     $pond_editor $pond_data/$pond_name/$pond_vars
             end
         case edit
@@ -359,6 +366,11 @@ Arguments:
                 __pond_edit_command_usage && return 1
             end
             if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && return 1; end
+
+            if test -z "$__pond_under_test"
+                and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
+                echo "Editor not found: $pond_editor" >&2 && return 1
+            end
 
             $pond_editor $pond_data/$pond_name/$pond_vars
         case remove

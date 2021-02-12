@@ -3,10 +3,13 @@ set success 0
 
 set -x __pond_under_test yes
 set pond_name pond
+set pond_enable_on_create_before_test $pond_enable_on_create
+
 set success_output_enabled "\
 name: $pond_name
 enabled: yes
 path: $pond_home/ponds/$pond_name"
+
 set success_output_disabled "\
 name: $pond_name
 enabled: no
@@ -20,12 +23,12 @@ Arguments:
     name  The name of the pond"
 
 function __pond_setup_and_enabled
-    set -x pond_enable_on_create yes; and pond create -e $pond_name
+    set pond_enable_on_create yes; and pond create -e $pond_name
     pond status $pond_name
 end
 
 function __pond_setup_and_disabled
-    set -x pond_enable_on_create no; and pond create -e $pond_name
+    set pond_enable_on_create no; and pond create -e $pond_name
     pond status $pond_name
 end
 
@@ -65,3 +68,4 @@ set -e __pond_setup_and_enabled
 set -e __pond_setup_and_disabled
 set -e __pond_tear_down
 set -e __pond_under_test
+set pond_enable_on_create $pond_enable_on_create_before_test

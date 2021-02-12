@@ -3,6 +3,7 @@ set success 0
 
 set -x __pond_under_test yes
 set pond_name pond
+set pond_enable_on_create_before_test $pond_enable_on_create
 
 set command_usage "\
 Usage:
@@ -12,13 +13,13 @@ Arguments:
     name  The name of the pond to disable"
 
 function __pond_setup_and_enabled
-    set -x pond_enable_on_create yes; and pond create -e $pond_name
+    set pond_enable_on_create yes; and pond create -e $pond_name
     echo 'set -xg TEST_VAR test_value' >> $pond_data/$pond_name/$pond_vars
     pond status $pond_name
 end
 
 function __pond_setup_and_disabled
-    set -x pond_enable_on_create no; and pond create -e $pond_name
+    set pond_enable_on_create no; and pond create -e $pond_name
     echo 'set -xg TEST_VAR test_value' >> $pond_data/$pond_name/$pond_vars
     pond status $pond_name
 end
@@ -54,3 +55,4 @@ set -e __pond_setup_and_enabled
 set -e __pond_setup_and_disabled
 set -e __pond_tear_down
 set -e __pond_under_test
+set pond_enable_on_create $pond_enable_on_create_before_test

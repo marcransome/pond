@@ -6,6 +6,7 @@
 
 Pond is a shell environment manager for the [fish shell](https://fishshell.com).
 
+<br>
 <hr>
 
 ## Installation

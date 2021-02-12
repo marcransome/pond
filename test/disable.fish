@@ -27,13 +27,13 @@ function __pond_tear_down
     echo 'y' | pond remove $pond_name
 end
 
+@echo 'pond disable: success tests'
 __pond_setup_and_enabled
-@echo 'disable command success tests'
 @test 'pond disable: success' (pond disable $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond disable: pond symlink removed" ! -L $pond_links/$pond_name
 __pond_tear_down
 
-@echo 'enable command failure exit code tests'
+@echo 'pond disable: failure exit code tests'
 __pond_setup_and_enabled
 @test 'pond disable: fails for missing pond name' (pond disable >/dev/null 2>&1) $status -eq $fail
 @test 'pond disable: fails for trailing arguments' (pond disable $pond_name trailing >/dev/null 2>&1) $status -eq $fail
@@ -41,7 +41,7 @@ __pond_setup_and_enabled
 @test 'pond disable: fails for non-existent pond' (pond disable non-exist >/dev/null 2>&1) $status -eq $fail
 __pond_tear_down
 
-@echo 'enable command failure usage output tests'
+@echo 'pond disable: failure usage output tests'
 __pond_setup_and_enabled
 @test 'pond disable: command usage shown for missing pond name' (pond disable 2>&1 | string collect) = $command_usage
 @test 'pond disable: command usage shown for trailing arguments' (pond disable $pond_name trailing 2>&1 | string collect) = $command_usage

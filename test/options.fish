@@ -26,21 +26,21 @@ Commands:
     status   View pond status
     drain    Drain all data from pond"
 
-@echo 'options success exit code tests'
+@echo 'pond options: success exit code tests'
 @test 'pond -v success' (pond -v >/dev/null 2>&1) $status -eq $success
 @test 'pond --version success' (pond --version >/dev/null 2>&1) $status -eq $success
 @test 'pond -h success' (pond -h >/dev/null 2>&1) $status -eq $success
 @test 'pond --help success' (pond --help >/dev/null 2>&1) $status -eq $success
 
-@echo 'options failure exit code tests'
+@echo 'pond options: failure exit code tests'
 @test 'pond failure for invalid short option' (pond -i >/dev/null 2>&1) $status -eq $fail
 @test 'pond failure for invalid long option' (pond --invalid >/dev/null 2>&1) $status -eq $fail
 
-@echo 'version option output tests'
+@echo 'pond options: version option output tests'
 @test 'pond -v repots version' (pond -v) = "pond $pond_version"
 @test 'pond --version reports version' (pond --version) = "pond $pond_version"
 
-@echo 'help option usage tests'
+@echo 'pond options: help option usage tests'
 @test 'pond -h repots usage' (pond -h 2>&1 | string collect) = $pond_usage
 @test 'pond --help repots usage' (pond --help 2>&1 | string collect) = $pond_usage
 

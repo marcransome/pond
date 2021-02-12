@@ -33,19 +33,19 @@ function __pond_tear_down
     echo 'y' | pond remove $pond_name
 end
 
+@echo 'pond status: success tests for enabled pond'
 __pond_setup_and_enabled
-@echo 'status command success tests enabled pond'
 @test 'pond status: success for enabled pond' (pond status $pond_name >/dev/null 2>&1) $status -eq $success
 @test 'pond status: output success for enabled pond' (pond status $pond_name 2>&1 | string collect) = $success_output_enabled
 __pond_tear_down
 
+@echo 'pond status: success tests for disabled pond'
 __pond_setup_and_disabled
-@echo 'status command success tests disabled pond'
 @test 'pond status: success for disabled pond' (pond status $pond_name >/dev/null 2>&1) $status -eq $success
 @test 'pond status: output success for disabled pond' (pond status $pond_name 2>&1 | string collect) = $success_output_disabled
 __pond_tear_down
 
-@echo 'status command failure exit code tests'
+@echo 'pond status: failure exit code tests'
 __pond_setup_and_enabled
 @test 'pond status: fails for missing pond name' (pond status >/dev/null 2>&1) $status -eq $fail
 @test 'pond status: fails for trailing arguments' (pond status $pond_name trailing >/dev/null 2>&1) $status -eq $fail
@@ -53,7 +53,7 @@ __pond_setup_and_enabled
 @test 'pond status: fails for non-existent pond' (pond status non-exist >/dev/null 2>&1) $status -eq $fail
 __pond_tear_down
 
-@echo 'status command failure usage output tests'
+@echo 'pond status: failure usage output tests'
 __pond_setup_and_enabled
 @test 'pond status: command usage shown for missing pond name' (pond status 2>&1 | string collect) = $command_usage
 @test 'pond status: command usage shown for trailing arguments' (pond status $pond_name trailing 2>&1 | string collect) = $command_usage

@@ -23,12 +23,12 @@ Arguments:
     name  The name of the pond"
 
 function __pond_setup_and_enabled
-    set -x pond_enable_on_create yes; and pond create -e $pond_name
+    set pond_enable_on_create yes; and pond create -e $pond_name
     pond status $pond_name
 end
 
 function __pond_setup_and_disabled
-    set -x pond_enable_on_create no; and pond create -e $pond_name
+    set pond_enable_on_create no; and pond create -e $pond_name
     pond status $pond_name
 end
 

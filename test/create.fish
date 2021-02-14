@@ -60,7 +60,7 @@ __pond_tear_down
 __pond_tear_down
 __pond_editor_reset
 
-for command in "pond create"{" -e"," --empty"}" $pond_name"
+for command in "pond create "{-e,--empty}" $pond_name"
     @echo "$command: success tests"
     @test "pond create: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond create: pond directory created" -d $pond_home/$pond_regular/$pond_name
@@ -71,7 +71,7 @@ for command in "pond create"{" -e"," --empty"}" $pond_name"
     __pond_tear_down
 end
 
-for command in "pond create"{" -p"," --private"}" $pond_name"
+for command in "pond create "{-p,--private}" $pond_name"
     @echo "$command: success tests"
     __pond_editor_intercept_with __pond_private_pond_editor
     @test "pond create: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success

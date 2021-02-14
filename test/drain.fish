@@ -35,7 +35,7 @@ end
 #   echo 'y' | pond drain $pond_name
 #   pond drain -s $pond_name
 #   pond drain --silent $pond_name
-for command in "echo 'y' | pond drain $pond_name" "pond drain"{" -s"," --silent"}" $pond_name"
+for command in "echo 'y' | pond drain $pond_name" "pond drain "{-s,--silent}" $pond_name"
 
     @echo "$command: success tests for regular pond"
     __pond_setup_regular

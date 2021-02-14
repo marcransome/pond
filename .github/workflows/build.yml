@@ -17,14 +17,15 @@ jobs:
         run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
         shell: fish {0}
       - name: Install tap-diff
-        run: npm install -g tap-diff
+        run: $GITHUB_WORKSPACE && npm install tap-diff
+        shell: fish {0}
       - name: Test plugin installation
         run: $GITHUB_WORKSPACE && fisher install .
         shell: fish {0}
       - name: Run tests
         run: |
           cd $GITHUB_WORKSPACE
-          fishtape test/{create,remove,edit}.fish | tap-diff
+          fishtape test/{create,remove,edit}.fish | node_modules/.bin/tap-diff
         shell: fish {0}
   test-linux:
     runs-on: ubuntu-latest
@@ -39,12 +40,13 @@ jobs:
         run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
         shell: fish {0}
       - name: Install tap-diff
-        run: npm install -g tap-diff
+        run: $GITHUB_WORKSPACE && npm install tap-diff
+        shell: fish {0}
       - name: Test plugin installation
         run: $GITHUB_WORKSPACE && fisher install .
         shell: fish {0}
       - name: Run tests
         run: |
           cd $GITHUB_WORKSPACE
-          fishtape test/{create,remove,edit}.fish | tap-diff
+          fishtape test/{create,remove,edit}.fish | node_modules/.bin/tap-diff
         shell: fish {0}

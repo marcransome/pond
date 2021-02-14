@@ -81,7 +81,7 @@ end
 @test "pond remove: command usage shown for missing pond name" (pond remove 2>&1 | string collect) = $command_usage
 @test "pond remove: command usage shown for trailing arguments" (pond remove $pond_name trailing 2>&1 | string collect) = $command_usage
 @test "pond remove: command usage shown for malformed pond name" (pond remove _invalid 2>&1 | string collect) = $command_usage
-@test "pond remove: command error shown for non-existent pond" (pond remove no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond remove: command usage shown for non-existent pond" (pond remove no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
 
 for valid_option in -e --empty -p --private
     for invalid_option in -i --invalid

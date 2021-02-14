@@ -26,7 +26,11 @@ function __pond_tear_down
     echo "y" | pond remove $pond_name >/dev/null 2>&1
 end
 
-for command in "pond remove"{, " -s"," --silent"}" $pond_name"
+# command cases:
+#   echo 'y' | pond remove $pond_name
+#   pond remove -s $pond_name
+#   pond remove --silent $pond_name
+for command in "echo 'y' | pond remove $pond_name" "pond remove"{" -s"," --silent"}" $pond_name"
 
     @echo "$command: success tests for regular pond"
     __pond_setup_regular

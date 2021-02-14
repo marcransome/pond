@@ -2,8 +2,19 @@ set fail 1
 set success 0
 
 set -x __pond_under_test yes
-set pond_name pond
-set success_output "Pond unloaded: $pond_name"
+set pond_name test-pond
+
+set verbose_output_regular_pond "\
+Erased variable: TEST_VAR_1
+Erased variable: TEST_VAR_2
+Erased variable: TEST_VAR_3
+Unloaded pond: $pond_name"
+
+set verbose_output_private_pond "\
+Erased variable: TEST_VAR_PRIVATE_1
+Erased variable: TEST_VAR_PRIVATE_2
+Erased variable: TEST_VAR_PRIVATE_3
+Unloaded private pond: $pond_name"
 
 set command_usage "\
 Usage:
@@ -15,65 +26,104 @@ Options:
 Arguments:
     name  The name of the pond to unload"
 
-# TODO expand test cases to include less well formed variable definitions
-function __pond_setup
-    pond create -e $pond_name
-
-    echo "\
-set -xg GLOBAL_EXPORT_ONE 1
-set -xg GLOBAL_EXPORT_TWO 2
-set -xg GLOBAL_EXPORT_THREE 3
-" >> $pond_data/$pond_name/$pond_vars
+function __pond_setup_regular
+    pond create -e $pond_name >/dev/null 2>&1
+    for var in TEST_VAR_{1,2,3}
+        set -xg $var (string lower $var)
+        echo "set -xg $var "(string lower $var) >>  $pond_home/$pond_regular/$pond_name/$pond_vars
+    end
 end
 
-function __pond_export_vars
-    set -xg GLOBAL_EXPORT_ONE 1
-    set -xg GLOBAL_EXPORT_TWO 2
-    set -xg GLOBAL_EXPORT_THREE 3
+function __pond_setup_private
+    pond create -e -p $pond_name >/dev/null 2>&1
+    for var in TEST_VAR_PRIVATE_{1,2,3}
+        set -xg $var (string lower $var)
+        echo "set -xg $var "(string lower $var) >>  $pond_home/$pond_private/$pond_name/$pond_vars
+    end
 end
 
 function __pond_tear_down
-    echo 'y' | pond remove $pond_name
+    for var in TEST_VAR{,_PRIVATE}_{1,2,3}
+        set -e $var
+    end
+    echo "y" | pond remove $pond_name >/dev/null 2>&1
 end
 
-@echo 'pond unload: success tests'
-__pond_setup
-__pond_export_vars
-@test 'pond unload: success for pond with global exports' (pond unload $pond_name >/dev/null 2>&1) $status -eq $success
-__pond_export_vars
-@test 'pond unload: output success for pond with global exports' (pond unload $pond_name 2>&1) = $success_output
-@test 'pond unload: global variable one was erase' -z (echo $GLOBAL_EXPORT_ONE)
-@test 'pond unload: global variable two was erase' -z (echo $GLOBAL_EXPORT_TWO)
-@test 'pond unload: global variable three was erase' -z (echo $GLOBAL_EXPORT_THREE)
+@echo "pond unload: success tests for regular pond"
+__pond_setup_regular
+@test "setup: test variable one is set" (echo $TEST_VAR_1) = "test_var_1"
+@test "setup: test variable two is set" (echo $TEST_VAR_2) = "test_var_2"
+@test "setup: test variable three is set" (echo $TEST_VAR_3) = "test_var_3"
+@test "pond unload: success exit code" (pond unload $pond_name >/dev/null 2>&1) $status -eq $success
+@test "pond unload: test variable one was erased" (set -q TEST_VAR_1) $status -eq 1
+@test "pond unload: test variable two was erased" (set -q TEST_VAR_2) $status -eq 1
+@test "pond unload: test variable three was erased" (set -q TEST_VAR_3) $status -eq 1
 __pond_tear_down
 
-@echo 'pond unload: failure exit code tests'
-__pond_setup
-@test 'pond unload: fails for missing pond name' (pond unload >/dev/null 2>&1) $status -eq $fail
-@test 'pond unload: fails for trailing arguments' (pond unload $pond_name trailing >/dev/null 2>&1) $status -eq $fail
-@test 'pond unload: fails for malformed pond name' (pond unload _invalid >/dev/null 2>&1) $status -eq $fail
-@test 'pond unload: fails for short invalid option' (pond unload -i >/dev/null 2>&1) $status -eq $fail
-@test 'pond unload: fails for long invalid option' (pond unload --invalid >/dev/null 2>&1) $status -eq $fail
-@test 'pond unload: fails for valid short option and missing pond name' (pond unload -e >/dev/null 2>&1) $status -eq $fail
-@test 'pond unload: fails for valid long option and missing pond name' (pond unload --empty >/dev/null 2>&1) $status -eq $fail
-@test 'pond unload: fails for invalid short option and valid pond name' (pond unload -i $pond_name >/dev/null 2>&1) $status -eq $fail
-@test 'pond unload: fails for invalid long option and valid pond name' (pond unload --invalid $pond_name >/dev/null 2>&1) $status -eq $fail
-@test 'pond unload: fails for non-existent pond' (pond unload non-exist >/dev/null 2>&1) $status -eq $fail
+@echo "pond unload: output tests for regular pond"
+__pond_setup_regular
+@test "pond unload: success output message" (pond unload $pond_name 2>&1) = "Unloaded pond: $pond_name"
 __pond_tear_down
 
-@echo 'pond unload: failure usage output tests'
-__pond_setup
-@test 'pond unload: command usage shown for missing pond name' (pond unload 2>&1 | string collect) = $command_usage
-@test 'pond unload: command usage shown for trailing arguments' (pond unload $pond_name trailing 2>&1 | string collect) = $command_usage
-@test 'pond unload: command usage shown for malformed pond name' (pond unload _invalid 2>&1 | string collect) = $command_usage
-@test 'pond unload: command usage shown for short invalid option' (pond unload -i 2>&1 | string collect) = $command_usage
-@test 'pond unload: command usage shown for long invalid option' (pond unload --invalid 2>&1 | string collect) = $command_usage
-@test 'pond unload: command usage shown for valid short option and missing pond name' (pond unload -e 2>&1 | string collect) = $command_usage
-@test 'pond unload: command usage shown for valid long option and missing pond name' (pond unload --empty 2>&1 | string collect) = $command_usage
-@test 'pond unload: command usage shown for invalid short option and valid pond name' (pond unload -i $pond_name 2>&1 | string collect) = $command_usage
-@test 'pond unload: command usage shown for invalid long option and valid pond name' (pond unload --invalid $pond_name 2>&1 | string collect) = $command_usage
-@test 'pond unload: command error shown for non-existent pond' (pond unload non-exist 2>&1 | string collect) = "Pond does not exist: non-exist"
+for command in "pond unload "{-v,--verbose}" $pond_name"
+    @echo "$command: verbose output tests for regular pond"
+    __pond_setup_regular
+    @test "pond unload: success output message" (eval $command 2>&1 | string collect) = $verbose_output_regular_pond
+    __pond_tear_down
+end
+
+@echo "pond unload: success tests for private pond"
+__pond_setup_private
+@test "setup: test variable one is set" (echo $TEST_VAR_PRIVATE_1) = "test_var_private_1"
+@test "setup: test variable two is set" (echo $TEST_VAR_PRIVATE_2) = "test_var_private_2"
+@test "setup: test variable three is set" (echo $TEST_VAR_PRIVATE_3) = "test_var_private_3"
+@test "pond unload: success exit code" (pond unload $pond_name >/dev/null 2>&1) $status -eq $success
+@test "pond unload: test variable one was erased" (set -q TEST_VAR_1) $status -eq 1
+@test "pond unload: test variable two was erased" (set -q TEST_VAR_2) $status -eq 1
+@test "pond unload: test variable three was erased" (set -q TEST_VAR_3) $status -eq 1
 __pond_tear_down
+
+@echo "pond unload: output tests for private pond"
+__pond_setup_private
+@test "pond unload: success output message" (pond unload $pond_name 2>&1) = "Unloaded private pond: $pond_name"
+__pond_tear_down
+
+for command in "pond unload "{-v,--verbose}" $pond_name"
+    @echo "$command: verbose output tests for regular pond"
+    __pond_setup_private
+    @test "pond unload: success output message" (eval $command 2>&1 | string collect) = $verbose_output_private_pond
+    __pond_tear_down
+end
+
+@echo "pond unload: validation failure exit code tests"
+@test "pond unload: fails for missing pond name" (pond unload >/dev/null 2>&1) $status -eq $fail
+@test "pond unload: fails for trailing arguments" (pond unload $pond_name trailing >/dev/null 2>&1) $status -eq $fail
+@test "pond unload: fails for malformed pond name" (pond unload _invalid >/dev/null 2>&1) $status -eq $fail
+@test "pond unload: fails for non-existent pond" (pond unload no-exist >/dev/null 2>&1) $status -eq $fail
+
+for valid_option in -v --verbose
+    for invalid_option in -i --invalid
+        @test "pond unload: command usage shown for valid option $valid_option and missing pond name" (pond unload $valid_option >/dev/null 2>&1) $status -eq $fail
+        @test "pond unload: command usage shown for valid option $valid_option and invalid pond name" (pond unload $valid_option _invalid >/dev/null 2>&1) $status -eq $fail
+        @test "pond unload: command usage shown for invalid option $invalid_option and valid pond name" (pond unload $invalid_option $pond_name >/dev/null 2>&1) $status -eq $fail
+        @test "pond unload: command usage shown for invalid option $invalid_option and invalid pond name" (pond unload $invalid_option _invalid >/dev/null 2>&1) $status -eq $fail
+    end
+end
+
+@echo "pond unload: validation failure output tests"
+@test "pond unload: command usage shown for missing pond name" (pond unload 2>&1 | string collect) = $command_usage
+@test "pond unload: command usage shown for trailing arguments" (pond unload $pond_name trailing 2>&1 | string collect) = $command_usage
+@test "pond unload: command usage shown for malformed pond name" (pond unload _invalid 2>&1 | string collect) = $command_usage
+@test "pond unload: command usage shown for non-existent pond" (pond unload no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+
+for valid_option in -v --verbose
+    for invalid_option in -i --invalid
+        @test "pond unload: command usage shown for valid option $valid_option and missing pond name" (pond unload $valid_option 2>&1 | string collect) = $command_usage
+        @test "pond unload: command usage shown for valid option $valid_option and invalid pond name" (pond unload $valid_option _invalid 2>&1 | string collect) = $command_usage
+        @test "pond unload: command usage shown for invalid option $invalid_option and valid pond name" (pond unload $invalid_option $pond_name 2>&1 | string collect) = $command_usage
+        @test "pond unload: command usage shown for invalid option $invalid_option and invalid pond name" (pond unload $invalid_option _invalid 2>&1 | string collect) = $command_usage
+    end
+end
 
 set -e __pond_setup
 set -e __pond_export_vars

@@ -2,56 +2,60 @@ set fail 1
 set success 0
 
 set -x __pond_under_test yes
-set pond_name pond
-set pond_name_two pond-two
+set pond_name test-pond
+
 set success_output_single "\
 $pond_name"
+
 set success_output_multiple "\
-$pond_name_two
-$pond_name"
+$pond_name-1
+$pond_name-2
+$pond_name-3"
 
 set command_usage "\
 Usage:
     pond list"
 
 function __pond_setup_single
-    pond create -e $pond_name
+    pond create -e $pond_name >/dev/null 2>&1
 end
 
 function __pond_setup_multiple
-    pond create -e $pond_name
-    pond create -e $pond_name_two
+    pond create -e $pond_name-1 >/dev/null 2>&1
+    pond create -e $pond_name-2 >/dev/null 2>&1
+    pond create -e $pond_name-3 >/dev/null 2>&1
 end
 
 function __pond_tear_down_single
-    echo 'y' | pond remove $pond_name
+    echo "y" | pond remove $pond_name >/dev/null 2>&1
 end
 
 function __pond_tear_down_multiple
-    echo 'y' | pond remove $pond_name
-    echo 'y' | pond remove $pond_name_two
+    echo "y" | pond remove $pond_name-1 >/dev/null 2>&1
+    echo "y" | pond remove $pond_name-2 >/dev/null 2>&1
+    echo "y" | pond remove $pond_name-3 >/dev/null 2>&1
 end
 
-@echo 'pond list: success tests for single pond'
+@echo "pond list: success tests for single pond"
 __pond_setup_single
-@test 'pond list: success single pond' (pond list >/dev/null 2>&1) $status -eq $success
-@test 'pond list: output success single pond' (pond list 2>&1 | string collect) = $success_output_single
+@test "pond list: success single pond" (pond list >/dev/null 2>&1) $status -eq $success
+@test "pond list: output success single pond" (pond list 2>&1 | string collect) = $success_output_single
 __pond_tear_down_single
 
-@echo 'pond list: success tests for multiple ponds'
+@echo "pond list: success tests for multiple ponds"
 __pond_setup_multiple
-@test 'pond list: success multiple ponds' (pond list >/dev/null 2>&1) $status -eq $success
-@test 'pond list: output success multiple ponds' (pond list 2>&1 | string collect) = $success_output_multiple
+@test "pond list: success multiple ponds" (pond list >/dev/null 2>&1) $status -eq $success
+@test "pond list: output success multiple ponds" (pond list 2>&1 | string collect) = $success_output_multiple
 __pond_tear_down_multiple
 
-@echo 'pond list: failure exit code tests'
+@echo "pond list: validation failure exit code tests"
 __pond_setup_single
-@test 'pond list: fails for trailing arguments' (pond list $pond_name trailing >/dev/null 2>&1) $status -eq $fail
+@test "pond list: fails for trailing arguments" (pond list trailing >/dev/null 2>&1) $status -eq $fail
 __pond_tear_down_single
 
-@echo 'pond list: failure usage output tests'
+@echo "pond list: validation output tests"
 __pond_setup_single
-@test 'pond list: command usage shown for trailing arguments' (pond list trailing 2>&1 | string collect) = $command_usage
+@test "pond list: command usage shown for trailing arguments" (pond list trailing 2>&1 | string collect) = $command_usage
 __pond_tear_down_single
 
 set -e __pond_setup_single

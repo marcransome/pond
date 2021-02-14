@@ -47,7 +47,7 @@ __pond_setup_and_enabled
 @test 'pond enable: command usage shown for missing pond name' (pond enable 2>&1 | string collect) = $command_usage
 @test 'pond enable: command usage shown for trailing arguments' (pond enable $pond_name trailing 2>&1 | string collect) = $command_usage
 @test 'pond enable: command usage shown for malformed pond name' (pond enable _invalid 2>&1 | string collect) = $command_usage
-@test 'pond enable: command error shown for existing pond' (pond enable $pond_name 2>&1) = "Pond already enabled: pond"
+@test 'pond enable: command error shown for already enabled pond' (pond enable $pond_name 2>&1) = "Pond already enabled: pond"
 @test 'pond enable: command error shown for non-existent pond' (pond enable non-exist 2>&1) = "Pond does not exist: non-exist"
 __pond_tear_down
 

@@ -106,7 +106,7 @@ __pond_setup
 @test "pond create: command usage shown for missing pond name" (pond create 2>&1 | string collect) = $command_usage
 @test "pond create: command usage shown for trailing arguments" (pond create $pond_name trailing 2>&1 | string collect) = $command_usage
 @test "pond create: command usage shown for malformed pond name" (pond create _invalid 2>&1 | string collect) = $command_usage
-@test "pond create: command error shown for existing pond" (pond create $pond_name 2>&1 | string collect) = "Pond already exists: $pond_name"
+@test "pond create: command usage shown for existing pond" (pond create $pond_name 2>&1 | string collect) = "Pond already exists: $pond_name"
 __pond_tear_down
 
 for valid_option in -e --empty -p --private

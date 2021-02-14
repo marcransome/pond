@@ -13,18 +13,16 @@ Arguments:
 
 function __pond_setup_regular
     pond create -e $pond_name >/dev/null 2>&1
-    echo "\
-set -xg TEST_VAR test_value
-set -xg TEST_VAR_2 test_value_2
-set -xg TEST_VAR_3 test_value_3" >> $pond_home/$pond_regular/$pond_name/$pond_vars
+    for var in TEST_VAR_{1,2,3}
+        echo "set -xg $var "(string lower $var) >>  $pond_home/$pond_regular/$pond_name/$pond_vars
+    end
 end
 
 function __pond_setup_private
     pond create -e -p $pond_name >/dev/null 2>&1
-    echo "\
-set -xg TEST_VAR test_value
-set -xg TEST_VAR_2 test_value_2
-set -xg TEST_VAR_3 test_value_3" >> $pond_home/$pond_private/$pond_name/$pond_vars
+    for var in TEST_VAR_PRIVATE_{1,2,3}
+        echo "set -xg $var "(string lower $var) >>  $pond_home/$pond_private/$pond_name/$pond_vars
+    end
 end
 
 function __pond_tear_down
@@ -82,7 +80,7 @@ end
 @test "pond drain: command usage shown for missing pond name" (pond drain 2>&1 | string collect) = $command_usage
 @test "pond drain: command usage shown for trailing arguments" (pond drain $pond_name trailing 2>&1 | string collect) = $command_usage
 @test "pond drain: command usage shown for malformed pond name" (pond drain _invalid 2>&1 | string collect) = $command_usage
-@test "pond drain: command error shown for non-existent pond" (pond drain no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond drain: command usage shown for non-existent pond" (pond drain no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
 
 for valid_option in -s --silent
     for invalid_option in -i --invalid

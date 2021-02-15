@@ -50,7 +50,7 @@ __pond_tear_down
 @test "pond enable: command usage shown for missing pond name" (pond enable 2>&1 | string collect) = $command_usage
 @test "pond enable: command usage shown for trailing arguments" (pond enable $pond_name trailing 2>&1 | string collect) = $command_usage
 @test "pond enable: command usage shown for malformed pond name" (pond enable _invalid 2>&1 | string collect) = $command_usage
-@test "pond enable: command usage shown for non-existent pond" (pond enable no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond enable: command error shown for non-existent pond" (pond enable no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
 
 __pond_setup_regular
 ln -s $pond_home/$pond_regular/$pond_name $pond_home/$pond_links/$pond_name

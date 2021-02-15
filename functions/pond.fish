@@ -277,7 +277,7 @@ Arguments:
         functions -e __pond_disable_operation
 
         if ! test -L $pond_home/$pond_links/$pond_name
-            echo "Pond is already disabled: $pond_name" >&2 && return 1
+            echo "Pond already disabled: $pond_name" >&2 && return 1
         else
             unlink $pond_home/$pond_links/$pond_name >/dev/null 2>&1
             if test $status -ne 0

@@ -48,7 +48,7 @@ __pond_tear_down
 @test "pond disable: command usage shown for missing pond name" (pond disable 2>&1 | string collect) = $command_usage
 @test "pond disable: command usage shown for trailing arguments" (pond disable $pond_name trailing 2>&1 | string collect) = $command_usage
 @test "pond disable: command usage shown for malformed pond name" (pond disable _invalid 2>&1 | string collect) = $command_usage
-@test "pond disable: command usage shown for non-existent pond" (pond disable no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond disable: command error shown for non-existent pond" (pond disable no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
 
 __pond_setup_regular
 unlink $pond_home/$pond_links/$pond_name

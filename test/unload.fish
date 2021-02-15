@@ -114,7 +114,7 @@ end
 @test "pond unload: command usage shown for missing pond name" (pond unload 2>&1 | string collect) = $command_usage
 @test "pond unload: command usage shown for trailing arguments" (pond unload $pond_name trailing 2>&1 | string collect) = $command_usage
 @test "pond unload: command usage shown for malformed pond name" (pond unload _invalid 2>&1 | string collect) = $command_usage
-@test "pond unload: command usage shown for non-existent pond" (pond unload no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond unload: command error shown for non-existent pond" (pond unload no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
 
 for valid_option in -v --verbose
     for invalid_option in -i --invalid

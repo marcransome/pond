@@ -72,7 +72,7 @@ __pond_tear_down
 @test "pond load: command usage shown for missing pond name" (pond load 2>&1 | string collect) = $command_usage
 @test "pond load: command usage shown for trailing arguments" (pond load $pond_name trailing 2>&1 | string collect) = $command_usage
 @test "pond load: command usage shown for malformed pond name" (pond load _invalid 2>&1 | string collect) = $command_usage
-@test "pond load: command usage shown for non-existent pond" (pond load no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond load: command error shown for non-existent pond" (pond load no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
 
 set -e __pond_setup_regular
 set -e __pond_setup_private

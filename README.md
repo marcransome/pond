@@ -33,9 +33,9 @@ Create a new pond using the `create` command:
 $ pond create my-app
 ```
 
-By default, `create` opens an editor in your shell (one of `$EDITOR` `vim`, `vi`, `emacs`, `nano`; whichever is found first from left to righ). If you wish to override the editor used, set the universal variable `pond_editor` to a command name of path (e.g `set pond_editor /usr/local/bin/my-editor`).
+By default, `create` opens an editor in your shell (one of `$EDITOR` `vim`, `vi`, `emacs`, `nano`; whichever is found first from left to right). If you wish to override the editor used, set the universal variable `pond_editor` to a command name or path (e.g `set pond_editor /usr/local/bin/my-editor`).
 
-Ponds are _enabled_ by default, meaning any environment variables added will be made available to all future shell sessions. To disable this behaviour set the universal variable `pond_enable_on_create` to `no`.
+Ponds are _enabled_ by default, meaning any environment variables added to them will be made available to all future shell sessions. To disable this behaviour set the universal variable `pond_enable_on_create` to `no`.
 
 To create an empty pond (without opening an editor) use the `-e` or `--empty` option:
 
@@ -44,7 +44,7 @@ $ pond create --empty my-app
 Created pond: my-app
 ```
 
-Pond also supports the concept of a _private_ pond—intended to store environment variables that use sensitive values (e.g. tokens, keys). Private ponds are stored in a separate directory tree to regular ponds and their collective parent directory is given `0700` permissions rather than the `0755` permissions used by regular ponds. In addition, private ponds may be treated differently by pond commands introduced in future updates (e.g. `export`).
+Pond also supports the concept of a _private_ pond—intended to store environment variables that contain sensitive values (e.g. tokens, keys). Private ponds are stored in a separate directory tree to regular ponds and their collective parent directory is given `0700` permissions rather than the `0755` permissions used by regular ponds. In addition, private ponds may be treated differently by pond commands introduced in future updates (e.g. `export`).
 
 To create a private pond use the `-p` or `--private` option:
 
@@ -64,11 +64,11 @@ $ pond edit my-app
 ...
 ```
 
-Refer to the [Creating ponds](#creating-ponds) section for further information about the default editor and how to change it (such changes are applicable to both the `create` and `edit` commands).
+Refer to the [Creating ponds](#creating-ponds) section for further information about the default editor and how to change it (changes are applicable to both the `create` and `edit` commands).
 
 ### Listing ponds
 
-List available ponds using the `list` command:
+Use the `list` command to list all ponds:
 
 ```console
 $ pond list
@@ -77,33 +77,33 @@ my-app
 
 ### Removing ponds
 
-Remove a pond using the `remove` command:
+Use the `remove` command to remove a pond:
 
 ```console
 $ pond remove my-app
-Remove pond: abc? y
-Removed pond: abc
+Remove pond: my-app? y
+Removed pond: my-app
 ```
 
 To silence the confirmation prompt use the `-s` or `--silent` option:
 
 ```console
 $ pond remove --silent my-app
-Removed pond: abc
+Removed pond: my-app
 ```
 
 ### Enabling ponds
 
-Use the `enable` command to o make variables in a pond available to future shell sessions:
+Use the `enable` command to make pond variables available to future shell sessions:
 
 ```console
 $ pond enable my-app
-Enabled pond: abc
+Enabled pond: my-app
 ```
 
 ### Disabling ponds
 
-Use the `disable` command to make variables in a pond inaccessible to future shell sessions:
+Use the `disable` command to make pond variables inaccessible to future shell sessions:
 
 ```console
 $ pond disable my-app
@@ -148,15 +148,15 @@ Use the `drain` command to drain a pond of all its variables:
 
 ```console
 $ pond drain my-app
-Drain pond: abc? y
-Drained pond: abc
+Drain pond: my-app? y
+Drained pond: my-app
 ```
 
 To silence the confirmation prompt use the `-s` or `--silent` option:
 
 ```console
 $ pond drain --silent my-app
-Drained pond: abc
+Drained pond: my-app
 ```
 
 If a pond was previously _loaded_ into the current shell session this action will not remove pond variables from its environment. Instead, `unload` the pond to remove them first.

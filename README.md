@@ -21,13 +21,11 @@ $ fisher install marcransome/pond
 
 A _pond_ represents a collection of environment variables (and in a future release _functions_) in the fish shell. Ponds are used to group related environment variables together. Naming ponds after individual applications or local development environments is a good way to separate them by their use-case.
 
-You can `create`, `remove`, and `edit` ponds easily. Manage the variables that are sourced into shell sessions with `enable`, `disable`, `load` or `unload`. Tab completions are provided for all pond commands and options discussed here.
+You can `create`, `remove`, and `edit` ponds easily. Manage how their environment variables are sourced into shell sessions with `enable`, `disable`, `load` or `unload`. Tab completions are provided for all pond commands and options discussed here.
 
-:exclamation: Pond won't protect you from yourself! If you define multiple variables of the same name in more than one pond and either `enable` or `load` more than one.. fun things may happen. Bonus points for a [pull-request](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/creating-an-issue-or-pull-request).
+:exclamation: Pond won't protect you from yourself! If you define multiple variables of the same name in more than one pond and either `enable` or `load` more than one at the same time.. fun things may happen. Bonus points for a [pull-request](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/creating-an-issue-or-pull-request).
 
-### Managing ponds
-
-#### Creating ponds
+### Creating ponds
 
 Create a new pond using the `create` command:
 
@@ -57,7 +55,7 @@ Created private pond: my-app
 
 Commands discussed through the remainder of this document are applicable to both regular and private ponds.
 
-#### Editing ponds
+### Editing ponds
 
 To open a pond for editing use the `edit` command:
 
@@ -68,7 +66,7 @@ $ pond edit my-app
 
 Refer to the [Creating ponds](#creating-ponds) section for further information about the default editor and how to change it (such changes are applicable to both the `create` and `edit` commands).
 
-#### Listing ponds
+### Listing ponds
 
 List available ponds using the `list` command:
 
@@ -77,7 +75,7 @@ $ pond list
 my-app
 ```
 
-#### Removing ponds
+### Removing ponds
 
 Remove a pond using the `remove` command:
 
@@ -94,7 +92,7 @@ $ pond remove --silent my-app
 Removed pond: abc
 ```
 
-#### Enabling ponds
+### Enabling ponds
 
 Use the `enable` command to o make variables in a pond available to future shell sessions:
 
@@ -103,7 +101,7 @@ $ pond enable my-app
 Enabled pond: abc
 ```
 
-#### Disabling ponds
+### Disabling ponds
 
 Use the `disable` command to make variables in a pond inaccessible to future shell sessions:
 
@@ -112,7 +110,7 @@ $ pond disable my-app
 Disabled pond: my-app
 ```
 
-#### Loading ponds
+### Loading ponds
 
 Use the `load` command to make pond variables available to the current shell session:
 
@@ -121,7 +119,7 @@ $ pond load my-app
 Loaded pond: my-app
 ```
 
-#### Unloading ponds
+### Unloading ponds
 
 Use the `unload` command to remove pond variables from the current shell session:
 

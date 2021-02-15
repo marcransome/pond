@@ -21,13 +21,11 @@ $ fisher install marcransome/pond
 
 A _pond_ represents a collection of environment variables (and in a future release _functions_) in the fish shell. Ponds are used to group related environment variables together. Naming ponds after individual applications or local development environments is a good way to separate them by their use-case.
 
-You can `create`, `remove`, and `edit` ponds easily. Manage the variables that are sourced into shell sessions with `enable`, `disable`, `load` or `unload`. Tab completions are provided for all pond commands and options discussed here.
+You can `create`, `remove`, and `edit` ponds easily. Manage how their environment variables are sourced into shell sessions with `enable`, `disable`, `load` or `unload`. Tab completions are provided for all pond commands and options discussed here.
 
-:exclamation: Pond won't protect you from yourself! If you define multiple variables of the same name in more than one pond and either `enable` or `load` more than one.. fun things may happen. Bonus points for a [pull-request](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/creating-an-issue-or-pull-request).
+:exclamation: Pond won't protect you from yourself! If you define multiple variables of the same name in more than one pond and either `enable` or `load` more than one at the same time.. fun things may happen. Bonus points for a [pull-request](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/creating-an-issue-or-pull-request).
 
-### Managing ponds
-
-#### Creating ponds
+### Creating ponds
 
 Create a new pond using the `create` command:
 
@@ -35,19 +33,29 @@ Create a new pond using the `create` command:
 $ pond create my-app
 ```
 
-This command opens an editor in your shell (one of `$EDITOR` `vim`, `vi`, `emacs`, `nano`; whichever is found first in your `$PATH`). If you wish to override the editor used, set the universal variable `pond_editor` to a valid command name (e.g `set pond_editor my-editor`).
+By default, `create` opens an editor in your shell (one of `$EDITOR` `vim`, `vi`, `emacs`, `nano`; whichever is found first from left to right). If you wish to override the editor used, set the universal variable `pond_editor` to a command name or path (e.g `set pond_editor /usr/local/bin/my-editor`).
 
-Ponds are _enabled_ by default, meaning any environment variables added will be made available to all future shell sessions. To disable this behaviour set the universal variable `pond_enable_on_create` to `no`.
+Ponds are _enabled_ by default, meaning any environment variables added to them will be made available to all future shell sessions. To disable this behaviour set the universal variable `pond_enable_on_create` to `no`.
 
-To create an empty pond (without opening an editor) for later use:
+To create an empty pond (without opening an editor) use the `-e` or `--empty` option:
 
 ```console
-$ pond create -e my-app
-or
 $ pond create --empty my-app
+Created pond: my-app
 ```
 
-#### Editing ponds
+Pond also supports the concept of a _private_ pond—intended to store environment variables that contain sensitive values (e.g. tokens, keys). Private ponds are stored in a separate directory tree to regular ponds and their collective parent directory is given `0700` permissions rather than the `0755` permissions used by regular ponds. In addition, private ponds may be treated differently by pond commands introduced in future updates (e.g. `export`).
+
+To create a private pond use the `-p` or `--private` option:
+
+```console
+$ pond create --private my-app
+Created private pond: my-app
+```
+
+Commands discussed through the remainder of this document are applicable to both regular and private ponds.
+
+### Editing ponds
 
 To open a pond for editing use the `edit` command:
 
@@ -56,99 +64,102 @@ $ pond edit my-app
 ...
 ```
 
-#### Listing ponds
+Refer to the [Creating ponds](#creating-ponds) section for further information about the default editor and how to change it (changes are applicable to both the `create` and `edit` commands).
 
-List available ponds using the `list` command:
+### Listing ponds
+
+Use the `list` command to list all ponds:
 
 ```console
 $ pond list
 my-app
 ```
 
-#### Removing ponds
+### Removing ponds
 
-Remove a pond using the `remove` command:
+Use the `remove` command to remove a pond:
 
 ```console
 $ pond remove my-app
-Remove pond: abc? y
-Removed pond: abc
+Remove pond: my-app? y
+Removed pond: my-app
 ```
 
-To silence the confirmation prompt add the `-s` or `--silent` option:
+To silence the confirmation prompt use the `-s` or `--silent` option:
 
 ```console
 $ pond remove --silent my-app
-Removed pond: abc
+Removed pond: my-app
 ```
 
-#### Enabling ponds
+### Enabling ponds
 
-To make variables in a pond available to future shell sessions, use the `enable` command:
+Use the `enable` command to make pond variables available to future shell sessions:
 
 ```console
 $ pond enable my-app
-Enabled pond: abc
+Enabled pond: my-app
 ```
 
-#### Disabling ponds
+### Disabling ponds
 
-To make variables in a pond inaccessible to future shell sessions, use the `disable` command:
+Use the `disable` command to make pond variables inaccessible to future shell sessions:
 
 ```console
 $ pond disable my-app
 Disabled pond: my-app
 ```
 
-#### Loading ponds
+### Loading ponds
 
-To make variables in a pond available to the current shell session temporarily, use the `load` command:
+Use the `load` command to make pond variables available to the current shell session:
 
 ```console
 $ pond load my-app
-Pond loaded: my-app
+Loaded pond: my-app
 ```
 
-#### Unloading ponds
+### Unloading ponds
 
-To unload a pond and remove all of its variables from the current shell session use the `unload` command:
+Use the `unload` command to remove pond variables from the current shell session:
 
 ```console
 $ pond unload my-app
-Pond unloaded: my-app
+Unloaded pond: my-app
 ```
 
-If the pond is _enabled_ this action will not stop pond variables from being exposed to new shell sessions. Instead, `disable` the pond to make the changes persist.
+If a pond is _enabled_ this action will not stop pond variables from being exposed to new shell sessions. Instead, `disable` the pond to make the changes persist.
 
-### Viewing pond status
+### Viewing the status of ponds
 
-To view the status of a pond use the `status` command:
+Use the `status` command to view the current status of a pond
 
 ```console
 $ pond status my-app
 name: my-app
 enabled: yes
-path: /Users/<username>/.config/fish/pond/ponds/my-app
+private: no
+path: /Users/<username>/.config/fish/pond/regular/my-app
 ```
 
 ### Draining ponds
 
-To drain a pond of all its variables but retain the pond, use the `drain` command:
+Use the `drain` command to drain a pond of all its variables:
 
 ```console
 $ pond drain my-app
-Drain pond: abc? y
-Drained pond: abc
+Drain pond: my-app? y
+Drained pond: my-app
 ```
 
-To silence the confirmation prompt add the `-s` or `--silent` option:
+To silence the confirmation prompt use the `-s` or `--silent` option:
 
 ```console
 $ pond drain --silent my-app
-Drained pond: abc
+Drained pond: my-app
 ```
 
-Note, draining a pond will not unexport variables from the current shell session. Instead, `unload` the pond first.
+If a pond was previously _loaded_ into the current shell session this action will not remove pond variables from its environment. Instead, `unload` the pond to remove them first.
 
 ## Acknowledgements
 

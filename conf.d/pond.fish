@@ -1,7 +1,8 @@
 function __pond_install --on-event pond_install
     set -U pond_home $__fish_config_dir/pond
-    set -U pond_data  $pond_home/ponds
-    set -U pond_links $pond_home/enabled
+    set -U pond_regular regular
+    set -U pond_private private
+    set -U pond_links links
     set -U pond_vars env_vars.fish
     set -U pond_functions functions
     set -U pond_message_prefix pond
@@ -15,8 +16,11 @@ function __pond_install --on-event pond_install
         echo "correctly (e.g. 'edit'); Set editor with: set pond_editor <path>"
     end
 
-    mkdir -p $pond_data >/dev/null 2>&1
-    mkdir -p $pond_links >/dev/null 2>&1
+    for pond_dir in $pond_regular $pond_private $pond_links
+        if test (mkdir -p $pond_home/$pond_dir >/dev/null 2>&1) $status -ne 0
+            echo "pond_message_prefix: Failed to create directory: $dir"
+        end
+    end
 end
 
 function __pond_uninstall --on-event pond_uninstall
@@ -31,7 +35,8 @@ function __pond_uninstall --on-event pond_uninstall
     end
 
     set -e pond_home
-    set -e pond_data
+    set -e pond_regular
+    set -e pond_private
     set -e pond_links
     set -e pond_vars
     set -e pond_functions

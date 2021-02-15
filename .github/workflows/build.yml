@@ -16,11 +16,17 @@ jobs:
       - name: Install fisher and fishtape
         run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
         shell: fish {0}
+      - name: Install tap-diff
+        run: $GITHUB_WORKSPACE && npm install tap-diff
+        shell: fish {0}
       - name: Test plugin installation
         run: $GITHUB_WORKSPACE && fisher install .
         shell: fish {0}
       - name: Run tests
-        run: $GITHUB_WORKSPACE && fishtape test/*.fish
+        run: |
+          cd $GITHUB_WORKSPACE
+          set -xg FORCE_COLOR 2
+          fishtape test/{create,remove,edit,list,status,drain,load,unload}.fish | node_modules/.bin/tap-diff
         shell: fish {0}
   test-linux:
     runs-on: ubuntu-latest
@@ -34,9 +40,15 @@ jobs:
       - name: Install fisher and fishtape
         run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
         shell: fish {0}
+      - name: Install tap-diff
+        run: $GITHUB_WORKSPACE && npm install tap-diff
+        shell: fish {0}
       - name: Test plugin installation
         run: $GITHUB_WORKSPACE && fisher install .
         shell: fish {0}
       - name: Run tests
-        run: $GITHUB_WORKSPACE && fishtape test/*.fish
+        run: |
+          cd $GITHUB_WORKSPACE
+          set -xg FORCE_COLOR 2
+          fishtape test/{create,remove,edit,list,status,drain,load,unload}.fish | node_modules/.bin/tap-diff
         shell: fish {0}

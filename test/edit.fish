@@ -104,6 +104,7 @@ for valid_option in -e --empty -p --private
     end
 end
 
+__pond_editor_reset
 set -e __pond_setup_regular
 set -e __pond_setup_private
 set -e __pond_editor_intercept_with

@@ -1,6 +1,6 @@
 set fail 1
 set success 0
-set pond_version 0.3.0
+set pond_version 0.4.1
 
 set -x __pond_under_test yes
 

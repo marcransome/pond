@@ -18,7 +18,7 @@ Application Options:
 Commands:
     create   Create a new pond
     remove   Remove a pond and associated data
-    list     List ponds
+    list     List all ponds
     edit     Edit an existing pond
     enable   Enable a pond for new shell sessions
     disable  Disable a pond for new shell sessions

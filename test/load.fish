@@ -15,7 +15,7 @@ function __pond_setup_regular
     pond create -e $pond_name >/dev/null 2>&1
     for var in TEST_VAR_{1,2,3}
         set -xg $var (string lower $var)
-        echo "set -xg $var "(string lower $var) >>  $pond_home/$pond_regular/$pond_name/$pond_vars
+        echo "set -xg $var "(string lower $var) >> $pond_home/$pond_regular/$pond_name/$pond_vars
     end
 end
 
@@ -23,7 +23,7 @@ function __pond_setup_private
     pond create -e -p $pond_name >/dev/null 2>&1
     for var in TEST_VAR_PRIVATE_{1,2,3}
         set -xg $var (string lower $var)
-        echo "set -xg $var "(string lower $var) >>  $pond_home/$pond_private/$pond_name/$pond_vars
+        echo "set -xg $var "(string lower $var) >> $pond_home/$pond_private/$pond_name/$pond_vars
     end
 end
 

@@ -13,7 +13,7 @@ function __pond_install --on-event pond_install
         set -U pond_editor vim
     else
         echo "Unable to determine editor; some commands may not function"
-        echo "correctly (e.g. 'edit'); Set editor with: set pond_editor <path>"
+        echo "correctly (e.g. 'edit'); Set editor with: set -U pond_editor <path>"
     end
 
     for pond_dir in $pond_regular $pond_private $pond_links
@@ -46,11 +46,11 @@ function __pond_uninstall --on-event pond_uninstall
 end
 
 function __pond_init
-    for vars in $pond_links/*/$pond_vars
+    for vars in $pond_home/$pond_links/*/$pond_vars
         source $vars
     end
 
-    for func in $pond_links/*/$pond_funcs/*.fish
+    for func in $pond_home/$pond_links/*/$pond_functions/*.fish
         source $func
     end
 end

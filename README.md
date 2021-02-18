@@ -132,7 +132,7 @@ If a pond is _enabled_ this action will not stop pond variables from being expos
 
 ### Viewing the status of ponds
 
-Use the `status` command to view the current status of a pond
+Use the `status` command to view the current status of a pond:
 
 ```console
 $ pond status my-app

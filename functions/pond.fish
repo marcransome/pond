@@ -179,6 +179,7 @@ Arguments:
         end
 
         echo "Created "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
+        emit pond_created $pond_name $pond_home/$pond_parent/$pond_name
     end
 
     function __pond_edit_operation -a pond_name
@@ -225,6 +226,7 @@ Arguments:
         end
 
         echo "$pond_remove_success: $pond_name"
+        emit pond_removed $pond_name $pond_home/$pond_parent/$pond_name
     end
 
     function __pond_list_operation
@@ -249,6 +251,7 @@ Arguments:
             end
 
             echo "Enabled "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
+            emit pond_enabled $pond_name $pond_home/$pond_parent/$pond_name
         end
     end
 
@@ -262,6 +265,7 @@ Arguments:
             end
 
             echo "Disabled "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
+            emit pond_disabled $pond_name $pond_home/$pond_parent/$pond_name
         end
     end
 
@@ -274,6 +278,7 @@ Arguments:
         end
 
         echo "Loaded "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
+        emit pond_loaded $pond_name $pond_home/$pond_parent/$pond_name
     end
 
     function __pond_unload_operation -a pond_name verbose
@@ -294,6 +299,7 @@ Arguments:
         end < $pond_home/$pond_parent/$pond_name/$pond_vars
 
         echo "Unloaded "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
+        emit pond_unloaded $pond_name $pond_home/$pond_parent/$pond_name
     end
 
     function __pond_status_operation -a pond_name
@@ -326,6 +332,7 @@ Arguments:
 
         echo > $pond_home/$pond_parent/$pond_name/$pond_vars
         echo "$pond_drain_success: $pond_name"
+        emit pond_drained $pond_name $pond_home/$pond_parent/$pond_name
     end
 
     function __pond_show_exists_error -a pond_name

@@ -248,7 +248,7 @@ Arguments:
                 echo "Failed to create symbolic link: $pond_home/$pond_links/$pond_name" >&2 && return 1
             end
 
-            echo "Disabled "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
+            echo "Enabled "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
         end
     end
 

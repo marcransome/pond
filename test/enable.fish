@@ -32,12 +32,22 @@ __pond_setup_regular
 @test "pond enable: symlink valid" (readlink $pond_home/$pond_links/$pond_name) = "$pond_home/$pond_regular/$pond_name"
 __pond_tear_down
 
+@echo "pond enable: output tests for regular pond"
+__pond_setup_regular
+@test "pond enable: success output message" (pond enable $pond_name 2>&1) = "Enabled pond: $pond_name"
+__pond_tear_down
+
 @echo "pond enable: success tests for private pond"
 __pond_setup_private
 @test "pond setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name
 @test "pond enable: success exit code" (pond enable $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond enable: pond symlink created" -L $pond_home/$pond_links/$pond_name
 @test "pond enable: symlink valid" (readlink $pond_home/$pond_links/$pond_name) = "$pond_home/$pond_private/$pond_name"
+__pond_tear_down
+
+@echo "pond enable: output tests for private pond"
+__pond_setup_private
+@test "pond enable: success output message" (pond enable $pond_name 2>&1) = "Enabled private pond: $pond_name"
 __pond_tear_down
 
 @echo "pond enable: validation failure exit code tests"

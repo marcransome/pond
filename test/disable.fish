@@ -31,11 +31,21 @@ __pond_setup_regular
 @test "pond disable: pond symlink removed" ! -L $pond_home/$pond_links/$pond_name
 __pond_tear_down
 
+@echo "pond disable: output tests for regular pond"
+__pond_setup_regular
+@test "pond disable: success output message" (pond disable $pond_name 2>&1) = "Disabled pond: $pond_name"
+__pond_tear_down
+
 @echo "pond disable: success tests for private pond"
 __pond_setup_private
 @test "pond setup: pond enabled" -L $pond_home/$pond_links/$pond_name
 @test "pond disable: success exit code" (pond disable $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond disable: pond symlink removed" ! -L $pond_home/$pond_links/$pond_name
+__pond_tear_down
+
+@echo "pond disable: output tests for private pond"
+__pond_setup_private
+@test "pond disable: success output message" (pond disable $pond_name 2>&1) = "Disabled private pond: $pond_name"
 __pond_tear_down
 
 @echo "pond disable: validation failure exit code tests"

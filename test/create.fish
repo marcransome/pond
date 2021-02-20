@@ -47,6 +47,16 @@ function __pond_editor_reset
     set pond_editor $pond_editor_before_test
 end
 
+function __pond_event_intercept --on-event pond_created -a got_pond_name got_pond_path
+    set -g event_pond_name $got_pond_name
+    set -g event_pond_path $got_pond_path
+end
+
+function __pond_event_reset
+    set -e event_pond_name
+    set -e event_pond_path
+end
+
 # TODO directory mode permissions tests (755 regular pond, 700 private
 
 @echo "pond create $pond_name: success tests"
@@ -55,10 +65,13 @@ __pond_editor_intercept_with __pond_regular_pond_editor
 @test "pond create: pond directory created" -d $pond_home/$pond_regular/$pond_name
 @test "pond create: functions directory created" -d $pond_home/$pond_regular/$pond_name/$pond_functions
 @test "pond create: variables file created" -f $pond_home/$pond_regular/$pond_name/$pond_vars
+@test "pond create: got pond name in event" (echo $event_pond_name) = $pond_name
+@test "pond create: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_regular/$pond_name
 __pond_tear_down
 @test "pond create: output message correct" (pond create $pond_name 2>&1) = "Created pond: $pond_name"
 __pond_tear_down
 __pond_editor_reset
+__pond_event_reset
 
 for command in "pond create "{-e,--empty}" $pond_name"
     @echo "$command: success tests"
@@ -66,9 +79,12 @@ for command in "pond create "{-e,--empty}" $pond_name"
     @test "pond create: pond directory created" -d $pond_home/$pond_regular/$pond_name
     @test "pond create: functions directory created" -d $pond_home/$pond_regular/$pond_name/$pond_functions
     @test "pond create: variables file created" -f $pond_home/$pond_regular/$pond_name/$pond_vars
+    @test "pond create: got pond name in event" (echo $event_pond_name) = $pond_name
+    @test "pond create: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_regular/$pond_name
     __pond_tear_down
     @test "pond create: output message correct" (eval $command 2>&1) = "Created pond: $pond_name"
     __pond_tear_down
+    __pond_event_reset
 end
 
 for command in "pond create "{-p,--private}" $pond_name"
@@ -78,10 +94,13 @@ for command in "pond create "{-p,--private}" $pond_name"
     @test "pond create: pond directory created" -d $pond_home/$pond_private/$pond_name
     @test "pond create: pond functions directory created" -d $pond_home/$pond_private/$pond_name/$pond_functions
     @test "pond create: pond variables file created" -f $pond_home/$pond_private/$pond_name/$pond_vars
+    @test "pond create: got pond name in event" (echo $event_pond_name) = $pond_name
+    @test "pond create: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_private/$pond_name
     __pond_tear_down
     @test "pond create: output message correct" (eval $command 2>&1) = "Created private pond: $pond_name"
     __pond_tear_down
     __pond_editor_reset
+    __pond_event_reset
 end
 
 @echo "pond create: validation failure exit code tests"

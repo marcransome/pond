@@ -16,7 +16,7 @@ DESCRIPTION
 
 A pond represents a collection of shell variables (and in a future release functions) within the fish shell. Ponds are used to group related shell variables together. Naming ponds after individual applications or local development environments is a good way to separate and control them by use-case.
 
-Pond provides tab completion for all commands and options discussed here in addition to pond name completion for any ponds that exist.
+Pond provides tab completion for all commands and options discussed here in addition to pond name completion for any ponds that exist locally.
 
 Options
 -------
@@ -40,6 +40,8 @@ Create a new pond named _pond_. Each pond comprises a directory tree containing 
 A pond may be marked **\--private** during creation. Private ponds are intended to store shell variables that contain sensitive values (e.g. tokens or keys). Private ponds are stored in a separate directory tree to regular ponds and their collective parent directory is given 0700 permissions rather than the 0755 permissions used by regular ponds. In addition, private ponds may be treated differently by pond commands introduced in future updates.
 
 By default, a directory named _pond_ is created within either the **regular** or **private** subdirectory under **\$\_\_fish\_config\_dir/pond/** dependent upon the type of the pond.
+
+When creating a new pond, an interactive editor is opened (unless the **\--empty** option is specified) ready to add new shell variable definitions. See **ENVIRONMENT** for a discussion of the **pond_editor** universal variable that controls which editor is used.
 
 
 **-e**, **\--empty**
@@ -67,7 +69,7 @@ List all ponds.
 **edit** _pond_
 ---------------
 
-Open an interactive editor for modifying shell variables in a pond (i.e. **set**(1) commands).
+Open an interactive editor for modifying shell variables in a pond (i.e. **set**(1) commands). See **ENVIRONMENT** for a discussion of the **pond_editor** _universal_ variable that controls which editor is used.
 
 **enable** _pond_
 -----------------

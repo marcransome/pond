@@ -256,6 +256,8 @@ Arguments:
     end
 
     function __pond_disable_operation -a pond_name
+        set -l pond_parent (__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)
+        
         if ! test -L $pond_home/$pond_links/$pond_name
             echo "Pond already disabled: $pond_name" >&2 && return 1
         else

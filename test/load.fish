@@ -34,6 +34,16 @@ function __pond_tear_down
     echo "y" | pond remove $pond_name >/dev/null 2>&1
 end
 
+function __pond_event_intercept --on-event pond_loaded -a got_pond_name got_pond_path
+    set -g event_pond_name $got_pond_name
+    set -g event_pond_path $got_pond_path
+end
+
+function __pond_event_reset
+    set -e event_pond_name
+    set -e event_pond_path
+end
+
 @echo "pond load: success tests for regular pond"
 __pond_setup_regular
 @test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name/$pond_vars)
@@ -41,12 +51,16 @@ __pond_setup_regular
 @test "pond load: test variable one was set" (echo $TEST_VAR_1) = "test_var_1"
 @test "pond load: test variable two was set" (echo $TEST_VAR_2) = "test_var_2"
 @test "pond load: test variable three was set" (echo $TEST_VAR_3) = "test_var_3"
+@test "pond load: got pond name in event" (echo $event_pond_name) = $pond_name
+@test "pond load: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_regular/$pond_name
 __pond_tear_down
+__pond_event_reset
 
 @echo "pond load: output tests for regular pond"
 __pond_setup_regular
 @test "pond load: success output message" (pond load $pond_name 2>&1) = "Loaded pond: $pond_name"
 __pond_tear_down
+__pond_event_reset
 
 @echo "pond load: success tests for private pond"
 __pond_setup_private
@@ -55,12 +69,16 @@ __pond_setup_private
 @test "pond load: test variable one was set" (echo $TEST_VAR_PRIVATE_1) = "test_var_private_1"
 @test "pond load: test variable two was set" (echo $TEST_VAR_PRIVATE_2) = "test_var_private_2"
 @test "pond load: test variable three was set" (echo $TEST_VAR_PRIVATE_3) = "test_var_private_3"
+@test "pond load: got pond name in event" (echo $event_pond_name) = $pond_name
+@test "pond load: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_private/$pond_name
 __pond_tear_down
+__pond_event_reset
 
 @echo "pond load: output tests for private pond"
 __pond_setup_private
 @test "pond load: success output message" (pond load $pond_name 2>&1) = "Loaded private pond: $pond_name"
 __pond_tear_down
+__pond_event_reset
 
 @echo "pond load: validation failure exit code tests"
 @test "pond load: fails for missing pond name" (pond load >/dev/null 2>&1) $status -eq $fail
@@ -77,4 +95,6 @@ __pond_tear_down
 set -e __pond_setup_regular
 set -e __pond_setup_private
 set -e __pond_tear_down
+set -e __pond_event_intercept
+set -e __pond_event_reset
 set -e __pond_under_test

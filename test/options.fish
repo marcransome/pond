@@ -39,11 +39,11 @@ Commands:
 @test 'pond failure for invalid long option' (pond --invalid >/dev/null 2>&1) $status -eq $fail
 
 @echo 'pond options: version option output tests'
-@test 'pond -v repots correct version' (pond -v) = "pond $pond_version"
+@test 'pond -v reports correct version' (pond -v) = "pond $pond_version"
 @test 'pond --version reports correct version' (pond --version) = "pond $pond_version"
 
 @echo 'pond options: help option usage tests'
-@test 'pond -h repots usage' (pond -h 2>&1 | string collect) = $pond_usage
-@test 'pond --help repots usage' (pond --help 2>&1 | string collect) = $pond_usage
+@test 'pond -h reports usage' (pond -h 2>&1 | string collect) = $pond_usage
+@test 'pond --help reports usage' (pond --help 2>&1 | string collect) = $pond_usage
 
 set -e __pond_under_test

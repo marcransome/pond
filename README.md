@@ -174,6 +174,14 @@ Event name      | Description                     | Arguments
 `pond_loaded`   | Emitted when a pond is loaded   | `argv[1]`: pond name<br />`argv[2]`: pond path
 `pond_unloaded` | Emitted when a pond is unloaded | `argv[1]`: pond name<br />`argv[2]`: pond path
 
+For example, to respond to the creation of each new pond by writing its name and path to a file:
+
+```fish
+function pond_create_handler --on-event pond_created --argument-names pond_name pond_path
+  echo "$pond_name was created at $pond_path" >> ~/my-ponds
+end
+```
+
 ## Acknowledgements
 
 * Icons made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com/)

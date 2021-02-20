@@ -163,7 +163,8 @@ If a pond was previously _loaded_ into the current shell session this action wil
 
 ## Acknowledgements
 
-Icons made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com/).
+* Icons made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com/)
+* Pond's [workflow](https://github.com/marcransome/pond/actions) uses the [fishtape](https://github.com/jorgebucaran/fishtape) test runner and [tap-diff](https://github.com/axross/tap-diff) to make things pretty
 
 ## License
 Pond is provided under the terms of the [MIT License](http://opensource.org/licenses/mit-license.php).

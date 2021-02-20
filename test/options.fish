@@ -1,6 +1,6 @@
 set fail 1
 set success 0
-set pond_version 0.5.1
+set pond_version (git describe --tags --abbrev=0)
 
 set -x __pond_under_test yes
 
@@ -39,8 +39,8 @@ Commands:
 @test 'pond failure for invalid long option' (pond --invalid >/dev/null 2>&1) $status -eq $fail
 
 @echo 'pond options: version option output tests'
-@test 'pond -v repots version' (pond -v) = "pond $pond_version"
-@test 'pond --version reports version' (pond --version) = "pond $pond_version"
+@test 'pond -v repots correct version' (pond -v) = "pond $pond_version"
+@test 'pond --version reports correct version' (pond --version) = "pond $pond_version"
 
 @echo 'pond options: help option usage tests'
 @test 'pond -h repots usage' (pond -h 2>&1 | string collect) = $pond_usage

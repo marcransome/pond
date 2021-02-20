@@ -24,18 +24,32 @@ function __pond_tear_down
     echo "y" | pond remove $pond_name >/dev/null 2>&1
 end
 
+function __pond_event_intercept --on-event pond_enabled -a got_pond_name got_pond_path
+    set -g event_pond_name $got_pond_name
+    set -g event_pond_path $got_pond_path
+end
+
+function __pond_event_reset
+    set -e event_pond_name
+    set -e event_pond_path
+end
+
 @echo "pond enable: success tests for regular pond"
 __pond_setup_regular
 @test "pond setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name
 @test "pond enable: success exit code" (pond enable $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond enable: pond symlink created" -L $pond_home/$pond_links/$pond_name
 @test "pond enable: symlink valid" (readlink $pond_home/$pond_links/$pond_name) = "$pond_home/$pond_regular/$pond_name"
+@test "pond enable: got pond name in event" (echo $event_pond_name) = $pond_name
+@test "pond enable: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_regular/$pond_name
 __pond_tear_down
+__pond_event_reset
 
 @echo "pond enable: output tests for regular pond"
 __pond_setup_regular
 @test "pond enable: success output message" (pond enable $pond_name 2>&1) = "Enabled pond: $pond_name"
 __pond_tear_down
+__pond_event_reset
 
 @echo "pond enable: success tests for private pond"
 __pond_setup_private
@@ -43,12 +57,16 @@ __pond_setup_private
 @test "pond enable: success exit code" (pond enable $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond enable: pond symlink created" -L $pond_home/$pond_links/$pond_name
 @test "pond enable: symlink valid" (readlink $pond_home/$pond_links/$pond_name) = "$pond_home/$pond_private/$pond_name"
+@test "pond enable: got pond name in event" (echo $event_pond_name) = $pond_name
+@test "pond enable: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_private/$pond_name
 __pond_tear_down
+__pond_event_reset
 
 @echo "pond enable: output tests for private pond"
 __pond_setup_private
 @test "pond enable: success output message" (pond enable $pond_name 2>&1) = "Enabled private pond: $pond_name"
 __pond_tear_down
+__pond_event_reset
 
 @echo "pond enable: validation failure exit code tests"
 @test "pond enable: fails for missing pond name" (pond enable >/dev/null 2>&1) $status -eq $fail
@@ -77,5 +95,7 @@ __pond_tear_down
 set -e __pond_setup_regular
 set -e __pond_setup_private
 set -e __pond_tear_down
+set -e __pond_event_intercept
+set -e __pond_event_reset
 set -e __pond_under_test
 set pond_enable_on_create $pond_enable_on_create_before_test

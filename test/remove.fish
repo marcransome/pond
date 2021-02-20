@@ -26,6 +26,16 @@ function __pond_tear_down
     echo "y" | pond remove $pond_name >/dev/null 2>&1
 end
 
+function __pond_event_intercept --on-event pond_removed -a got_pond_name got_pond_path
+    set -g event_pond_name $got_pond_name
+    set -g event_pond_path $got_pond_path
+end
+
+function __pond_event_reset
+    set -e event_pond_name
+    set -e event_pond_path
+end
+
 # command cases:
 #   echo 'y' | pond remove $pond_name
 #   pond remove -s $pond_name
@@ -41,10 +51,14 @@ for command in "echo 'y' | pond remove $pond_name" "pond remove "{-s,--silent}" 
     @test "pond remove: pond directory removed" ! -d $pond_home/$pond_regular/$pond_name
     @test "pond remove: pond link removed" ! -L $pond_home/$pond_links/$pond_name
     @test "pond remove: pond function directory removed" ! -d $pond_home/$pond_regular/$pond_name/$pond_functions
+    @test "pond remove: got pond name in event" (echo $event_pond_name) = $pond_name
+    @test "pond remove: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_regular/$pond_name
+    __pond_event_reset
 
     @echo "$command: output tests for regular pond"
     __pond_setup_regular
     @test "pond remove: success output message" (echo "y" | eval $command 2>&1) = "Removed pond: $pond_name"
+    __pond_event_reset
 
     @echo "$command: success tests for private pond"
     __pond_setup_private
@@ -55,10 +69,14 @@ for command in "echo 'y' | pond remove $pond_name" "pond remove "{-s,--silent}" 
     @test "pond remove: pond directory removed" ! -d $pond_home/$pond_private/$pond_name
     @test "pond remove: pond link removed" ! -L $pond_home/$pond_links/$pond_name
     @test "pond remove: pond function directory removed" ! -d $pond_home/$pond_private/$pond_name/$pond_functions
+    @test "pond remove: got pond name in event" (echo $event_pond_name) = $pond_name
+    @test "pond remove: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_private/$pond_name
+    __pond_event_reset
 
     @echo "$command: output tests for private pond"
     __pond_setup_private
     @test "pond remove: success output message" (echo "y" | eval $command 2>&1) = "Removed private pond: $pond_name"
+    __pond_event_reset
 
 end
 

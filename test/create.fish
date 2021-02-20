@@ -143,4 +143,6 @@ set -e __pond_regular_pond_editor
 set -e __pond_private_pond_editor
 set -e __pond_editor_reset
 set -e __pond_tear_down
+set -e __pond_event_intercept
+set -e __pond_event_reset
 set -e __pond_under_test

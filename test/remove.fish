@@ -113,4 +113,6 @@ end
 set -e __pond_setup_regular
 set -e __pond_setup_private
 set -e __pond_tear_down
+set -e __pond_event_intercept
+set -e __pond_event_reset
 set -e __pond_under_test

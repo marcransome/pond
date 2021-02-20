@@ -112,7 +112,7 @@ Drain all shell variables from _pond_. Draining a pond effectively removes all c
 ENVIRONMENT
 ===========
 
-A number of _universal_ shell variables (see **set**(1) for discussion of _universal_ variables) are set during installation. These variables control different aspects of functionality of **pond** and may be modified by changing their values as described here:
+A number of _universal_ shell variables (see **set**(1) for discussion of _universal_ variables) are set during installation. These variables control different aspects of functionality of **pond** and may be modified as described here:
 
 **pond\_editor**
 
@@ -137,4 +137,4 @@ Marc Ransome <marc.ransome@fidgetbox.co.uk>
 SEE ALSO
 ========
 
-fish(1)
+fish(1), set(1)

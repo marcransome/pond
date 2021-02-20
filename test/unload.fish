@@ -49,6 +49,16 @@ function __pond_tear_down
     echo "y" | pond remove $pond_name >/dev/null 2>&1
 end
 
+function __pond_event_intercept --on-event pond_unloaded -a got_pond_name got_pond_path
+    set -g event_pond_name $got_pond_name
+    set -g event_pond_path $got_pond_path
+end
+
+function __pond_event_reset
+    set -e event_pond_name
+    set -e event_pond_path
+end
+
 @echo "pond unload: success tests for regular pond"
 __pond_setup_regular
 @test "setup: test variable one is set" (echo $TEST_VAR_1) = "test_var_1"
@@ -58,18 +68,23 @@ __pond_setup_regular
 @test "pond unload: test variable one was erased" (set -q TEST_VAR_1) $status -eq 1
 @test "pond unload: test variable two was erased" (set -q TEST_VAR_2) $status -eq 1
 @test "pond unload: test variable three was erased" (set -q TEST_VAR_3) $status -eq 1
+@test "pond unload: got pond name in event" (echo $event_pond_name) = $pond_name
+@test "pond unload: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_regular/$pond_name
 __pond_tear_down
+__pond_event_reset
 
 @echo "pond unload: output tests for regular pond"
 __pond_setup_regular
 @test "pond unload: success output message" (pond unload $pond_name 2>&1) = "Unloaded pond: $pond_name"
 __pond_tear_down
+__pond_event_reset
 
 for command in "pond unload "{-v,--verbose}" $pond_name"
     @echo "$command: verbose output tests for regular pond"
     __pond_setup_regular
     @test "pond unload: success output message" (eval $command 2>&1 | string collect) = $verbose_output_regular_pond
     __pond_tear_down
+    __pond_event_reset
 end
 
 @echo "pond unload: success tests for private pond"
@@ -81,18 +96,23 @@ __pond_setup_private
 @test "pond unload: test variable one was erased" (set -q TEST_VAR_1) $status -eq 1
 @test "pond unload: test variable two was erased" (set -q TEST_VAR_2) $status -eq 1
 @test "pond unload: test variable three was erased" (set -q TEST_VAR_3) $status -eq 1
+@test "pond unload: got pond name in event" (echo $event_pond_name) = $pond_name
+@test "pond unload: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_private/$pond_name
 __pond_tear_down
+__pond_event_reset
 
 @echo "pond unload: output tests for private pond"
 __pond_setup_private
 @test "pond unload: success output message" (pond unload $pond_name 2>&1) = "Unloaded private pond: $pond_name"
 __pond_tear_down
+__pond_event_reset
 
 for command in "pond unload "{-v,--verbose}" $pond_name"
     @echo "$command: verbose output tests for regular pond"
     __pond_setup_private
     @test "pond unload: success output message" (eval $command 2>&1 | string collect) = $verbose_output_private_pond
     __pond_tear_down
+    __pond_event_reset
 end
 
 @echo "pond unload: validation failure exit code tests"
@@ -128,4 +148,6 @@ end
 set -e __pond_setup
 set -e __pond_export_vars
 set -e __pond_tear_down
+set -e __pond_event_intercept
+set -e __pond_event_reset
 set -e __pond_under_test

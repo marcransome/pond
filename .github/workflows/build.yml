@@ -54,6 +54,5 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           set -xg FORCE_COLOR 2
-          git describe --tags --abbrev=0
           fishtape test/*.fish | node_modules/.bin/tap-diff
         shell: fish {0}

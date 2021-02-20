@@ -439,6 +439,8 @@ Arguments:
                 __pond_show_not_exists_error $pond_name && __pond_cleanup && return 1
             end
 
+            if test "$pond_silent" = "yes"; __pond_cleanup && return 1; end
+
             __pond_edit_operation $pond_name
             set -l exit_code $status
             __pond_cleanup && return $exit_code

@@ -18,6 +18,12 @@ A pond represents a collection of shell variables (and in a future release funct
 
 Pond provides tab completion for all commands and options discussed here in addition to pond name completion for any ponds that exist locally.
 
+Arguments can be read from standard input when **pond** is used in a pipeline. For example, to take the first pond name ouptut from the **list** command and execute a **remove** operation using this name:
+
+_Example:_ **pond list | head -1 | pond remove**
+
+All arguemnts passed via standard input are appended to the arguments already present in the **pond** command. When used in this way, the **\--silent** option used by many commands is inferred, meaning no prompt for user confirmation will be requested for certain operations (see **COMMANDS** to determine which commands this applies to), and the **\--empty** option is inferred when using the **create** command. **pond** exits 1 if using the **edit** command in a pipeline as no interactive editor can be opened without a tty.
+
 Options
 -------
 
@@ -41,12 +47,12 @@ A pond may be marked **\--private** during creation. Private ponds are intended 
 
 By default, a directory named _pond_ is created within either the **regular** or **private** subdirectory under **\$\_\_fish\_config\_dir/pond/** dependent upon the type of the pond.
 
-When creating a new pond, an interactive editor is opened (unless the **\--empty** option is specified) ready to add new shell variable definitions. See **ENVIRONMENT** for a discussion of the **pond_editor** universal variable that controls which editor is used.
+When creating a new pond, an interactive editor is opened (unless the **\--empty** option is specified) ready to add new shell variable definitions. See **ENVIRONMENT** for a discussion of the **pond\_editor** universal variable that controls which editor is used.
 
 
 **-e**, **\--empty**
 
-:   Create an empty pond without opening an interactive editor
+:   Create an empty pond without opening an interactive editor (this option is inferred when using **pond** in the context of a pipeline)
 
 **-p**, **\--private**
 
@@ -59,7 +65,7 @@ Remove the pond named _pond_. The directory containing pond data will be erased 
 
 **-s**, **\--silent**
 
-:   Silence confirmation prompt (automatically accept)
+:   Silence confirmation prompt (this option is inferred when using **pond** in the context of a pipeline)
 
 **list**
 --------
@@ -69,7 +75,7 @@ List all ponds.
 **edit** _pond_
 ---------------
 
-Open an interactive editor for modifying shell variables in a pond (i.e. **set**(1) commands). See **ENVIRONMENT** for a discussion of the **pond_editor** _universal_ variable that controls which editor is used.
+Open an interactive editor for modifying shell variables in a pond (i.e. **set**(1) commands). See **ENVIRONMENT** for a discussion of the **pond\_editor** _universal_ variable that controls which editor is used.
 
 **enable** _pond_
 -----------------
@@ -84,12 +90,12 @@ Disable pond _pond_ if not already disabled. The symbolic link to the pond direc
 **load** _pond_
 ---------------
 
-Load pond _pond_.
+Load pond _pond_. The path of the pond's **env\_vars.fish** file will be passed to **source**(1) and its contents evaluated in the current shell, making shell variables created with **set**(1) accessible to the current shell, and exported variables (i.e. **set -x** ...) available to child processes.
 
 **unload** _pond_
 -----------------
 
-Unload pond _pond_.
+Unload pond _pond_. **pond** will attempt to parse the pond's **env\_vars.fish** file for **set**(1) commands and erase these shell variables from the current shell using **set -e**.
 
 **-v**, **\--verbose**
 
@@ -107,8 +113,7 @@ Drain all shell variables from _pond_. Draining a pond effectively removes all c
 
 **-s**, **\--silent**
 
-:   Silence confirmation prompt (automatically accept)
-
+:   Silence confirmation prompt (this option is inferred when using **pond** in the context of a pipeline)
 ENVIRONMENT
 ===========
 
@@ -124,6 +129,10 @@ A number of _universal_ shell variables (see **set**(1) for discussion of _unive
 
     _Default:_ **yes**.
 
+EXIT STATUS
+===========
+**pond** exits 0 on success, and >0 if an error occurs.
+
 BUGS
 ====
 
@@ -137,4 +146,4 @@ Marc Ransome <marc.ransome@fidgetbox.co.uk>
 SEE ALSO
 ========
 
-fish(1), set(1)
+fish(1), fish-doc(1), set(1)

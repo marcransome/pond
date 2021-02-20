@@ -72,13 +72,12 @@ Open an interactive editor for modifying shell variables in a pond (i.e. **set**
 **enable** _pond_
 -----------------
 
-Enable pond _pond_.
-
+Enable pond _pond_ if not already enabled. A symbolic link will be created in **\$\_\_fish\_config\_dir/pond/links** to the pond directory (the pond directory path can be viewed using the **status** command). When new shell sessions are created any such symbolic links are followed and the **env\_vars.fish** file in each enabled pond directory is sourced into the envrionment to make its shell variables available to processes.
 
 **disable** _pond_
 ------------------
 
-Disable pond _pond_.
+Disable pond _pond_ if not already disabled. The symbolic link to the pond directory in **\$\_\_fish\_config\_dir/pond/links** is removed. Any shell variables that exist in _pond_ will no longer be accessible to processes when new shell sessions are created after disabling the pond.
 
 **load** _pond_
 ---------------

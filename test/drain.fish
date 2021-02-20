@@ -6,7 +6,10 @@ set pond_name test-pond
 
 set command_usage "\
 Usage:
-    pond drain <name>
+    pond drain [options] <name>
+
+Options:
+    -s, --silent  Silence confirmation prompt
 
 Arguments:
     name  The name of the pond to drain"

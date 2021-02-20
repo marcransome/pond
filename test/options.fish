@@ -1,12 +1,13 @@
 set fail 1
 set success 0
-set pond_version 0.4.1
+set pond_version 0.5.1
 
 set -x __pond_under_test yes
 
 set pond_usage "\
 Usage:
-    pond [options] or pond <command> [command-options] ...
+    pond [options]
+    pond <command> [command-options] ...
 
 Help Options:
     -h, --help            Show this help message

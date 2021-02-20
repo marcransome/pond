@@ -1,10 +1,11 @@
 function pond -a command -d "A fish shell environment manager"
-    set -l pond_version 0.4.1
+    set -l pond_version 0.5.1
 
     function __pond_usage
         echo "\
 Usage:
-    pond [options] or pond <command> [command-options] ...
+    pond [options]
+    pond <command> [command-options] ...
 
 Help Options:
     -h, --help            Show this help message
@@ -130,7 +131,10 @@ Arguments:
     function __pond_drain_command_usage
         echo "\
 Usage:
-    pond drain <name>
+    pond drain [options] <name>
+
+Options:
+    -s, --silent  Silence confirmation prompt
 
 Arguments:
     name  The name of the pond to drain" >&2
@@ -257,7 +261,7 @@ Arguments:
 
     function __pond_disable_operation -a pond_name
         set -l pond_parent (__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)
-        
+
         if ! test -L $pond_home/$pond_links/$pond_name
             echo "Pond already disabled: $pond_name" >&2 && return 1
         else

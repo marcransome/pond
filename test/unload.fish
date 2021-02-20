@@ -46,7 +46,7 @@ function __pond_tear_down
     for var in TEST_VAR{,_PRIVATE}_{1,2,3}
         set -e $var
     end
-    echo "y" | pond remove $pond_name >/dev/null 2>&1
+    pond remove -s $pond_name >/dev/null 2>&1
 end
 
 function __pond_event_intercept --on-event pond_unloaded -a got_pond_name got_pond_path

@@ -23,7 +23,7 @@ function __pond_setup_private
 end
 
 function __pond_tear_down
-    echo "y" | pond remove $pond_name >/dev/null 2>&1
+    pond remove -s $pond_name >/dev/null 2>&1
 end
 
 function __pond_event_intercept --on-event pond_removed -a got_pond_name got_pond_path
@@ -36,18 +36,14 @@ function __pond_event_reset
     set -e event_pond_path
 end
 
-# command cases:
-#   echo 'y' | pond remove $pond_name
-#   pond remove -s $pond_name
-#   pond remove --silent $pond_name
-for command in "echo 'y' | pond remove $pond_name" "pond remove "{-s,--silent}" $pond_name"
+for command in "pond remove "{-s,--silent}" $pond_name"
 
     @echo "$command: success tests for regular pond"
     __pond_setup_regular
     @test "setup: pond directory exists" -d $pond_home/$pond_regular/$pond_name
     @test "setup: pond link exists" -L $pond_home/$pond_links/$pond_name
     @test "setup: pond function directory exists" -d $pond_home/$pond_regular/$pond_name/$pond_functions
-    @test "pond remove: success exit code" (echo "y" | eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond remove: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond remove: pond directory removed" ! -d $pond_home/$pond_regular/$pond_name
     @test "pond remove: pond link removed" ! -L $pond_home/$pond_links/$pond_name
     @test "pond remove: pond function directory removed" ! -d $pond_home/$pond_regular/$pond_name/$pond_functions
@@ -57,7 +53,7 @@ for command in "echo 'y' | pond remove $pond_name" "pond remove "{-s,--silent}" 
 
     @echo "$command: output tests for regular pond"
     __pond_setup_regular
-    @test "pond remove: success output message" (echo "y" | eval $command 2>&1) = "Removed pond: $pond_name"
+    @test "pond remove: success output message" (eval $command 2>&1) = "Removed pond: $pond_name"
     __pond_event_reset
 
     @echo "$command: success tests for private pond"
@@ -65,7 +61,7 @@ for command in "echo 'y' | pond remove $pond_name" "pond remove "{-s,--silent}" 
     @test "setup: pond directory exists" -d $pond_home/$pond_private/$pond_name
     @test "setup: pond link exists" -L $pond_home/$pond_links/$pond_name
     @test "setup: pond function directory exists" -d $pond_home/$pond_private/$pond_name/$pond_functions
-    @test "pond remove: success exit code" (echo "y" | eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond remove: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond remove: pond directory removed" ! -d $pond_home/$pond_private/$pond_name
     @test "pond remove: pond link removed" ! -L $pond_home/$pond_links/$pond_name
     @test "pond remove: pond function directory removed" ! -d $pond_home/$pond_private/$pond_name/$pond_functions
@@ -75,7 +71,7 @@ for command in "echo 'y' | pond remove $pond_name" "pond remove "{-s,--silent}" 
 
     @echo "$command: output tests for private pond"
     __pond_setup_private
-    @test "pond remove: success output message" (echo "y" | eval $command 2>&1) = "Removed private pond: $pond_name"
+    @test "pond remove: success output message" (eval $command 2>&1) = "Removed private pond: $pond_name"
     __pond_event_reset
 
 end

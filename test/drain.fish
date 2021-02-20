@@ -29,14 +29,10 @@ function __pond_setup_private
 end
 
 function __pond_tear_down
-    echo "y" | pond remove $pond_name >/dev/null 2>&1
+    pond remove -s $pond_name >/dev/null 2>&1
 end
 
-# command cases:
-#   echo 'y' | pond drain $pond_name
-#   pond drain -s $pond_name
-#   pond drain --silent $pond_name
-for command in "echo 'y' | pond drain $pond_name" "pond drain "{-s,--silent}" $pond_name"
+for command in "pond drain "{-s,--silent}" $pond_name"
 
     @echo "$command: success tests for regular pond"
     __pond_setup_regular

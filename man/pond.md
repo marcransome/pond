@@ -90,15 +90,19 @@ Load pond _pond_.
 
 Unload pond _pond_.
 
+**-v**, **\--verbose**
+
+:   Output variable names during unload
+
 **status** _pond_
 -----------------
 
-View status of all ponds.
+View status of _pond_. Status information includes the _name_ of the pond, its _enabled_ state (**yes** or **no**), _private_ state (**yes** or **no**) and the absolute _path_ to the directory comprising its data.
 
 **drain** [**-s**|**\--silent**] _pond_
 ---------------------------------------
 
-Drain all shell variables from _pond_.
+Drain all shell variables from _pond_. Draining a pond effectively removes all content from the pond's **env\_vars.fish** file. If the pond was previously enabled (prior to the current shell session being created) or loaded into the current shell session with the **load** command, its variables will remain set and accessible to processes spawned by the current shell.
 
 **-s**, **\--silent**
 

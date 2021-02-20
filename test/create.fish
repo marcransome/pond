@@ -24,7 +24,7 @@ function __pond_setup
 end
 
 function __pond_tear_down
-    pond remove -s $pond_name
+    pond remove -s $pond_name >/dev/null 2>&1
 end
 
 function __pond_editor_intercept_with -a function_name

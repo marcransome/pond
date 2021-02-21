@@ -3,7 +3,7 @@ set success 0
 
 set -x __pond_under_test yes
 set pond_name pond
-set pond_editor_before_test $pond_editor
+set pond_editor_before_test "$pond_editor"
 
 set command_usage "\
 Usage:
@@ -25,7 +25,7 @@ function __pond_tear_down
 end
 
 function __pond_editor_intercept_with -a function_name
-    set -x pond_editor $function_name
+    set -U pond_editor $function_name
 end
 
 function __pond_regular_pond_editor -a pond_path
@@ -41,7 +41,7 @@ function __pond_private_pond_editor -a pond_path
 end
 
 function __pond_editor_reset
-    set pond_editor $pond_editor_before_test
+    set -U pond_editor $pond_editor_before_test
 end
 
 @echo "pond edit $pond_name: success tests for regular pond"

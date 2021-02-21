@@ -33,9 +33,9 @@ Create a new pond using the `create` command:
 $ pond create my-app
 ```
 
-By default, `create` opens an editor in your shell (one of `$EDITOR` `vim`, `vi`, `emacs`, `nano`; whichever is found first from left to right). If you wish to override the editor used, set the universal variable `pond_editor` to a command name or path (e.g `set pond_editor /usr/local/bin/my-editor`).
+By default, `create` opens an editor in your shell (one of `$EDITOR` `vim`, `vi`, `emacs`, `nano`; whichever is found first from left to right). If you wish to override the editor used, set the universal variable `pond_editor` to a command name or path (e.g `set -U pond_editor /usr/local/bin/my-editor`).
 
-Ponds are _enabled_ by default, meaning any environment variables added to them will be made available to all future shell sessions. To disable this behaviour set the universal variable `pond_enable_on_create` to `no`.
+Ponds are _enabled_ by default, meaning any environment variables added to them will be made available to all future shell sessions. To disable this behaviour run: `set -U pond_enable_on_create no`.
 
 To create an empty pond (without opening an editor) use the `-e` or `--empty` option:
 

@@ -1,5 +1,5 @@
 function pond -a command -d "A fish shell environment manager"
-    set -l pond_version 0.5.1
+    set -l pond_version 0.5.2
 
     function __pond_usage
         echo "\

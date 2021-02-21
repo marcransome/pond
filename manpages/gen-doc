@@ -1,3 +1,4 @@
 #!/bin/bash
 
 docker run -v $(pwd):/src pandoc/core --standalone --to man --output /src/pond.1 /src/pond.md
+docker run -v $(pwd):/src pandoc/core --standalone --to html5 --output /src/pond.html /src/pond.md

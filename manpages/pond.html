@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>pond(1) Version 0.5.1 | Pond User’s Guide</title>
+  <title>pond(1) Version 0.5.2 | Pond User’s Guide</title>
   <style>
     html {
       line-height: 1.5;
@@ -150,7 +150,7 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">pond(1) Version 0.5.1 | Pond User’s Guide</h1>
+<h1 class="title">pond(1) Version 0.5.2 | Pond User’s Guide</h1>
 </header>
 <h1 id="name">NAME</h1>
 <p><strong>pond</strong> — a shell environment manager for the fish shell</p>
@@ -216,9 +216,10 @@
 <p>Drain all shell variables from <em>pond</em>. Draining a pond effectively removes all content from the pond’s <strong>env_vars.fish</strong> file. If the pond was previously enabled (prior to the current shell session being created) or loaded into the current shell session with the <strong>load</strong> command, its variables will remain set and accessible to processes spawned by the current shell.</p>
 <dl>
 <dt><strong>-s</strong>, <strong>--silent</strong></dt>
-<dd><p>Silence confirmation prompt (this option is inferred when using <strong>pond</strong> in the context of a pipeline) ENVIRONMENT ===========</p>
+<dd><p>Silence confirmation prompt (this option is inferred when using <strong>pond</strong> in the context of a pipeline)</p>
 </dd>
 </dl>
+<h1 id="environment">ENVIRONMENT</h1>
 <p>A number of <em>universal</em> shell variables (see <strong>set</strong>(1) for discussion of <em>universal</em> variables) are set during installation. These variables control different aspects of functionality of <strong>pond</strong> and may be modified as described here:</p>
 <dl>
 <dt><strong>pond_editor</strong></dt>

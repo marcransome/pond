@@ -195,7 +195,11 @@ Arguments:
             echo "Editor not found: $pond_editor" >&2 && return 1
         end
 
-        $pond_editor $pond_home/$pond_parent/$pond_name/$pond_vars
+        if isatty; or test -n "$__pond_under_test"
+            $pond_editor $pond_home/$pond_parent/$pond_name/$pond_vars
+        else
+            return 1
+        end
     end
 
     function __pond_remove_operation -a pond_name
@@ -438,8 +442,6 @@ Arguments:
             else if ! __pond_exists $pond_name
                 __pond_show_not_exists_error $pond_name && __pond_cleanup && return 1
             end
-
-            if test "$pond_silent" = "yes"; __pond_cleanup && return 1; end
 
             __pond_edit_operation $pond_name
             set -l exit_code $status

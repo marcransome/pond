@@ -27,13 +27,13 @@ function __pond_setup_multiple
 end
 
 function __pond_tear_down_single
-    echo "y" | pond remove $pond_name >/dev/null 2>&1
+    pond remove -s $pond_name >/dev/null 2>&1
 end
 
 function __pond_tear_down_multiple
-    echo "y" | pond remove $pond_name-1 >/dev/null 2>&1
-    echo "y" | pond remove $pond_name-2 >/dev/null 2>&1
-    echo "y" | pond remove $pond_name-3 >/dev/null 2>&1
+    pond remove -s $pond_name-1 >/dev/null 2>&1
+    pond remove -s $pond_name-2 >/dev/null 2>&1
+    pond remove -s $pond_name-3 >/dev/null 2>&1
 end
 
 @echo "pond list: success tests for single pond"

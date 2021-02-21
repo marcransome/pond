@@ -141,7 +141,7 @@ Arguments:
         echo
     end
 
-    function __pond_create_operation -a pond_name empty private
+    function __pond_create_operation -a pond_name private
         set -l pond_parent $pond_regular
         set -l pond_mode 755
 
@@ -178,7 +178,7 @@ Arguments:
             echo "Editor not found: $pond_editor" >&2 && return 1
         end
 
-        if test "$empty" = "no"
+        if test "$pond_empty" != "yes"
             $pond_editor $pond_home/$pond_parent/$pond_name/$pond_vars
         end
 
@@ -195,10 +195,14 @@ Arguments:
             echo "Editor not found: $pond_editor" >&2 && return 1
         end
 
-        $pond_editor $pond_home/$pond_parent/$pond_name/$pond_vars
+        if isatty; or test -n "$__pond_under_test"
+            $pond_editor $pond_home/$pond_parent/$pond_name/$pond_vars
+        else
+            return 1
+        end
     end
 
-    function __pond_remove_operation -a pond_name silent
+    function __pond_remove_operation -a pond_name
         set -l answer
         set -l pond_parent $pond_regular
         set -l pond_remove_prompt 'Remove pond'
@@ -212,7 +216,7 @@ Arguments:
             set pond_remove_failure 'Unable to remove private pond'
         end
 
-        if test "$silent" != "yes"
+        if test "$pond_silent" != "yes"
             read --prompt-str "$pond_remove_prompt: $pond_name? " answer
             if ! string length -q $answer; or ! string match -i -r '^(y|yes)$' -q $answer
                 return 0
@@ -315,7 +319,7 @@ Arguments:
         echo "path: $pond_home/"(__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)/"$pond_name"
     end
 
-    function __pond_drain_operation -a pond_name silent
+    function __pond_drain_operation -a pond_name
         set -l answer
         set -l pond_parent $pond_regular
         set -l pond_drain_prompt 'Drain pond'
@@ -329,7 +333,7 @@ Arguments:
             set pond_drain_failure 'Unable to drain private pond'
         end
 
-        if test "$silent" != "yes"
+        if test "$pond_silent" != "yes"
             read --prompt-str "$pond_drain_prompt: $pond_name? " answer
             if ! string length -q $answer; or ! string match -i -r '^(y|yes)$' -q $answer
                 return 0
@@ -382,6 +386,18 @@ Arguments:
         functions -e __pond_is_private
         functions -e __pond_exists
         functions -e __pond_name_is_valid
+        set -e pond_silent
+        set -e pond_empty
+    end
+
+    if isatty
+        set -g pond_silent no
+        set -g pond_empty no
+    else
+        read --local --null --array stdin && set --append argv $stdin
+        set command $argv[1]
+        set -g pond_silent yes
+        set -g pond_empty yes
     end
 
     set argv $argv[2..-1]
@@ -395,7 +411,6 @@ Arguments:
         case create
             set -l pond_name $argv[-1]
             set argv $argv[1..-2]
-            set -l pond_empty no
             set -l pond_private no
 
             if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"
@@ -415,7 +430,7 @@ Arguments:
 
             if __pond_exists $pond_name; __pond_show_exists_error $pond_name && __pond_cleanup && return 1; end
 
-            __pond_create_operation $pond_name $pond_empty $pond_private
+            __pond_create_operation $pond_name $pond_private
             set -l exit_code $status
             __pond_cleanup && return $exit_code
         case edit
@@ -434,7 +449,6 @@ Arguments:
         case remove
             set -l pond_name $argv[-1]
             set argv $argv[1..-2]
-            set -l pond_silent no
 
             if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"
                 __pond_remove_command_usage
@@ -452,7 +466,7 @@ Arguments:
 
             if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && __pond_cleanup && return 1; end
 
-            __pond_remove_operation $pond_name $pond_silent
+            __pond_remove_operation $pond_name
             set -l exit_code $status
             __pond_cleanup && return $exit_code
         case list
@@ -540,7 +554,6 @@ Arguments:
         case drain
             set -l pond_name $argv[-1]
             set argv $argv[1..-2]
-            set -l pond_silent no
 
             if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"
                 __pond_drain_command_usage
@@ -558,7 +571,7 @@ Arguments:
 
             if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && __pond_cleanup && return 1; end
 
-            __pond_drain_operation $pond_name $pond_silent
+            __pond_drain_operation $pond_name
             set -l exit_code $status
             __pond_cleanup && return $exit_code
         case '*'

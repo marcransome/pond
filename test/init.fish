@@ -29,7 +29,7 @@ function __pond_disable
 end
 
 function __pond_tear_down
-    echo "y" | pond remove $pond_name >/dev/null 2>&1
+    pond remove -s $pond_name >/dev/null 2>&1
 end
 
 @echo "pond init: success tests for enabled regular pond"

@@ -21,7 +21,7 @@ function __pond_setup_private
 end
 
 function __pond_tear_down
-    echo "y" | pond remove $pond_name >/dev/null 2>&1
+    pond remove -s $pond_name >/dev/null 2>&1
 end
 
 function __pond_event_intercept --on-event pond_enabled -a got_pond_name got_pond_path

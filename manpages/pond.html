@@ -160,9 +160,9 @@
 <h1 id="description">DESCRIPTION</h1>
 <p>A pond represents a collection of shell variables (and in a future release functions) within the fish shell. Ponds are used to group related shell variables together. Naming ponds after individual applications or local development environments is a good way to separate and control them by use-case.</p>
 <p>Pond provides tab completion for all commands and options discussed here in addition to pond name completion for any ponds that exist locally.</p>
-<p>Arguments can be read from standard input when <strong>pond</strong> is used in a pipeline. For example, to take the first pond name ouptut from the <strong>list</strong> command and execute a <strong>remove</strong> operation using this name:</p>
+<p>Arguments can be read from standard input when <strong>pond</strong> is used in a pipeline. For example, to take the first pond name output from the <strong>list</strong> command and execute a <strong>remove</strong> operation using this name:</p>
 <p><em>Example:</em> <strong>pond list | head -1 | pond remove</strong></p>
-<p>All arguemnts passed via standard input are appended to the arguments already present in the <strong>pond</strong> command. When used in this way, the <strong>--silent</strong> option used by many commands is assumed, meaning no prompt for user confirmation will be requested for certain operations (see <strong>COMMANDS</strong> to determine which commands this applies to), and the <strong>--empty</strong> option is assumed when using the <strong>create</strong> command. <strong>pond</strong> exits 1 if using the <strong>edit</strong> command in a pipeline as no interactive editor can be opened without a tty.</p>
+<p>All arguments passed via standard input are appended to the arguments already present in the <strong>pond</strong> command. When used in this way, the <strong>--silent</strong> option used by many commands is assumed, meaning no prompt for user confirmation will be requested for certain operations (see <strong>COMMANDS</strong> to determine which commands this applies to), and the <strong>--empty</strong> option is assumed when using the <strong>create</strong> command. <strong>pond</strong> exits 1 if using the <strong>edit</strong> command in a pipeline as no interactive editor can be opened without a tty.</p>
 <h2 id="options">Options</h2>
 <dl>
 <dt><strong>-h,</strong> <strong>--help</strong></dt>
@@ -194,11 +194,11 @@
 </dd>
 </dl>
 <h2 id="list"><strong>list</strong></h2>
-<p>List all ponds.</p>
+<p>List all ponds. Each pond name is printed on a separate line.</p>
 <h2 id="edit-pond"><strong>edit</strong> <em>pond</em></h2>
 <p>Open an interactive editor for modifying shell variables in a pond (i.e. <strong>set</strong>(1) commands). See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used.</p>
 <h2 id="enable-pond"><strong>enable</strong> <em>pond</em></h2>
-<p>Enable pond <em>pond</em> if not already enabled. A symbolic link will be created in <strong>$__fish_config_dir/pond/links</strong> to the pond directory (the pond directory path can be viewed using the <strong>status</strong> command). When new shell sessions are created any such symbolic links are followed and the <strong>env_vars.fish</strong> file in each enabled pond directory is sourced into the envrionment to make its shell variables available to processes.</p>
+<p>Enable pond <em>pond</em> if not already enabled. A symbolic link will be created in <strong>$__fish_config_dir/pond/links</strong> to the pond directory (the pond directory path can be viewed using the <strong>status</strong> command). When new shell sessions are created any such symbolic links are followed and the <strong>env_vars.fish</strong> file in each enabled pond directory is sourced into the environment to make its shell variables available to processes.</p>
 <h2 id="disable-pond"><strong>disable</strong> <em>pond</em></h2>
 <p>Disable pond <em>pond</em> if not already disabled. The symbolic link to the pond directory in <strong>$__fish_config_dir/pond/links</strong> is removed. Any shell variables that exist in <em>pond</em> will no longer be accessible to processes when new shell sessions are created after disabling the pond.</p>
 <h2 id="load-pond"><strong>load</strong> <em>pond</em></h2>
@@ -226,7 +226,7 @@
 <dd><p>The editor to open when using the <strong>create</strong> or <strong>edit</strong> commands. May be set to an absolute path or the name of a command accessible via one of the paths specified in the <strong>PATH</strong> environment variable. During installation this variable is set to the value of the <strong>EDITOR</strong> environment variable, if set, or one of <strong>vim</strong>, <strong>vi</strong>, <strong>emacs</strong>, or <strong>nano</strong>, whichever is found first in one of the paths set in <strong>PATH</strong>, working from left to right. An error may be generated during installation if no suitable editor is found.</p>
 </dd>
 <dt><strong>pond_enable_on_create</strong></dt>
-<dd><p>The value of this shell variable is set to <strong>yes</strong> by default and will cause all ponds created with the <strong>create</strong> command to be enabled by default. To disable this behaviour set the value of this varible to <strong>no</strong>.</p>
+<dd><p>The value of this shell variable is set to <strong>yes</strong> by default and will cause all ponds created with the <strong>create</strong> command to be enabled by default. To disable this behaviour set the value of this variable to <strong>no</strong>.</p>
 <p><em>Default:</em> <strong>yes</strong>.</p>
 </dd>
 </dl>

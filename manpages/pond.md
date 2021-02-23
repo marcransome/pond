@@ -18,11 +18,11 @@ A pond represents a collection of shell variables (and in a future release funct
 
 Pond provides tab completion for all commands and options discussed here in addition to pond name completion for any ponds that exist locally.
 
-Arguments can be read from standard input when **pond** is used in a pipeline. For example, to take the first pond name ouptut from the **list** command and execute a **remove** operation using this name:
+Arguments can be read from standard input when **pond** is used in a pipeline. For example, to take the first pond name output from the **list** command and execute a **remove** operation using this name:
 
 _Example:_ **pond list | head -1 | pond remove**
 
-All arguemnts passed via standard input are appended to the arguments already present in the **pond** command. When used in this way, the **\--silent** option used by many commands is assumed, meaning no prompt for user confirmation will be requested for certain operations (see **COMMANDS** to determine which commands this applies to), and the **\--empty** option is assumed when using the **create** command. **pond** exits 1 if using the **edit** command in a pipeline as no interactive editor can be opened without a tty.
+All arguments passed via standard input are appended to the arguments already present in the **pond** command. When used in this way, the **\--silent** option used by many commands is assumed, meaning no prompt for user confirmation will be requested for certain operations (see **COMMANDS** to determine which commands this applies to), and the **\--empty** option is assumed when using the **create** command. **pond** exits 1 if using the **edit** command in a pipeline as no interactive editor can be opened without a tty.
 
 Options
 -------
@@ -70,7 +70,7 @@ Remove the pond named _pond_. The directory containing pond data will be erased 
 **list**
 --------
 
-List all ponds.
+List all ponds. Each pond name is printed on a separate line.
 
 **edit** _pond_
 ---------------
@@ -80,7 +80,7 @@ Open an interactive editor for modifying shell variables in a pond (i.e. **set**
 **enable** _pond_
 -----------------
 
-Enable pond _pond_ if not already enabled. A symbolic link will be created in **\$\_\_fish\_config\_dir/pond/links** to the pond directory (the pond directory path can be viewed using the **status** command). When new shell sessions are created any such symbolic links are followed and the **env\_vars.fish** file in each enabled pond directory is sourced into the envrionment to make its shell variables available to processes.
+Enable pond _pond_ if not already enabled. A symbolic link will be created in **\$\_\_fish\_config\_dir/pond/links** to the pond directory (the pond directory path can be viewed using the **status** command). When new shell sessions are created any such symbolic links are followed and the **env\_vars.fish** file in each enabled pond directory is sourced into the environment to make its shell variables available to processes.
 
 **disable** _pond_
 ------------------
@@ -126,7 +126,7 @@ A number of _universal_ shell variables (see **set**(1) for discussion of _unive
 
 **pond\_enable\_on\_create**
 
-:   The value of this shell variable is set to **yes** by default and will cause all ponds created with the **create** command to be enabled by default. To disable this behaviour set the value of this varible to **no**.
+:   The value of this shell variable is set to **yes** by default and will cause all ponds created with the **create** command to be enabled by default. To disable this behaviour set the value of this variable to **no**.
 
     _Default:_ **yes**.
 

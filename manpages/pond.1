@@ -25,12 +25,12 @@ in addition to pond name completion for any ponds that exist locally.
 .PP
 Arguments can be read from standard input when \f[B]pond\f[R] is used in
 a pipeline.
-For example, to take the first pond name ouptut from the \f[B]list\f[R]
+For example, to take the first pond name output from the \f[B]list\f[R]
 command and execute a \f[B]remove\f[R] operation using this name:
 .PP
 \f[I]Example:\f[R] \f[B]pond list | head -1 | pond remove\f[R]
 .PP
-All arguemnts passed via standard input are appended to the arguments
+All arguments passed via standard input are appended to the arguments
 already present in the \f[B]pond\f[R] command.
 When used in this way, the \f[B]--silent\f[R] option used by many
 commands is assumed, meaning no prompt for user confirmation will be
@@ -98,6 +98,7 @@ Silence confirmation prompt (this option is inferred when using
 .SS \f[B]list\f[R]
 .PP
 List all ponds.
+Each pond name is printed on a separate line.
 .SS \f[B]edit\f[R] \f[I]pond\f[R]
 .PP
 Open an interactive editor for modifying shell variables in a pond
@@ -112,7 +113,7 @@ A symbolic link will be created in
 directory path can be viewed using the \f[B]status\f[R] command).
 When new shell sessions are created any such symbolic links are followed
 and the \f[B]env_vars.fish\f[R] file in each enabled pond directory is
-sourced into the envrionment to make its shell variables available to
+sourced into the environment to make its shell variables available to
 processes.
 .SS \f[B]disable\f[R] \f[I]pond\f[R]
 .PP
@@ -184,7 +185,8 @@ found.
 The value of this shell variable is set to \f[B]yes\f[R] by default and
 will cause all ponds created with the \f[B]create\f[R] command to be
 enabled by default.
-To disable this behaviour set the value of this varible to \f[B]no\f[R].
+To disable this behaviour set the value of this variable to
+\f[B]no\f[R].
 .RS
 .PP
 \f[I]Default:\f[R] \f[B]yes\f[R].

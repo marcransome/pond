@@ -26,7 +26,8 @@ Commands:
     load     Load pond data into current shell session
     unload   Unload pond data from current shell session
     status   View pond status
-    drain    Drain all data from pond"
+    drain    Drain all data from pond
+    dir      Change current working directory to pond"
 
 @echo 'pond options: success exit code tests'
 @test 'pond -v success' (pond -v >/dev/null 2>&1) $status -eq $success
@@ -45,5 +46,3 @@ Commands:
 @echo 'pond options: help option usage tests'
 @test 'pond -h reports usage' (pond -h 2>&1 | string collect) = $pond_usage
 @test 'pond --help reports usage' (pond --help 2>&1 | string collect) = $pond_usage
-
-set -e __pond_under_test

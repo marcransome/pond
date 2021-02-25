@@ -92,10 +92,4 @@ ln -s $pond_home/$pond_private/$pond_name $pond_home/$pond_links/$pond_name
 @test "pond enable: command error shown for enabled private pond" (pond enable $pond_name 2>&1 | string collect) = "Pond already enabled: $pond_name"
 __pond_tear_down
 
-set -e __pond_setup_regular
-set -e __pond_setup_private
-set -e __pond_tear_down
-set -e __pond_event_intercept
-set -e __pond_event_reset
-set -e __pond_under_test
 set pond_enable_on_create $pond_enable_on_create_before_test

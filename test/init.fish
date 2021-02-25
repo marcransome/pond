@@ -74,10 +74,3 @@ __pond_disable
 @test "pond init: test variable three is not set" (set -q TEST_VAR_PRIVATE_3) $status -eq 1
 __pond_tear_down
 __pond_clear_vars
-
-set -e __pond_setup_regular
-set -e __pond_setup_private
-set -e __pond_clear_vars
-set -e __pond_disable
-set -e __pond_tear_down
-set -e __pond_under_test

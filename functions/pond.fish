@@ -250,11 +250,14 @@ Arguments:
 
     function __pond_list_operation
         set -l pond_paths $pond_home/{$pond_regular,$pond_private}/*/
+        set -l pond_names
 
         if test (count $pond_paths) -eq 0
             echo "No ponds found" >&2 && return 1
         else
-            for pond_path in $pond_paths; echo (basename $pond_path); end
+            for pond_path in $pond_paths; set -a pond_names (basename $pond_path); end
+            set pond_names (string join0 $pond_names | sort -z | string split0)
+            for pond_name in $pond_names; echo $pond_name; end
         end
     end
 

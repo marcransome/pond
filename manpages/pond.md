@@ -115,6 +115,11 @@ Drain all shell variables from _pond_. Draining a pond effectively removes all c
 
 :   Silence confirmation prompt (this option is inferred when using **pond** in the context of a pipeline)
 
+**dir** _pond_
+--------------
+
+Change the current working directory to the pond directory for _pond_.
+
 ENVIRONMENT
 ===========
 

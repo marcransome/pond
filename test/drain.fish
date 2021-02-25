@@ -32,6 +32,16 @@ function __pond_tear_down
     pond remove -s $pond_name >/dev/null 2>&1
 end
 
+function __pond_event_intercept --on-event pond_drained -a got_pond_name got_pond_path
+    set -g event_pond_name $got_pond_name
+    set -g event_pond_path $got_pond_path
+end
+
+function __pond_event_reset
+    set -e event_pond_name
+    set -e event_pond_path
+end
+
 for command in "pond drain "{-s,--silent}" $pond_name"
 
     @echo "$command: success tests for regular pond"
@@ -39,24 +49,32 @@ for command in "pond drain "{-s,--silent}" $pond_name"
     @test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name/$pond_vars)
     @test "pond drain: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_regular/$pond_name/$pond_vars)
+    @test "pond drain: got pond name in event" (echo $event_pond_name) = $pond_name
+    @test "pond drain: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_regular/$pond_name
     __pond_tear_down
+    __pond_event_reset
 
     @echo "$command: output tests for regular pond"
     __pond_setup_regular
     @test "pond drain: success output message" (eval $command 2>&1) = "Drained pond: $pond_name"
     __pond_tear_down
+    __pond_event_reset
 
     @echo "$command: success tests for private pond"
     __pond_setup_private
     @test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name/$pond_vars)
     @test "pond drain: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_private/$pond_name/$pond_vars)
+    @test "pond drain: got pond name in event" (echo $event_pond_name) = $pond_name
+    @test "pond drain: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_private/$pond_name
     __pond_tear_down
+    __pond_event_reset
 
     @echo "$command: output tests for private pond"
     __pond_setup_private
     @test "pond drain: success output message" (eval $command 2>&1) = "Drained private pond: $pond_name"
     __pond_tear_down
+    __pond_event_reset
 
 end
 

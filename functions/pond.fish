@@ -24,7 +24,8 @@ Commands:
     load     Load pond data into current shell session
     unload   Unload pond data from current shell session
     status   View pond status
-    drain    Drain all data from pond" >&2
+    drain    Drain all data from pond
+    dir      Change current working directory to pond" >&2
         echo
     end
 
@@ -138,6 +139,16 @@ Options:
 
 Arguments:
     name  The name of the pond to drain" >&2
+        echo
+    end
+
+    function __pond_dir_command_usage
+        echo "\
+Usage:
+    pond dir <name>
+
+Arguments:
+    name  The name of the pond to change directory to" >&2
         echo
     end
 
@@ -345,6 +356,11 @@ Arguments:
         emit pond_drained $pond_name $pond_home/$pond_parent/$pond_name
     end
 
+    function __pond_dir_operation -a pond_name
+        set -l pond_parent (__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)
+        cd $pond_home/$pond_parent/$pond_name
+    end
+
     function __pond_show_exists_error -a pond_name
         echo "Pond already exists: $pond_name" >&2
     end
@@ -374,7 +390,7 @@ Arguments:
     function __pond_cleanup
         functions -e __pond_cleanup
 
-        for command in create remove list edit enable disable load unload status drain
+        for command in create remove list edit enable disable load unload status drain dir
             functions -e "__pond_"(echo $command)"_command_usage"
             functions -e "__pond_"(echo $command)"_operation"
         end
@@ -572,6 +588,19 @@ Arguments:
             if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name && __pond_cleanup && return 1; end
 
             __pond_drain_operation $pond_name
+            set -l exit_code $status
+            __pond_cleanup && return $exit_code
+        case dir
+            set -l pond_name $argv[-1]
+            set argv $argv[1..-2]
+
+            if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"; or test (count $argv) -ne 0
+                __pond_dir_command_usage && __pond_cleanup && return 1
+            else if ! __pond_exists $pond_name
+                __pond_show_not_exists_error $pond_name && __pond_cleanup && return 1
+            end
+
+            __pond_dir_operation $pond_name
             set -l exit_code $status
             __pond_cleanup && return $exit_code
         case '*'

@@ -105,10 +105,3 @@ for valid_option in -e --empty -p --private
         @test "pond remove: command usage shown for invalid option $invalid_option and invalid pond name" (pond remove $invalid_option _invalid 2>&1 | string collect) = $command_usage
     end
 end
-
-set -e __pond_setup_regular
-set -e __pond_setup_private
-set -e __pond_tear_down
-set -e __pond_event_intercept
-set -e __pond_event_reset
-set -e __pond_under_test

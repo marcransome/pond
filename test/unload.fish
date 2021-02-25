@@ -144,10 +144,3 @@ for valid_option in -v --verbose
         @test "pond unload: command usage shown for invalid option $invalid_option and invalid pond name" (pond unload $invalid_option _invalid 2>&1 | string collect) = $command_usage
     end
 end
-
-set -e __pond_setup
-set -e __pond_export_vars
-set -e __pond_tear_down
-set -e __pond_event_intercept
-set -e __pond_event_reset
-set -e __pond_under_test

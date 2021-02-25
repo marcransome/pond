@@ -45,5 +45,3 @@ Commands:
 @echo 'pond options: help option usage tests'
 @test 'pond -h reports usage' (pond -h 2>&1 | string collect) = $pond_usage
 @test 'pond --help reports usage' (pond --help 2>&1 | string collect) = $pond_usage
-
-set -e __pond_under_test

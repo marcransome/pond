@@ -107,8 +107,3 @@ for valid_option in -s --silent
         @test "pond drain: command usage shown for invalid option $invalid_option and invalid pond name" (pond drain $invalid_option _invalid 2>&1 | string collect) = $command_usage
     end
 end
-
-set -e __pond_setup_regular
-set -e __pond_setup_private
-set -e __pond_tear_down
-set -e __pond_under_test

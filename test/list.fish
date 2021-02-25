@@ -57,9 +57,3 @@ __pond_tear_down_single
 __pond_setup_single
 @test "pond list: command usage shown for trailing arguments" (pond list trailing 2>&1 | string collect) = $command_usage
 __pond_tear_down_single
-
-set -e __pond_setup_single
-set -e __pond_setup_multiple
-set -e __pond_tear_down_single
-set -e __pond_tear_down_multiple
-set -e __pond_under_test

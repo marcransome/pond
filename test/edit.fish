@@ -105,11 +105,3 @@ for valid_option in -e --empty -p --private
 end
 
 __pond_editor_reset
-set -e __pond_setup_regular
-set -e __pond_setup_private
-set -e __pond_editor_intercept_with
-set -e __pond_regular_pond_editor
-set -e __pond_private_pond_editor
-set -e __pond_editor_reset
-set -e __pond_tear_down
-set -e __pond_under_test

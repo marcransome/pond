@@ -2,7 +2,7 @@ set fail 1
 set success 0
 
 set -x __pond_under_test yes
-set pond_name pond
+set pond_name test-pond
 set pond_editor_before_test "$pond_editor"
 
 set command_usage "\

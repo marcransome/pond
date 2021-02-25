@@ -2,7 +2,7 @@ set fail 1
 set success 0
 
 set -x __pond_under_test yes
-set pond_name pond
+set pond_name test-pond
 
 function __pond_setup_regular
     pond create -e $pond_name >/dev/null 2>&1

@@ -3,57 +3,173 @@ set success 0
 
 set -x __pond_under_test yes
 set pond_name test-pond
+set pond_name_private test-private-pond
 
-set success_output_single "\
+set success_output_single_regular "\
 $pond_name"
 
-set success_output_multiple "\
+set success_output_single_private "\
+$pond_name_private"
+
+set combined_output_single "\
+$pond_name
+$pond_name_private"
+
+set success_output_multiple_regular "\
 $pond_name-1
 $pond_name-2
 $pond_name-3"
 
+set success_output_multiple_private "\
+$pond_name_private-1
+$pond_name_private-2
+$pond_name_private-3"
+
+set combined_output_multiple "\
+$pond_name-1
+$pond_name-2
+$pond_name-3
+$pond_name_private-1
+$pond_name_private-2
+$pond_name_private-3"
+
 set command_usage "\
 Usage:
-    pond list"
+    pond list [options]
 
-function __pond_setup_single
+Options:
+    -p, --private  List private ponds
+    -r, --regular  List regular ponds"
+
+function __pond_setup_single_regular
     pond create -e $pond_name >/dev/null 2>&1
 end
 
-function __pond_setup_multiple
+function __pond_setup_single_private
+    pond create -e -p $pond_name_private >/dev/null 2>&1
+end
+
+function __pond_setup_multiple_regular
     pond create -e $pond_name-1 >/dev/null 2>&1
     pond create -e $pond_name-2 >/dev/null 2>&1
     pond create -e $pond_name-3 >/dev/null 2>&1
 end
 
-function __pond_tear_down_single
+function __pond_setup_multiple_private
+    pond create -e -p $pond_name_private-1 >/dev/null 2>&1
+    pond create -e -p $pond_name_private-2 >/dev/null 2>&1
+    pond create -e -p $pond_name_private-3 >/dev/null 2>&1
+end
+
+function __pond_tear_down_single_regular
     pond remove -s $pond_name >/dev/null 2>&1
 end
 
-function __pond_tear_down_multiple
+function __pond_tear_down_single_private
+    pond remove -s $pond_name_private >/dev/null 2>&1
+end
+
+function __pond_tear_down_multiple_regular
     pond remove -s $pond_name-1 >/dev/null 2>&1
     pond remove -s $pond_name-2 >/dev/null 2>&1
     pond remove -s $pond_name-3 >/dev/null 2>&1
 end
 
-@echo "pond list: success tests for single pond"
-__pond_setup_single
-@test "pond list: success single pond" (pond list >/dev/null 2>&1) $status -eq $success
-@test "pond list: output success single pond" (pond list 2>&1 | string collect) = $success_output_single
-__pond_tear_down_single
+function __pond_tear_down_multiple_private
+    pond remove -s $pond_name_private-1 >/dev/null 2>&1
+    pond remove -s $pond_name_private-2 >/dev/null 2>&1
+    pond remove -s $pond_name_private-3 >/dev/null 2>&1
+end
 
-@echo "pond list: success tests for multiple ponds"
-__pond_setup_multiple
-@test "pond list: success multiple ponds" (pond list >/dev/null 2>&1) $status -eq $success
-@test "pond list: output success multiple ponds" (pond list 2>&1 | string collect) = $success_output_multiple
-__pond_tear_down_multiple
+
+for command in "pond list" "pond list "{-r,--regular}
+
+    @echo "$command: success tests for single regular pond"
+    __pond_setup_single_regular
+    @test "pond list: success single regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_regular
+    __pond_tear_down_single_regular
+
+    @echo "$command: success tests for multiple regular ponds"
+    __pond_setup_multiple_regular
+    @test "pond list: success multiple regular ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_regular
+    __pond_tear_down_multiple_regular
+
+end
+
+for command in "pond list" "pond list "{-p,--private}
+
+    @echo "$command: success tests for single private pond"
+    __pond_setup_single_private
+    @test "pond list: success single private pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_private
+    __pond_tear_down_single_private
+
+    @echo "$command: success tests for multiple private ponds"
+    __pond_setup_multiple_private
+    @test "pond list: success multiple private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_private
+    __pond_tear_down_multiple_private
+
+end
+
+for command in "pond list" "pond list "{-p,--private}" "{-r,--regular}
+
+    @echo "$command: success tests for combined single regular and single private pond"
+    __pond_setup_single_regular
+    __pond_setup_single_private
+    @test "pond list: success single private pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $combined_output_single
+    __pond_tear_down_single_regular
+    __pond_tear_down_single_private
+
+    @echo "$command: success tests for combined multiple regular and multiple private ponds"
+    __pond_setup_multiple_regular
+    __pond_setup_multiple_private
+    @test "pond list: success multiple private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $combined_output_multiple
+    __pond_tear_down_multiple_regular
+    __pond_tear_down_multiple_private
+
+end
+
+for command in "pond list "{-r,--regular}
+
+    @echo "$command: failure tests for missing regular ponds"
+    @test "pond list: fails for missing ponds when none exist" (pond list trailing >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+
+    __pond_setup_multiple_private
+    @test "pond list: fails for missing ponds when only private ponds exist" (pond list trailing >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    __pond_tear_down_multiple_private
+
+end
+
+for command in "pond list "{-p,--private}
+
+    @echo "$command: failure tests for missing private ponds"
+    @test "pond list: fails for missing ponds when none exist" (pond list trailing >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+
+    __pond_setup_multiple_regular
+    @test "pond list: fails for missing ponds when only regular ponds exist" (pond list trailing >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    __pond_tear_down_multiple_regular
+
+end
 
 @echo "pond list: validation failure exit code tests"
-__pond_setup_single
 @test "pond list: fails for trailing arguments" (pond list trailing >/dev/null 2>&1) $status -eq $fail
-__pond_tear_down_single
+
+for invalid_option in -i --invalid
+    @test "pond list: fails for invalid option $invalid_option" (pond list $invalid_option >/dev/null 2>&1) $status -eq $fail
+end
 
 @echo "pond list: validation output tests"
-__pond_setup_single
 @test "pond list: command usage shown for trailing arguments" (pond list trailing 2>&1 | string collect) = $command_usage
-__pond_tear_down_single
+
+for invalid_option in -i --invalid
+    @test "pond list: command usage shown for invalid option $invalid_option" (pond list $invalid_option 2>&1 | string collect) = $command_usage
+end

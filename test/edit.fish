@@ -2,7 +2,7 @@ set fail 1
 set success 0
 
 set -x __pond_under_test yes
-set pond_name pond
+set pond_name test-pond
 set pond_editor_before_test "$pond_editor"
 
 set command_usage "\
@@ -82,10 +82,10 @@ __pond_tear_down
 
 for valid_option in -e --empty -p --private
     for invalid_option in -i --invalid
-        @test "pond edit: command usage shown for valid option $valid_option and missing pond name" (pond edit $valid_option >/dev/null 2>&1) $status -eq $fail
-        @test "pond edit: command usage shown for valid option $valid_option and invalid pond name" (pond edit $valid_option _invalid >/dev/null 2>&1) $status -eq $fail
-        @test "pond edit: command usage shown for invalid option $invalid_option and valid pond name" (pond edit $invalid_option $pond_name >/dev/null 2>&1) $status -eq $fail
-        @test "pond edit: command usage shown for invalid option $invalid_option and invalid pond name" (pond edit $invalid_option _invalid >/dev/null 2>&1) $status -eq $fail
+        @test "pond edit: fails for valid option $valid_option and missing pond name" (pond edit $valid_option >/dev/null 2>&1) $status -eq $fail
+        @test "pond edit: fails for valid option $valid_option and invalid pond name" (pond edit $valid_option _invalid >/dev/null 2>&1) $status -eq $fail
+        @test "pond edit: fails for invalid option $invalid_option and valid pond name" (pond edit $invalid_option $pond_name >/dev/null 2>&1) $status -eq $fail
+        @test "pond edit: fails for invalid option $invalid_option and invalid pond name" (pond edit $invalid_option _invalid >/dev/null 2>&1) $status -eq $fail
     end
 end
 

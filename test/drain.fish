@@ -86,10 +86,10 @@ end
 
 for valid_option in -s --silent
     for invalid_option in -i --invalid
-        @test "pond drain: command usage shown for valid option $valid_option and missing pond name" (pond drain $valid_option >/dev/null 2>&1) $status -eq $fail
-        @test "pond drain: command usage shown for valid option $valid_option and invalid pond name" (pond drain $valid_option _invalid >/dev/null 2>&1) $status -eq $fail
-        @test "pond drain: command usage shown for invalid option $invalid_option and valid pond name" (pond drain $invalid_option $pond_name >/dev/null 2>&1) $status -eq $fail
-        @test "pond drain: command usage shown for invalid option $invalid_option and invalid pond name" (pond drain $invalid_option _invalid >/dev/null 2>&1) $status -eq $fail
+        @test "pond drain: fails for valid option $valid_option and missing pond name" (pond drain $valid_option >/dev/null 2>&1) $status -eq $fail
+        @test "pond drain: fails for valid option $valid_option and invalid pond name" (pond drain $valid_option _invalid >/dev/null 2>&1) $status -eq $fail
+        @test "pond drain: fails for invalid option $invalid_option and valid pond name" (pond drain $invalid_option $pond_name >/dev/null 2>&1) $status -eq $fail
+        @test "pond drain: fails for invalid option $invalid_option and invalid pond name" (pond drain $invalid_option _invalid >/dev/null 2>&1) $status -eq $fail
     end
 end
 

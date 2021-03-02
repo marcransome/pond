@@ -167,7 +167,7 @@ for invalid_option in -i --invalid
     @test "pond list: fails for invalid option $invalid_option" (pond list $invalid_option >/dev/null 2>&1) $status -eq $fail
 end
 
-@echo "pond list: validation output tests"
+@echo "pond list: validation failure output tests"
 @test "pond list: command usage shown for trailing arguments" (pond list trailing 2>&1 | string collect) = $command_usage
 
 for invalid_option in -i --invalid

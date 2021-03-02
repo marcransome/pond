@@ -5,6 +5,6 @@ RUN apk update \
 
 RUN npm install -g tap-diff
 
-RUN /usr/bin/fish -c "curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}"
+RUN /usr/bin/fish -c "curl -sL git.io/fisher | source; and fisher install jorgebucaran/{fisher,fishtape}"
 
 ENTRYPOINT ["/usr/bin/fish"]

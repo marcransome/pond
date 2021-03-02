@@ -17,7 +17,7 @@ Application Options:
 Commands:
     create   Create a new pond
     remove   Remove a pond and associated data
-    list     List all ponds
+    list     List ponds
     edit     Edit an existing pond
     enable   Enable a pond for new shell sessions
     disable  Disable a pond for new shell sessions
@@ -62,7 +62,11 @@ Arguments:
     function __pond_list_command_usage
         echo "\
 Usage:
-    pond list" >&2
+    pond list [options]
+
+Options:
+    -p, --private  List private ponds
+    -r, --regular  List regular ponds" >&2
         echo
     end
 
@@ -248,9 +252,11 @@ Arguments:
         emit pond_removed $pond_name $pond_home/$pond_parent/$pond_name
     end
 
-    function __pond_list_operation
-        set -l pond_paths $pond_home/{$pond_regular,$pond_private}/*/
+    function __pond_list_operation -a pond_list_regular pond_list_private
         set -l pond_names
+        set -lx pond_paths
+        if test "$pond_list_regular" = "yes"; set -a pond_paths $pond_home/$pond_regular/*/; end
+        if test "$pond_list_private" = "yes"; set -a pond_paths $pond_home/$pond_private/*/; end
 
         if test (count $pond_paths) -eq 0
             echo "No ponds found" >&2; and return 1
@@ -489,9 +495,20 @@ Arguments:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case list
-            if test (count $argv) -ne 0; __pond_list_command_usage; and __pond_cleanup; and return 1; end
+            set -l pond_list_regular yes
+            set -l pond_list_private yes
 
-            __pond_list_operation
+            if test (count $argv) -gt 0
+                if ! argparse 'r/regular' 'p/private' >/dev/null 2>&1 -- $argv
+                    __pond_list_command_usage
+                    __pond_cleanup; and return 1
+                end
+                if test (count $argv) -ne 0; __pond_list_command_usage; and __pond_cleanup; and return 1; end
+                if ! set -q _flag_regular; set pond_list_regular no; end
+                if ! set -q _flag_private; set pond_list_private no; end
+            end
+
+            __pond_list_operation $pond_list_regular $pond_list_private
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case enable

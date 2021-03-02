@@ -123,10 +123,10 @@ end
 
 for valid_option in -v --verbose
     for invalid_option in -i --invalid
-        @test "pond unload: command usage shown for valid option $valid_option and missing pond name" (pond unload $valid_option >/dev/null 2>&1) $status -eq $fail
-        @test "pond unload: command usage shown for valid option $valid_option and invalid pond name" (pond unload $valid_option _invalid >/dev/null 2>&1) $status -eq $fail
-        @test "pond unload: command usage shown for invalid option $invalid_option and valid pond name" (pond unload $invalid_option $pond_name >/dev/null 2>&1) $status -eq $fail
-        @test "pond unload: command usage shown for invalid option $invalid_option and invalid pond name" (pond unload $invalid_option _invalid >/dev/null 2>&1) $status -eq $fail
+        @test "pond unload: fails for valid option $valid_option and missing pond name" (pond unload $valid_option >/dev/null 2>&1) $status -eq $fail
+        @test "pond unload: fails for valid option $valid_option and invalid pond name" (pond unload $valid_option _invalid >/dev/null 2>&1) $status -eq $fail
+        @test "pond unload: fails for invalid option $invalid_option and valid pond name" (pond unload $invalid_option $pond_name >/dev/null 2>&1) $status -eq $fail
+        @test "pond unload: fails for invalid option $invalid_option and invalid pond name" (pond unload $invalid_option _invalid >/dev/null 2>&1) $status -eq $fail
     end
 end
 

@@ -19,7 +19,7 @@ Application Options:
 Commands:
     create   Create a new pond
     remove   Remove a pond and associated data
-    list     List all ponds
+    list     List ponds
     edit     Edit an existing pond
     enable   Enable a pond for new shell sessions
     disable  Disable a pond for new shell sessions
@@ -36,8 +36,8 @@ Commands:
 @test 'pond --help success' (pond --help >/dev/null 2>&1) $status -eq $success
 
 @echo 'pond options: failure exit code tests'
-@test 'pond failure for invalid short option' (pond -i >/dev/null 2>&1) $status -eq $fail
-@test 'pond failure for invalid long option' (pond --invalid >/dev/null 2>&1) $status -eq $fail
+@test 'pond fails for invalid short option' (pond -i >/dev/null 2>&1) $status -eq $fail
+@test 'pond fails for invalid long option' (pond --invalid >/dev/null 2>&1) $status -eq $fail
 
 @echo 'pond options: version option output tests'
 @test 'pond -v reports correct version' (pond -v) = "pond $pond_version"

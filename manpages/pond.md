@@ -69,7 +69,7 @@ Remove the pond named _pond_. The directory containing pond data will be erased 
 **list** [**-p**|**\--private**] [**-r**|**\--regular**]
 --------
 
-List ponds. By default, pond names for all available ponds are printed to standard output, one per line (equivalent to combining **\--private** and **\--regular** options).
+List ponds. Without options, pond names for _all_ available ponds are printed to standard output, one per line (equivalent to combining **\--private** and **\--regular** options).
 
 **-p**, **\--private**
 

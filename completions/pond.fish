@@ -27,6 +27,7 @@ complete -c pond -n "__fish_seen_subcommand_from $commands_without_options; and 
 
 # Complete options for create command
 complete -c pond -n "__fish_seen_subcommand_from create; and not __fish_seen_subcommand_from -e --empty" -a "-e --empty" -d "Create pond without opening editor"
+complete -c pond -n "__fish_seen_subcommand_from create; and not __fish_seen_subcommand_from -p --private" -a "-p --private" -d "Create private pond"
 
 # Complete options or pond name for remove command
 complete -c pond -n "__fish_seen_subcommand_from remove; and not __fish_seen_subcommand_from -s --silent" -a "-s --silent" -d "Silence confirmation prompt"

@@ -193,8 +193,16 @@
 <dd><p>Silence confirmation prompt (this option is inferred when using <strong>pond</strong> in the context of a pipeline)</p>
 </dd>
 </dl>
-<h2 id="list"><strong>list</strong></h2>
-<p>List all ponds. Each pond name is printed on a separate line.</p>
+<h2 id="list--p--private--r--regular"><strong>list</strong> [<strong>-p</strong>|<strong>--private</strong>] [<strong>-r</strong>|<strong>--regular</strong>]</h2>
+<p>List ponds. By default, pond names for all available ponds are printed to standard output, one per line (equivalent to combining <strong>--private</strong> and <strong>--regular</strong> options).</p>
+<dl>
+<dt><strong>-p</strong>, <strong>--private</strong></dt>
+<dd><p>List private ponds</p>
+</dd>
+<dt><strong>-r</strong>, <strong>--regular</strong></dt>
+<dd><p>List regular ponds</p>
+</dd>
+</dl>
 <h2 id="edit-pond"><strong>edit</strong> <em>pond</em></h2>
 <p>Open an interactive editor for modifying shell variables in a pond (i.e. <strong>set</strong>(1) commands). See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used.</p>
 <h2 id="enable-pond"><strong>enable</strong> <em>pond</em></h2>

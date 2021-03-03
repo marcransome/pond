@@ -49,7 +49,6 @@ By default, a directory named _pond_ is created within either the **regular** or
 
 When creating a new pond, an interactive editor is opened (unless the **\--empty** option is specified) ready to add new shell variable definitions. See **ENVIRONMENT** for a discussion of the **pond\_editor** universal variable that controls which editor is used.
 
-
 **-e**, **\--empty**
 
 :   Create an empty pond without opening an interactive editor (this option is inferred when using **pond** in the context of a pipeline)
@@ -67,10 +66,18 @@ Remove the pond named _pond_. The directory containing pond data will be erased 
 
 :   Silence confirmation prompt (this option is inferred when using **pond** in the context of a pipeline)
 
-**list**
+**list** [**-p**|**\--private**] [**-r**|**\--regular**]
 --------
 
-List all ponds. Each pond name is printed on a separate line.
+List ponds. By default, pond names for all available ponds are printed to standard output, one per line (equivalent to combining **\--private** and **\--regular** options).
+
+**-p**, **\--private**
+
+:   List private ponds
+
+**-r**, **\--regular**
+
+:   List regular ponds
 
 **edit** _pond_
 ---------------

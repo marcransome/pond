@@ -1,5 +1,5 @@
-set -l commands_without_options edit enable disable load status list dir
-set -l commands_with_options create remove drain unload
+set -l commands_without_options edit enable disable load status dir
+set -l commands_with_options create remove drain unload list
 set -l commands "$commands_without_options $commands_with_options"
 
 # Disable file completion as no subcommand requires a file path
@@ -17,6 +17,10 @@ complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'unload' -d '
 complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'status' -d 'View pond status'
 complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'drain' -d 'Drain all data from pond'
 complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'dir' -d 'Change current working directory to pond'
+
+# Complete options for list command
+complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -p --private" -a "-p --private" -d "List private ponds"
+complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -r --regular" -a "-r --regular" -d "List regular ponds"
 
 # Complete pond name for commands that do not support options
 complete -c pond -n "__fish_seen_subcommand_from $commands_without_options; and not __fish_seen_subcommand_from list; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"

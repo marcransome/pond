@@ -95,10 +95,18 @@ confirm removal, but can be silenced (automatically accepted) using
 \f[B]-s\f[R], \f[B]--silent\f[R]
 Silence confirmation prompt (this option is inferred when using
 \f[B]pond\f[R] in the context of a pipeline)
-.SS \f[B]list\f[R]
+.SS \f[B]list\f[R] [\f[B]-p\f[R]|\f[B]--private\f[R]] [\f[B]-r\f[R]|\f[B]--regular\f[R]]
 .PP
-List all ponds.
-Each pond name is printed on a separate line.
+List ponds.
+Without options, pond names for \f[I]all\f[R] available ponds are
+printed to standard output, one per line (equivalent to combining
+\f[B]--private\f[R] and \f[B]--regular\f[R] options).
+.TP
+\f[B]-p\f[R], \f[B]--private\f[R]
+List private ponds
+.TP
+\f[B]-r\f[R], \f[B]--regular\f[R]
+List regular ponds
 .SS \f[B]edit\f[R] \f[I]pond\f[R]
 .PP
 Open an interactive editor for modifying shell variables in a pond

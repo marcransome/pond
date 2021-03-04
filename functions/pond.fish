@@ -12,7 +12,7 @@ Help Options:
     <command> -h, --help  Show command help
 
 Application Options:
-    -v, --version           Print the version string
+    -v, --version         Print the version string
 
 Commands:
     create   Create a new pond

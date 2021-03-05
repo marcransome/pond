@@ -65,8 +65,10 @@ Usage:
     pond list [options]
 
 Options:
-    -p, --private  List private ponds
-    -r, --regular  List regular ponds" >&2
+    -p, --private   List private ponds
+    -r, --regular   List regular ponds
+    -e, --enabled   List enabled ponds
+    -d, --disabled  List disabled ponds" >&2
         echo
     end
 
@@ -252,18 +254,52 @@ Arguments:
         emit pond_removed $pond_name $pond_home/$pond_parent/$pond_name
     end
 
-    function __pond_list_operation -a pond_list_regular pond_list_private
+    function __pond_list_operation -a pond_list_regular pond_list_private pond_list_enabled pond_list_disabled
         set -l pond_names
-        set -lx pond_paths
-        if test "$pond_list_regular" = "yes"; set -a pond_paths $pond_home/$pond_regular/*/; end
-        if test "$pond_list_private" = "yes"; set -a pond_paths $pond_home/$pond_private/*/; end
+        set -l pond_paths_regular $pond_home/$pond_regular/*/
+        set -l pond_paths_private $pond_home/$pond_private/*/
 
-        if test (count $pond_paths) -eq 0
+        if test "$pond_list_enabled" = "yes"; and test "$pond_list_disabled" = "yes"
+            if test "$pond_list_regular" = "yes"
+                for pond_path in $pond_paths_regular
+                    set -a pond_names (basename $pond_path)
+                end
+            end
+            if test "$pond_list_private" = "yes"; set -a pond_paths $pond_paths_private
+                for pond_path in $pond_paths_private
+                    set -a pond_names (basename $pond_path)
+                end
+            end
+        else if test "$pond_list_enabled" = "yes"; and test "$pond_list_disabled" = "no"
+            if test "$pond_list_regular" = "yes"
+                for pond_path in $pond_paths_regular
+                    if test -L $pond_home/$pond_links/(basename $pond_path); set -a pond_names (basename $pond_path); end
+                end
+            end
+            if test "$pond_list_private" = "yes"
+                for pond_path in $pond_paths_private
+                    if test -L $pond_home/$pond_links/(basename $pond_path); set -a pond_names (basename $pond_path); end
+                end
+            end
+        else if test "$pond_list_enabled" = "no"; and test "$pond_list_disabled" = "yes"
+            if test "$pond_list_regular" = "yes"
+                for pond_path in $pond_paths_regular
+                    if ! test -L $pond_home/$pond_links/(basename $pond_path); set -a pond_names (basename $pond_path); end
+                end
+            end
+            if test "$pond_list_private" = "yes"
+                for pond_path in $pond_paths_private
+                    if ! test -L $pond_home/$pond_links/(basename $pond_path); set -a pond_names (basename $pond_path); end
+                end
+            end
+        end
+
+        if test (count $pond_names) -eq 0
             echo "No ponds found" >&2; and return 1
-        else
-            for pond_path in $pond_paths; set -a pond_names (basename $pond_path); end
-            set pond_names (string join0 $pond_names | sort -z | string split0)
-            for pond_name in $pond_names; echo $pond_name; end
+        end
+
+        for pond_name in (string join0 $pond_names | sort -z | string split0)
+            echo $pond_name
         end
     end
 
@@ -497,18 +533,29 @@ Arguments:
         case list
             set -l pond_list_regular yes
             set -l pond_list_private yes
+            set -l pond_list_enabled yes
+            set -l pond_list_disabled yes
 
             if test (count $argv) -gt 0
-                if ! argparse 'r/regular' 'p/private' >/dev/null 2>&1 -- $argv
+                if ! argparse 'r/regular' 'p/private' 'e/enabled' 'd/disabled' >/dev/null 2>&1 -- $argv
                     __pond_list_command_usage
                     __pond_cleanup; and return 1
                 end
+
                 if test (count $argv) -ne 0; __pond_list_command_usage; and __pond_cleanup; and return 1; end
-                if ! set -q _flag_regular; set pond_list_regular no; end
-                if ! set -q _flag_private; set pond_list_private no; end
+
+                if set -q _flag_regular; or set -q _flag_private
+                    set -q _flag_regular; and set pond_list_regular yes; or set pond_list_regular no
+                    set -q _flag_private; and set pond_list_private yes; or set pond_list_private no
+                end
+
+                if set -q _flag_enabled; or set -q _flag_disabled
+                    set -q _flag_enabled; and set pond_list_enabled yes; or set pond_list_enabled no
+                    set -q _flag_disabled; and set pond_list_disabled yes; or set pond_list_disabled no
+                end
             end
 
-            __pond_list_operation $pond_list_regular $pond_list_private
+            __pond_list_operation $pond_list_regular $pond_list_private $pond_list_enabled $pond_list_disabled
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case enable

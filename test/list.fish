@@ -38,8 +38,10 @@ Usage:
     pond list [options]
 
 Options:
-    -p, --private  List private ponds
-    -r, --regular  List regular ponds"
+    -p, --private   List private ponds
+    -r, --regular   List regular ponds
+    -e, --enabled   List enabled ponds
+    -d, --disabled  List disabled ponds"
 
 function __pond_setup_single_regular
     pond create -e $pond_name >/dev/null 2>&1

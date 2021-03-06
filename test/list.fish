@@ -203,11 +203,11 @@ end
 for command in "pond list "{-r,--regular}
 
     @echo "$command: failure tests for missing regular ponds"
-    @test "pond list: fails for missing ponds when none exist" (pond list trailing >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
 
     __pond_setup_multiple_private
-    @test "pond list: fails for missing ponds when only private ponds exist" (pond list trailing >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: fails for missing ponds when only private ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
     __pond_tear_down_multiple_private
 

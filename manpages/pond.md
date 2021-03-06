@@ -58,7 +58,7 @@ When creating a new pond, an interactive editor is opened (unless the **\--empty
 :   Create a private pond
 
 **remove** [**-s**|**\--silent**] _pond_
----------------------------------------
+----------------------------------------
 
 Remove the pond named _pond_. The directory containing pond data will be erased (typically a subdirectory of the name _pond_ located in **\$\_\_fish\_config\_dir/pond/regular/** or **\$\_\_fish\_config\_dir/pond/private/**. Confirmation from the user is expected, with a **yes** response to confirm removal, but can be silenced (automatically accepted) using **\--silent**.
 
@@ -66,10 +66,14 @@ Remove the pond named _pond_. The directory containing pond data will be erased 
 
 :   Silence confirmation prompt (this option is inferred when using **pond** in the context of a pipeline)
 
-**list** [**-p**|**\--private**] [**-r**|**\--regular**]
---------
+**list** [**-p**|**\--private**] [**-r**|**\--regular**] [**-e**|**\--enabled**] [**-d**|**\--disabled**]
+---------------------------------------------------------------------------------------------------------
 
-List ponds. Without options, pond names for _all_ available ponds are printed to standard output, one per line (equivalent to combining **\--private** and **\--regular** options).
+List ponds. If no options are specified, _all_ pond names will be printed to standard output, one per line (equivalent to combining all four options **\--private**, **\--regular**, **\--enabled** and **\--disabled**).
+
+If only one of **-p**|**\--private** or **-r**|**\--regular** is specified, the other option is assumed disabled (e.g. by specifying **-p**|**\--private** only private ponds will be listed). If neither option is provided both are assumed enabled.
+
+If only one of **-e**|**\--enabled** or **-d**|**\--disabled** is specified, the other option is assumed disabled (e.g. by specifying **-e**|**\--enabled**, only enabled ponds will be listed). If neither option is provided both are assumed enabled.
 
 **-p**, **\--private**
 
@@ -78,6 +82,20 @@ List ponds. Without options, pond names for _all_ available ponds are printed to
 **-r**, **\--regular**
 
 :   List regular ponds
+
+**-e**, **\--enabled**
+
+:   List enabled ponds
+
+**-d**, **\--disabled**
+
+:   List disabled ponds
+
+_Example:_ **pond list \--private** (list private ponds, both enabled and disabled)
+
+_Example:_ **pond list \--disabled** (list disabled ponds, both regular and private)
+
+_Example:_ **pond list \--enabled \--private** (list enabled private ponds only)
 
 **edit** _pond_
 ---------------

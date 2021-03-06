@@ -204,7 +204,7 @@ for command in "pond list" "pond list "{-e,--enabled}
 
     @echo "$command: success tests for enabled regular pond"
     __pond_setup_single_regular
-    @test "pond list: enabled regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: success enabled regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_regular
     __pond_tear_down_single_regular
 
@@ -231,7 +231,7 @@ for command in "pond list" "pond list "{-d,--disabled}
 
     @echo "$command: success tests for disabled regular pond"
     __pond_setup_single_regular_disabled
-    @test "pond list: disabled regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: success disabled regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_regular
     __pond_tear_down_single_regular
 

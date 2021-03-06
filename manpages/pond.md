@@ -162,6 +162,7 @@ A number of _universal_ shell variables (see **set**(1) for discussion of _unive
 
 EXIT STATUS
 ===========
+
 **pond** exits 0 on success, and >0 if an error occurs.
 
 BUGS

@@ -282,7 +282,7 @@ end
 
 for command in "pond list "{-e,--enabled}
 
-    @echo "$command: failure tests for missing ponds"
+    @echo "$command: failure tests for missing enabled ponds"
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
 
@@ -300,7 +300,7 @@ end
 
 for command in "pond list "{-d,--disabled}
 
-    @echo "$command: failure tests for missing ponds"
+    @echo "$command: failure tests for missing disabled ponds"
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
 

@@ -95,18 +95,46 @@ confirm removal, but can be silenced (automatically accepted) using
 \f[B]-s\f[R], \f[B]--silent\f[R]
 Silence confirmation prompt (this option is inferred when using
 \f[B]pond\f[R] in the context of a pipeline)
-.SS \f[B]list\f[R] [\f[B]-p\f[R]|\f[B]--private\f[R]] [\f[B]-r\f[R]|\f[B]--regular\f[R]]
+.SS \f[B]list\f[R] [\f[B]-p\f[R]|\f[B]--private\f[R]] [\f[B]-r\f[R]|\f[B]--regular\f[R]] [\f[B]-e\f[R]|\f[B]--enabled\f[R]] [\f[B]-d\f[R]|\f[B]--disabled\f[R]]
 .PP
 List ponds.
-Without options, pond names for \f[I]all\f[R] available ponds are
-printed to standard output, one per line (equivalent to combining
-\f[B]--private\f[R] and \f[B]--regular\f[R] options).
+If no options are specified, \f[I]all\f[R] pond names will be printed to
+standard output, one per line (equivalent to combining all four options
+\f[B]--private\f[R], \f[B]--regular\f[R], \f[B]--enabled\f[R] and
+\f[B]--disabled\f[R]).
+.PP
+If only one of \f[B]-p\f[R]|\f[B]--private\f[R] or
+\f[B]-r\f[R]|\f[B]--regular\f[R] is specified, the other option is
+assumed disabled (e.g.\ by specifying \f[B]-p\f[R]|\f[B]--private\f[R]
+only private ponds will be listed).
+If neither option is provided both are assumed enabled.
+.PP
+If only one of \f[B]-e\f[R]|\f[B]--enabled\f[R] or
+\f[B]-d\f[R]|\f[B]--disabled\f[R] is specified, the other option is
+assumed disabled (e.g.\ by specifying \f[B]-e\f[R]|\f[B]--enabled\f[R],
+only enabled ponds will be listed).
+If neither option is provided both are assumed enabled.
 .TP
 \f[B]-p\f[R], \f[B]--private\f[R]
 List private ponds
 .TP
 \f[B]-r\f[R], \f[B]--regular\f[R]
 List regular ponds
+.TP
+\f[B]-e\f[R], \f[B]--enabled\f[R]
+List enabled ponds
+.TP
+\f[B]-d\f[R], \f[B]--disabled\f[R]
+List disabled ponds
+.PP
+\f[I]Example:\f[R] \f[B]pond list --private\f[R] (list private ponds,
+both enabled and disabled)
+.PP
+\f[I]Example:\f[R] \f[B]pond list --disabled\f[R] (list disabled ponds,
+both regular and private)
+.PP
+\f[I]Example:\f[R] \f[B]pond list --enabled --private\f[R] (list enabled
+private ponds only)
 .SS \f[B]edit\f[R] \f[I]pond\f[R]
 .PP
 Open an interactive editor for modifying shell variables in a pond

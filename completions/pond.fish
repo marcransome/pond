@@ -21,6 +21,8 @@ complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'dir' -d 'Cha
 # Complete options for list command
 complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -p --private" -a "-p --private" -d "List private ponds"
 complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -r --regular" -a "-r --regular" -d "List regular ponds"
+complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -e --enabled" -a "-e --enabled" -d "List enabled ponds"
+complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -d --disabled" -a "-d --disabled" -d "List disabled ponds"
 
 # Complete pond name for commands that do not support options
 complete -c pond -n "__fish_seen_subcommand_from $commands_without_options; and not __fish_seen_subcommand_from list; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"

@@ -200,6 +200,60 @@ for command in "pond list" "pond list "{-p,--private}" "{-r,--regular}
 
 end
 
+for command in "pond list" "pond list "{-e,--enabled}
+
+    @echo "$command: success tests for enabled regular pond"
+    __pond_setup_single_regular
+    @test "pond list: success enabled regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_regular
+    __pond_tear_down_single_regular
+
+    @echo "$command: success tests for enabled private pond"
+    __pond_setup_single_private
+    @test "pond list: success enabled private pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_private
+    __pond_tear_down_single_private
+
+    @echo "$command: success tests for multiple enabled regular ponds"
+    __pond_setup_multiple_regular
+    @test "pond list: success multiple enabled regular ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_regular
+    __pond_tear_down_multiple_regular
+
+    @echo "$command: success tests for multiple enabled private ponds"
+    __pond_setup_multiple_private
+    @test "pond list: success multiple enabled private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_private
+    __pond_tear_down_multiple_private
+end
+
+for command in "pond list" "pond list "{-d,--disabled}
+
+    @echo "$command: success tests for disabled regular pond"
+    __pond_setup_single_regular_disabled
+    @test "pond list: success disabled regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_regular
+    __pond_tear_down_single_regular
+
+    @echo "$command: success tests for disabled private pond"
+    __pond_setup_single_private_disabled
+    @test "pond list: success disabled private pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_private
+    __pond_tear_down_single_private
+
+    @echo "$command: success tests for multiple disabled regular ponds"
+    __pond_setup_multiple_regular_disabled
+    @test "pond list: success multiple disabled regular ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_regular
+    __pond_tear_down_multiple_regular
+
+    @echo "$command: success tests for multiple disabled private ponds"
+    __pond_setup_multiple_private_disabled
+    @test "pond list: success multiple disabled private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_private
+    __pond_tear_down_multiple_private
+end
+
 for command in "pond list "{-r,--regular}
 
     @echo "$command: failure tests for missing regular ponds"
@@ -228,7 +282,7 @@ end
 
 for command in "pond list "{-e,--enabled}
 
-    @echo "$command: failure tests for missing ponds"
+    @echo "$command: failure tests for missing enabled ponds"
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
 
@@ -246,7 +300,7 @@ end
 
 for command in "pond list "{-d,--disabled}
 
-    @echo "$command: failure tests for missing ponds"
+    @echo "$command: failure tests for missing disabled ponds"
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
 

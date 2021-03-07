@@ -145,6 +145,11 @@ Drain all shell variables from _pond_. Draining a pond effectively removes all c
 
 Change the current working directory to the pond directory for _pond_.
 
+**config**
+----------
+
+Print the current configuration settings.
+
 ENVIRONMENT
 ===========
 

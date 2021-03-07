@@ -38,8 +38,8 @@ Pond home: $__fish_config_dir/pond
 Enable ponds on creation: no
 Pond editor command: another-editor"
 
-@echo "pond edit: validation failure exit code tests"
-@test "pond edit: fails for trailing arguments" (pond config trailing >/dev/null 2>&1) $status -eq $fail
+@echo "pond config: validation failure exit code tests"
+@test "pond config: fails for trailing arguments" (pond config trailing >/dev/null 2>&1) $status -eq $fail
 
 @echo "pond config: validation failure output tests"
 @test "pond config: command usage shown for trailing arguments" (pond config trailing 2>&1 | string collect) = $command_usage

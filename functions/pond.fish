@@ -50,13 +50,13 @@ Arguments:
     function __pond_remove_command_usage
         echo "\
 Usage:
-    pond remove [options] <name>
+    pond remove [options] ponds...
 
 Options:
     -s, --silent  Silence confirmation prompt
 
 Arguments:
-    name  The name of the pond to remove" >&2
+    ponds  The name of one or more ponds to remove" >&2
         echo
     end
 
@@ -522,28 +522,32 @@ Usage:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case remove
-            set -l pond_name $argv[-1]
-            set argv $argv[1..-2]
-
-            if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"
+            if ! argparse 's/silent' >/dev/null 2>&1 -- $argv
                 __pond_remove_command_usage
                 __pond_cleanup; and return 1
             end
 
-            if test (count $argv) -gt 0
-                if ! argparse 's/silent' >/dev/null 2>&1 -- $argv
+            set -q _flag_silent; and set pond_silent yes
+
+            if test (count $argv) -eq 0; __pond_remove_command_usage; and __pond_cleanup; and return 1; end
+
+            for pond_name in $argv
+                if ! __pond_name_is_valid "$pond_name"
                     __pond_remove_command_usage
-                    __pond_cleanup; and return 1
+                    __pond_cleanup
+                    return 1
+                else if ! __pond_exists $pond_name
+                    __pond_show_not_exists_error $pond_name
+                    __pond_cleanup
+                    return 1
                 end
-                if test (count $argv) -ne 0; __pond_remove_command_usage; and __pond_cleanup; and return 1; end
-                set -q _flag_silent; and set pond_silent yes
+
+                __pond_remove_operation $pond_name
+                set -l exit_code $status
+                if test $exit_code -gt 0
+                    __pond_cleanup; and return $exit_code
+                end
             end
-
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name; and __pond_cleanup; and return 1; end
-
-            __pond_remove_operation $pond_name
-            set -l exit_code $status
-            __pond_cleanup; and return $exit_code
         case list
             set -l pond_list_regular yes
             set -l pond_list_private yes

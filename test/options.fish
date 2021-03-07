@@ -27,7 +27,8 @@ Commands:
     unload   Unload pond data from current shell session
     status   View pond status
     drain    Drain all data from pond
-    dir      Change current working directory to pond"
+    dir      Change current working directory to pond
+    config   Show configuration settings"
 
 @echo 'pond options: success exit code tests'
 @test 'pond -v success' (pond -v >/dev/null 2>&1) $status -eq $success

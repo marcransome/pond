@@ -25,7 +25,8 @@ Commands:
     unload   Unload pond data from current shell session
     status   View pond status
     drain    Drain all data from pond
-    dir      Change current working directory to pond" >&2
+    dir      Change current working directory to pond
+    config   Show configuration settings" >&2
         echo
     end
 
@@ -155,6 +156,13 @@ Usage:
 
 Arguments:
     name  The name of the pond to change directory to" >&2
+        echo
+    end
+
+    function __pond_config_command_usage
+        echo "\
+Usage:
+    pond config" >&2
         echo
     end
 
@@ -404,6 +412,12 @@ Arguments:
     function __pond_dir_operation -a pond_name
         set -l pond_parent (__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)
         cd $pond_home/$pond_parent/$pond_name
+    end
+
+    function __pond_config_operation
+        echo "Pond home: $pond_home"
+        echo "Enable ponds on creation: "(test "$pond_enable_on_create" = "yes"; and echo "yes"; or echo "no")
+        echo "Pond editor command: $pond_editor"
     end
 
     function __pond_show_exists_error -a pond_name
@@ -668,6 +682,12 @@ Arguments:
             end
 
             __pond_dir_operation $pond_name
+            set -l exit_code $status
+            __pond_cleanup; and return $exit_code
+        case config
+            if test (count $argv) -ne 0; __pond_config_command_usage; and __pond_cleanup; and return 1; end
+
+            __pond_config_operation
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case '*'

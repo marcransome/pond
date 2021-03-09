@@ -54,3 +54,10 @@ end
 function __pond_editor_reset
     set -U pond_editor $pond_editor_before_test
 end
+
+function __pond_event_reset
+    set -e event_pond_name
+    set -e event_pond_path
+    set -e event_pond_names
+    set -e event_pond_paths
+end

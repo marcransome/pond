@@ -17,14 +17,9 @@ Arguments:
           any number of additional alphanumeric characters,
           underscores or dashes"
 
-function __pond_create_event_intercept --on-event pond_created -a got_pond_name got_pond_path
+function __pond_created_event_intercept --on-event pond_created -a got_pond_name got_pond_path
     set -g event_pond_name $got_pond_name
     set -g event_pond_path $got_pond_path
-end
-
-function __pond_create_event_reset
-    set -e event_pond_name
-    set -e event_pond_path
 end
 
 # TODO directory mode permissions tests (755 regular pond, 700 private
@@ -41,7 +36,7 @@ __pond_tear_down
 @test "pond create: output message correct" (pond create $pond_name_regular 2>&1) = "Created pond: $pond_name_regular"
 __pond_tear_down
 __pond_editor_reset
-__pond_create_event_reset
+__pond_event_reset
 
 for command in "pond create "{-e,--empty}" $pond_name_regular"
     @echo "$command: success tests"
@@ -54,7 +49,7 @@ for command in "pond create "{-e,--empty}" $pond_name_regular"
     __pond_tear_down
     @test "pond create: output message correct" (eval $command 2>&1) = "Created pond: $pond_name_regular"
     __pond_tear_down
-    __pond_create_event_reset
+    __pond_event_reset
 end
 
 for command in "pond create "{-p,--private}" $pond_name_private"
@@ -70,7 +65,7 @@ for command in "pond create "{-p,--private}" $pond_name_private"
     @test "pond create: output message correct" (eval $command 2>&1) = "Created private pond: $pond_name_private"
     __pond_tear_down
     __pond_editor_reset
-    __pond_create_event_reset
+    __pond_event_reset
 end
 
 @echo "pond create: validation failure exit code tests"

@@ -15,11 +15,6 @@ function __pond_disabled_event_intercept --on-event pond_disabled -a got_pond_na
     set -g event_pond_path $got_pond_path
 end
 
-function __pond_disabled_event_reset
-    set -e event_pond_name
-    set -e event_pond_path
-end
-
 @echo "pond disable: success tests for regular pond"
 __pond_setup 1 regular enabled unpopulated
 @test "setup: pond enabled" -L $pond_home/$pond_links/$pond_name_regular
@@ -28,13 +23,13 @@ __pond_setup 1 regular enabled unpopulated
 @test "pond disable: got pond name in event" (echo $event_pond_name) = $pond_name_regular
 @test "pond disable: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_regular/$pond_name_regular
 __pond_tear_down
-__pond_disabled_event_reset
+__pond_event_reset
 
 @echo "pond disable: output tests for regular pond"
 __pond_setup 1 regular enabled unpopulated
 @test "pond disable: success output message" (pond disable $pond_name_regular 2>&1) = "Disabled pond: $pond_name_regular"
 __pond_tear_down
-__pond_disabled_event_reset
+__pond_event_reset
 
 @echo "pond disable: success tests for private pond"
 __pond_setup 1 private enabled unpopulated
@@ -44,24 +39,24 @@ __pond_setup 1 private enabled unpopulated
 @test "pond disable: got pond name in event" (echo $event_pond_name) = $pond_name_private
 @test "pond disable: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_private/$pond_name_private
 __pond_tear_down
-__pond_disabled_event_reset
+__pond_event_reset
 
 @echo "pond disable: output tests for private pond"
 __pond_setup 1 private enabled unpopulated
 @test "pond disable: success output message" (pond disable $pond_name_private 2>&1) = "Disabled private pond: $pond_name_private"
 __pond_tear_down
-__pond_disabled_event_reset
+__pond_event_reset
 
-@echo "pond disable: failure tests for disabled regular pond"
+@echo "pond disable: failure tests for regular disabled pond"
 __pond_setup 1 regular disabled unpopulated
 @test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_regular
-@test "pond disable: command error shown for disabled regular pond" (pond disable $pond_name_regular 2>&1 | string collect) = "Pond already disabled: $pond_name_regular"
+@test "pond disable: command error shown for regular disabled pond" (pond disable $pond_name_regular 2>&1 | string collect) = "Pond already disabled: $pond_name_regular"
 __pond_tear_down
 
-@echo "pond disable: failure tests for disabled private pond"
+@echo "pond disable: failure tests for private disabled pond"
 __pond_setup 1 private disabled unpopulated
 @test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_private
-@test "pond disable: command error shown for disabled private pond" (pond disable $pond_name_private 2>&1 | string collect) = "Pond already disabled: $pond_name_private"
+@test "pond disable: command error shown for private disabled pond" (pond disable $pond_name_private 2>&1 | string collect) = "Pond already disabled: $pond_name_private"
 __pond_tear_down
 
 @echo "pond disable: validation failure exit code tests"

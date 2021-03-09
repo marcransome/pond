@@ -1,8 +1,4 @@
-set fail 1
-set success 0
-set pond_version (git describe --tags --abbrev=0)
-
-set -x __pond_under_test yes
+source ./helpers/variables.fish
 
 set pond_usage "\
 Usage:

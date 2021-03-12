@@ -1,37 +1,33 @@
-set fail 1
-set success 0
-
-set -x __pond_under_test yes
-set pond_name test-pond
-set pond_name_private test-private-pond
+source ./helpers/functions.fish
+source ./helpers/variables.fish
 
 set success_output_single_regular "\
-$pond_name"
+$pond_name_regular"
 
 set success_output_single_private "\
 $pond_name_private"
 
 set combined_output_single "\
-$pond_name
+$pond_name_regular
 $pond_name_private"
 
 set success_output_multiple_regular "\
-$pond_name-1
-$pond_name-2
-$pond_name-3"
+$pond_name_regular_prefix-1
+$pond_name_regular_prefix-2
+$pond_name_regular_prefix-3"
 
 set success_output_multiple_private "\
-$pond_name_private-1
-$pond_name_private-2
-$pond_name_private-3"
+$pond_name_private_prefix-1
+$pond_name_private_prefix-2
+$pond_name_private_prefix-3"
 
 set combined_output_multiple "\
-$pond_name-1
-$pond_name-2
-$pond_name-3
-$pond_name_private-1
-$pond_name_private-2
-$pond_name_private-3"
+$pond_name_regular_prefix-1
+$pond_name_regular_prefix-2
+$pond_name_regular_prefix-3
+$pond_name_private_prefix-1
+$pond_name_private_prefix-2
+$pond_name_private_prefix-3"
 
 set command_usage "\
 Usage:
@@ -43,215 +39,146 @@ Options:
     -e, --enabled   List enabled ponds
     -d, --disabled  List disabled ponds"
 
-function __pond_setup_single_regular
-    pond create -e $pond_name >/dev/null 2>&1
-end
-
-function __pond_setup_single_regular_disabled
-    __pond_setup_single_regular
-    pond disable $pond_name >/dev/null 2>&1
-end
-
-function __pond_setup_single_private
-    pond create -e -p $pond_name_private >/dev/null 2>&1
-end
-
-function __pond_setup_single_private_disabled
-    __pond_setup_single_private
-    pond disable $pond_name_private >/dev/null 2>&1
-end
-
-function __pond_setup_multiple_regular
-    pond create -e $pond_name-1 >/dev/null 2>&1
-    pond create -e $pond_name-2 >/dev/null 2>&1
-    pond create -e $pond_name-3 >/dev/null 2>&1
-end
-
-function __pond_setup_multiple_regular_disabled
-    __pond_setup_multiple_regular
-    pond disable $pond_name-1 >/dev/null 2>&1
-    pond disable $pond_name-2 >/dev/null 2>&1
-    pond disable $pond_name-3 >/dev/null 2>&1
-end
-
-function __pond_setup_multiple_private
-    pond create -e -p $pond_name_private-1 >/dev/null 2>&1
-    pond create -e -p $pond_name_private-2 >/dev/null 2>&1
-    pond create -e -p $pond_name_private-3 >/dev/null 2>&1
-end
-
-function __pond_setup_multiple_private_disabled
-    __pond_setup_multiple_private
-    pond disable $pond_name_private-1 >/dev/null 2>&1
-    pond disable $pond_name_private-2 >/dev/null 2>&1
-    pond disable $pond_name_private-3 >/dev/null 2>&1
-end
-
-function __pond_tear_down_single_regular
-    pond remove -s $pond_name >/dev/null 2>&1
-end
-
-function __pond_tear_down_single_private
-    pond remove -s $pond_name_private >/dev/null 2>&1
-end
-
-function __pond_tear_down_multiple_regular
-    pond remove -s $pond_name-1 >/dev/null 2>&1
-    pond remove -s $pond_name-2 >/dev/null 2>&1
-    pond remove -s $pond_name-3 >/dev/null 2>&1
-end
-
-function __pond_tear_down_multiple_private
-    pond remove -s $pond_name_private-1 >/dev/null 2>&1
-    pond remove -s $pond_name_private-2 >/dev/null 2>&1
-    pond remove -s $pond_name_private-3 >/dev/null 2>&1
-end
-
-
 for command in "pond list" "pond list "{-r,--regular}
 
     @echo "$command: success tests for regular pond"
-    __pond_setup_single_regular
+    __pond_setup 1 regular enabled unpopulated
     @test "pond list: success regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_regular
-    __pond_tear_down_single_regular
+    __pond_tear_down
 
-    @echo "$command: success tests for disabled regular pond"
-    __pond_setup_single_regular_disabled
-    @test "pond list: success disabled regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for regular disabled pond"
+    __pond_setup 1 regular disabled unpopulated
+    @test "pond list: success regular disabled pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_regular
-    __pond_tear_down_single_regular
+    __pond_tear_down
 
     @echo "$command: success tests for multiple regular ponds"
-    __pond_setup_multiple_regular
+    __pond_setup 3 regular enabled unpopulated
     @test "pond list: success multiple regular ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_regular
-    __pond_tear_down_multiple_regular
+    __pond_tear_down
 
-    @echo "$command: success tests for multiple disabled regular ponds"
-    __pond_setup_multiple_regular_disabled
-    @test "pond list: success multiple disabled regular ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for multiple regular disabled ponds"
+    __pond_setup 3 regular disabled unpopulated
+    @test "pond list: success multiple regular disabled ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_regular
-    __pond_tear_down_multiple_regular
+    __pond_tear_down
 
 end
 
 for command in "pond list" "pond list "{-p,--private}
 
     @echo "$command: success tests for private pond"
-    __pond_setup_single_private
+    __pond_setup 1 private enabled unpopulated
     @test "pond list: success private pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_private
-    __pond_tear_down_single_private
+    __pond_tear_down
 
-    @echo "$command: success tests for disabled private pond"
-    __pond_setup_single_private_disabled
-    @test "pond list: success disabled private pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for private disabled pond"
+    __pond_setup 1 private disabled unpopulated
+    @test "pond list: success private disabled pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_private
-    __pond_tear_down_single_private
+    __pond_tear_down
 
     @echo "$command: success tests for multiple private ponds"
-    __pond_setup_multiple_private
+    __pond_setup 3 private enabled unpopulated
     @test "pond list: success multiple private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_private
-    __pond_tear_down_multiple_private
+    __pond_tear_down
 
-    @echo "$command: success tests for multiple disabled private ponds"
-    __pond_setup_multiple_private_disabled
-    @test "pond list: success multiple disabled private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for multiple private disabled ponds"
+    __pond_setup 3 private disabled unpopulated
+    @test "pond list: success multiple private disabled ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_private
-    __pond_tear_down_multiple_private
+    __pond_tear_down
 
 end
 
 for command in "pond list" "pond list "{-p,--private}" "{-r,--regular}
 
     @echo "$command: success tests for regular and private ponds"
-    __pond_setup_single_regular
-    __pond_setup_single_private
+    __pond_setup 1 regular enabled unpopulated
+    __pond_setup 1 private enabled unpopulated
     @test "pond list: success regular and private pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $combined_output_single
-    __pond_tear_down_single_regular
-    __pond_tear_down_single_private
+    __pond_tear_down
 
-    @echo "$command: success tests for disabled regular and private ponds"
-    __pond_setup_single_regular_disabled
-    __pond_setup_single_private_disabled
-    @test "pond list: success disabled regular and private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for regular disabled and private ponds"
+    __pond_setup 1 regular disabled unpopulated
+    __pond_setup 1 private disabled unpopulated
+    @test "pond list: success regular disabled and private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $combined_output_single
-    __pond_tear_down_single_regular
-    __pond_tear_down_single_private
+    __pond_tear_down
 
     @echo "$command: success tests for multiple regular and private ponds"
-    __pond_setup_multiple_regular
-    __pond_setup_multiple_private
+    __pond_setup 3 regular enabled unpopulated
+    __pond_setup 3 private enabled unpopulated
     @test "pond list: success multiple regular and private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $combined_output_multiple
-    __pond_tear_down_multiple_regular
-    __pond_tear_down_multiple_private
+    __pond_tear_down
 
-    @echo "$command: success tests for multiple disabled regular and private ponds"
-    __pond_setup_multiple_regular_disabled
-    __pond_setup_multiple_private_disabled
-    @test "pond list: success multiple disabled regular and private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for multiple regular disabled and private ponds"
+    __pond_setup 3 regular disabled unpopulated
+    __pond_setup 3 private disabled unpopulated
+    @test "pond list: success multiple regular disabled and private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $combined_output_multiple
-    __pond_tear_down_multiple_regular
-    __pond_tear_down_multiple_private
+    __pond_tear_down
 
 end
 
 for command in "pond list" "pond list "{-e,--enabled}
 
-    @echo "$command: success tests for enabled regular pond"
-    __pond_setup_single_regular
-    @test "pond list: success enabled regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for regular enabled pond"
+    __pond_setup 1 regular enabled unpopulated
+    @test "pond list: success regular enabled pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_regular
-    __pond_tear_down_single_regular
+    __pond_tear_down
 
-    @echo "$command: success tests for enabled private pond"
-    __pond_setup_single_private
-    @test "pond list: success enabled private pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for private enabled pond"
+    __pond_setup 1 private enabled unpopulated
+    @test "pond list: success private enabled pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_private
-    __pond_tear_down_single_private
+    __pond_tear_down
 
-    @echo "$command: success tests for multiple enabled regular ponds"
-    __pond_setup_multiple_regular
-    @test "pond list: success multiple enabled regular ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for multiple regular enabled ponds"
+    __pond_setup 3 regular enabled unpopulated
+    @test "pond list: success multiple regular enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_regular
-    __pond_tear_down_multiple_regular
+    __pond_tear_down
 
-    @echo "$command: success tests for multiple enabled private ponds"
-    __pond_setup_multiple_private
-    @test "pond list: success multiple enabled private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for multiple private enabled ponds"
+    __pond_setup 3 private enabled unpopulated
+    @test "pond list: success multiple private enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_private
-    __pond_tear_down_multiple_private
+    __pond_tear_down
 end
 
 for command in "pond list" "pond list "{-d,--disabled}
 
-    @echo "$command: success tests for disabled regular pond"
-    __pond_setup_single_regular_disabled
-    @test "pond list: success disabled regular pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for regular disabled pond"
+    __pond_setup 1 regular disabled unpopulated
+    @test "pond list: success regular disabled pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_regular
-    __pond_tear_down_single_regular
+    __pond_tear_down
 
-    @echo "$command: success tests for disabled private pond"
-    __pond_setup_single_private_disabled
-    @test "pond list: success disabled private pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for private disabled pond"
+    __pond_setup 1 private disabled unpopulated
+    @test "pond list: success private disabled pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_private
-    __pond_tear_down_single_private
+    __pond_tear_down
 
-    @echo "$command: success tests for multiple disabled regular ponds"
-    __pond_setup_multiple_regular_disabled
-    @test "pond list: success multiple disabled regular ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for multiple regular disabled ponds"
+    __pond_setup 3 regular disabled unpopulated
+    @test "pond list: success multiple regular disabled ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_regular
-    __pond_tear_down_multiple_regular
+    __pond_tear_down
 
-    @echo "$command: success tests for multiple disabled private ponds"
-    __pond_setup_multiple_private_disabled
-    @test "pond list: success multiple disabled private ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @echo "$command: success tests for multiple private disabled ponds"
+    __pond_setup 3 private disabled unpopulated
+    @test "pond list: success multiple private disabled ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_private
-    __pond_tear_down_multiple_private
+    __pond_tear_down
 end
 
 for command in "pond list "{-r,--regular}
@@ -260,10 +187,10 @@ for command in "pond list "{-r,--regular}
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
 
-    __pond_setup_multiple_private
+    __pond_setup 1 private enabled unpopulated
     @test "pond list: fails for missing ponds when only private ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
-    __pond_tear_down_multiple_private
+    __pond_tear_down
 
 end
 
@@ -273,10 +200,10 @@ for command in "pond list "{-p,--private}
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
 
-    __pond_setup_multiple_regular
+    __pond_setup 1 regular enabled unpopulated
     @test "pond list: fails for missing ponds when only regular ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
-    __pond_tear_down_multiple_regular
+    __pond_tear_down
 
 end
 
@@ -286,15 +213,15 @@ for command in "pond list "{-e,--enabled}
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
 
-    __pond_setup_multiple_regular_disabled
-    @test "pond list: fails for missing ponds when only disabled regular ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
+    __pond_setup 1 regular disabled unpopulated
+    @test "pond list: fails for missing ponds when only regular disabled ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
-    __pond_tear_down_multiple_regular
+    __pond_tear_down
 
-    __pond_setup_multiple_private_disabled
-    @test "pond list: fails for missing ponds when only disabled private ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
+    __pond_setup 1 private disabled unpopulated
+    @test "pond list: fails for missing ponds when only private disabled ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
-    __pond_tear_down_multiple_private
+    __pond_tear_down
 
 end
 
@@ -304,15 +231,15 @@ for command in "pond list "{-d,--disabled}
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
 
-    __pond_setup_multiple_regular
-    @test "pond list: fails for missing ponds when only enabled regular ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
+    __pond_setup 1 regular enabled unpopulated
+    @test "pond list: fails for missing ponds when only regular enabled ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
-    __pond_tear_down_multiple_regular
+    __pond_tear_down
 
-    __pond_setup_multiple_private
-    @test "pond list: fails for missing ponds when only enabled private ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
+    __pond_setup 1 private enabled unpopulated
+    @test "pond list: fails for missing ponds when only private enabled ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
-    __pond_tear_down_multiple_private
+    __pond_tear_down
 
 end
 

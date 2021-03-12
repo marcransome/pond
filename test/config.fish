@@ -1,7 +1,5 @@
-set fail 1
-set success 0
+source ./helpers/variables.fish
 
-set -x __pond_under_test yes
 set pond_editor_before_test "$pond_editor"
 set pond_enable_on_create_before_test "$pond_enable_on_create"
 

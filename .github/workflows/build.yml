@@ -29,9 +29,9 @@ jobs:
         shell: fish {0}
       - name: Run tests
         run: |
-          cd $GITHUB_WORKSPACE
           set -xg FORCE_COLOR 2
-          fishtape test/*.fish | node_modules/.bin/tap-diff
+          cd $GITHUB_WORKSPACE/test
+          fishtape *.fish | $GITHUB_WORKSPACE/node_modules/.bin/tap-diff
         shell: fish {0}
   test-linux:
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
         shell: fish {0}
       - name: Run tests
         run: |
-          cd $GITHUB_WORKSPACE
           set -xg FORCE_COLOR 2
-          fishtape test/*.fish | node_modules/.bin/tap-diff
+          cd $GITHUB_WORKSPACE/test
+          fishtape *.fish | $GITHUB_WORKSPACE/node_modules/.bin/tap-diff
         shell: fish {0}

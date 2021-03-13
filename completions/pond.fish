@@ -1,6 +1,7 @@
-set -l commands_without_options edit enable disable load status dir config
+set -l commands_without_options_single_pond edit enable disable status dir config
+set -l commands_without_options_multiple_pond load
 set -l commands_with_options create remove drain unload list
-set -l commands "$commands_without_options $commands_with_options"
+set -l commands "$commands_without_options_single_pond $commands_without_options_multiple_pond $commands_with_options"
 
 # Disable file completion as no subcommand requires a file path
 complete -c pond -f
@@ -26,16 +27,18 @@ complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subco
 complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -d --disabled" -a "-d --disabled" -d "List disabled ponds"
 
 # Complete pond name for commands that do not support options
-complete -c pond -n "__fish_seen_subcommand_from $commands_without_options; and not __fish_seen_subcommand_from list; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
+complete -c pond -n "__fish_seen_subcommand_from $commands_without_options_single_pond; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
+
+# Complete pond name for commands that do not support options
+complete -c pond -n "__fish_seen_subcommand_from $commands_without_options_multiple_pond" -a "(pond list 2>/dev/null)"
 
 # Complete options for create command
 complete -c pond -n "__fish_seen_subcommand_from create; and not __fish_seen_subcommand_from -e --empty" -a "-e --empty" -d "Create pond without opening editor"
 complete -c pond -n "__fish_seen_subcommand_from create; and not __fish_seen_subcommand_from -p --private" -a "-p --private" -d "Create private pond"
 
 # Complete options or pond name for remove command
-complete -c pond -n "__fish_seen_subcommand_from remove; and not __fish_seen_subcommand_from -s --silent" -a "-s --silent" -d "Silence confirmation prompt"
-complete -c pond -n "__fish_seen_subcommand_from remove; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
-complete -c pond -n "__fish_seen_subcommand_from remove; and __fish_seen_subcommand_from -s --silent" -a "(pond list 2>/dev/null)"
+complete -c pond -n "__fish_seen_subcommand_from remove; and not __fish_seen_subcommand_from -s --silent; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "-s --silent" -d "Silence confirmation prompt"
+complete -c pond -n "__fish_seen_subcommand_from remove" -a "(pond list 2>/dev/null)"
 
 # Complete options or pond name for drain command
 complete -c pond -n "__fish_seen_subcommand_from drain; and not __fish_seen_subcommand_from -s --silent" -a "-s --silent" -d "Silence confirmation prompt"
@@ -43,9 +46,8 @@ complete -c pond -n "__fish_seen_subcommand_from drain; and not __fish_seen_subc
 complete -c pond -n "__fish_seen_subcommand_from drain; and __fish_seen_subcommand_from -s --silent" -a "(pond list 2>/dev/null)"
 
 # Complete options or pond name for unload command
-complete -c pond -n "__fish_seen_subcommand_from unload; and not __fish_seen_subcommand_from -v --verbose" -a "-v --verbose" -d "Output variable names during unload"
-complete -c pond -n "__fish_seen_subcommand_from unload; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
-complete -c pond -n "__fish_seen_subcommand_from unload; and __fish_seen_subcommand_from -v --verbose" -a "(pond list 2>/dev/null)"
+complete -c pond -n "__fish_seen_subcommand_from unload; and not __fish_seen_subcommand_from -v --verbose; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "-v --verbose" -d "Output variable names during unload"
+complete -c pond -n "__fish_seen_subcommand_from unload" -a "(pond list 2>/dev/null)"
 
 # Complete long and short options
 complete -c pond -n "not __fish_seen_subcommand_from $commands" -s h -l help -d 'Print a short help text and exit'

@@ -1,5 +1,5 @@
-set -l commands_without_options_single_pond edit enable disable status dir config
-set -l commands_without_options_multiple_pond load
+set -l commands_without_options_single_pond edit status dir config
+set -l commands_without_options_multiple_pond load enable disable
 set -l commands_with_options create remove drain unload list
 set -l commands "$commands_without_options_single_pond $commands_without_options_multiple_pond $commands_with_options"
 

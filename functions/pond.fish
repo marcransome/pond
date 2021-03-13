@@ -106,23 +106,23 @@ Arguments:
     function __pond_load_command_usage
         echo "\
 Usage:
-    pond load <name>
+    pond load ponds...
 
 Arguments:
-    name  The name of the pond to load" >&2
+    ponds  The name of one or more ponds to load" >&2
         echo
     end
 
     function __pond_unload_command_usage
         echo "\
 Usage:
-    pond unload [options] <name>
+    pond unload [options] ponds...
 
 Options:
     -v, --verbose  Output variable names during unload
 
 Arguments:
-    name  The name of the pond to unload" >&2
+    ponds  The name of one or more ponds to unload" >&2
         echo
     end
 
@@ -603,42 +603,54 @@ Usage:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case load
-            set -l pond_name $argv[-1]
-            set argv $argv[1..-2]
+            if test (count $argv) -eq 0; __pond_load_command_usage; and __pond_cleanup; and return 1; end
 
-            if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"; or test (count $argv) -ne 0
-                __pond_load_command_usage; and __pond_cleanup; and return 1
-            else if ! __pond_exists $pond_name
-                __pond_show_not_exists_error $pond_name; and __pond_cleanup; and return 1
+            for pond_name in $argv
+                if ! __pond_name_is_valid "$pond_name"
+                    __pond_load_command_usage
+                    __pond_cleanup
+                    return 1
+                else if ! __pond_exists $pond_name
+                    __pond_show_not_exists_error $pond_name
+                    __pond_cleanup
+                    return 1
+                end
+
+                __pond_load_operation $pond_name
+                set -l exit_code $status
+                if test $exit_code -gt 0
+                    __pond_cleanup; and return $exit_code
+                end
             end
-
-            __pond_load_operation $pond_name
-            set -l exit_code $status
-            __pond_cleanup; and return $exit_code
         case unload
-            set -l pond_name $argv[-1]
-            set argv $argv[1..-2]
             set -l pond_verbose no
 
-            if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"
+            if ! argparse 'v/verbose' >/dev/null 2>&1 -- $argv
                 __pond_unload_command_usage
                 __pond_cleanup; and return 1
             end
 
-            if test (count $argv) -gt 0
-                if ! argparse 'v/verbose' >/dev/null 2>&1 -- $argv
+            set -q _flag_verbose; and set pond_verbose yes
+
+            if test (count $argv) -eq 0; __pond_unload_command_usage; and __pond_cleanup; and return 1; end
+
+            for pond_name in $argv
+                if ! __pond_name_is_valid "$pond_name"
                     __pond_unload_command_usage
-                    __pond_cleanup; and return 1
+                    __pond_cleanup
+                    return 1
+                else if ! __pond_exists $pond_name
+                    __pond_show_not_exists_error $pond_name
+                    __pond_cleanup
+                    return 1
                 end
-                if test (count $argv) -ne 0; __pond_unload_command_usage; and __pond_cleanup; and return 1; end
-                set -q _flag_verbose; and set pond_verbose yes
+
+                __pond_unload_operation $pond_name $pond_verbose
+                set -l exit_code $status
+                if test $exit_code -gt 0
+                    __pond_cleanup; and return $exit_code
+                end
             end
-
-            if ! __pond_exists $pond_name; __pond_show_not_exists_error $pond_name; and __pond_cleanup; and return 1; end
-
-            __pond_unload_operation $pond_name $pond_verbose
-            set -l exit_code $status
-            __pond_cleanup; and return $exit_code
         case status
             set -l pond_name $argv[-1]
             set argv $argv[1..-2]

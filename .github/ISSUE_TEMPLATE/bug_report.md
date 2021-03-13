@@ -21,7 +21,7 @@ A clear and concise description of what you expected to happen.
 **Desktop (please complete the following information):**
  - OS: [e.g. macOS]
  - Version [e.g. 11.2]
- - Fish version [e.g. 3.1.2]
+ - Fish version [e.g. 3.2.0]
 
 **Additional context**
 Add any other context about the problem here.

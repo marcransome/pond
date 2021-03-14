@@ -18,11 +18,11 @@ A pond represents a collection of shell variables (and in a future release funct
 
 Pond provides tab completion for all commands and options discussed here in addition to pond name completion for any ponds that exist locally.
 
-Arguments can be read from standard input when **pond** is used in a pipeline. For example, to take the first pond name output from the **list** command and execute a **remove** operation using this name:
+Arguments can be read from standard input when **pond** is used in a pipeline. For example, to remove all disabled ponds:
 
-_Example:_ **pond list | head -1 | pond remove**
+_Example:_ **pond list --disabled | pond remove**
 
-All arguments passed via standard input are appended to the arguments already present in the **pond** command. When used in this way, the **\--silent** option used by many commands is assumed, meaning no prompt for user confirmation will be requested for certain operations (see **COMMANDS** to determine which commands this applies to), and the **\--empty** option is assumed when using the **create** command. **pond** exits 1 if using the **edit** command in a pipeline as no interactive editor can be opened without a tty.
+All arguments passed via standard input are appended to the arguments already present in the **pond** command. When used in this way, the **\--silent** option is assumed by commands that support this option, meaning no user confirmation will be requested for those operations (see **COMMANDS** to determine which commands this applies to), and the **\--empty** option is assumed for the **create** command. **pond** exits 1 if the **edit** command is used in a pipeline as an interactive editor cannot be opened without a tty.
 
 Options
 -------
@@ -57,10 +57,10 @@ When creating a new pond, an interactive editor is opened (unless the **\--empty
 
 :   Create a private pond
 
-**remove** [**-s**|**\--silent**] _pond_
+**remove** [**-s**|**\--silent**] _ponds..._
 ----------------------------------------
 
-Remove the pond named _pond_. The directory containing pond data will be erased (typically a subdirectory of the name _pond_ located in **\$\_\_fish\_config\_dir/pond/regular/** or **\$\_\_fish\_config\_dir/pond/private/**. Confirmation from the user is expected, with a **yes** response to confirm removal, but can be silenced (automatically accepted) using **\--silent**.
+Remove _ponds_. All pond data will be erased for each named pond (i.e. the pond directory located in **\$\_\_fish\_config\_dir/pond/regular/** or **\$\_\_fish\_config\_dir/pond/private/** for each named pond is erased). Confirmation is requested from the user for each named pond and a **yes** response confirms removal of the named pond. Confirmation prompts can be silenced with the **\--silent** option.
 
 **-s**, **\--silent**
 
@@ -102,25 +102,25 @@ _Example:_ **pond list \--enabled \--private** (list enabled private ponds only)
 
 Open an interactive editor for modifying shell variables in a pond (i.e. **set**(1) commands). See **ENVIRONMENT** for a discussion of the **pond\_editor** _universal_ variable that controls which editor is used.
 
-**enable** _pond_
+**enable** _ponds..._
 -----------------
 
-Enable pond _pond_ if not already enabled. A symbolic link will be created in **\$\_\_fish\_config\_dir/pond/links** to the pond directory (the pond directory path can be viewed using the **status** command). When new shell sessions are created any such symbolic links are followed and the **env\_vars.fish** file in each enabled pond directory is sourced into the environment to make its shell variables available to processes.
+Enable _ponds_. A symbolic link will be created in **\$\_\_fish\_config\_dir/pond/links** to the pond directory for each named pond (a pond's directory path can be viewed using the **status** command). When a new shell session is created, the **env\_vars.fish** file for each enabled pond is sourced into the shell environment, making shell variables created with the **set**(1) command accessible to the shell, and making exported variables (i.e. **set -x** ...) available to child processes of the shell.
 
-**disable** _pond_
+**disable** _ponds..._
 ------------------
 
-Disable pond _pond_ if not already disabled. The symbolic link to the pond directory in **\$\_\_fish\_config\_dir/pond/links** is removed. Any shell variables that exist in _pond_ will no longer be accessible to processes when new shell sessions are created after disabling the pond.
+Disable _ponds_. The symbolic link to the pond directory in **\$\_\_fish\_config\_dir/pond/links** for each named pond is removed. Any shell variables present in each named pond's **env\_vars.fish** file will no longer be sourced into shell sessions that are created after those ponds are disabled.
 
-**load** _pond_
+**load** _ponds..._
 ---------------
 
-Load pond _pond_. The path of the pond's **env\_vars.fish** file will be passed to **source**(1) and its contents evaluated in the current shell, making shell variables created with **set**(1) accessible to the current shell, and exported variables (i.e. **set -x** ...) available to child processes.
+Load _ponds_. The path of each named pond's **env\_vars.fish** file will be passed to the **source**(1) command and its contents evaluated in the current shell session, making shell variables created with the **set**(1) command accessible to the current shell, and making exported variables (i.e. **set -x** ...) available to child processes of the current shell.
 
-**unload** _pond_
+**unload** _ponds..._
 -----------------
 
-Unload pond _pond_. **pond** will attempt to parse the pond's **env\_vars.fish** file for **set**(1) commands and erase these shell variables from the current shell using **set -e**.
+Unload _ponds_. **pond** will attempt to parse each named pond's **env\_vars.fish** file for **set**(1) commands and will erase matching shell variables from the current shell session using **set -e**.
 
 **-v**, **\--verbose**
 
@@ -131,10 +131,10 @@ Unload pond _pond_. **pond** will attempt to parse the pond's **env\_vars.fish**
 
 View status of _pond_. Status information includes the _name_ of the pond, its _enabled_ state (**yes** or **no**), _private_ state (**yes** or **no**) and the absolute _path_ to the directory comprising its data.
 
-**drain** [**-s**|**\--silent**] _pond_
+**drain** [**-s**|**\--silent**] _ponds..._
 ---------------------------------------
 
-Drain all shell variables from _pond_. Draining a pond effectively removes all content from the pond's **env\_vars.fish** file. If the pond was previously enabled (prior to the current shell session being created) or loaded into the current shell session with the **load** command, its variables will remain set and accessible to processes spawned by the current shell.
+Drain _ponds_. All content is removed from the **env\_vars.fish** file for each named pond. If any of the named ponds was enabled, or had been previously loaded into the current shell session with the **load** command, then its variables _will remain set_ in the shell environment and continue to be accessible to processes spawned by the current shell until it exits.
 
 **-s**, **\--silent**
 

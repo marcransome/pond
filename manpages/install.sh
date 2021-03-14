@@ -8,9 +8,10 @@ if ! command -v curl >/dev/null; then
 fi
 
 http_code=$(curl --write-out "%{http_code}" --silent "https://raw.githubusercontent.com/marcransome/pond/main/manpages/pond.1" -o /usr/local/share/man/man1/pond.1)
+curl_exit=$?
 
-if [[ $? -ne 0 ]]; then
-    echo "A curl error occurred when retrieving the man page: $status"
+if [[ $curl_exit -ne 0 ]]; then
+    echo "A curl error occurred when installing the man page: $curl_exit"
     exit 1
 elif [[ $http_code -ne 200 ]]; then
     echo "A HTTP error occurred when retrieving the man page: $http_code"

@@ -160,9 +160,9 @@
 <h1 id="description">DESCRIPTION</h1>
 <p>A pond represents a collection of shell variables (and in a future release functions) within the fish shell. Ponds are used to group related shell variables together. Naming ponds after individual applications or local development environments is a good way to separate and control them by use-case.</p>
 <p>Pond provides tab completion for all commands and options discussed here in addition to pond name completion for any ponds that exist locally.</p>
-<p>Arguments can be read from standard input when <strong>pond</strong> is used in a pipeline. For example, to take the first pond name output from the <strong>list</strong> command and execute a <strong>remove</strong> operation using this name:</p>
-<p><em>Example:</em> <strong>pond list | head -1 | pond remove</strong></p>
-<p>All arguments passed via standard input are appended to the arguments already present in the <strong>pond</strong> command. When used in this way, the <strong>--silent</strong> option used by many commands is assumed, meaning no prompt for user confirmation will be requested for certain operations (see <strong>COMMANDS</strong> to determine which commands this applies to), and the <strong>--empty</strong> option is assumed when using the <strong>create</strong> command. <strong>pond</strong> exits 1 if using the <strong>edit</strong> command in a pipeline as no interactive editor can be opened without a tty.</p>
+<p>Arguments can be read from standard input when <strong>pond</strong> is used in a pipeline. For example, to remove all disabled ponds:</p>
+<p><em>Example:</em> <strong>pond list –disabled | pond remove</strong></p>
+<p>All arguments passed via standard input are appended to the arguments already present in the <strong>pond</strong> command. When used in this way, the <strong>--silent</strong> option is assumed by commands that support this option, meaning no user confirmation will be requested for those operations (see <strong>COMMANDS</strong> to determine which commands this applies to), and the <strong>--empty</strong> option is assumed for the <strong>create</strong> command. <strong>pond</strong> exits 1 if the <strong>edit</strong> command is used in a pipeline as an interactive editor cannot be opened without a tty.</p>
 <h2 id="options">Options</h2>
 <dl>
 <dt><strong>-h,</strong> <strong>--help</strong></dt>
@@ -186,8 +186,8 @@
 <dd><p>Create a private pond</p>
 </dd>
 </dl>
-<h2 id="remove--s--silent-pond"><strong>remove</strong> [<strong>-s</strong>|<strong>--silent</strong>] <em>pond</em></h2>
-<p>Remove the pond named <em>pond</em>. The directory containing pond data will be erased (typically a subdirectory of the name <em>pond</em> located in <strong>$__fish_config_dir/pond/regular/</strong> or <strong>$__fish_config_dir/pond/private/</strong>. Confirmation from the user is expected, with a <strong>yes</strong> response to confirm removal, but can be silenced (automatically accepted) using <strong>--silent</strong>.</p>
+<h2 id="remove--s--silent-ponds"><strong>remove</strong> [<strong>-s</strong>|<strong>--silent</strong>] <em>ponds…</em></h2>
+<p>Remove <em>ponds</em>. All pond data will be erased for each named pond (i.e. the pond directory located in <strong>$__fish_config_dir/pond/regular/</strong> or <strong>$__fish_config_dir/pond/private/</strong> for each named pond is erased). Confirmation is requested from the user for each named pond and a <strong>yes</strong> response confirms removal of the named pond. Confirmation prompts can be silenced with the <strong>--silent</strong> option.</p>
 <dl>
 <dt><strong>-s</strong>, <strong>--silent</strong></dt>
 <dd><p>Silence confirmation prompt (this option is inferred when using <strong>pond</strong> in the context of a pipeline)</p>
@@ -216,14 +216,14 @@
 <p><em>Example:</em> <strong>pond list --enabled --private</strong> (list enabled private ponds only)</p>
 <h2 id="edit-pond"><strong>edit</strong> <em>pond</em></h2>
 <p>Open an interactive editor for modifying shell variables in a pond (i.e. <strong>set</strong>(1) commands). See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used.</p>
-<h2 id="enable-pond"><strong>enable</strong> <em>pond</em></h2>
-<p>Enable pond <em>pond</em> if not already enabled. A symbolic link will be created in <strong>$__fish_config_dir/pond/links</strong> to the pond directory (the pond directory path can be viewed using the <strong>status</strong> command). When new shell sessions are created any such symbolic links are followed and the <strong>env_vars.fish</strong> file in each enabled pond directory is sourced into the environment to make its shell variables available to processes.</p>
-<h2 id="disable-pond"><strong>disable</strong> <em>pond</em></h2>
-<p>Disable pond <em>pond</em> if not already disabled. The symbolic link to the pond directory in <strong>$__fish_config_dir/pond/links</strong> is removed. Any shell variables that exist in <em>pond</em> will no longer be accessible to processes when new shell sessions are created after disabling the pond.</p>
-<h2 id="load-pond"><strong>load</strong> <em>pond</em></h2>
-<p>Load pond <em>pond</em>. The path of the pond’s <strong>env_vars.fish</strong> file will be passed to <strong>source</strong>(1) and its contents evaluated in the current shell, making shell variables created with <strong>set</strong>(1) accessible to the current shell, and exported variables (i.e. <strong>set -x</strong> …) available to child processes.</p>
-<h2 id="unload-pond"><strong>unload</strong> <em>pond</em></h2>
-<p>Unload pond <em>pond</em>. <strong>pond</strong> will attempt to parse the pond’s <strong>env_vars.fish</strong> file for <strong>set</strong>(1) commands and erase these shell variables from the current shell using <strong>set -e</strong>.</p>
+<h2 id="enable-ponds"><strong>enable</strong> <em>ponds…</em></h2>
+<p>Enable <em>ponds</em>. A symbolic link will be created in <strong>$__fish_config_dir/pond/links</strong> to the pond directory for each named pond (a pond’s directory path can be viewed using the <strong>status</strong> command). When a new shell session is created, the <strong>env_vars.fish</strong> file for each enabled pond is sourced into the shell environment, making shell variables created with the <strong>set</strong>(1) command accessible to the shell, and making exported variables (i.e. <strong>set -x</strong> …) available to child processes of the shell.</p>
+<h2 id="disable-ponds"><strong>disable</strong> <em>ponds…</em></h2>
+<p>Disable <em>ponds</em>. The symbolic link to the pond directory in <strong>$__fish_config_dir/pond/links</strong> for each named pond is removed. Any shell variables present in each named pond’s <strong>env_vars.fish</strong> file will no longer be sourced into shell sessions that are created after those ponds are disabled.</p>
+<h2 id="load-ponds"><strong>load</strong> <em>ponds…</em></h2>
+<p>Load <em>ponds</em>. The path of each named pond’s <strong>env_vars.fish</strong> file will be passed to the <strong>source</strong>(1) command and its contents evaluated in the current shell session, making shell variables created with the <strong>set</strong>(1) command accessible to the current shell, and making exported variables (i.e. <strong>set -x</strong> …) available to child processes of the current shell.</p>
+<h2 id="unload-ponds"><strong>unload</strong> <em>ponds…</em></h2>
+<p>Unload <em>ponds</em>. <strong>pond</strong> will attempt to parse each named pond’s <strong>env_vars.fish</strong> file for <strong>set</strong>(1) commands and will erase matching shell variables from the current shell session using <strong>set -e</strong>.</p>
 <dl>
 <dt><strong>-v</strong>, <strong>--verbose</strong></dt>
 <dd><p>Output variable names during unload</p>
@@ -231,8 +231,8 @@
 </dl>
 <h2 id="status-pond"><strong>status</strong> <em>pond</em></h2>
 <p>View status of <em>pond</em>. Status information includes the <em>name</em> of the pond, its <em>enabled</em> state (<strong>yes</strong> or <strong>no</strong>), <em>private</em> state (<strong>yes</strong> or <strong>no</strong>) and the absolute <em>path</em> to the directory comprising its data.</p>
-<h2 id="drain--s--silent-pond"><strong>drain</strong> [<strong>-s</strong>|<strong>--silent</strong>] <em>pond</em></h2>
-<p>Drain all shell variables from <em>pond</em>. Draining a pond effectively removes all content from the pond’s <strong>env_vars.fish</strong> file. If the pond was previously enabled (prior to the current shell session being created) or loaded into the current shell session with the <strong>load</strong> command, its variables will remain set and accessible to processes spawned by the current shell.</p>
+<h2 id="drain--s--silent-ponds"><strong>drain</strong> [<strong>-s</strong>|<strong>--silent</strong>] <em>ponds…</em></h2>
+<p>Drain <em>ponds</em>. All content is removed from the <strong>env_vars.fish</strong> file for each named pond. If any of the named ponds was enabled, or had been previously loaded into the current shell session with the <strong>load</strong> command, then its variables <em>will remain set</em> in the shell environment and continue to be accessible to processes spawned by the current shell until it exits.</p>
 <dl>
 <dt><strong>-s</strong>, <strong>--silent</strong></dt>
 <dd><p>Silence confirmation prompt (this option is inferred when using <strong>pond</strong> in the context of a pipeline)</p>

@@ -77,6 +77,13 @@ $ pond list
 my-app
 ```
 
+Use one or more filter options to limit the output:
+
+```console
+$ pond list --private --disabled
+my-app
+```
+
 ### Removing ponds
 
 Use the `remove` command to remove a pond:
@@ -130,11 +137,11 @@ $ pond unload my-app
 Unloaded pond: my-app
 ```
 
-If a pond is _enabled_ this action will not stop pond variables from being exposed to new shell sessions. Instead, `disable` the pond to make the changes persist.
+Unloading a pond will not stop pond variables from being exposed to new shell sessions if the pond is _enabled_. Instead, `disable` the pond to make the changes persist.
 
 ### Viewing the status of ponds
 
-Use the `status` command to view the current status of a pond:
+Use the `status` command to view the status of a pond:
 
 ```console
 $ pond status my-app
@@ -146,7 +153,7 @@ path: /Users/<username>/.config/fish/pond/regular/my-app
 
 ### Draining ponds
 
-Use the `drain` command to drain a pond of all its variables:
+Use the `drain` command to drain all content from a pond:
 
 ```console
 $ pond drain my-app
@@ -161,7 +168,28 @@ $ pond drain --silent my-app
 Drained pond: my-app
 ```
 
-If a pond was previously _loaded_ into the current shell session this action will not remove pond variables from its environment. Instead, `unload` the pond to remove them first.
+If a pond was previously _loaded_ into the current shell session this action will not remove pond variables from the shell environment. Instead, `unload` the pond to remove them first, or create a new shell session after draining a pond.
+
+### Viewing global pond configuration
+
+To view global configuration for the `pond` command:
+
+```console
+$ pond config
+Pond home: /Users/<username>/.config/fish/pond
+Enable ponds on creation: yes
+Pond editor command: gvim
+```
+
+### Opening a pond directory
+
+To open a pond directory:
+
+```console
+$ pond dir my-app
+```
+
+The current working directory will be changed to the pond directory.
 
 ## Event handlers
 
@@ -175,12 +203,13 @@ Event name      | Description                     | Arguments
 `pond_disabled` | Emitted when a pond is disabled | `argv[1]`: pond name<br />`argv[2]`: pond path
 `pond_loaded`   | Emitted when a pond is loaded   | `argv[1]`: pond name<br />`argv[2]`: pond path
 `pond_unloaded` | Emitted when a pond is unloaded | `argv[1]`: pond name<br />`argv[2]`: pond path
+`pond_drained`  | Emitted when a pond is drained  | `argv[1]`: pond name<br />`argv[2]`: pond path
 
-For example, to respond to the creation of each new pond by writing its name and path to a file:
+For example, to write the name of each new pond created to a file:
 
 ```fish
 function pond_create_handler --on-event pond_created --argument-names pond_name pond_path
-  echo "$pond_name was created at $pond_path" >> ~/my-ponds
+  echo "$pond_name was created at $pond_path on "(date) >> ~/my-ponds
 end
 ```
 

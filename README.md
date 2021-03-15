@@ -170,7 +170,7 @@ Drained pond: my-app
 
 If a pond was previously _loaded_ into the current shell session this action will not remove pond variables from the shell environment. Instead, `unload` the pond to remove them first, or create a new shell session after draining a pond.
 
-### Viewing global pond configuration
+### Viewing global pond configuration
 
 To view global configuration for the `pond` command:
 
@@ -181,7 +181,7 @@ Enable ponds on creation: yes
 Pond editor command: gvim
 ```
 
-### Opening a pond directory
+### Opening a pond directory
 
 To open a pond directory:
 

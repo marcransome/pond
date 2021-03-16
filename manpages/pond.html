@@ -161,7 +161,7 @@
 <p>A pond represents a collection of shell variables (and in a future release functions) within the fish shell. Ponds are used to group related shell variables together. Naming ponds after individual applications or local development environments is a good way to separate and control them by use-case.</p>
 <p>Pond provides tab completion for all commands and options discussed here in addition to pond name completion for any ponds that exist locally.</p>
 <p>Arguments can be read from standard input when <strong>pond</strong> is used in a pipeline. For example, to remove all disabled ponds:</p>
-<p><em>Example:</em> <strong>pond list –disabled | pond remove</strong></p>
+<p><em>Example:</em> <strong>pond list --disabled | pond remove</strong></p>
 <p>All arguments passed via standard input are appended to the arguments already present in the <strong>pond</strong> command. When used in this way, the <strong>--silent</strong> option is assumed by commands that support this option, meaning no user confirmation will be requested for those operations (see <strong>COMMANDS</strong> to determine which commands this applies to), and the <strong>--empty</strong> option is assumed for the <strong>create</strong> command. <strong>pond</strong> exits 1 if the <strong>edit</strong> command is used in a pipeline as an interactive editor cannot be opened without a tty.</p>
 <h2 id="options">Options</h2>
 <dl>
@@ -260,6 +260,6 @@
 <h1 id="author">AUTHOR</h1>
 <p>Marc Ransome <a href="mailto:marc.ransome@fidgetbox.co.uk" class="email">marc.ransome@fidgetbox.co.uk</a></p>
 <h1 id="see-also">SEE ALSO</h1>
-<p>fish(1), fish-doc(1), set(1)</p>
+<p>fish(1), fish-doc(1), fish-completions(1), set(1)</p>
 </body>
 </html>

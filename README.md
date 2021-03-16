@@ -191,6 +191,26 @@ $ pond dir my-app
 
 The current working directory will be changed to the pond directory.
 
+## Additional documentation
+
+Only a small subset of operations is documented here. Additional documentation is provided through usage output displayed by the `pond` command itself (see `pond --help` or `pond <command> --help`) as well as a separate man page discussed below.
+
+### Installing the man page
+
+The `pond(1)` man page is provided separately from the plugin installation for `pond` itself. To install the latest version of the man page:
+
+Using `fish`:
+
+```console
+$ curl https://raw.githubusercontent.com/marcransome/pond/main/manpages/install.fish | fish
+```
+
+Or, using `bash`:
+
+```console
+$ bash -c "$(curl https://raw.githubusercontent.com/marcransome/pond/main/manpages/install.sh)"
+```
+
 ## Event handlers
 
 Pond emits events for many successful operations. Setup an [event handler](https://fishshell.com/docs/current/index.html#event) to repond to such events with your own code:

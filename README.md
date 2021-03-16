@@ -197,7 +197,7 @@ Only a small subset of operations is documented here. Additional documentation i
 
 ### Installing the man page
 
-The `pond(1)` man page is provided separately from the plugin installation for `pond` itself. To install the latest version of the man page:
+The `pond(1)` man page is provided separately from the plugin installation for `pond` itself. To install the _latest_ version of the man page:
 
 Using `fish`:
 
@@ -210,6 +210,8 @@ Or, using `bash`:
 ```console
 $ bash -c "$(curl https://raw.githubusercontent.com/marcransome/pond/main/manpages/install.sh)"
 ```
+
+To install the matching version of the man page for your `pond` installation, replace the branch name `main` in the above URLs with the semantic version number (use `pond --version` to obtain the version string).
 
 ## Event handlers
 

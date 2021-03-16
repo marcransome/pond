@@ -20,7 +20,7 @@ Pond provides tab completion for all commands and options discussed here in addi
 
 Arguments can be read from standard input when **pond** is used in a pipeline. For example, to remove all disabled ponds:
 
-_Example:_ **pond list --disabled | pond remove**
+_Example:_ **pond list \--disabled | pond remove**
 
 All arguments passed via standard input are appended to the arguments already present in the **pond** command. When used in this way, the **\--silent** option is assumed by commands that support this option, meaning no user confirmation will be requested for those operations (see **COMMANDS** to determine which commands this applies to), and the **\--empty** option is assumed for the **create** command. **pond** exits 1 if the **edit** command is used in a pipeline as an interactive editor cannot be opened without a tty.
 
@@ -58,7 +58,7 @@ When creating a new pond, an interactive editor is opened (unless the **\--empty
 :   Create a private pond
 
 **remove** [**-s**|**\--silent**] _ponds..._
-----------------------------------------
+--------------------------------------------
 
 Remove _ponds_. All pond data will be erased for each named pond (i.e. the pond directory located in **\$\_\_fish\_config\_dir/pond/regular/** or **\$\_\_fish\_config\_dir/pond/private/** for each named pond is erased). Confirmation is requested from the user for each named pond and a **yes** response confirms removal of the named pond. Confirmation prompts can be silenced with the **\--silent** option.
 
@@ -103,22 +103,22 @@ _Example:_ **pond list \--enabled \--private** (list enabled private ponds only)
 Open an interactive editor for modifying shell variables in a pond (i.e. **set**(1) commands). See **ENVIRONMENT** for a discussion of the **pond\_editor** _universal_ variable that controls which editor is used.
 
 **enable** _ponds..._
------------------
+---------------------
 
 Enable _ponds_. A symbolic link will be created in **\$\_\_fish\_config\_dir/pond/links** to the pond directory for each named pond (a pond's directory path can be viewed using the **status** command). When a new shell session is created, the **env\_vars.fish** file for each enabled pond is sourced into the shell environment, making shell variables created with the **set**(1) command accessible to the shell, and making exported variables (i.e. **set -x** ...) available to child processes of the shell.
 
 **disable** _ponds..._
-------------------
+----------------------
 
 Disable _ponds_. The symbolic link to the pond directory in **\$\_\_fish\_config\_dir/pond/links** for each named pond is removed. Any shell variables present in each named pond's **env\_vars.fish** file will no longer be sourced into shell sessions that are created after those ponds are disabled.
 
 **load** _ponds..._
----------------
+-------------------
 
 Load _ponds_. The path of each named pond's **env\_vars.fish** file will be passed to the **source**(1) command and its contents evaluated in the current shell session, making shell variables created with the **set**(1) command accessible to the current shell, and making exported variables (i.e. **set -x** ...) available to child processes of the current shell.
 
 **unload** _ponds..._
------------------
+---------------------
 
 Unload _ponds_. **pond** will attempt to parse each named pond's **env\_vars.fish** file for **set**(1) commands and will erase matching shell variables from the current shell session using **set -e**.
 
@@ -183,4 +183,4 @@ Marc Ransome <marc.ransome@fidgetbox.co.uk>
 SEE ALSO
 ========
 
-fish(1), fish-doc(1), set(1)
+fish(1), fish-doc(1), fish-completions(1), set(1)

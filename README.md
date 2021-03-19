@@ -213,6 +213,10 @@ $ bash -c "$(curl https://raw.githubusercontent.com/marcransome/pond/main/manpag
 
 To install the matching version of the man page for your `pond` installation, replace the branch name `main` in the above URLs with the semantic version number (use `pond --version` to obtain the version string).
 
+### Viewing the man page online
+
+As an alternative to installing the man page, [view the latest version of the man page online](http://htmlpreview.github.io/?https://github.com/marcransome/pond/blob/main/manpages/pond.html).
+
 ## Event handlers
 
 Pond emits events for many successful operations. Setup an [event handler](https://fishshell.com/docs/current/index.html#event) to repond to such events with your own code:

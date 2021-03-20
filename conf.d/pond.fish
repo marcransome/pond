@@ -11,16 +11,16 @@ function __pond_install --on-event pond_install
     set -l editors (command -s $EDITOR vim vi emacs nano)
     if test $status -eq 0
         set -U pond_editor $editors[1]
-        echo "Setting pond editor to command: $editors[1]"
-        echo "Change editor with: set -U pond_editor <path>"
+        echo "$pond_message_prefix: Setting pond editor to command: $editors[1]"
+        echo "$pond_message_prefix: Change editor with: set -U pond_editor <path>"
     else
-        echo "Unable to determine editor; some commands may not function"
-        echo "correctly (e.g. 'edit'); Set editor with: set -U pond_editor <path>"
+        echo "$pond_message_prefix: Unable to determine editor; some commands may not function"
+        echo "$pond_message_prefix: correctly (e.g. 'edit'); Set editor with: set -U pond_editor <path>"
     end
 
     for pond_dir in $pond_regular $pond_private $pond_links
         if test (mkdir -p $pond_home/$pond_dir >/dev/null 2>&1) $status -ne 0
-            echo "pond_message_prefix: Failed to create directory: $dir"
+            echo "$pond_message_prefix: Failed to create directory: $dir"
         end
     end
 end

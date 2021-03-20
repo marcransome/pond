@@ -8,9 +8,11 @@ function __pond_install --on-event pond_install
     set -U pond_message_prefix pond
     set -U pond_enable_on_create yes
 
-    set editors (command -s $EDITOR vim vi emacs nano)
+    set -l editors (command -s $EDITOR vim vi emacs nano)
     if test $status -eq 0
-        set -U pond_editor vim
+        set -U pond_editor $editors[1]
+        echo "Setting pond editor to command: $editors[1]"
+        echo "Change editor with: set -U pond_editor <path>"
     else
         echo "Unable to determine editor; some commands may not function"
         echo "correctly (e.g. 'edit'); Set editor with: set -U pond_editor <path>"

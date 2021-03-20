@@ -9,7 +9,7 @@ set http_code (curl --write-out "%{http_code}" --silent "https://raw.githubuserc
 set curl_exit $status
 
 if test $curl_exit -ne 0
-    echo "A curl error occurred when retrieving the man page: $curl_exit"
+    echo "A curl error occurred when installing the man page: $curl_exit"
     exit 1
 else if test $http_code -ne 200
     echo "A HTTP error occurred when retrieving the man page: $http_code"

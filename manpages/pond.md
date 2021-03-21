@@ -22,7 +22,7 @@ Arguments can be read from standard input when **pond** is used in a pipeline. F
 
 _Example:_ **pond list \--disabled | pond remove**
 
-All arguments passed via standard input are appended to the arguments already present in the **pond** command. When used in this way, the **\--silent** option is assumed by commands that support this option, meaning no user confirmation will be requested for those operations (see **COMMANDS** to determine which commands this applies to), and the **\--empty** option is assumed for the **create** command. **pond** exits 1 if the **edit** command is used in a pipeline as an interactive editor cannot be opened without a tty.
+All arguments passed via standard input are appended to the arguments already present in the **pond** command. When used in this way, the **\--silent** option is assumed by commands that support this option, meaning no user confirmation will be requested for those operations (see **COMMANDS** to determine which commands this applies to), and the **\--empty** option is assumed for the **create** command. **pond** exits 1 if the **edit** command is used without a tty.
 
 Options
 -------

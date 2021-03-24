@@ -6,7 +6,7 @@ Usage:
     pond drain [options] ponds...
 
 Options:
-    -s, --silent  Silence confirmation prompt
+    -y, --yes  Automatically accept confirmation prompts
 
 Arguments:
     ponds  The name of one or more ponds to drain"
@@ -32,7 +32,7 @@ function __pond_drained_event_intercept --on-event pond_drained -a got_pond_name
     set -ga event_pond_paths $got_pond_path
 end
 
-for command in "pond drain "{-s,--silent}
+for command in "pond drain "{-y,--yes}
 
     @echo "$command: success tests for regular pond"
     __pond_setup 1 regular enabled populated
@@ -113,7 +113,7 @@ end
 @test "pond drain: fails for malformed pond name" (pond drain _invalid >/dev/null 2>&1) $status -eq $fail
 @test "pond drain: fails for non-existent pond" (pond drain no-exist >/dev/null 2>&1) $status -eq $fail
 
-for valid_option in -s --silent
+for valid_option in -y --yes
     @test "pond drain: fails for valid option $valid_option and missing pond name" (pond drain $valid_option >/dev/null 2>&1) $status -eq $fail
     @test "pond drain: fails for valid option $valid_option and invalid pond name" (pond drain $valid_option _invalid >/dev/null 2>&1) $status -eq $fail
 end
@@ -128,7 +128,7 @@ end
 @test "pond drain: command usage shown for malformed pond name" (pond drain _invalid 2>&1 | string collect) = $command_usage
 @test "pond drain: command error shown for non-existent pond" (pond drain no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
 
-for valid_option in -s --silent
+for valid_option in -y --yes
     @test "pond drain: command usage shown for valid option $valid_option and missing pond name" (pond drain $valid_option 2>&1 | string collect) = $command_usage
     @test "pond drain: command usage shown for valid option $valid_option and invalid pond name" (pond drain $valid_option _invalid 2>&1 | string collect) = $command_usage
 end

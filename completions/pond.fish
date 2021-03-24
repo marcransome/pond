@@ -37,13 +37,13 @@ complete -c pond -n "__fish_seen_subcommand_from create; and not __fish_seen_sub
 complete -c pond -n "__fish_seen_subcommand_from create; and not __fish_seen_subcommand_from -p --private" -a "-p --private" -d "Create private pond"
 
 # Complete options or pond name for remove command
-complete -c pond -n "__fish_seen_subcommand_from remove; and not __fish_seen_subcommand_from -s --silent; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "-s --silent" -d "Silence confirmation prompt"
+complete -c pond -n "__fish_seen_subcommand_from remove; and not __fish_seen_subcommand_from -y --yes; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "-y --yes" -d "Automatically accept confirmation prompts"
 complete -c pond -n "__fish_seen_subcommand_from remove" -a "(pond list 2>/dev/null)"
 
 # Complete options or pond name for drain command
-complete -c pond -n "__fish_seen_subcommand_from drain; and not __fish_seen_subcommand_from -s --silent" -a "-s --silent" -d "Silence confirmation prompt"
+complete -c pond -n "__fish_seen_subcommand_from drain; and not __fish_seen_subcommand_from -y --yes" -a "-y --yes" -d "Automatically accept confirmation prompts"
 complete -c pond -n "__fish_seen_subcommand_from drain; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
-complete -c pond -n "__fish_seen_subcommand_from drain; and __fish_seen_subcommand_from -s --silent" -a "(pond list 2>/dev/null)"
+complete -c pond -n "__fish_seen_subcommand_from drain; and __fish_seen_subcommand_from -y --yes" -a "(pond list 2>/dev/null)"
 
 # Complete options or pond name for unload command
 complete -c pond -n "__fish_seen_subcommand_from unload; and not __fish_seen_subcommand_from -v --verbose; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "-v --verbose" -d "Output variable names during unload"

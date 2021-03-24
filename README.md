@@ -94,10 +94,10 @@ Remove pond: my-app? y
 Removed pond: my-app
 ```
 
-To silence the confirmation prompt use the `-s` or `--silent` option:
+To automatically accept the confirmation prompt use the `-y` or `--yes` option:
 
 ```console
-$ pond remove --silent my-app
+$ pond remove --yes my-app
 Removed pond: my-app
 ```
 
@@ -161,10 +161,10 @@ Drain pond: my-app? y
 Drained pond: my-app
 ```
 
-To silence the confirmation prompt use the `-s` or `--silent` option:
+To automatically accept the confirmation prompt use the `-y` or `--yes` option:
 
 ```console
-$ pond drain --silent my-app
+$ pond drain --yes my-app
 Drained pond: my-app
 ```
 

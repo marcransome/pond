@@ -6,7 +6,7 @@ Usage:
     pond remove [options] ponds...
 
 Options:
-    -s, --silent  Silence confirmation prompt
+    -y, --yes  Automatically accept confirmation prompts
 
 Arguments:
     ponds  The name of one or more ponds to remove"
@@ -32,7 +32,7 @@ function __pond_removed_event_intercept --on-event pond_removed -a event_pond_na
     set -ga event_pond_paths $event_pond_path
 end
 
-for command in "pond remove "{-s,--silent}" $pond_name_regular"
+for command in "pond remove "{-y,--yes}" $pond_name_regular"
 
     @echo "$command: success tests for regular enabled pond"
     __pond_setup 1 regular enabled unpopulated
@@ -76,7 +76,7 @@ for command in "pond remove "{-s,--silent}" $pond_name_regular"
 
 end
 
-for command in "pond remove "{-s,--silent}" $pond_name_private"
+for command in "pond remove "{-y,--yes}" $pond_name_private"
 
     @echo "$command: success tests for private enabled pond"
     __pond_setup 1 private enabled unpopulated
@@ -120,7 +120,7 @@ for command in "pond remove "{-s,--silent}" $pond_name_private"
 
 end
 
-for command in "pond remove "{-s,--silent}" $pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3"
+for command in "pond remove "{-y,--yes}" $pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3"
 
     @echo "$command: success tests for multiple regular enabled ponds"
     __pond_setup 3 regular enabled unpopulated
@@ -172,7 +172,7 @@ for command in "pond remove "{-s,--silent}" $pond_name_regular_prefix-1 $pond_na
 
 end
 
-for command in "pond remove "{-s,--silent}" $pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3"
+for command in "pond remove "{-y,--yes}" $pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3"
 
     @echo "$command: success tests for multiple private enabled ponds"
     __pond_setup 3 private enabled unpopulated

@@ -53,7 +53,7 @@ Usage:
     pond remove [options] ponds...
 
 Options:
-    -s, --silent  Silence confirmation prompt
+    -y, --yes  Automatically accept confirmation prompts
 
 Arguments:
     ponds  The name of one or more ponds to remove" >&2
@@ -142,7 +142,7 @@ Usage:
     pond drain [options] ponds...
 
 Options:
-    -s, --silent  Silence confirmation prompt
+    -y, --yes  Automatically accept confirmation prompts
 
 Arguments:
     ponds  The name of one or more ponds to drain" >&2
@@ -241,7 +241,7 @@ Usage:
             set pond_remove_failure 'Unable to remove private pond'
         end
 
-        if test "$pond_silent" != "yes"
+        if test "$pond_auto_accept" != "yes"
             read --prompt-str "$pond_remove_prompt: $pond_name? " answer
             if ! string length -q $answer; or ! string match -i -r '^(y|yes)$' -q $answer
                 return 0
@@ -397,7 +397,7 @@ Usage:
             set pond_drain_failure 'Unable to drain private pond'
         end
 
-        if test "$pond_silent" != "yes"
+        if test "$pond_auto_accept" != "yes"
             read --prompt-str "$pond_drain_prompt: $pond_name? " answer
             if ! string length -q $answer; or ! string match -i -r '^(y|yes)$' -q $answer
                 return 0
@@ -461,17 +461,17 @@ Usage:
         functions -e __pond_is_private
         functions -e __pond_exists
         functions -e __pond_name_is_valid
-        set -e pond_silent
+        set -e pond_auto_accept
         set -e pond_empty
     end
 
     if isatty
-        set -g pond_silent no
+        set -g pond_auto_accept no
         set -g pond_empty no
     else
         read --local --null --array stdin; and set --append argv $stdin
         set command $argv[1]
-        set -g pond_silent yes
+        set -g pond_auto_accept yes
         set -g pond_empty yes
     end
 
@@ -522,12 +522,12 @@ Usage:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case remove
-            if ! argparse 's/silent' >/dev/null 2>&1 -- $argv
+            if ! argparse 'y/yes' >/dev/null 2>&1 -- $argv
                 __pond_remove_command_usage
                 __pond_cleanup; and return 1
             end
 
-            set -q _flag_silent; and set pond_silent yes
+            set -q _flag_yes; and set pond_auto_accept yes
 
             if test (count $argv) -eq 0; __pond_remove_command_usage; and __pond_cleanup; and return 1; end
 
@@ -680,12 +680,12 @@ Usage:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case drain
-            if ! argparse 's/silent' >/dev/null 2>&1 -- $argv
+            if ! argparse 'y/yes' >/dev/null 2>&1 -- $argv
                 __pond_drain_command_usage
                 __pond_cleanup; and return 1
             end
 
-            set -q _flag_silent; and set pond_silent yes
+            set -q _flag_yes; and set pond_auto_accept yes
 
             if test (count $argv) -eq 0; __pond_drain_command_usage; and __pond_cleanup; and return 1; end
 

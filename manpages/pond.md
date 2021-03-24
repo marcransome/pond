@@ -22,7 +22,7 @@ Arguments can be read from standard input when **pond** is used in a pipeline. F
 
 _Example:_ **pond list \--disabled | pond remove**
 
-All arguments passed via standard input are appended to the arguments already present in the **pond** command. When used in this way, the **\--silent** option is assumed by commands that support this option, meaning no user confirmation will be requested for those operations (see **COMMANDS** to determine which commands this applies to), and the **\--empty** option is assumed for the **create** command. **pond** exits 1 if the **edit** command is used without a tty.
+All arguments passed via standard input are appended to the arguments already present in the **pond** command. When used in this way, the **\--yes** option is assumed by commands that support this option, meaning user confirmation prompts will be automatically accepted for those operations (see **COMMANDS** to determine which commands this applies to), and the **\--empty** option is assumed for the **create** command. **pond** exits 1 if the **edit** command is used without a tty.
 
 Options
 -------
@@ -57,14 +57,14 @@ When creating a new pond, an interactive editor is opened (unless the **\--empty
 
 :   Create a private pond
 
-**remove** [**-s**|**\--silent**] _ponds..._
+**remove** [**-y**|**\--yes**] _ponds..._
 --------------------------------------------
 
-Remove _ponds_. All pond data will be erased for each named pond (i.e. the pond directory located in **\$\_\_fish\_config\_dir/pond/regular/** or **\$\_\_fish\_config\_dir/pond/private/** for each named pond is erased). Confirmation is requested from the user for each named pond and a **yes** response confirms removal of the named pond. Confirmation prompts can be silenced with the **\--silent** option.
+Remove _ponds_. All pond data will be erased for each named pond (i.e. the pond directory located in **\$\_\_fish\_config\_dir/pond/regular/** or **\$\_\_fish\_config\_dir/pond/private/** for each named pond is erased). Confirmation is requested from the user for each named pond and a **yes** response confirms removal of the named pond. Confirmation prompts can be automatically accepted with the **\--yes** option.
 
-**-s**, **\--silent**
+**-y**, **\--yes**
 
-:   Silence confirmation prompt (this option is inferred when using **pond** in the context of a pipeline)
+:   Automatically accept confirmation prompts (this option is inferred when using **pond** in the context of a pipeline)
 
 **list** [**-p**|**\--private**] [**-r**|**\--regular**] [**-e**|**\--enabled**] [**-d**|**\--disabled**]
 ---------------------------------------------------------------------------------------------------------
@@ -131,14 +131,14 @@ Unload _ponds_. **pond** will attempt to parse each named pond's **env\_vars.fis
 
 View status of _pond_. Status information includes the _name_ of the pond, its _enabled_ state (**yes** or **no**), _private_ state (**yes** or **no**) and the absolute _path_ to the directory comprising its data.
 
-**drain** [**-s**|**\--silent**] _ponds..._
+**drain** [**-y**|**\--yes**] _ponds..._
 ---------------------------------------
 
 Drain _ponds_. All content is removed from the **env\_vars.fish** file for each named pond. If any of the named ponds was enabled, or had been previously loaded into the current shell session with the **load** command, then its variables _will remain set_ in the shell environment and continue to be accessible to processes spawned by the current shell until it exits.
 
-**-s**, **\--silent**
+**-y**, **\--yes**
 
-:   Silence confirmation prompt (this option is inferred when using **pond** in the context of a pipeline)
+:   Automatically accept confirmation prompts (this option is inferred when using **pond** in the context of a pipeline)
 
 **dir** _pond_
 --------------

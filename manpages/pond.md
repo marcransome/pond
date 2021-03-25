@@ -1,4 +1,4 @@
-% pond(1) Version 0.6.2 | Pond User's Guide
+% pond(1) Version 0.7.0 | Pond User's Guide
 
 NAME
 ====

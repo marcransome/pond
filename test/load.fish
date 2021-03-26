@@ -125,4 +125,4 @@ __pond_event_reset
 @echo "pond load: validation failure output tests"
 @test "pond load: command usage shown for missing pond name" (pond load 2>&1 | string collect) = $command_usage
 @test "pond load: command usage shown for malformed pond name" (pond load _invalid 2>&1 | string collect) = $command_usage
-@test "pond load: command error shown for non-existent pond" (pond load no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond load: command error shown for non-existent pond" (pond load no-exist 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond does not exist: no-exist")

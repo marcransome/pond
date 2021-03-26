@@ -194,4 +194,4 @@ __pond_tear_down
 
 @echo "pond status: validation failure output tests"
 @test "pond status: command usage shown for malformed pond name" (pond status _invalid 2>&1 | string collect) = $command_usage
-@test "pond status: command error shown for non-existent pond" (pond status no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond status: command error shown for non-existent pond" (pond status no-exist 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond does not exist: no-exist")

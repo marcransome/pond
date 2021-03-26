@@ -27,7 +27,7 @@ __pond_setup 1 regular enabled unpopulated
 set -e __pond_under_test # temporarily disable to allow "command" to be invoked with missing editor
 __pond_editor_intercept_with non-exist-cmd
 @test "pond edit: fails for missing editor" (pond edit $pond_name_regular >/dev/null 2>&1) $status -eq $fail
-@test "pond edit: output failure for missing editor" (pond edit $pond_name_regular 2>&1) = "Editor not found: non-exist-cmd"
+@test "pond edit: output failure for missing editor" (pond edit $pond_name_regular 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Editor not found: non-exist-cmd")
 set __pond_under_test yes
 __pond_tear_down
 
@@ -36,7 +36,7 @@ __pond_setup 1 private enabled unpopulated
 set -e __pond_under_test # temporarily disable to allow "command" to be invoked with missing editor
 __pond_editor_intercept_with non-exist-cmd
 @test "pond edit: fails for missing editor" (pond edit $pond_name_private >/dev/null 2>&1) $status -eq $fail
-@test "pond edit: output failure for missing editor" (pond edit $pond_name_private 2>&1) = "Editor not found: non-exist-cmd"
+@test "pond edit: output failure for missing editor" (pond edit $pond_name_private 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Editor not found: non-exist-cmd")
 set __pond_under_test yes
 __pond_tear_down
 
@@ -60,7 +60,7 @@ end
 @test "pond edit: command usage shown for missing pond name" (pond edit 2>&1 | string collect) = $command_usage
 @test "pond edit: command usage shown for trailing arguments" (pond edit $pond_name_regular trailing 2>&1 | string collect) = $command_usage
 @test "pond edit: command usage shown for malformed pond name" (pond edit _invalid 2>&1 | string collect) = $command_usage
-@test "pond edit: command error shown for non-existent pond" (pond edit no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond edit: command error shown for non-existent pond" (pond edit no-exist 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond does not exist: no-exist")
 
 for valid_option in -e --empty -p --private
     @test "pond edit: command usage shown for valid option $valid_option and missing pond name" (pond edit $valid_option 2>&1 | string collect) = $command_usage

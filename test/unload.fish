@@ -330,7 +330,7 @@ end
 @echo "pond unload: validation failure output tests"
 @test "pond unload: command usage shown for missing pond name" (pond unload 2>&1 | string collect) = $command_usage
 @test "pond unload: command usage shown for malformed pond name" (pond unload _invalid 2>&1 | string collect) = $command_usage
-@test "pond unload: command error shown for non-existent pond" (pond unload no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond unload: command error shown for non-existent pond" (pond unload no-exist 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond does not exist: no-exist")
 
 for valid_option in -v --verbose
     @test "pond unload: command usage shown for valid option $valid_option and missing pond name" (pond unload $valid_option 2>&1 | string collect) = $command_usage

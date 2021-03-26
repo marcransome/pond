@@ -242,7 +242,7 @@ end
 @echo "pond remove: validation failure output tests"
 @test "pond remove: command usage shown for missing pond name" (pond remove 2>&1 | string collect) = $command_usage
 @test "pond remove: command usage shown for malformed pond name" (pond remove _invalid 2>&1 | string collect) = $command_usage
-@test "pond remove: command error shown for non-existent pond" (pond remove no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond remove: command error shown for non-existent pond" (pond remove no-exist 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond does not exist: no-exist")
 
 for valid_option in -e --empty -p --private
     @test "pond remove: command usage shown for valid option $valid_option and missing pond name" (pond remove $valid_option 2>&1 | string collect) = $command_usage

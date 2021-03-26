@@ -106,7 +106,7 @@ __pond_event_reset
 @echo "pond disable: failure tests for regular disabled pond"
 __pond_setup 1 regular disabled unpopulated
 @test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_regular
-@test "pond disable: command error shown for regular disabled pond" (pond disable $pond_name_regular 2>&1 | string collect) = "Pond already disabled: $pond_name_regular"
+@test "pond disable: command error shown for regular disabled pond" (pond disable $pond_name_regular 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond already disabled: $pond_name_regular")
 __pond_tear_down
 
 @echo "pond disable: failure tests for multiple regular disabled ponds"
@@ -114,13 +114,13 @@ __pond_setup 3 regular disabled unpopulated
 @test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_regular_prefix-1
 @test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_regular_prefix-2
 @test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_regular_prefix-3
-@test "pond disable: command error shown for regular disabled pond" (pond disable $pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3 2>&1 | string collect) = "Pond already disabled: $pond_name_regular_prefix-1"
+@test "pond disable: command error shown for regular disabled pond" (pond disable $pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond already disabled: $pond_name_regular_prefix-1")
 __pond_tear_down
 
 @echo "pond disable: failure tests for private disabled pond"
 __pond_setup 1 private disabled unpopulated
 @test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_private
-@test "pond disable: command error shown for private disabled pond" (pond disable $pond_name_private 2>&1 | string collect) = "Pond already disabled: $pond_name_private"
+@test "pond disable: command error shown for private disabled pond" (pond disable $pond_name_private 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond already disabled: $pond_name_private")
 __pond_tear_down
 
 @echo "pond disable: failure tests for multiple private disabled ponds"
@@ -128,7 +128,7 @@ __pond_setup 1 private disabled unpopulated
 @test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_private_prefix-1
 @test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_private_prefix-2
 @test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_private_prefix-3
-@test "pond disable: command error shown for private disabled pond" (pond disable $pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3 2>&1 | string collect) = "Pond already disabled: $pond_name_private_prefix-1"
+@test "pond disable: command error shown for private disabled pond" (pond disable $pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond already disabled: $pond_name_private_prefix-1")
 __pond_tear_down
 
 @echo "pond disable: validation failure exit code tests"
@@ -139,6 +139,6 @@ __pond_tear_down
 @echo "pond disable: validation failure output tests"
 @test "pond disable: command usage shown for missing pond name" (pond disable 2>&1 | string collect) = $command_usage
 @test "pond disable: command usage shown for malformed pond name" (pond disable _invalid 2>&1 | string collect) = $command_usage
-@test "pond disable: command error shown for non-existent pond" (pond disable no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond disable: command error shown for non-existent pond" (pond disable no-exist 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond does not exist: no-exist")
 
 set pond_enable_on_create $pond_enable_on_create_before_test

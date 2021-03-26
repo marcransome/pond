@@ -229,8 +229,8 @@
 <dd><p>Output variable names during unload</p>
 </dd>
 </dl>
-<h2 id="status-pond"><strong>status</strong> <em>pond</em></h2>
-<p>View status of <em>pond</em>. Status information includes the <em>name</em> of the pond, its <em>enabled</em> state (<strong>yes</strong> or <strong>no</strong>), <em>private</em> state (<strong>yes</strong> or <strong>no</strong>) and the absolute <em>path</em> to the directory comprising its data.</p>
+<h2 id="status-ponds"><strong>status</strong> [<em>ponds…</em>]</h2>
+<p>View global status (without arguments) or status of <em>ponds</em>. Global status includes total pond count and enabled pond count. Pond status includes the <em>name</em> of the pond, its <em>enabled</em> state (<strong>yes</strong> or <strong>no</strong>), <em>private</em> state (<strong>yes</strong> or <strong>no</strong>) and the absolute <em>path</em> to the directory comprising its data.</p>
 <h2 id="drain--y--yes-ponds"><strong>drain</strong> [<strong>-y</strong>|<strong>--yes</strong>] <em>ponds…</em></h2>
 <p>Drain <em>ponds</em>. All content is removed from the <strong>env_vars.fish</strong> file for each named pond. If any of the named ponds was enabled, or had been previously loaded into the current shell session with the <strong>load</strong> command, then its variables <em>will remain set</em> in the shell environment and continue to be accessible to processes spawned by the current shell until it exits.</p>
 <dl>

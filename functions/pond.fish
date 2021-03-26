@@ -129,10 +129,10 @@ Arguments:
     function __pond_status_command_usage
         echo "\
 Usage:
-    pond status <name>
+    pond status [ponds...]
 
 Arguments:
-    name  The name of the pond" >&2
+    name  The name of one or more ponds" >&2
         echo
     end
 
@@ -667,18 +667,30 @@ Usage:
                 end
             end
         case status
-            set -l pond_name $argv[-1]
-            set argv $argv[1..-2]
-
-            if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"; or test (count $argv) -ne 0
-                __pond_status_command_usage; and __pond_cleanup; and return 1
-            else if ! __pond_exists $pond_name
-                __pond_show_not_exists_error $pond_name; and __pond_cleanup; and return 1
+            if test (count $argv) -eq 0
+                set -l pond_count (count $pond_home/{$pond_regular, $pond_private}/*/)
+                echo "$pond_count "(test $pond_count -eq 1; and echo "pond"; or echo "ponds")", "(count $pond_home/$pond_links/*)" enabled"
+                __pond_cleanup
+                return 0
             end
 
-            __pond_status_operation $pond_name
-            set -l exit_code $status
-            __pond_cleanup; and return $exit_code
+            for pond_name in $argv
+                if ! __pond_name_is_valid "$pond_name"
+                    __pond_status_command_usage
+                    __pond_cleanup
+                    return 1
+                else if ! __pond_exists $pond_name
+                    __pond_show_not_exists_error $pond_name
+                    __pond_cleanup
+                    return 1
+                end
+
+                __pond_status_operation $pond_name
+                set -l exit_code $status
+                if test $exit_code -gt 0
+                    __pond_cleanup; and return $exit_code
+                end
+            end
         case drain
             if ! argparse 'y/yes' >/dev/null 2>&1 -- $argv
                 __pond_drain_command_usage

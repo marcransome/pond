@@ -126,10 +126,10 @@ Unload _ponds_. **pond** will attempt to parse each named pond's **env\_vars.fis
 
 :   Output variable names during unload
 
-**status** _pond_
+**status** [_ponds..._]
 -----------------
 
-View status of _pond_. Status information includes the _name_ of the pond, its _enabled_ state (**yes** or **no**), _private_ state (**yes** or **no**) and the absolute _path_ to the directory comprising its data.
+View global status (without arguments) or status of _ponds_. Global status includes total pond count and enabled pond count. Pond status includes the _name_ of the pond, its _enabled_ state (**yes** or **no**), _private_ state (**yes** or **no**) and the absolute _path_ to the directory comprising its data.
 
 **drain** [**-y**|**\--yes**] _ponds..._
 ---------------------------------------

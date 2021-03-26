@@ -176,31 +176,30 @@ Usage:
         end
 
         if test (mkdir -p $pond_home/$pond_parent/$pond_name >/dev/null 2>&1) $status -ne 0
-            echo "Failed to create pond directory: $pond_home/$pond_parent/$pond_name" >&2; and return 1
+            __pond_show_error "Failed to create pond directory: $pond_home/$pond_parent/$pond_name"; and return 1
         end
 
         if test (chmod $pond_mode $pond_home/$pond_parent/$pond_name >/dev/null 2>&1) $status -ne 0
-            echo "Failed to set mode on directory: $pond_home/$pond_parent/$pond_name"
+            __pond_show_error "Failed to set mode on directory: $pond_home/$pond_parent/$pond_name"; and return 1
         end
 
         if test (touch $pond_home/$pond_parent/$pond_name/$pond_vars 2>/dev/null) $status -ne 0
-            echo "Failed to create pond variables file: $pond_home/$pond_parent/$pond_name/$pond_vars" >&2; and return 1
+            __pond_show_error "Failed to create pond variables file: $pond_home/$pond_parent/$pond_name/$pond_vars"; and return 1
         end
 
         if test (mkdir -p $pond_home/$pond_parent/$pond_name/$pond_functions >/dev/null 2>&1) $status -ne 0
-            echo "Failed to create pond functions directory: $pond_home/$pond_parent/$pond_name/$pond_functions" >&2; and return 1
+            __pond_show_error "Failed to create pond functions directory: $pond_home/$pond_parent/$pond_name/$pond_functions"; and return 1
         end
 
         if test "$pond_enable_on_create" = "yes"
             ln -s $pond_home/$pond_parent/$pond_name $pond_home/$pond_links/$pond_name >/dev/null 2>&1
             if test $status -ne 0
-                echo "Failed to create symbolic link: $pond_home/$pond_links/$pond_name" >&2; and return 1
+                __pond_show_error "Failed to create symbolic link: $pond_home/$pond_links/$pond_name"; and return 1
             end
         end
 
-        if test -z "$__pond_under_test"
-            and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
-            echo "Editor not found: $pond_editor" >&2; and return 1
+        if test -z "$__pond_under_test"; and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
+            __pond_show_error "Editor not found: $pond_editor"; and return 1
         end
 
         if test "$pond_empty" != "yes"
@@ -215,9 +214,8 @@ Usage:
         set -l pond_parent $pond_regular
         if __pond_is_private $pond_name; set pond_parent $pond_private; end
 
-        if test -z "$__pond_under_test"
-            and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
-            echo "Editor not found: $pond_editor" >&2; and return 1
+        if test -z "$__pond_under_test"; and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
+            __pond_show_error "Editor not found: $pond_editor"; and return 1
         end
 
         if isatty; or test -n "$__pond_under_test"
@@ -250,12 +248,12 @@ Usage:
 
         if test -L $pond_home/$pond_links/$pond_name
             if test (unlink $pond_home/$pond_links/$pond_name >/dev/null 2>&1) $status -ne 0
-                echo "Failed to remove symbolic link: $pond_home/$pond_links/$pond_name" >&2; and return 1
+                __pond_show_error "Failed to remove symbolic link: $pond_home/$pond_links/$pond_name"; and return 1
             end
         end
 
         if test (rm -rf $pond_home/$pond_parent/$pond_name >/dev/null 2>&1) $status -ne 0
-            echo "$pond_remove_failure: $pond_name" >&2; and return 1
+            __pond_show_error "$pond_remove_failure: $pond_name"; and return 1
         end
 
         echo "$pond_remove_success: $pond_name"
@@ -303,7 +301,7 @@ Usage:
         end
 
         if test (count $pond_names) -eq 0
-            echo "No ponds found" >&2; and return 1
+            __pond_show_error "No ponds found"; and return 1
         end
 
         for pond_name in (string join0 $pond_names | sort -z | string split0)
@@ -315,11 +313,11 @@ Usage:
         set -l pond_parent (__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)
 
         if test -L $pond_home/$pond_links/$pond_name;
-            echo "Pond already enabled: $pond_name" >&2; and return 1
+            __pond_show_error "Pond already enabled: $pond_name"; and return 1
         else
             ln -s $pond_home/$pond_parent/$pond_name $pond_home/$pond_links/$pond_name >/dev/null 2>&1
             if test $status -ne 0
-                echo "Failed to create symbolic link: $pond_home/$pond_links/$pond_name" >&2; and return 1
+                __pond_show_error "Failed to create symbolic link: $pond_home/$pond_links/$pond_name"; and return 1
             end
 
             echo "Enabled "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
@@ -331,11 +329,11 @@ Usage:
         set -l pond_parent (__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)
 
         if ! test -L $pond_home/$pond_links/$pond_name
-            echo "Pond already disabled: $pond_name" >&2; and return 1
+            __pond_show_error "Pond already disabled: $pond_name"; and return 1
         else
             unlink $pond_home/$pond_links/$pond_name >/dev/null 2>&1
             if test $status -ne 0
-                echo "Failed to remove symbolic link: $pond_home/$pond_links/$pond_name" >&2; and return 1
+                __pond_show_error "Failed to remove symbolic link: $pond_home/$pond_links/$pond_name"; and return 1
             end
 
             echo "Disabled "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
@@ -348,7 +346,7 @@ Usage:
 
         source $pond_home/$pond_parent/$pond_name/$pond_vars
         if test $status -ne 0
-            echo "Failed to source file: $pond_home/$pond_parent/$pond_name/$pond_vars" >&2; and return 1
+            __pond_show_error "Failed to source file: $pond_home/$pond_parent/$pond_name/$pond_vars"; and return 1
         end
 
         echo "Loaded "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
@@ -420,12 +418,17 @@ Usage:
         echo "Pond editor command: $pond_editor"
     end
 
+    function __pond_show_error -a message
+        set_color red; and echo -n "Error: " >&2
+        set_color normal; and echo $message >&2
+    end
+
     function __pond_show_exists_error -a pond_name
-        echo "Pond already exists: $pond_name" >&2
+        __pond_show_error "Pond already exists: $pond_name"
     end
 
     function __pond_show_not_exists_error -a pond_name
-        echo "Pond does not exist: $pond_name" >&2
+        __pond_show_error "Pond does not exist: $pond_name"
     end
 
     function __pond_is_private -a pond_name
@@ -733,8 +736,7 @@ Usage:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case '*'
-            __pond_usage
-            echo "Unknown command: $command" >&2; and __pond_cleanup; and return 1
+            __pond_show_error "Unknown command: $command" >&2; and __pond_cleanup; and return 1
     end
 
     __pond_cleanup

@@ -736,7 +736,7 @@ Usage:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case '*'
-            __pond_show_error "Unknown command: $command" >&2; and __pond_cleanup; and return 1
+            __pond_show_error "Unknown command: $command"; and __pond_cleanup; and return 1
     end
 
     __pond_cleanup

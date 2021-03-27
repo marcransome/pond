@@ -447,12 +447,13 @@ Usage:
     function __pond_cleanup
         functions -e __pond_cleanup
 
-        for command in create remove list edit enable disable load unload status drain dir
+        for command in create remove list edit enable disable load unload status drain dir config
             functions -e "__pond_"(echo $command)"_command_usage"
             functions -e "__pond_"(echo $command)"_operation"
         end
 
         functions -e __pond_usage
+        functions -e __pond_show_error
         functions -e __pond_show_exists_error
         functions -e __pond_show_not_exists_error
         functions -e __pond_is_private

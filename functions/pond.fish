@@ -419,8 +419,7 @@ Usage:
     end
 
     function __pond_show_error -a message
-        set_color red; and echo -n "Error: " >&2
-        set_color normal; and echo $message >&2
+        printf (set_color red; and echo -n "Error: "; and set_color normal; and echo "$message") >&2
     end
 
     function __pond_show_exists_error -a pond_name

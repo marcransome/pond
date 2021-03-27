@@ -3,6 +3,8 @@ source ./helpers/variables.fish
 
 set pond_editor_before_test "$pond_editor"
 
+set already_exists_error = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond already exists: $pond_name_regular")
+
 set command_usage "\
 Usage:
     pond create [options] <name>
@@ -99,7 +101,7 @@ end
 @test "pond create: command usage shown for malformed pond name" (pond create _invalid 2>&1 | string collect) = $command_usage
 
 __pond_setup 1 regular enabled unpopulated
-@test "pond create: command error shown for existing regular pond" (pond create $pond_name_regular 2>&1) = (set_color red; and echo -n "Error: "; and set_color normal; and echo "Pond already exists: $pond_name_regular")
+@test "pond create: command error shown for existing regular pond" (pond create $pond_name_regular 2>&1) = $already_exists_error
 __pond_tear_down
 
 for option in -p --private

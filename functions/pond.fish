@@ -428,10 +428,6 @@ Usage:
         echo "Pond does not exist: $pond_name" >&2
     end
 
-    function __pond_show_name_missing_error
-        echo "No pond name specified" >&2
-    end
-
     function __pond_is_private -a pond_name
         return (test -d $pond_home/$pond_private/$pond_name >/dev/null 2>&1) $status
     end
@@ -457,7 +453,6 @@ Usage:
         functions -e __pond_usage
         functions -e __pond_show_exists_error
         functions -e __pond_show_not_exists_error
-        functions -e __pond_show_name_missing_error
         functions -e __pond_is_private
         functions -e __pond_exists
         functions -e __pond_name_is_valid

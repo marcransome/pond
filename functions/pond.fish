@@ -455,7 +455,9 @@ Usage:
         functions -e __pond_usage
         functions -e __pond_show_error
         functions -e __pond_show_exists_error
-        functions -e __pond_show_not_exists_error
+        functions -e 
+        
+        
         functions -e __pond_is_private
         functions -e __pond_exists
         functions -e __pond_name_is_valid

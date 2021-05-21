@@ -303,7 +303,7 @@ Usage:
         end
 
         if test (count $pond_names) -eq 0
-            echo "No ponds found" >&2; and return 1
+            echo "No matching ponds" >&2; and return 1
         end
 
         for pond_name in (string join0 $pond_names | sort -z | string split0)

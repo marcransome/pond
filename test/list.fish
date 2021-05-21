@@ -29,6 +29,8 @@ $pond_name_private_prefix-1
 $pond_name_private_prefix-2
 $pond_name_private_prefix-3"
 
+set no_match "No matching ponds"
+
 set command_usage "\
 Usage:
     pond list [options]
@@ -185,11 +187,11 @@ for command in "pond list "{-r,--regular}
 
     @echo "$command: failure tests for missing regular ponds"
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
 
     __pond_setup 1 private enabled unpopulated
     @test "pond list: fails for missing ponds when only private ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
     __pond_tear_down
 
 end
@@ -198,11 +200,11 @@ for command in "pond list "{-p,--private}
 
     @echo "$command: failure tests for missing private ponds"
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
 
     __pond_setup 1 regular enabled unpopulated
     @test "pond list: fails for missing ponds when only regular ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
     __pond_tear_down
 
 end
@@ -211,16 +213,16 @@ for command in "pond list "{-e,--enabled}
 
     @echo "$command: failure tests for missing enabled ponds"
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
 
     __pond_setup 1 regular disabled unpopulated
     @test "pond list: fails for missing ponds when only regular disabled ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
     __pond_tear_down
 
     __pond_setup 1 private disabled unpopulated
     @test "pond list: fails for missing ponds when only private disabled ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
     __pond_tear_down
 
 end
@@ -229,16 +231,16 @@ for command in "pond list "{-d,--disabled}
 
     @echo "$command: failure tests for missing disabled ponds"
     @test "pond list: fails for missing ponds when none exist" (eval $command >/dev/null 2>&1) $status -eq $fail
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
 
     __pond_setup 1 regular enabled unpopulated
     @test "pond list: fails for missing ponds when only regular enabled ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
     __pond_tear_down
 
     __pond_setup 1 private enabled unpopulated
     @test "pond list: fails for missing ponds when only private enabled ponds exist" (eval $command >/dev/null 2>&1) $status -eq $fail
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = "No ponds found"
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
     __pond_tear_down
 
 end

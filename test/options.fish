@@ -1,6 +1,8 @@
 source ./helpers/variables.fish
 
 set pond_usage "\
+Pond $pond_version
+
 Usage:
     pond [options]
     pond <command> [command-options] ...

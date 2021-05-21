@@ -1,7 +1,7 @@
 source ./helpers/variables.fish
 
 set pond_usage "\
-Pond $pond_version
+Pond $pond_test_version
 
 Usage:
     pond [options]
@@ -39,8 +39,8 @@ Commands:
 @test 'pond fails for invalid long option' (pond --invalid >/dev/null 2>&1) $status -eq $fail
 
 @echo 'pond options: version option output tests'
-@test 'pond -v reports correct version' (pond -v) = "pond $pond_version"
-@test 'pond --version reports correct version' (pond --version) = "pond $pond_version"
+@test 'pond -v reports correct version' (pond -v) = "pond $pond_test_version"
+@test 'pond --version reports correct version' (pond --version) = "pond $pond_test_version"
 
 @echo 'pond options: help option usage tests'
 @test 'pond -h reports usage' (pond -h 2>&1 | string collect) = $pond_usage

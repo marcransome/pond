@@ -45,7 +45,10 @@ jobs:
         run: curl -sL git.io/fisher | source && fisher install jorgebucaran/fishtape
         shell: fish {0}
       - name: Install Oh My Fish
-        run: curl -L https://get.oh-my.fish | fish
+        run: |
+          curl -L https://get.oh-my.fish > omf-install
+          chmod u+x omf-install
+          ./omf-install -y --noninteractive
         shell: fish {0}
       - name: Install tap-diff
         run: $GITHUB_WORKSPACE && npm install tap-diff
@@ -100,7 +103,10 @@ jobs:
         run: curl -sL git.io/fisher | source && fisher install jorgebucaran/fishtape
         shell: fish {0}
       - name: Install Oh My Fish
-        run: curl -L https://get.oh-my.fish | fish
+        run: |
+          curl -L https://get.oh-my.fish > omf-install
+          chmod u+x omf-install
+          ./omf-install -y --noninteractive
         shell: fish {0}
       - name: Install tap-diff
         run: $GITHUB_WORKSPACE && npm install tap-diff

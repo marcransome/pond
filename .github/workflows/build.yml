@@ -27,7 +27,8 @@ jobs:
       - name: Test plugin installation
         run: $GITHUB_WORKSPACE && fisher install .
         shell: fish {0}
-      - uses: fish-shop/syntax-check@main
+      - name: Syntax check
+        uses: fish-shop/syntax-check@main
       - name: Run tests
         run: |
           set -xg FORCE_COLOR 2

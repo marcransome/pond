@@ -53,7 +53,7 @@ jobs:
       - name: Install tap-diff
         run: $GITHUB_WORKSPACE && npm install tap-diff
         shell: fish {0}
-      - name: Test OMF plugin installation
+      - name: Test plugin installation
         run: $GITHUB_WORKSPACE && omf install (pwd)
         shell: fish {0}
       - name: Run tests

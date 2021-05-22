@@ -2,6 +2,10 @@
 
 Contributions are welcomed and the following text serves as a set of guidelines for contributing to the project. These are not strict rules, so use your best judgement and feel free to propose changes to this document with a pull request.
 
+## Code of Conduct
+
+By participating in the project you are expected to uphold the [Code of Conduct](CODE_OF_CONDUCT.md). Please report instances of unacceptable behavior to marc.ransome@fidgetbox.co.uk.
+
 ## Git Commit Messages
 
 * Start your commit message with a capital letter and omit the trailing period

@@ -19,10 +19,16 @@ Install with [Fisher](https://github.com/jorgebucaran/fisher):
 $ fisher install marcransome/pond
 ```
 
-Or use [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish):
+Or with [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish):
 
 ```console
 $ omf install https://github.com/marcransome/pond
+```
+
+Or with [plug.fish](https://github.com/kidonng/plug.fish):
+
+```console
+$ plug install marcransome/pond
 ```
 
 ## Usage

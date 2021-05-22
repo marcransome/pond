@@ -208,20 +208,20 @@ The `pond(1)` man page is provided separately from the plugin installation for `
 Using `fish`:
 
 ```console
-$ curl https://raw.githubusercontent.com/marcransome/pond/main/manpages/install.fish | fish
+$ curl https://raw.githubusercontent.com/marcransome/pond/main/docs/install.fish | fish
 ```
 
 Or, using `bash`:
 
 ```console
-$ bash -c "$(curl https://raw.githubusercontent.com/marcransome/pond/main/manpages/install.sh)"
+$ bash -c "$(curl https://raw.githubusercontent.com/marcransome/pond/main/docs/install.sh)"
 ```
 
 To install the matching version of the man page for your `pond` installation, replace the branch name `main` in the above URLs with the semantic version number (use `pond --version` to obtain the version string).
 
 ### Viewing the man page online
 
-As an alternative to installing the man page, [view the latest version of the man page online](http://htmlpreview.github.io/?https://github.com/marcransome/pond/blob/main/manpages/pond.html).
+As an alternative to installing the man page, [view the latest version of the man page online](http://htmlpreview.github.io/?https://github.com/marcransome/pond/blob/main/docs/pond.html).
 
 ## Event handlers
 

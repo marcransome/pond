@@ -1,8 +1,10 @@
 function pond -a command -d "A fish shell environment manager"
-    set -l pond_version 0.8.0
+    set -g pond_version 0.8.0
 
     function __pond_usage
         echo "\
+Pond $pond_version
+
 Usage:
     pond [options]
     pond <command> [command-options] ...
@@ -303,7 +305,7 @@ Usage:
         end
 
         if test (count $pond_names) -eq 0
-            echo "No ponds found" >&2; and return 1
+            echo "No matching ponds" >&2; and return 1
         end
 
         for pond_name in (string join0 $pond_names | sort -z | string split0)
@@ -458,6 +460,7 @@ Usage:
         functions -e __pond_name_is_valid
         set -e pond_auto_accept
         set -e pond_empty
+        set -e pond_version
     end
 
     if isatty

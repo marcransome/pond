@@ -19,6 +19,12 @@ Install with [Fisher](https://github.com/jorgebucaran/fisher):
 $ fisher install marcransome/pond
 ```
 
+Or use [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish):
+
+```console
+$ omf install https://github.com/marcransome/pond
+```
+
 ## Usage
 
 A _pond_ represents a collection of environment variables (and in a future release _functions_) in the fish shell. Ponds are used to group related environment variables together. Naming ponds after individual applications or local development environments is a good way to separate them by their use-case.

@@ -18,22 +18,33 @@ jobs:
         run: git fetch --prune --unshallow --tags
       - name: Install fish shell
         run: brew install fish
-
-      - name: Install fisher and fishtape
-        run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
-        shell: fish {0}
       - name: Install fisher
         uses: fish-shop/install-plugin-manager@main
         with:
           plugin-manager: fisher
-      - name: Install fisher
+      - name: Install Oh My Fish
+        uses: fish-shop/install-plugin-manager@main
+        with:
+          plugin-manager: oh-my-fish
+      - name: Install plug.fish
         uses: fish-shop/install-plugin-manager@main
         with:
           plugin-manager: plug.fish
-      - name: Install fisher
-        uses: fish-shop/install-plugin-manager@main
-        with:
-          plugin-manager: plug.fish
+      - name: Install plugin with fisher
+        run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
+        shell: fish {0}
+      - name: Install plugin with Oh My Fish
+        run:  omf install https://github.com/marcransome/pond
+        shell: fish {0}
+      - name: Remove plugin with Oh My Fish
+        run:  omf remove pond
+        shell: fish {0}
+      - name: Install plugin with plug.fish
+        run:  plug install marcransome/pond
+        shell: fish {0}
+      - name: Remove plugin with plug.fish
+        run:  plug uninstall marcransome/pond
+        shell: fish {0}
       - name: Syntax check
         uses: fish-shop/syntax-check@main
         with:

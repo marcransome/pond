@@ -29,6 +29,8 @@ jobs:
         shell: fish {0}
       - name: Syntax check
         uses: fish-shop/syntax-check@main
+        with:
+          pattern: functions/** completions/** conf.d/**        
       - name: Run tests
         run: |
           set -xg FORCE_COLOR 2

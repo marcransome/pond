@@ -23,15 +23,15 @@ jobs:
         run: curl -sL git.io/fisher | source && fisher install jorgebucaran/{fisher,fishtape}
         shell: fish {0}
       - name: Install fisher
-        uses: fish-shop/install-plugin-manager
+        uses: fish-shop/install-plugin-manager@main
         with:
           plugin-manager: fisher
       - name: Install fisher
-        uses: fish-shop/install-plugin-manager
+        uses: fish-shop/install-plugin-manager@main
         with:
           plugin-manager: plug.fish
       - name: Install fisher
-        uses: fish-shop/install-plugin-manager
+        uses: fish-shop/install-plugin-manager@main
         with:
           plugin-manager: plug.fish
       - name: Syntax check

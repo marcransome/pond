@@ -7,7 +7,7 @@ if ! command -v curl >/dev/null; then
     exit 1
 fi
 
-http_code=$(curl --write-out "%{http_code}" --silent "https://raw.githubusercontent.com/marcransome/pond/main/manpages/pond.1" -o /usr/local/share/man/man1/pond.1)
+http_code=$(curl --write-out "%{http_code}" --silent "https://raw.githubusercontent.com/marcransome/pond/main/docs/pond.1" -o /usr/local/share/man/man1/pond.1)
 curl_exit=$?
 
 if [[ $curl_exit -ne 0 ]]; then

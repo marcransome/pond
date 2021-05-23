@@ -4,7 +4,7 @@ Contributions are welcomed and the following text serves as a set of guidelines 
 
 ## Code of Conduct
 
-By participating in the project you are expected to uphold the [Code of Conduct](CODE_OF_CONDUCT.md). Please report instances of unacceptable behavior to marc.ransome@fidgetbox.co.uk.
+By participating in the project you are expected to uphold the [Code of Conduct](CODE_OF_CONDUCT.md). Please report instances of unacceptable behaviour to marc.ransome@fidgetbox.co.uk.
 
 ## Git Commit Messages
 
@@ -17,7 +17,7 @@ By participating in the project you are expected to uphold the [Code of Conduct]
 
 ## Code Standards
 
-Consistency makes maintaining and extending the codebase easier and can encourage others to contibute. Consider the following points when making code changes:
+Consistency makes maintaining and extending the codebase easier and can encourage others to contribute. Consider the following points when making code changes:
 
 * Use 4-space indents not tabs
 * Use UNIX line endings (`CR`) in all files

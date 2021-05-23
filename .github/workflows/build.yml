@@ -31,8 +31,8 @@ jobs:
       - name: Check Pond installed
         run: type pond
         shell: fish {0}
-      - name: Check age installed
-        run: type age
+      - name: Check fishtape installed
+        run: type fishtape
         shell: fish {0}
   test-omf:
     runs-on: macos-latest
@@ -80,5 +80,5 @@ jobs:
         run: type pond
         shell: fish {0}
       - name: Check age installed
-        run: type age
+        run: type fishtape
         shell: fish {0}

@@ -28,6 +28,12 @@ jobs:
         with:
           plugin-manager: fisher
           plugins: jorgebucaran/fishtape
+      - name: Check Pond installed
+        run: type pond
+        shell: fish {0}
+      - name: Check age installed
+        run: type age
+        shell: fish {0}
   test-omf:
     runs-on: macos-latest
     steps:
@@ -46,6 +52,12 @@ jobs:
         with:
           plugin-manager: oh-my-fish
           plugins: age
+      - name: Check Pond installed
+        run: type pond
+        shell: fish {0}
+      - name: Check age installed
+        run: type age
+        shell: fish {0}
   test-plug-fish:
     runs-on: macos-latest
     steps:
@@ -64,3 +76,9 @@ jobs:
         with:
           plugin-manager: plug.fish
           plugins: jorgebucaran/fishtape
+      - name: Check Pond installed
+        run: type pond
+        shell: fish {0}
+      - name: Check age installed
+        run: type age
+        shell: fish {0}

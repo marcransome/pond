@@ -14,7 +14,6 @@ function __pond_setup -a pond_count pond_type pond_state pond_data
         test "$pond_state" = "enabled"; and ln -s $pond_home/$pond_type/$pond_name-$i $pond_home/$pond_links/$pond_name-$i
         test "$pond_data" = "populated"; and __pond_vars_populate $pond_name-$i $pond_test_var_count $pond_type
         touch $pond_home/$pond_type/$pond_name-$i/$pond_vars
-        mkdir $pond_home/$pond_type/$pond_name-$i/$pond_functions
     end
 end
 

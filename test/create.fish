@@ -28,7 +28,6 @@ end
 __pond_editor_intercept_with __pond_regular_pond_editor
 @test "pond create: success exit code" (pond create $pond_name_regular >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_home/$pond_regular/$pond_name_regular
-@test "pond create: functions directory created" -d $pond_home/$pond_regular/$pond_name_regular/$pond_functions
 @test "pond create: variables file created" -f $pond_home/$pond_regular/$pond_name_regular/$pond_vars
 @test "pond create: got pond name in event" (echo $event_pond_name) = $pond_name_regular
 @test "pond create: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_regular/$pond_name_regular
@@ -42,7 +41,6 @@ for command in "pond create "{-e,--empty}" $pond_name_regular"
     @echo "$command: success tests"
     @test "pond create: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond create: pond directory created" -d $pond_home/$pond_regular/$pond_name_regular
-    @test "pond create: functions directory created" -d $pond_home/$pond_regular/$pond_name_regular/$pond_functions
     @test "pond create: variables file created" -f $pond_home/$pond_regular/$pond_name_regular/$pond_vars
     @test "pond create: got pond name in event" (echo $event_pond_name) = $pond_name_regular
     @test "pond create: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_regular/$pond_name_regular
@@ -57,7 +55,6 @@ for command in "pond create "{-p,--private}" $pond_name_private"
     __pond_editor_intercept_with __pond_private_pond_editor
     @test "pond create: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond create: pond directory created" -d $pond_home/$pond_private/$pond_name_private
-    @test "pond create: pond functions directory created" -d $pond_home/$pond_private/$pond_name_private/$pond_functions
     @test "pond create: pond variables file created" -f $pond_home/$pond_private/$pond_name_private/$pond_vars
     @test "pond create: got pond name in event" (echo $event_pond_name) = $pond_name_private
     @test "pond create: got pond path in event" (echo $event_pond_path) = $pond_home/$pond_private/$pond_name_private

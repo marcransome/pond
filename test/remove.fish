@@ -38,11 +38,9 @@ for command in "pond remove "{-y,--yes}" $pond_name_regular"
     __pond_setup 1 regular enabled unpopulated
     @test "setup: pond directory exists" -d $pond_home/$pond_regular/$pond_name_regular
     @test "setup: pond link exists" -L $pond_home/$pond_links/$pond_name_regular
-    @test "setup: pond functions directory exists" -d $pond_home/$pond_regular/$pond_name_regular/$pond_functions
     @test "pond remove: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond remove: pond directory removed" ! -d $pond_home/$pond_regular/$pond_name_regular
     @test "pond remove: pond link removed" ! -L $pond_home/$pond_links/$pond_name_regular
-    @test "pond remove: pond functions directory removed" ! -d $pond_home/$pond_regular/$pond_name_regular/$pond_functions
     @test "pond remove: got pond name in event" (echo $event_pond_names) = $pond_name_regular
     @test "pond remove: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_regular/$pond_name_regular
     __pond_tear_down
@@ -58,11 +56,9 @@ for command in "pond remove "{-y,--yes}" $pond_name_regular"
     __pond_setup 1 regular disabled unpopulated
     @test "setup: pond directory exists" -d $pond_home/$pond_regular/$pond_name_regular
     @test "setup: pond link does not exist" ! -L $pond_home/$pond_links/$pond_name_regular
-    @test "setup: pond functions directory exists" -d $pond_home/$pond_regular/$pond_name_regular/$pond_functions
     @test "pond remove: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond remove: pond directory removed" ! -d $pond_home/$pond_regular/$pond_name_regular
     @test "pond remove: pond link does not exist" ! -L $pond_home/$pond_links/$pond_name_regular
-    @test "pond remove: pond functions directory removed" ! -d $pond_home/$pond_regular/$pond_name_regular/$pond_functions
     @test "pond remove: got pond name in event" (echo $event_pond_names) = $pond_name_regular
     @test "pond remove: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_regular/$pond_name_regular
     __pond_tear_down
@@ -82,11 +78,9 @@ for command in "pond remove "{-y,--yes}" $pond_name_private"
     __pond_setup 1 private enabled unpopulated
     @test "setup: pond directory exists" -d $pond_home/$pond_private/$pond_name_private
     @test "setup: pond link exists" -L $pond_home/$pond_links/$pond_name_private
-    @test "setup: pond functions directory exists" -d $pond_home/$pond_private/$pond_name_private/$pond_functions
     @test "pond remove: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond remove: pond directory removed" ! -d $pond_home/$pond_private/$pond_name_private
     @test "pond remove: pond link removed" ! -L $pond_home/$pond_links/$pond_name_private
-    @test "pond remove: pond functions directory removed" ! -d $pond_home/$pond_private/$pond_name_private/$pond_functions
     @test "pond remove: got pond name in event" (echo $event_pond_names) = $pond_name_private
     @test "pond remove: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_private/$pond_name_private
     __pond_tear_down
@@ -102,11 +96,9 @@ for command in "pond remove "{-y,--yes}" $pond_name_private"
     __pond_setup 1 private disabled unpopulated
     @test "setup: pond directory exists" -d $pond_home/$pond_private/$pond_name_private
     @test "setup: pond link does not exist" ! -L $pond_home/$pond_links/$pond_name_private
-    @test "setup: pond functions directory exists" -d $pond_home/$pond_private/$pond_name_private/$pond_functions
     @test "pond remove: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond remove: pond directory removed" ! -d $pond_home/$pond_private/$pond_name_private
     @test "pond remove: pond link does not exist" ! -L $pond_home/$pond_links/$pond_name_private
-    @test "pond remove: pond functions directory removed" ! -d $pond_home/$pond_private/$pond_name_private/$pond_functions
     @test "pond remove: got pond name in event" (echo $event_pond_names) = $pond_name_private
     @test "pond remove: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_private/$pond_name_private
     __pond_tear_down
@@ -127,13 +119,11 @@ for command in "pond remove "{-y,--yes}" $pond_name_regular_prefix-1 $pond_name_
     for multi_pond_name in "$pond_name_regular_prefix-"(seq 3)
         @test "setup: pond directory $multi_pond_name exists" -d $pond_home/$pond_regular/$multi_pond_name
         @test "setup: pond link $multi_pond_name exists" -L $pond_home/$pond_links/$multi_pond_name
-        @test "setup: pond functions directory $multi_pond_name/$pond_functions exists" -d $pond_home/$pond_regular/$multi_pond_name/$pond_functions
     end
     @test "pond remove: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     for multi_pond_name in "$pond_name_regular_prefix-"(seq 3)
         @test "pond remove: pond directory $multi_pond_name removed" ! -d $pond_home/$pond_regular/$multi_pond_name
         @test "pond remove: pond link $multi_pond_name removed" ! -L $pond_home/$pond_links/$multi_pond_name
-        @test "pond remove: pond functions directory $multi_pond_name/$pond_functions removed" ! -d $pond_home/$pond_regular/$multi_pond_name/$pond_functions
     end
     @test "pond remove: got pond names in events" (echo $event_pond_names) = "$pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3"
     @test "pond remove: got pond paths in events" (echo $event_pond_paths) = "$pond_home/$pond_regular/$pond_name_regular_prefix-1 $pond_home/$pond_regular/$pond_name_regular_prefix-2 $pond_home/$pond_regular/$pond_name_regular_prefix-3"
@@ -151,13 +141,11 @@ for command in "pond remove "{-y,--yes}" $pond_name_regular_prefix-1 $pond_name_
     for multi_pond_name in "$pond_name_regular_prefix-"(seq 3)
         @test "setup: pond directory $multi_pond_name exists" -d $pond_home/$pond_regular/$multi_pond_name
         @test "setup: pond link $multi_pond_name does not exist" ! -L $pond_home/$pond_links/$multi_pond_name
-        @test "setup: pond functions directory $multi_pond_name/$pond_functions exists" -d $pond_home/$pond_regular/$multi_pond_name/$pond_functions
     end
     @test "pond remove: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     for multi_pond_name in "$pond_name_prefix-"(seq 3)
         @test "pond remove: pond directory $multi_pond_name removed" ! -d $pond_home/$pond_regular/$multi_pond_name
         @test "pond remove: pond link $multi_pond_name does not exist" ! -L $pond_home/$pond_links/$multi_pond_name
-        @test "pond remove: pond functions directory $multi_pond_name/$pond_functions removed" ! -d $pond_home/$pond_regular/$multi_pond_name/$pond_functions
     end
     @test "pond remove: got pond names in events" (echo $event_pond_names) = "$pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3"
     @test "pond remove: got pond paths in events" (echo $event_pond_paths) = "$pond_home/$pond_regular/$pond_name_regular_prefix-1 $pond_home/$pond_regular/$pond_name_regular_prefix-2 $pond_home/$pond_regular/$pond_name_regular_prefix-3"
@@ -179,13 +167,11 @@ for command in "pond remove "{-y,--yes}" $pond_name_private_prefix-1 $pond_name_
     for multi_pond_name in "$pond_name_private_prefix-"(seq 3)
         @test "setup: pond directory $multi_pond_name exists" -d $pond_home/$pond_private/$multi_pond_name
         @test "setup: pond link $multi_pond_name exists" -L $pond_home/$pond_links/$multi_pond_name
-        @test "setup: pond functions directory $multi_pond_name/$pond_functions exists" -d $pond_home/$pond_private/$multi_pond_name/$pond_functions
     end
     @test "pond remove: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     for multi_pond_name in "$pond_name_private_prefix-"(seq 3)
         @test "pond remove: pond directory $multi_pond_name removed" ! -d $pond_home/$pond_private/$multi_pond_name
         @test "pond remove: pond link $multi_pond_name removed" ! -L $pond_home/$pond_links/$multi_pond_name
-        @test "pond remove: pond functions directory $multi_pond_name/$pond_functions removed" ! -d $pond_home/$pond_private/$multi_pond_name/$pond_functions
     end
     @test "pond remove: got pond names in events" (echo $event_pond_names) = "$pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3"
     @test "pond remove: got pond paths in events" (echo $event_pond_paths) = "$pond_home/$pond_private/$pond_name_private_prefix-1 $pond_home/$pond_private/$pond_name_private_prefix-2 $pond_home/$pond_private/$pond_name_private_prefix-3"
@@ -203,13 +189,11 @@ for command in "pond remove "{-y,--yes}" $pond_name_private_prefix-1 $pond_name_
     for multi_pond_name in "$pond_name_private_prefix-"(seq 3)
         @test "setup: pond directory $multi_pond_name exists" -d $pond_home/$pond_private/$multi_pond_name
         @test "setup: pond link $multi_pond_name does not exist" ! -L $pond_home/$pond_links/$multi_pond_name
-        @test "setup: pond functions directory $multi_pond_name/$pond_functions exists" -d $pond_home/$pond_private/$multi_pond_name/$pond_functions
     end
     @test "pond remove: success exit code" (eval $command >/dev/null 2>&1) $status -eq $success
     for multi_pond_name in "$pond_name_private_prefix-"(seq 3)
         @test "pond remove: pond directory $multi_pond_name removed" ! -d $pond_home/$pond_private/$multi_pond_name
         @test "pond remove: pond link $multi_pond_name does not exist" ! -L $pond_home/$pond_links/$multi_pond_name
-        @test "pond remove: pond functions directory $multi_pond_name/$pond_functions removed" ! -d $pond_home/$pond_private/$multi_pond_name/$pond_functions
     end
     @test "pond remove: got pond names in events" (echo $event_pond_names) = "$pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3"
     @test "pond remove: got pond paths in events" (echo $event_pond_paths) = "$pond_home/$pond_private/$pond_name_private_prefix-1 $pond_home/$pond_private/$pond_name_private_prefix-2 $pond_home/$pond_private/$pond_name_private_prefix-3"

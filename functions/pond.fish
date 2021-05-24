@@ -189,10 +189,6 @@ Usage:
             echo "Failed to create pond variables file: $pond_home/$pond_parent/$pond_name/$pond_vars" >&2; and return 1
         end
 
-        if test (mkdir -p $pond_home/$pond_parent/$pond_name/$pond_functions >/dev/null 2>&1) $status -ne 0
-            echo "Failed to create pond functions directory: $pond_home/$pond_parent/$pond_name/$pond_functions" >&2; and return 1
-        end
-
         if test "$pond_enable_on_create" = "yes"
             ln -s $pond_home/$pond_parent/$pond_name $pond_home/$pond_links/$pond_name >/dev/null 2>&1
             if test $status -ne 0

@@ -4,7 +4,6 @@ function __pond_install --on-event pond_install
     set -U pond_private private
     set -U pond_links links
     set -U pond_vars env_vars.fish
-    set -U pond_functions functions
     set -U pond_message_prefix pond
     set -U pond_enable_on_create yes
 
@@ -41,7 +40,6 @@ function __pond_uninstall --on-event pond_uninstall
     set -e pond_private
     set -e pond_links
     set -e pond_vars
-    set -e pond_functions
     set -e pond_message_prefix
     set -e pond_enable_on_create
     set -e pond_editor
@@ -50,10 +48,6 @@ end
 function __pond_init
     for vars in $pond_home/$pond_links/*/$pond_vars
         source $vars
-    end
-
-    for func in $pond_home/$pond_links/*/$pond_functions/*.fish
-        source $func
     end
 end
 

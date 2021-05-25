@@ -31,7 +31,7 @@ end
 
 @echo "pond load: success tests for regular pond"
 __pond_setup 1 regular enabled populated
-@test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular/$pond_vars)
+@test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular/{$pond_name_regular}_init.fish)
 @test "pond load: success exit code" (pond load $pond_name_regular >/dev/null 2>&1) $status -eq $success
 @test "pond load: test variable one was set" (echo $TEST_POND_1_VAR_1) = "test_pond_1_var_1"
 @test "pond load: test variable two was set" (echo $TEST_POND_1_VAR_2) = "test_pond_1_var_2"
@@ -49,7 +49,7 @@ __pond_event_reset
 
 @echo "pond load: success tests for private pond"
 __pond_setup 1 private enabled populated
-@test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name_private/$pond_vars)
+@test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name_private/{$pond_name_private}_init.fish)
 @test "pond load: success exit code" (pond load $pond_name_private >/dev/null 2>&1) $status -eq $success
 @test "pond load: test variable one was set" (echo $TEST_POND_PRIVATE_1_VAR_1) = "test_pond_private_1_var_1"
 @test "pond load: test variable two was set" (echo $TEST_POND_PRIVATE_1_VAR_2) = "test_pond_private_1_var_2"
@@ -67,9 +67,9 @@ __pond_event_reset
 
 @echo "pond load: success tests for multiple regular ponds"
 __pond_setup 3 regular enabled populated
-@test "setup: $pond_name_regular_prefix-1 variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-1/$pond_vars)
-@test "setup: $pond_name_regular_prefix-2 variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-2/$pond_vars)
-@test "setup: $pond_name_regular_prefix-3 variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-3/$pond_vars)
+@test "setup: $pond_name_regular_prefix-1 variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-1/$pond_name_regular_prefix-1_init.fish)
+@test "setup: $pond_name_regular_prefix-2 variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-2/$pond_name_regular_prefix-2_init.fish)
+@test "setup: $pond_name_regular_prefix-3 variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-3/$pond_name_regular_prefix-3_init.fish)
 @test "pond load: success exit code" (pond load $pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3 >/dev/null 2>&1) $status -eq $success
 @test "pond load: $pond_name_regular_prefix-1 variable one was set" (echo $TEST_POND_1_VAR_1) = "test_pond_1_var_1"
 @test "pond load: $pond_name_regular_prefix-1 variable two was set" (echo $TEST_POND_1_VAR_2) = "test_pond_1_var_2"
@@ -93,9 +93,9 @@ __pond_event_reset
 
 @echo "pond load: success tests for multiple private ponds"
 __pond_setup 3 private enabled populated
-@test "setup: $pond_name_private_prefix-1 variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-1/$pond_vars)
-@test "setup: $pond_name_private_prefix-2 variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-2/$pond_vars)
-@test "setup: $pond_name_private_prefix-3 variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-3/$pond_vars)
+@test "setup: $pond_name_private_prefix-1 variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-1/$pond_name_private_prefix-1_init.fish)
+@test "setup: $pond_name_private_prefix-2 variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-2/$pond_name_private_prefix-2_init.fish)
+@test "setup: $pond_name_private_prefix-3 variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-3/$pond_name_private_prefix-3_init.fish)
 @test "pond load: success exit code" (pond load $pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3 >/dev/null 2>&1) $status -eq $success
 @test "pond load: $pond_name_private_prefix-1 variable one was set" (echo $TEST_POND_PRIVATE_1_VAR_1) = "test_pond_private_1_var_1"
 @test "pond load: $pond_name_private_prefix-1 variable two was set" (echo $TEST_POND_PRIVATE_1_VAR_2) = "test_pond_private_1_var_2"

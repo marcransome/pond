@@ -36,9 +36,9 @@ for command in "pond drain "{-y,--yes}
 
     @echo "$command: success tests for regular pond"
     __pond_setup 1 regular enabled populated
-    @test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular/$pond_vars)
+    @test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular/{$pond_name_regular}_init.fish)
     @test "pond drain: success exit code" (eval $command $pond_name_regular >/dev/null 2>&1) $status -eq $success
-    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_regular/$pond_name_regular/$pond_vars)
+    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_regular/$pond_name_regular/{$pond_name_regular}_init.fish)
     @test "pond drain: got pond name in event" (echo $event_pond_names) = $pond_name_regular
     @test "pond drain: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_regular/$pond_name_regular
     __pond_tear_down
@@ -52,13 +52,13 @@ for command in "pond drain "{-y,--yes}
 
     @echo "$command: success tests for multiple regular ponds"
     __pond_setup 3 regular enabled populated
-    @test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-1/$pond_vars)
-    @test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-2/$pond_vars)
-    @test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-3/$pond_vars)
+    @test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-1/$pond_name_regular_prefix-1_init.fish)
+    @test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-2/$pond_name_regular_prefix-2_init.fish)
+    @test "setup: pond variables exist" -n (read < $pond_home/$pond_regular/$pond_name_regular_prefix-3/$pond_name_regular_prefix-3_init.fish)
     @test "pond drain: success exit code" (eval $command $pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3 >/dev/null 2>&1) $status -eq $success
-    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_regular/$pond_name_regular_prefix-1/$pond_vars)
-    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_regular/$pond_name_regular_prefix-2/$pond_vars)
-    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_regular/$pond_name_regular_prefix-3/$pond_vars)
+    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_regular/$pond_name_regular_prefix-1/$pond_name_regular_prefix-1_init.fish)
+    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_regular/$pond_name_regular_prefix-2/$pond_name_regular_prefix-2_init.fish)
+    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_regular/$pond_name_regular_prefix-3/$pond_name_regular_prefix-3_init.fish)
     @test "pond drain: got pond names in events" (echo $event_pond_names) = "$pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3"
     @test "pond drain: got pond paths in events" (echo $event_pond_paths) = "$pond_home/$pond_regular/$pond_name_regular_prefix-1 $pond_home/$pond_regular/$pond_name_regular_prefix-2 $pond_home/$pond_regular/$pond_name_regular_prefix-3"
     __pond_tear_down
@@ -72,9 +72,9 @@ for command in "pond drain "{-y,--yes}
 
     @echo "$command: success tests for private pond"
     __pond_setup 1 private enabled populated
-    @test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name_private/$pond_vars)
+    @test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name_private/{$pond_name_private}_init.fish)
     @test "pond drain: success exit code" (eval $command $pond_name_private >/dev/null 2>&1) $status -eq $success
-    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_private/$pond_name_private/$pond_vars)
+    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_private/$pond_name_private/{$pond_name_private}_init.fish)
     @test "pond drain: got pond name in event" (echo $event_pond_names) = $pond_name_private
     @test "pond drain: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_private/$pond_name_private
     __pond_tear_down
@@ -88,13 +88,13 @@ for command in "pond drain "{-y,--yes}
 
     @echo "$command: success tests for multiple private ponds"
     __pond_setup 3 private enabled populated
-    @test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-1/$pond_vars)
-    @test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-2/$pond_vars)
-    @test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-3/$pond_vars)
+    @test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-1/{$pond_name_private_prefix}-1_init.fish)
+    @test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-2/{$pond_name_private_prefix}-2_init.fish)
+    @test "setup: pond variables exist" -n (read < $pond_home/$pond_private/$pond_name_private_prefix-3/{$pond_name_private_prefix}-3_init.fish)
     @test "pond drain: success exit code" (eval $command $pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3 >/dev/null 2>&1) $status -eq $success
-    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_private/$pond_name_private_prefix-1/$pond_vars)
-    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_private/$pond_name_private_prefix-2/$pond_vars)
-    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_private/$pond_name_private_prefix-3/$pond_vars)
+    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_private/$pond_name_private_prefix-1/{$pond_name_private_prefix}-1_init.fish)
+    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_private/$pond_name_private_prefix-2/{$pond_name_private_prefix}-2_init.fish)
+    @test "pond drain: pond variables removed" -z (read < $pond_home/$pond_private/$pond_name_private_prefix-3/{$pond_name_private_prefix}-3_init.fish)
     @test "pond drain: got pond name in event" (echo $event_pond_names) = "$pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3"
     @test "pond drain: got pond path in event" (echo $event_pond_paths) = "$pond_home/$pond_private/$pond_name_private_prefix-1 $pond_home/$pond_private/$pond_name_private_prefix-2 $pond_home/$pond_private/$pond_name_private_prefix-3"
     __pond_tear_down

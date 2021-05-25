@@ -33,9 +33,9 @@ end
 
 @echo "pond disable: success tests for regular pond"
 __pond_setup 1 regular enabled unpopulated
-@test "setup: pond enabled" -L $pond_home/$pond_links/$pond_name_regular
+@test "setup: pond enabled" (contains $pond_home/$pond_regular/$pond_name_regular $pond_function_path) $status -eq $success
 @test "pond disable: success exit code" (pond disable $pond_name_regular >/dev/null 2>&1) $status -eq $success
-@test "pond disable: pond symlink removed" ! -L $pond_home/$pond_links/$pond_name_regular
+@test "pond disable: pond function path removed" (not contains $pond_home/$pond_regular/$pond_name_regular $pond_function_path) $status -eq $success
 @test "pond disable: got pond name in event" (echo $event_pond_names) = $pond_name_regular
 @test "pond disable: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_regular/$pond_name_regular
 __pond_tear_down
@@ -49,9 +49,9 @@ __pond_event_reset
 
 @echo "pond disable: success tests for private pond"
 __pond_setup 1 private enabled unpopulated
-@test "setup: pond enabled" -L $pond_home/$pond_links/$pond_name_private
+@test "setup: pond enabled" (contains $pond_home/$pond_private/$pond_name_private $pond_function_path) $status -eq $success
 @test "pond disable: success exit code" (pond disable $pond_name_private >/dev/null 2>&1) $status -eq $success
-@test "pond disable: pond symlink removed" ! -L $pond_home/$pond_links/$pond_name_private
+@test "pond disable: pond function path removed" (not contains $pond_home/$pond_private/$pond_name_private $pond_function_path) $status -eq $success
 @test "pond disable: got pond name in event" (echo $event_pond_names) = $pond_name_private
 @test "pond disable: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_private/$pond_name_private
 __pond_tear_down
@@ -65,13 +65,13 @@ __pond_event_reset
 
 @echo "pond disable: success tests for multiple regular ponds"
 __pond_setup 3 regular enabled unpopulated
-@test "setup: pond enabled" -L $pond_home/$pond_links/$pond_name_regular_prefix-1
-@test "setup: pond enabled" -L $pond_home/$pond_links/$pond_name_regular_prefix-2
-@test "setup: pond enabled" -L $pond_home/$pond_links/$pond_name_regular_prefix-3
+@test "setup: pond enabled" (contains $pond_home/$pond_regular/$pond_name_regular_prefix-1 $pond_function_path) $status -eq $success
+@test "setup: pond enabled" (contains $pond_home/$pond_regular/$pond_name_regular_prefix-2 $pond_function_path) $status -eq $success
+@test "setup: pond enabled" (contains $pond_home/$pond_regular/$pond_name_regular_prefix-3 $pond_function_path) $status -eq $success
 @test "pond disable: success exit code" (pond disable $pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3 >/dev/null 2>&1) $status -eq $success
-@test "pond disable: pond symlink removed" ! -L $pond_home/$pond_links/$pond_name_regular_prefix-1
-@test "pond disable: pond symlink removed" ! -L $pond_home/$pond_links/$pond_name_regular_prefix-2
-@test "pond disable: pond symlink removed" ! -L $pond_home/$pond_links/$pond_name_regular_prefix-3
+@test "pond disable: pond function path removed" (not contains $pond_home/$pond_regular/$pond_name_regular_prefix-1 $pond_function_path) $status -eq $success
+@test "pond disable: pond function path removed" (not contains $pond_home/$pond_regular/$pond_name_regular_prefix-2 $pond_function_path) $status -eq $success
+@test "pond disable: pond function path removed" (not contains $pond_home/$pond_regular/$pond_name_regular_prefix-3 $pond_function_path) $status -eq $success
 @test "pond disable: got pond names in events" (echo $event_pond_names) = "$pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3"
 @test "pond disable: got pond paths in events" (echo $event_pond_paths) = "$pond_home/$pond_regular/$pond_name_regular_prefix-1 $pond_home/$pond_regular/$pond_name_regular_prefix-2 $pond_home/$pond_regular/$pond_name_regular_prefix-3"
 __pond_tear_down
@@ -85,13 +85,13 @@ __pond_event_reset
 
 @echo "pond disable: success tests for multiple private ponds"
 __pond_setup 3 private enabled unpopulated
-@test "setup: pond enabled" -L $pond_home/$pond_links/$pond_name_private_prefix-1
-@test "setup: pond enabled" -L $pond_home/$pond_links/$pond_name_private_prefix-2
-@test "setup: pond enabled" -L $pond_home/$pond_links/$pond_name_private_prefix-3
+@test "setup: pond enabled" (contains $pond_home/$pond_private/$pond_name_private_prefix-1 $pond_function_path) $status -eq $success
+@test "setup: pond enabled" (contains $pond_home/$pond_private/$pond_name_private_prefix-2 $pond_function_path) $status -eq $success
+@test "setup: pond enabled" (contains $pond_home/$pond_private/$pond_name_private_prefix-3 $pond_function_path) $status -eq $success
 @test "pond disable: success exit code" (pond disable $pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3 >/dev/null 2>&1) $status -eq $success
-@test "pond disable: pond symlink removed" ! -L $pond_home/$pond_links/$pond_name_private_prefix-1
-@test "pond disable: pond symlink removed" ! -L $pond_home/$pond_links/$pond_name_private_prefix-2
-@test "pond disable: pond symlink removed" ! -L $pond_home/$pond_links/$pond_name_private_prefix-3
+@test "pond disable: pond function path removed" (not contains $pond_home/$pond_private/$pond_name_private_prefix-1 $pond_function_path) $status -eq $success
+@test "pond disable: pond function path removed" (not contains $pond_home/$pond_private/$pond_name_private_prefix-2 $pond_function_path) $status -eq $success
+@test "pond disable: pond function path removed" (not contains $pond_home/$pond_private/$pond_name_private_prefix-3 $pond_function_path) $status -eq $success
 @test "pond disable: got pond names in events" (echo $event_pond_names) = "$pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3"
 @test "pond disable: got pond paths in events" (echo $event_pond_paths) = "$pond_home/$pond_private/$pond_name_private_prefix-1 $pond_home/$pond_private/$pond_name_private_prefix-2 $pond_home/$pond_private/$pond_name_private_prefix-3"
 __pond_tear_down
@@ -105,29 +105,29 @@ __pond_event_reset
 
 @echo "pond disable: failure tests for regular disabled pond"
 __pond_setup 1 regular disabled unpopulated
-@test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_regular
+@test "setup: pond disabled" (not contains $pond_home/$pond_regular/$pond_name_regular $pond_function_path) $status -eq $success
 @test "pond disable: command error shown for regular disabled pond" (pond disable $pond_name_regular 2>&1 | string collect) = "Pond already disabled: $pond_name_regular"
 __pond_tear_down
 
 @echo "pond disable: failure tests for multiple regular disabled ponds"
 __pond_setup 3 regular disabled unpopulated
-@test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_regular_prefix-1
-@test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_regular_prefix-2
-@test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_regular_prefix-3
+@test "setup: pond disabled" (not contains $pond_home/$pond_regular/$pond_name_regular_prefix-1 $pond_function_path) $status -eq $success
+@test "setup: pond disabled" (not contains $pond_home/$pond_regular/$pond_name_regular_prefix-2 $pond_function_path) $status -eq $success
+@test "setup: pond disabled" (not contains $pond_home/$pond_regular/$pond_name_regular_prefix-3 $pond_function_path) $status -eq $success
 @test "pond disable: command error shown for regular disabled pond" (pond disable $pond_name_regular_prefix-1 $pond_name_regular_prefix-2 $pond_name_regular_prefix-3 2>&1 | string collect) = "Pond already disabled: $pond_name_regular_prefix-1"
 __pond_tear_down
 
 @echo "pond disable: failure tests for private disabled pond"
 __pond_setup 1 private disabled unpopulated
-@test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_private
+@test "setup: pond disabled" (not contains $pond_home/$pond_private/$pond_name_private $pond_function_path) $status -eq $success
 @test "pond disable: command error shown for private disabled pond" (pond disable $pond_name_private 2>&1 | string collect) = "Pond already disabled: $pond_name_private"
 __pond_tear_down
 
 @echo "pond disable: failure tests for multiple private disabled ponds"
 __pond_setup 1 private disabled unpopulated
-@test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_private_prefix-1
-@test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_private_prefix-2
-@test "setup: pond disabled" ! -L $pond_home/$pond_links/$pond_name_private_prefix-3
+@test "setup: pond disabled" (not contains $pond_home/$pond_private/$pond_name_private_prefix-1 $pond_function_path) $status -eq $success
+@test "setup: pond disabled" (not contains $pond_home/$pond_private/$pond_name_private_prefix-2 $pond_function_path) $status -eq $success
+@test "setup: pond disabled" (not contains $pond_home/$pond_private/$pond_name_private_prefix-3 $pond_function_path) $status -eq $success
 @test "pond disable: command error shown for private disabled pond" (pond disable $pond_name_private_prefix-1 $pond_name_private_prefix-2 $pond_name_private_prefix-3 2>&1 | string collect) = "Pond already disabled: $pond_name_private_prefix-1"
 __pond_tear_down
 

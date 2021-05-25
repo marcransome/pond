@@ -185,15 +185,12 @@ Usage:
             echo "Failed to set mode on directory: $pond_home/$pond_parent/$pond_name"
         end
 
-        if test (touch $pond_home/$pond_parent/$pond_name/$pond_vars 2>/dev/null) $status -ne 0
-            echo "Failed to create pond variables file: $pond_home/$pond_parent/$pond_name/$pond_vars" >&2; and return 1
+        if test (touch $pond_home/$pond_parent/$pond_name/{$pond_name}_init.fish 2>/dev/null) $status -ne 0
+            echo "Failed to create pond variables file: $pond_home/$pond_parent/$pond_name/{$pond_name}_init.fish" >&2; and return 1
         end
 
         if test "$pond_enable_on_create" = "yes"
-            ln -s $pond_home/$pond_parent/$pond_name $pond_home/$pond_links/$pond_name >/dev/null 2>&1
-            if test $status -ne 0
-                echo "Failed to create symbolic link: $pond_home/$pond_links/$pond_name" >&2; and return 1
-            end
+            set -U -a pond_function_path $pond_home/$pond_parent/$pond_name
         end
 
         if test -z "$__pond_under_test"
@@ -201,8 +198,13 @@ Usage:
             echo "Editor not found: $pond_editor" >&2; and return 1
         end
 
+            echo "\
+function "$pond_name"_init
+
+end" >> $pond_home/$pond_parent/$pond_name/{$pond_name}_init.fish
+
         if test "$pond_empty" != "yes"
-            $pond_editor $pond_home/$pond_parent/$pond_name/$pond_vars
+            $pond_editor "$pond_home/$pond_parent/$pond_name/"$pond_name"_init.fish"
         end
 
         echo "Created "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
@@ -219,7 +221,7 @@ Usage:
         end
 
         if isatty; or test -n "$__pond_under_test"
-            $pond_editor $pond_home/$pond_parent/$pond_name/$pond_vars
+            $pond_editor "$pond_home/$pond_parent/$pond_name/"$pond_name"_init.fish"
         else
             return 1
         end
@@ -246,10 +248,16 @@ Usage:
             end
         end
 
-        if test -L $pond_home/$pond_links/$pond_name
-            if test (unlink $pond_home/$pond_links/$pond_name >/dev/null 2>&1) $status -ne 0
-                echo "Failed to remove symbolic link: $pond_home/$pond_links/$pond_name" >&2; and return 1
-            end
+        set -l pond_path $pond_home/$pond_parent/$pond_name
+
+        set -l pond_function_path_index (contains -i $pond_path $pond_function_path)
+        if test -n "$pond_function_path_index"
+            set -e pond_function_path[$pond_function_path_index]
+        end
+
+        set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
+        if test -n "$fish_function_path_index"
+            set -e fish_function_path[$fish_function_path_index]
         end
 
         if test (rm -rf $pond_home/$pond_parent/$pond_name >/dev/null 2>&1) $status -ne 0
@@ -262,8 +270,8 @@ Usage:
 
     function __pond_list_operation -a pond_list_regular pond_list_private pond_list_enabled pond_list_disabled
         set -l pond_names
-        set -l pond_paths_regular $pond_home/$pond_regular/*/
-        set -l pond_paths_private $pond_home/$pond_private/*/
+        set -l pond_paths_regular $pond_home/$pond_regular/*
+        set -l pond_paths_private $pond_home/$pond_private/*
 
         if test "$pond_list_enabled" = "yes"; and test "$pond_list_disabled" = "yes"
             if test "$pond_list_regular" = "yes"
@@ -279,23 +287,23 @@ Usage:
         else if test "$pond_list_enabled" = "yes"; and test "$pond_list_disabled" = "no"
             if test "$pond_list_regular" = "yes"
                 for pond_path in $pond_paths_regular
-                    if test -L $pond_home/$pond_links/(basename $pond_path); set -a pond_names (basename $pond_path); end
+                    if contains $pond_path $pond_function_path; set -a pond_names (basename $pond_path); end
                 end
             end
             if test "$pond_list_private" = "yes"
                 for pond_path in $pond_paths_private
-                    if test -L $pond_home/$pond_links/(basename $pond_path); set -a pond_names (basename $pond_path); end
+                    if contains $pond_paths_private $pond_function_path; set -a pond_names (basename $pond_path); end
                 end
             end
         else if test "$pond_list_enabled" = "no"; and test "$pond_list_disabled" = "yes"
             if test "$pond_list_regular" = "yes"
                 for pond_path in $pond_paths_regular
-                    if ! test -L $pond_home/$pond_links/(basename $pond_path); set -a pond_names (basename $pond_path); end
+                    if not contains $pond_path $pond_function_path; set -a pond_names (basename $pond_path); end
                 end
             end
             if test "$pond_list_private" = "yes"
                 for pond_path in $pond_paths_private
-                    if ! test -L $pond_home/$pond_links/(basename $pond_path); set -a pond_names (basename $pond_path); end
+                    if not contains $pond_paths_private $pond_function_path; set -a pond_names (basename $pond_path); end
                 end
             end
         end
@@ -311,43 +319,53 @@ Usage:
 
     function __pond_enable_operation -a pond_name
         set -l pond_parent (__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)
+        set -l pond_path  $pond_home/$pond_parent/$pond_name
 
-        if test -L $pond_home/$pond_links/$pond_name;
+        if contains $pond_path $pond_function_path
             echo "Pond already enabled: $pond_name" >&2; and return 1
         else
-            ln -s $pond_home/$pond_parent/$pond_name $pond_home/$pond_links/$pond_name >/dev/null 2>&1
-            if test $status -ne 0
-                echo "Failed to create symbolic link: $pond_home/$pond_links/$pond_name" >&2; and return 1
+            set -U -a pond_function_path $pond_path
+
+            if not contains $pond_path $fish_function_path
+                set -a fish_function_path $pond_path
             end
 
             echo "Enabled "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
-            emit pond_enabled $pond_name $pond_home/$pond_parent/$pond_name
+            emit pond_enabled $pond_name $pond_path
         end
     end
 
     function __pond_disable_operation -a pond_name
         set -l pond_parent (__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)
+        set -l pond_path $pond_home/$pond_parent/$pond_name
 
-        if ! test -L $pond_home/$pond_links/$pond_name
+        if not contains $pond_path $pond_function_path
             echo "Pond already disabled: $pond_name" >&2; and return 1
         else
-            unlink $pond_home/$pond_links/$pond_name >/dev/null 2>&1
-            if test $status -ne 0
-                echo "Failed to remove symbolic link: $pond_home/$pond_links/$pond_name" >&2; and return 1
+            set -l pond_function_path_index (contains -i $pond_path $pond_function_path)
+            if test -n "$pond_function_path_index"
+                set -e pond_function_path[$pond_function_path_index]
+            end
+
+            set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
+            if test -n "$fish_function_path_index"
+                set -e fish_function_path[$fish_function_path_index]
             end
 
             echo "Disabled "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
-            emit pond_disabled $pond_name $pond_home/$pond_parent/$pond_name
+            emit pond_disabled $pond_name $pond_path
         end
     end
 
     function __pond_load_operation -a pond_name
         set -l pond_parent (__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)
 
-        source $pond_home/$pond_parent/$pond_name/$pond_vars
+        source $pond_home/$pond_parent/$pond_name/{$pond_name}_init.fish
         if test $status -ne 0
-            echo "Failed to source file: $pond_home/$pond_parent/$pond_name/$pond_vars" >&2; and return 1
+            echo "Failed to source file: $pond_home/$pond_parent/$pond_name/{$pond_name}_init.fish" >&2; and return 1
         end
+
+        {$pond_name}_init
 
         echo "Loaded "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
         emit pond_loaded $pond_name $pond_home/$pond_parent/$pond_name
@@ -362,23 +380,25 @@ Usage:
             end
 
             set tokens (string match -r '\s*set\s+(?:-{1,2}[A-Za-z]+\s+)*([A-Za-z0-9_]+)\s+' -- "$line")
+            test (count $tokens) -eq 0; and continue
 
-            if test (set -e $tokens[2] >/dev/null 2>&1) $status -eq 0
+            if test (set -e $tokens[2]) $status -eq 0
                 if test "$verbose" = "yes"; echo "Erased variable: $tokens[2]"; end
             else
                 echo "Failed to erase variable: $tokens[2]"
             end
-        end < $pond_home/$pond_parent/$pond_name/$pond_vars
+        end < $pond_home/$pond_parent/$pond_name/{$pond_name}_init.fish
 
         echo "Unloaded "(__pond_is_private $pond_name; and echo "private pond"; or echo "pond")": $pond_name"
         emit pond_unloaded $pond_name $pond_home/$pond_parent/$pond_name
     end
 
     function __pond_status_operation -a pond_name
+        set -l pond_parent (__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)
         echo "name: $pond_name"
-        echo "enabled: "(test -L $pond_home/$pond_links/$pond_name; and echo 'yes'; or echo 'no')
+        echo "enabled: "(contains $pond_home/$pond_parent/$pond_name $pond_function_path; and echo 'yes'; or echo 'no')
         echo "private: "(__pond_is_private $pond_name; and echo 'yes'; or echo 'no')
-        echo "path: $pond_home/"(__pond_is_private $pond_name; and echo $pond_private; or echo $pond_regular)/"$pond_name"
+        echo "path: $pond_home/$pond_parent/$pond_name"
     end
 
     function __pond_drain_operation -a pond_name
@@ -402,7 +422,7 @@ Usage:
             end
         end
 
-        echo > $pond_home/$pond_parent/$pond_name/$pond_vars
+        echo > $pond_home/$pond_parent/$pond_name/{$pond_name}_init.fish
         echo "$pond_drain_success: $pond_name"
         emit pond_drained $pond_name $pond_home/$pond_parent/$pond_name
     end
@@ -662,8 +682,12 @@ Usage:
             end
         case status
             if test (count $argv) -eq 0
+                set -l pond_paths_regular (string match -r "$pond_home/$pond_regular.*" -- $pond_function_path)
+                set -l pond_paths_private (string match -r "$pond_home/$pond_private.*" -- $pond_function_path)
                 set -l pond_count (count $pond_home/{$pond_regular, $pond_private}/*/)
-                echo "$pond_count "(test $pond_count -eq 1; and echo "pond"; or echo "ponds")", "(count $pond_home/$pond_links/*)" enabled"
+                set -l pond_enabled_count (math (count $pond_paths_regular) + (count $pond_paths_private))
+
+                echo "$pond_count "(test $pond_count -eq 1; and echo "pond"; or echo "ponds")", $pond_enabled_count enabled"
                 __pond_cleanup
                 return 0
             end

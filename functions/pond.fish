@@ -399,7 +399,8 @@ Usage:
 
     function __pond_config_operation
         echo "Pond home: $pond_home"
-        echo "Enable ponds on creation: "(test "$pond_enable_on_create" = "yes"; and echo "yes"; or echo "no")
+        echo "Enable ponds on creation: $pond_enable_on_create"
+        echo "Pond editor command: $pond_editor"
     end
 
     function __pond_show_exists_error -a pond_name

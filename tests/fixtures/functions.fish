@@ -52,9 +52,7 @@ function __pond_clear_vars -a pond_count
 end
 
 function __pond_tear_down
-
-
-    # TODO running this locally can have negative consequences; can we create a tempdir and point pond_home at it for testing?
+    # TODO potentially harmful if run locally; to be refactored with isolated test path
     rm -rf $pond_home/*
 
     for pond_path in $pond_function_path

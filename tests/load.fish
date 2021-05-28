@@ -22,38 +22,38 @@ function __pond_loaded_event_intercept --on-event pond_loaded -a got_pond_name g
 end
 
 @echo "pond load: success tests for single pond"
-__pond_setup 1 enabled populated
-@test "setup: pond variables exist" -n (read < $pond_home/$pond_name/{$pond_name}_init.fish)
+__pond_setup 1 disabled populated
+@test "setup: pond function path absent" (not contains $pond_home/$pond_name $pond_function_path) $status -eq $success
+@test "setup: pond fish function path absent" (not contains $pond_home/$pond_name $fish_function_path) $status -eq $success
 @test "pond load: success exit code" (pond load $pond_name >/dev/null 2>&1) $status -eq $success
-@test "pond load: test variable one was set" (echo $TEST_POND_1_VAR_1) = "test_pond_1_var_1"
-@test "pond load: test variable two was set" (echo $TEST_POND_1_VAR_2) = "test_pond_1_var_2"
-@test "pond load: test variable three was set" (echo $TEST_POND_1_VAR_3) = "test_pond_1_var_3"
+@test "pond load: pond function path absent" (not contains $pond_home/$pond_name $pond_function_path) $status -eq $success
+@test "pond load: fish function path created" (contains $pond_home/$pond_name $fish_function_path) $status -eq $success
 @test "pond load: got pond name in event" (echo $event_pond_names) = $pond_name
 @test "pond load: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_name
 __pond_tear_down
 __pond_event_reset
 
 @echo "pond load: output tests for single pond"
-__pond_setup 1 enabled populated
+__pond_setup 1 disabled populated
 @test "pond load: success output message" (pond load $pond_name 2>&1) = $success_output_single_pond
 __pond_tear_down
 __pond_event_reset
 
 @echo "pond load: success tests for multiple ponds"
-__pond_setup 3 enabled populated
-@test "setup: $pond_name_prefix-1 variables exist" -n (read < $pond_home/$pond_name_prefix-1/$pond_name_prefix-1_init.fish)
-@test "setup: $pond_name_prefix-2 variables exist" -n (read < $pond_home/$pond_name_prefix-2/$pond_name_prefix-2_init.fish)
-@test "setup: $pond_name_prefix-3 variables exist" -n (read < $pond_home/$pond_name_prefix-3/$pond_name_prefix-3_init.fish)
+__pond_setup 3 disabled populated
+@test "setup: $pond_name_prefix-1 pond function path absent" (not contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
+@test "setup: $pond_name_prefix-2 pond function path absent" (not contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
+@test "setup: $pond_name_prefix-3 pond function path absent" (not contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success
+@test "setup: $pond_name_prefix-1 fish function path absent" (not contains $pond_home/$pond_name_prefix-1 $fish_function_path) $status -eq $success
+@test "setup: $pond_name_prefix-2 fish function path absent" (not contains $pond_home/$pond_name_prefix-2 $fish_function_path) $status -eq $success
+@test "setup: $pond_name_prefix-3 fish function path absent" (not contains $pond_home/$pond_name_prefix-3 $fish_function_path) $status -eq $success
 @test "pond load: success exit code" (pond load $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 >/dev/null 2>&1) $status -eq $success
-@test "pond load: $pond_name_prefix-1 variable one was set" (echo $TEST_POND_1_VAR_1) = "test_pond_1_var_1"
-@test "pond load: $pond_name_prefix-1 variable two was set" (echo $TEST_POND_1_VAR_2) = "test_pond_1_var_2"
-@test "pond load: $pond_name_prefix-1 variable three was set" (echo $TEST_POND_1_VAR_3) = "test_pond_1_var_3"
-@test "pond load: $pond_name_prefix-2 variable one was set" (echo $TEST_POND_2_VAR_1) = "test_pond_2_var_1"
-@test "pond load: $pond_name_prefix-2 variable two was set" (echo $TEST_POND_2_VAR_2) = "test_pond_2_var_2"
-@test "pond load: $pond_name_prefix-2 variable three was set" (echo $TEST_POND_2_VAR_3) = "test_pond_2_var_3"
-@test "pond load: $pond_name_prefix-3 variable one was set" (echo $TEST_POND_3_VAR_1) = "test_pond_3_var_1"
-@test "pond load: $pond_name_prefix-3 variable two was set" (echo $TEST_POND_3_VAR_2) = "test_pond_3_var_2"
-@test "pond load: $pond_name_prefix-3 variable three was set" (echo $TEST_POND_3_VAR_3) = "test_pond_3_var_3"
+@test "pond load: $pond_name_prefix-1 pond function path absent" (not contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
+@test "pond load: $pond_name_prefix-2 pond function path absent" (not contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
+@test "pond load: $pond_name_prefix-3 pond function path absent" (not contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success
+@test "pond load: $pond_name_prefix-1 fish function path created" (contains $pond_home/$pond_name_prefix-1 $fish_function_path) $status -eq $success
+@test "pond load: $pond_name_prefix-2 fish function path created" (contains $pond_home/$pond_name_prefix-2 $fish_function_path) $status -eq $success
+@test "pond load: $pond_name_prefix-3 fish function path created" (contains $pond_home/$pond_name_prefix-3 $fish_function_path) $status -eq $success
 @test "pond load: got pond names in events" (echo $event_pond_names) = "$pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3"
 @test "pond load: got pond paths in events" (echo $event_pond_paths) = "$pond_home/$pond_name_prefix-1 $pond_home/$pond_name_prefix-2 $pond_home/$pond_name_prefix-3"
 __pond_tear_down

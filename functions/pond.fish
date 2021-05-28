@@ -127,10 +127,7 @@ Arguments:
     function __pond_unload_command_usage
         echo "\
 Usage:
-    pond unload [options] ponds...
-
-Options:
-    -v, --verbose  Output variable names during unload
+    pond unload ponds...
 
 Arguments:
     ponds  The name of one or more ponds to unload" >&2
@@ -333,10 +330,6 @@ Usage:
         set -l pond_path $pond_home/$pond_name
         set -l pond_init_function {$pond_name}_{$pond_init_suffix}
 
-        if not contains $pond_path $pond_function_path
-            set -a pond_function_path $pond_path
-        end
-
         if not contains $pond_path $fish_function_path
             set -a fish_function_path $pond_path
         end
@@ -347,16 +340,11 @@ Usage:
         emit pond_loaded $pond_name $pond_path
     end
 
-    function __pond_unload_operation -a pond_name verbose
+    function __pond_unload_operation -a pond_name
         set -l pond_path $pond_home/$pond_name
         set -l pond_deinit_function {$pond_name}_{$pond_deinit_suffix}
 
         type -q $pond_deinit_function; and $pond_deinit_function
-
-        set -l pond_function_path_index (contains -i $pond_path $pond_function_path)
-        if test -n "$fish_function_path_index"
-            set -e pond_function_path[$pond_function_path_index]
-        end
 
         set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
         if test -n "$fish_function_path_index"
@@ -584,15 +572,6 @@ Usage:
                 end
             end
         case unload
-            set -l pond_verbose no
-
-            if ! argparse 'v/verbose' >/dev/null 2>&1 -- $argv
-                __pond_unload_command_usage
-                __pond_cleanup; and return 1
-            end
-
-            set -q _flag_verbose; and set pond_verbose yes
-
             if test (count $argv) -eq 0; __pond_unload_command_usage; and __pond_cleanup; and return 1; end
 
             for pond_name in $argv
@@ -606,7 +585,7 @@ Usage:
                     return 1
                 end
 
-                __pond_unload_operation $pond_name $pond_verbose
+                __pond_unload_operation $pond_name
                 set -l exit_code $status
                 if test $exit_code -gt 0
                     __pond_cleanup; and return $exit_code

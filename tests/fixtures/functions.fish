@@ -27,7 +27,8 @@ function __pond_setup -a pond_count pond_state pond_data
         mkdir -p $pond_home/$pond_name
 
         if test "$pond_state" = "enabled"
-             set -U -a pond_function_path $pond_home/$pond_name
+             set -U -a pond_function_path $pond_home/$pond_name    # enabled
+             set -g -a fish_function_path $pond_home/$pond_name    # loaded
         end
 
         if test "$pond_data" = "populated"
@@ -37,25 +38,21 @@ function __pond_setup -a pond_count pond_state pond_data
     end
 end
 
-function __pond_load_vars -a pond_count
+function __pond_load_init -a pond_count
     for pond_name in $pond_name_prefix-(seq $pond_count)
         {$pond_name}_{$pond_init_suffix}
     end
 end
 
-function __pond_clear_vars -a pond_count
+function __pond_load_deinit -a pond_count
     for pond_name in $pond_name_prefix-(seq $pond_count)
-        for test_var in (string upper $pond_name | string replace -a '-' _)"_VAR_"(seq $pond_test_var_count)
-            set -q $test_var; and set -e $test_var
-        end
+        {$pond_name}_{$pond_init_suffix}
     end
 end
 
 function __pond_tear_down
-    # TODO potentially harmful if run locally; to be refactored with isolated test path
-    rm -rf $pond_home/*
-
-    for pond_path in $pond_function_path
+    for pond_path in $pond_home/$pond_name_prefix-*
+        rm -rf $pond_path
         set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
         if test -n "$fish_function_path_index"
             set -e fish_function_path[$fish_function_path_index]

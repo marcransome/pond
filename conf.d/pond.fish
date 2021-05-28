@@ -1,9 +1,9 @@
 function __pond_install --on-event pond_install
     set -U pond_home $__fish_config_dir/pond
-    set -U pond_regular regular
-    set -U pond_private private
     set -U pond_message_prefix pond
     set -U pond_enable_on_create yes
+    set -U pond_init_suffix init
+    set -U pond_deinit_suffix deinit
 
     set -l editors (command -s $EDITOR vim vi emacs nano)
     if test $status -eq 0
@@ -15,10 +15,8 @@ function __pond_install --on-event pond_install
         echo "$pond_message_prefix: correctly (e.g. 'edit'); Set editor with: set -U pond_editor <path>" >&2
     end
 
-    for pond_dir in $pond_regular $pond_private
-        if test (mkdir -p $pond_home/$pond_dir >/dev/null 2>&1) $status -ne 0
-            echo "$pond_message_prefix: Failed to create directory: $dir"
-        end
+    if test (mkdir -p $pond_home >/dev/null 2>&1) $status -ne 0
+        echo "$pond_message_prefix: Failed to create directory: $pond_home" >&2
     end
 end
 
@@ -33,7 +31,6 @@ function __pond_uninstall --on-event pond_uninstall
         end
     end
 
-    echo "$pond_message_prefix: Unable to remove pond data"
     for pond_path in $pond_function_path
         set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
         if test -n "$fish_function_path_index"
@@ -42,16 +39,17 @@ function __pond_uninstall --on-event pond_uninstall
     end
 
     set -e pond_home
-    set -e pond_regular
-    set -e pond_private
     set -e pond_message_prefix
     set -e pond_enable_on_create
-    set -e pond_function_path
     set -e pond_editor
+    set -e pond_init_suffix
+    set -e pond_deinit_suffix
 
     set -e __pond_init
     set -e __pond_install
     set -e __pond_uninstall
+
+    set -e pond_function_path
 end
 
 function __pond_init

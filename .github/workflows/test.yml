@@ -38,12 +38,24 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install fish shell
         uses: fish-actions/install-fish@v1
-      - name: Install Oh My Fish
+      - name: Install oh-my-fish
         uses: fish-shop/install-plugin-manager@v1
         with:
           plugin-manager: oh-my-fish
       - name: Test plugin installation
         run: omf install (pwd)
+        shell: fish {0}
+  plug-fish-install:
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install fish shell
+        uses: fish-actions/install-fish@v1
+      - name: Install plug.fish
+        uses: fish-shop/install-plugin-manager@v1
+        with:
+          plugin-manager: plug.fish
+      - name: Test plugin installation
+        run: plug install .
         shell: fish {0}
   tests:
     steps:

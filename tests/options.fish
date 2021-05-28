@@ -1,4 +1,4 @@
-source ./helpers/variables.fish
+source ./fixtures/variables.fish
 
 set pond_usage "\
 Pond $pond_test_version
@@ -16,9 +16,10 @@ Application Options:
 
 Commands:
     create   Create a new pond
+    init     Create/open pond init function
+    deinit   Create/open pond deinit function
     remove   Remove a pond and associated data
     list     List ponds
-    edit     Edit an existing pond
     enable   Enable a pond for new shell sessions
     disable  Disable a pond for new shell sessions
     load     Load pond data into current shell session

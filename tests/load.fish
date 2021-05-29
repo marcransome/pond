@@ -66,9 +66,9 @@ __pond_tear_down
 __pond_event_reset
 
 @echo "pond load: validation failure exit code tests"
-@test "pond load: fails for missing pond name" (pond load >/dev/null 2>&1) $status -eq $fail
-@test "pond load: fails for malformed pond name" (pond load _invalid >/dev/null 2>&1) $status -eq $fail
-@test "pond load: fails for non-existent pond" (pond load no-exist >/dev/null 2>&1) $status -eq $fail
+@test "pond load: fails for missing pond name" (pond load >/dev/null 2>&1) $status -eq $failure
+@test "pond load: fails for malformed pond name" (pond load _invalid >/dev/null 2>&1) $status -eq $failure
+@test "pond load: fails for non-existent pond" (pond load no-exist >/dev/null 2>&1) $status -eq $failure
 
 @echo "pond load: validation failure output tests"
 @test "pond load: command usage shown for missing pond name" (pond load 2>&1 | string collect) = $command_usage

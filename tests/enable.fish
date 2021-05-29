@@ -72,9 +72,9 @@ __pond_setup 3 enabled unpopulated
 __pond_tear_down
 
 @echo "pond enable: validation failure exit code tests"
-@test "pond enable: fails for missing pond name" (pond enable >/dev/null 2>&1) $status -eq $fail
-@test "pond enable: fails for malformed pond name" (pond enable _invalid >/dev/null 2>&1) $status -eq $fail
-@test "pond enable: fails for non-existent pond" (pond enable no-exist >/dev/null 2>&1) $status -eq $fail
+@test "pond enable: fails for missing pond name" (pond enable >/dev/null 2>&1) $status -eq $failure
+@test "pond enable: fails for malformed pond name" (pond enable _invalid >/dev/null 2>&1) $status -eq $failure
+@test "pond enable: fails for non-existent pond" (pond enable no-exist >/dev/null 2>&1) $status -eq $failure
 
 @echo "pond enable: validation failure output tests"
 @test "pond enable: command usage shown for missing pond name" (pond enable 2>&1 | string collect) = $command_usage

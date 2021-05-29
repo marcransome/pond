@@ -52,10 +52,10 @@ __pond_tear_down
 __pond_event_reset
 
 @echo "pond create: validation failure exit code tests"
-@test "pond create: fails for missing pond name" (pond create >/dev/null 2>&1) $status -eq $fail
-@test "pond create: fails for malformed pond name" (pond create _invalid >/dev/null 2>&1) $status -eq $fail
+@test "pond create: fails for missing pond name" (pond create >/dev/null 2>&1) $status -eq $failure
+@test "pond create: fails for malformed pond name" (pond create _invalid >/dev/null 2>&1) $status -eq $failure
 __pond_setup 1 enabled unpopulated
-@test "pond create: fails for existing pond" (pond create $pond_name >/dev/null 2>&1) $status -eq $fail
+@test "pond create: fails for existing pond" (pond create $pond_name >/dev/null 2>&1) $status -eq $failure
 __pond_tear_down
 __pond_event_reset
 

@@ -57,7 +57,7 @@ for command in "pond list "{-e,--enabled}
 
     @echo "$command: success tests for single disabled pond"
     __pond_setup 1 disabled unpopulated
-    @test "pond list: success single disabled pond" (eval $command >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: success single disabled pond" (eval $command >/dev/null 2>&1) $status -eq $failure
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
     __pond_tear_down
 
@@ -70,7 +70,7 @@ for command in "pond list "{-e,--enabled}
 
     @echo "$command: success tests for multiple disabled ponds"
     __pond_setup 3 disabled unpopulated
-    @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $failure
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
     __pond_tear_down
 
@@ -80,7 +80,7 @@ for command in "pond list "{-d,--disabled}
 
     @echo "$command: success tests for single enabled pond"
     __pond_setup 1 enabled unpopulated
-    @test "pond list: success single enabled pond" (eval $command >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: success single enabled pond" (eval $command >/dev/null 2>&1) $status -eq $failure
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
     __pond_tear_down
 
@@ -93,7 +93,7 @@ for command in "pond list "{-d,--disabled}
 
     @echo "$command: success tests for multiple enabled ponds"
     __pond_setup 3 enabled unpopulated
-    @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $failure
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
     __pond_tear_down
 
@@ -106,10 +106,10 @@ for command in "pond list "{-d,--disabled}
 end
 
 @echo "pond list: validation failure exit code tests"
-@test "pond list: fails for trailing arguments" (pond list trailing >/dev/null 2>&1) $status -eq $fail
+@test "pond list: fails for trailing arguments" (pond list trailing >/dev/null 2>&1) $status -eq $failure
 
 for invalid_option in -i --invalid
-    @test "pond list: fails for invalid option $invalid_option" (pond list $invalid_option >/dev/null 2>&1) $status -eq $fail
+    @test "pond list: fails for invalid option $invalid_option" (pond list $invalid_option >/dev/null 2>&1) $status -eq $failure
 end
 
 @echo "pond list: validation failure output tests"

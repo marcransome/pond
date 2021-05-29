@@ -44,7 +44,7 @@ Enable ponds on creation: $pond_enable_on_create
 Pond editor command: that-editor"
 
 @echo "pond config: validation failure exit code tests"
-@test "pond config: fails for trailing arguments" (pond config trailing >/dev/null 2>&1) $status -eq $fail
+@test "pond config: fails for trailing arguments" (pond config trailing >/dev/null 2>&1) $status -eq $failure
 
 @echo "pond config: validation failure output tests"
 @test "pond config: command usage shown for trailing arguments" (pond config trailing 2>&1 | string collect) = $command_usage

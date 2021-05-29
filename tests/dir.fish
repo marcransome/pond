@@ -15,10 +15,10 @@ __pond_setup 1 enabled unpopulated
 __pond_tear_down
 
 @echo "pond dir: validation failure exit code tests"
-@test "pond dir: fails for missing pond name" (pond dir >/dev/null 2>&1) $status -eq $fail
-@test "pond dir: fails for trailing arguments" (pond dir $pond_name trailing >/dev/null 2>&1) $status -eq $fail
-@test "pond dir: fails for malformed pond name" (pond dir _invalid >/dev/null 2>&1) $status -eq $fail
-@test "pond dir: fails for non-existent pond" (pond dir no-exist >/dev/null 2>&1) $status -eq $fail
+@test "pond dir: fails for missing pond name" (pond dir >/dev/null 2>&1) $status -eq $failure
+@test "pond dir: fails for trailing arguments" (pond dir $pond_name trailing >/dev/null 2>&1) $status -eq $failure
+@test "pond dir: fails for malformed pond name" (pond dir _invalid >/dev/null 2>&1) $status -eq $failure
+@test "pond dir: fails for non-existent pond" (pond dir no-exist >/dev/null 2>&1) $status -eq $failure
 
 @echo "pond dir: validation failure output tests"
 @test "pond dir: command usage shown for missing pond name" (pond dir 2>&1 | string collect) = $command_usage

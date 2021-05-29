@@ -65,18 +65,18 @@ for command in "pond drain "{-y,--yes}
 end
 
 @echo "pond drain: validation failure exit code tests"
-@test "pond drain: fails for missing pond name" (pond drain >/dev/null 2>&1) $status -eq $fail
-@test "pond drain: fails for malformed pond name" (pond drain _invalid >/dev/null 2>&1) $status -eq $fail
-@test "pond drain: fails for non-existent pond" (pond drain no-exist >/dev/null 2>&1) $status -eq $fail
+@test "pond drain: fails for missing pond name" (pond drain >/dev/null 2>&1) $status -eq $failure
+@test "pond drain: fails for malformed pond name" (pond drain _invalid >/dev/null 2>&1) $status -eq $failure
+@test "pond drain: fails for non-existent pond" (pond drain no-exist >/dev/null 2>&1) $status -eq $failure
 
 for valid_option in -y --yes
-    @test "pond drain: fails for valid option $valid_option and missing pond name" (pond drain $valid_option >/dev/null 2>&1) $status -eq $fail
-    @test "pond drain: fails for valid option $valid_option and invalid pond name" (pond drain $valid_option _invalid >/dev/null 2>&1) $status -eq $fail
+    @test "pond drain: fails for valid option $valid_option and missing pond name" (pond drain $valid_option >/dev/null 2>&1) $status -eq $failure
+    @test "pond drain: fails for valid option $valid_option and invalid pond name" (pond drain $valid_option _invalid >/dev/null 2>&1) $status -eq $failure
 end
 
 for invalid_option in -i --invalid
-    @test "pond drain: fails for invalid option $invalid_option and valid pond name" (pond drain $invalid_option $pond_name >/dev/null 2>&1) $status -eq $fail
-    @test "pond drain: fails for invalid option $invalid_option and invalid pond name" (pond drain $invalid_option _invalid >/dev/null 2>&1) $status -eq $fail
+    @test "pond drain: fails for invalid option $invalid_option and valid pond name" (pond drain $invalid_option $pond_name >/dev/null 2>&1) $status -eq $failure
+    @test "pond drain: fails for invalid option $invalid_option and invalid pond name" (pond drain $invalid_option _invalid >/dev/null 2>&1) $status -eq $failure
 end
 
 @echo "pond drain: validation failure output tests"

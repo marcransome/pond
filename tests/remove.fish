@@ -133,18 +133,18 @@ for command in "pond remove "{-y,--yes}
 end
 
 @echo "pond remove: validation failure exit code tests"
-@test "pond remove: fails for missing pond name" (pond remove >/dev/null 2>&1) $status -eq $fail
-@test "pond remove: fails for malformed pond name" (pond remove _invalid >/dev/null 2>&1) $status -eq $fail
-@test "pond remove: fails for non-existent pond" (pond remove no-exist >/dev/null 2>&1) $status -eq $fail
+@test "pond remove: fails for missing pond name" (pond remove >/dev/null 2>&1) $status -eq $failure
+@test "pond remove: fails for malformed pond name" (pond remove _invalid >/dev/null 2>&1) $status -eq $failure
+@test "pond remove: fails for non-existent pond" (pond remove no-exist >/dev/null 2>&1) $status -eq $failure
 
 for valid_option in -y --yes
-    @test "pond remove: fails for valid option $valid_option and missing pond name" (pond remove $valid_option >/dev/null 2>&1) $status -eq $fail
-    @test "pond remove: fails for valid option $valid_option and invalid pond name" (pond remove $valid_option _invalid >/dev/null 2>&1) $status -eq $fail
+    @test "pond remove: fails for valid option $valid_option and missing pond name" (pond remove $valid_option >/dev/null 2>&1) $status -eq $failure
+    @test "pond remove: fails for valid option $valid_option and invalid pond name" (pond remove $valid_option _invalid >/dev/null 2>&1) $status -eq $failure
 end
 
 for invalid_option in -i --invalid
-    @test "pond remove: fails for invalid option $invalid_option and valid pond name" (pond remove $invalid_option $pond_name >/dev/null 2>&1) $status -eq $fail
-    @test "pond remove: fails for invalid option $invalid_option and invalid pond name" (pond remove $invalid_option _invalid >/dev/null 2>&1) $status -eq $fail
+    @test "pond remove: fails for invalid option $invalid_option and valid pond name" (pond remove $invalid_option $pond_name >/dev/null 2>&1) $status -eq $failure
+    @test "pond remove: fails for invalid option $invalid_option and invalid pond name" (pond remove $invalid_option _invalid >/dev/null 2>&1) $status -eq $failure
 end
 
 @echo "pond remove: validation failure output tests"

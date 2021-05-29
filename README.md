@@ -12,7 +12,7 @@ Pond is a shell environment manager for the [fish shell](https://fishshell.com).
 
 Pond started life as a small idea: to group related shell configuration—primarily in the form of environment variables—into named collections (_ponds_) and to provide a simple mechanism for controlling when those groups are made accessible in the shell environment (through `load`, `unload`, `enable`, and `disable` commands respectively).
 
-Pond leverages [autoloaded functions](https://fishshell.com/docs/current/index.html#autoloading-functions) as a means of encapsulating environment configuration and provides a simple set of subcommands to manage your configuration.
+It has since grown to leverage [autoloaded functions](https://fishshell.com/docs/current/index.html#autoloading-functions) as a means of encapsulating environment configuration and provides a simple set of subcommands to manage such configuration.
 
 📖 Read [The road to 1.0.0]() for more historical context.
 

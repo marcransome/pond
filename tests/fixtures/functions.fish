@@ -28,6 +28,13 @@ function __pond_setup -a pond_count pond_state pond_data
     end
 end
 
+function __pond_remove_from_fish_function_path -a pond_name
+    set -l fish_function_path_index (contains -i $pond_home/$pond_name $fish_function_path)
+    if test -n "$fish_function_path_index"
+        set -e fish_function_path[$fish_function_path_index]
+    end
+end
+
 function __pond_load_init -a pond_count
     for pond_name in $pond_name_prefix-(seq $pond_count)
         {$pond_name}_{$pond_init_suffix}

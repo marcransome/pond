@@ -56,11 +56,9 @@ function __pond_init
     set -a fish_function_path $pond_function_path
 
     for pond_path in $pond_function_path
-        if test -z "$pond_path"; continue; end
-
-        set -l pond_init_function (basename $pond_path)_init
-        if test (type -q $pond_init_function) $status -eq 0
-            $pond_init_function
+        for pond_path in $pond_function_path
+            set -l pond_init_function (string split -m1 -r '/' "$pond_path")[2]_init
+            type -q $pond_init_function; and $pond_init_function
         end
     end
 end

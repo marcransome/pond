@@ -2,14 +2,14 @@ function __pond_init_populate -a pond_name
     set -l pond_init_function {$pond_name}_{$pond_init_suffix}
     set -l pond_init_file $pond_home/$pond_name/$pond_init_function.fish
 
-    echo "function $pond_init_function\n\nend" >> $pond_init_file
+    echo -e "function $pond_init_function\n\nend" >> $pond_init_file
 end
 
 function __pond_deinit_populate -a pond_name
     set -l pond_deinit_function {$pond_name}_{$pond_deinit_suffix}
     set -l pond_deinit_file $pond_home/$pond_name/$pond_deinit_function.fish
 
-    echo "function $pond_deinit_function\n\nend" >> $pond_deinit_file
+    echo -e "function $pond_deinit_function\n\nend" >> $pond_deinit_file
 end
 
 function __pond_setup -a pond_count pond_state pond_data

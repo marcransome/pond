@@ -29,6 +29,9 @@ jobs:
       - name: Install tap-diff
         run: $GITHUB_WORKSPACE && npm install tap-diff
         shell: fish {0}
+      - name: Install pond
+        run: fisher install .
+        shell: fish {0}
       - name: Run tests
         run: |
           set -xg FORCE_COLOR 2
@@ -51,6 +54,9 @@ jobs:
       - name: Test plugin installation
         run: fisher install .
         shell: fish {0}
+      - name: Check pond is installed
+        run: type -q pond
+        shell: {0}
   oh-my-fish-install:
     strategy:
       matrix:
@@ -67,6 +73,9 @@ jobs:
       - name: Test plugin installation
         run: omf install (pwd)
         shell: fish {0}
+      - name: Check pond is installed
+        run: type -q pond
+        shell: {0}
   plug-fish-install:
     strategy:
       matrix:
@@ -83,3 +92,6 @@ jobs:
       - name: Test plugin installation
         run: plug install .
         shell: fish {0}
+      - name: Check pond is installed
+        run: type -q pond
+        shell: {0}

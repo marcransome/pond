@@ -14,7 +14,7 @@ Pond started life as a small idea: to group related shell configuration—primar
 
 It has since grown to leverage [autoloaded functions](https://fishshell.com/docs/current/index.html#autoloading-functions) as a means of encapsulating environment configuration and provides a simple set of subcommands to manage such configuration.
 
-📖 Read [The road to 1.0.0]() for more historical context.
+📖 Read [The road to 1.0.0](https://github.com/marcransome/pond/wiki/The-road-to-1.0.0) for more historical context.
 
 ## Installation
 

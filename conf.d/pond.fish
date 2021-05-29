@@ -56,10 +56,8 @@ function __pond_init
     set -a fish_function_path $pond_function_path
 
     for pond_path in $pond_function_path
-        for pond_path in $pond_function_path
-            set -l pond_init_function (string split -m1 -r '/' "$pond_path")[2]_init
-            type -q $pond_init_function; and $pond_init_function
-        end
+        set -l pond_init_function (string split -m1 -r '/' "$pond_path")[2]_init
+        type -q $pond_init_function; and $pond_init_function
     end
 end
 

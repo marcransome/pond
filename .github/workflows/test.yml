@@ -63,7 +63,7 @@ jobs:
         run: fisher install .
         shell: fish {0}
       - name: Check pond is installed
-        run: type -q pond
+        run: functions -q pond
         shell: fish {0}
   oh-my-fish-install:
     strategy:
@@ -82,7 +82,7 @@ jobs:
         run: omf install (pwd)
         shell: fish {0}
       - name: Check pond is installed
-        run: type -q pond
+        run: functions -q pond
         shell: fish {0}
   plug-fish-install:
     strategy:
@@ -101,5 +101,5 @@ jobs:
         run: plug install .
         shell: fish {0}
       - name: Check pond is installed
-        run: type -q pond
+        run: functions -q pond
         shell: fish {0}

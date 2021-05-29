@@ -10,6 +10,14 @@ on:
     types:
       - published
 jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install fish shell
+        uses: fish-actions/install-fish@v1
+      - name: Syntax check fish files
+        uses: fish-shop/syntax-check@v1
   tests:
     strategy:
       matrix:

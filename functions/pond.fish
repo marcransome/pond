@@ -262,29 +262,32 @@ Usage:
     end
 
     function __pond_list_operation -a pond_list_enabled pond_list_disabled
-        set -l pond_paths $pond_home/*
         set -l pond_names
+        set -l pond_count 0
 
         if test "$pond_list_enabled" = "yes"; and test "$pond_list_disabled" = "yes"
-            for pond_path in $pond_paths
-                set -a pond_names (basename $pond_path)
+            for pond_path in $pond_home/*
+                echo (basename $pond_path)
+                set pond_count (math $pond_count + 1)
             end
         else if test "$pond_list_enabled" = "yes"; and test "$pond_list_disabled" = "no"
-            for pond_path in $pond_paths
-                if contains $pond_path $pond_function_path; set -a pond_names (basename $pond_path); end
+            for pond_path in $pond_home/*
+                if contains $pond_path $pond_function_path
+                    echo (basename $pond_path)
+                    set pond_count (math $pond_count + 1)
+                end
             end
         else if test "$pond_list_enabled" = "no"; and test "$pond_list_disabled" = "yes"
-            for pond_path in $pond_paths
-                if not contains $pond_path $pond_function_path; set -a pond_names (basename $pond_path); end
+            for pond_path in $pond_home/*
+                if not contains $pond_path $pond_function_path
+                    echo (basename $pond_path)
+                    set pond_count (math $pond_count + 1)
+                end
             end
         end
 
-        if test (count $pond_names) -eq 0
+        if test $pond_count -eq 0
             echo "No matching ponds" >&2; and return 1
-        end
-
-        for pond_name in (string join0 $pond_names | sort -z | string split0)
-            echo $pond_name
         end
     end
 

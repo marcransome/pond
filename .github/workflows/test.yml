@@ -56,7 +56,7 @@ jobs:
         shell: fish {0}
       - name: Check pond is installed
         run: type -q pond
-        shell: {0}
+        shell: fish {0}
   oh-my-fish-install:
     strategy:
       matrix:
@@ -75,7 +75,7 @@ jobs:
         shell: fish {0}
       - name: Check pond is installed
         run: type -q pond
-        shell: {0}
+        shell: fish {0}
   plug-fish-install:
     strategy:
       matrix:
@@ -94,4 +94,4 @@ jobs:
         shell: fish {0}
       - name: Check pond is installed
         run: type -q pond
-        shell: {0}
+        shell: fish {0}

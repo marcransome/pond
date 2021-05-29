@@ -1,25 +1,15 @@
-function __pond_init_populate -a pond_name pond_vars_count
-    set -l pond_var_name_prefix (string upper $pond_name | string replace -a '-' _)"_VAR"
+function __pond_init_populate -a pond_name
     set -l pond_init_function {$pond_name}_{$pond_init_suffix}
     set -l pond_init_file $pond_home/$pond_name/$pond_init_function.fish
 
-    echo "function $pond_init_function" >> $pond_init_file
-    for pond_var_name in $pond_var_name_prefix"_"(seq $pond_vars_count)
-        echo "set -xg $pond_var_name "(string lower $pond_var_name) >> $pond_init_file
-    end
-    echo "end" >> $pond_init_file
+    echo "function $pond_init_function\n\nend" >> $pond_init_file
 end
 
-function __pond_deinit_populate -a pond_name pond_vars_count
-    set -l pond_var_name_prefix (string upper $pond_name | string replace -a '-' _)"_VAR"
+function __pond_deinit_populate -a pond_name
     set -l pond_deinit_function {$pond_name}_{$pond_deinit_suffix}
     set -l pond_deinit_file $pond_home/$pond_name/$pond_deinit_function.fish
 
-    echo "function $pond_deinit_function" >> $pond_deinit_file
-    for pond_var_name in $pond_var_name_prefix"_"(seq $pond_vars_count)
-        echo "set -e $pond_var_name "(string lower $pond_var_name) >> $pond_deinit_file
-    end
-    echo "end" >> $pond_deinit_file
+    echo "function $pond_deinit_function\n\nend" >> $pond_deinit_file
 end
 
 function __pond_setup -a pond_count pond_state pond_data
@@ -32,8 +22,8 @@ function __pond_setup -a pond_count pond_state pond_data
         end
 
         if test "$pond_data" = "populated"
-            __pond_init_populate $pond_name $pond_test_var_count
-            __pond_deinit_populate $pond_name $pond_test_var_count
+            __pond_init_populate $pond_name
+            __pond_deinit_populate $pond_name
         end
     end
 end

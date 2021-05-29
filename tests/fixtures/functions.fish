@@ -59,10 +59,6 @@ function __pond_tear_down
     set -e pond_function_path
 end
 
-function __pond_editor_intercept_with -a function_name
-    set -U pond_editor $function_name
-end
-
 function __pond_expect_init_path -a got_path
     if ! test "$got_path" = "$pond_home/$pond_name/$pond_name"_{$pond_init_suffix}.fish
         return 1
@@ -75,8 +71,24 @@ function __pond_expect_deinit_path -a got_path
     end
 end
 
+function __pond_test_init_editor -a init_file_path
+    if ! test "$init_file_path" = "$pond_home/$pond_name/"{$pond_name}_{$pond_init_suffix}.fish
+        return 1
+    end
+end
+
+function __pond_test_deinit_editor -a deinit_file_path
+    if ! test "$deinit_file_path" = "$pond_home/$pond_name/"{$pond_name}_{$pond_deinit_suffix}.fish
+        return 1
+    end
+end
+
+function __pond_editor_intercept_with -a function_name
+    set -gx pond_editor $function_name
+end
+
 function __pond_editor_reset
-    set -U pond_editor $pond_editor_before_test
+    set -ge pond_editor
 end
 
 function __pond_event_reset

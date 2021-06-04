@@ -41,7 +41,7 @@ $ plug install marcransome/pond
 Create an empty pond using the `create` command:
 
 ```console
-$ pond create my-app
+$ pond create my_app
 ```
 
 Ponds are _enabled_ by default, meaning any functions that are added will automatically be made available in new shell sessions. To disable this behaviour set the universal variable `pond_enable_on_create` to `no`:
@@ -55,20 +55,20 @@ $ set -U pond_enable_on_create no
 Move to the pond directory for which you wish to add a function:
 
 ```console
-$ pond dir my-app
+$ pond dir my_app
 ```
 
 Add one or more related functions here. For example:
 
 ```
-$ vi start-my-app.fish
+$ vi start_my_app.fish
 ...
 ```
 
 Which would contain the function definition:
 
 ```fish
-function start-my-app
+function start_my_app
   ...
 end
 ```
@@ -78,8 +78,8 @@ end
 Use the `enable` command to make functions belonging to a pond available in new shell sessions:
 
 ```console
-$ pond enable my-app
-Enabled pond: my-app
+$ pond enable my_app
+Enabled pond: my_app
 ```
 
 ### Disabling ponds
@@ -87,8 +87,8 @@ Enabled pond: my-app
 Use the `disable` command to make pond functions belonging to a pond inaccessible in new shell sessions:
 
 ```console
-$ pond disable my-app
-Disabled pond: my-app
+$ pond disable my_app
+Disabled pond: my_app
 ```
 
 ### Loading ponds
@@ -96,8 +96,8 @@ Disabled pond: my-app
 Use the `load` command to make pond functions available in the current shell session:
 
 ```console
-$ pond load my-app
-Loaded pond: my-app
+$ pond load my_app
+Loaded pond: my_app
 ```
 
 ### Unloading ponds
@@ -105,19 +105,55 @@ Loaded pond: my-app
 Use the `unload` command to remove pond functions from the current shell session:
 
 ```console
-$ pond unload my-app
-Unloaded pond: my-app
+$ pond unload my_app
+Unloaded pond: my_app
 ```
+
+### Initialising ponds
+
+Use the `init` command to create an initialise function for a pond and open it in an interactive editor:
+
+```console
+$ pond init my_app
+```
+
+Populate the function with environment variables as required:
+
+```
+function my_app_init
+    set -xg MY_APP_PORT 1234
+end
+```
+
+This function is automatically executed during startup of a new shell if the pond is enabled. If a pond is _loaded_ using the `load` command then the function will be executed automatically in the current shell session.
+
+### Deinitialising ponds
+
+Use the `deinit` command to create a deinitialise function for a pond and open it in an interactive editor:
+
+```console
+$ pond deinit my_app
+```
+
+Populate the function with any cleanup operations as required:
+
+```
+function my_app_deinit
+    set -e MY_APP_PORT
+end
+```
+
+This function is automatically executed if a pond is unloaded.
 
 ### Viewing the status of ponds
 
 Use the `status` command to view the status of a pond:
 
 ```console
-$ pond status my-app
-name: my-app
+$ pond status my_app
+name: my_app
 enabled: yes
-path: /Users/<username>/.config/fish/pond/my-app
+path: /Users/<username>/.config/fish/pond/my_app
 ```
 
 ### Listing ponds
@@ -126,14 +162,14 @@ Use the `list` command to list all available ponds:
 
 ```console
 $ pond list
-my-app
+my_app
 ```
 
 Use one or more filter options to limit the output:
 
 ```console
 $ pond list --enabled
-my-app
+my_app
 ```
 
 ### Removing ponds
@@ -141,16 +177,16 @@ my-app
 Use the `remove` command to remove a pond:
 
 ```console
-$ pond remove my-app
-Remove pond: my-app? y
-Removed pond: my-app
+$ pond remove my_app
+Remove pond: my_app? y
+Removed pond: my_app
 ```
 
 To automatically accept the confirmation prompt use the `-y` or `--yes` option:
 
 ```console
-$ pond remove --yes my-app
-Removed pond: my-app
+$ pond remove --yes my_app
+Removed pond: my_app
 ```
 
 ### Draining ponds
@@ -158,16 +194,16 @@ Removed pond: my-app
 Use the `drain` command to drain all functions from a pond:
 
 ```console
-$ pond drain my-app
-Drain pond: my-app? y
-Drained pond: my-app
+$ pond drain my_app
+Drain pond: my_app? y
+Drained pond: my_app
 ```
 
 To automatically accept the confirmation prompt use the `-y` or `--yes` option:
 
 ```console
-$ pond drain --yes my-app
-Drained pond: my-app
+$ pond drain --yes my_app
+Drained pond: my_app
 ```
 
 ### Viewing global configuration
@@ -186,7 +222,7 @@ Pond editor command: /usr/local/bin/vim
 To open a pond directory:
 
 ```console
-$ pond dir my-app
+$ pond dir my_app
 ```
 
 The current working directory will be changed to the pond directory.

@@ -65,7 +65,7 @@ $ vi start_my_app.fish
 ...
 ```
 
-Which would contain the function definition:
+With a suitable function definition:
 
 ```fish
 function start_my_app

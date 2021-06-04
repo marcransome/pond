@@ -1,7 +1,7 @@
 set -l commands_without_options_single_pond status dir config init deinit
-set -l commands_without_options_multiple_pond create load unload enable disable
+set -l commands_without_options_multiple_pond load unload enable disable
 set -l commands_with_options remove drain list
-set -l commands "$commands_without_options_single_pond $commands_without_options_multiple_pond $commands_with_options"
+set -l commands "create $commands_without_options_single_pond $commands_without_options_multiple_pond $commands_with_options"
 
 # Disable file completion as no subcommand requires a file path
 complete -c pond -f

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>pond(1) Version 0.9.0 | Pond User’s Guide</title>
+  <title>pond(1) Version 1.0.0 | Pond User’s Guide</title>
   <style>
     html {
       line-height: 1.5;
@@ -150,7 +150,7 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">pond(1) Version 0.9.0 | Pond User’s Guide</h1>
+<h1 class="title">pond(1) Version 1.0.0 | Pond User’s Guide</h1>
 </header>
 <h1 id="name">NAME</h1>
 <p><strong>pond</strong> — a shell environment manager for the fish shell</p>
@@ -158,11 +158,12 @@
 <div class="line-block"><strong>pond</strong> [<em>options</em>]<br />
 <strong>pond</strong> <em>command</em> [<em>options</em>] …</div>
 <h1 id="description">DESCRIPTION</h1>
-<p>A pond represents a collection of shell variables (and in a future release functions) within the fish shell. Ponds are used to group related shell variables together. Naming ponds after individual applications or local development environments is a good way to separate and control them by use-case.</p>
-<p>Pond provides tab completion for all commands and options discussed here in addition to pond name completion for any ponds that exist locally.</p>
+<p>A <em>pond</em> represents a named collection of functions in the fish shell.</p>
+<p>Each pond comprises a directory containing one or more user-defined functions. Functions belonging to a pond may be <em>autoloaded</em> by name if a pond was enabled (see <strong>enable</strong>) prior to the shell being created or if the pond was loaded using the <strong>load</strong> command in the current shell.</p>
+<p>In addition to user-defined functions, two special functions (see <strong>init</strong> and <strong>deinit</strong>) are automatically executed if they exist. These functions are the recommended way of setting or unsetting environment variables for a pond (using <strong>set</strong>(1)).</p>
 <p>Arguments can be read from standard input when <strong>pond</strong> is used in a pipeline. For example, to remove all disabled ponds:</p>
 <p><em>Example:</em> <strong>pond list --disabled | pond remove</strong></p>
-<p>All arguments passed via standard input are appended to the arguments already present in the <strong>pond</strong> command. When used in this way, the <strong>--yes</strong> option is assumed by commands that support this option, meaning user confirmation prompts will be automatically accepted for those operations (see <strong>COMMANDS</strong> to determine which commands this applies to), and the <strong>--empty</strong> option is assumed for the <strong>create</strong> command. <strong>pond</strong> exits 1 if the <strong>edit</strong> command is used without a tty.</p>
+<p>All arguments passed via standard input are appended to the arguments already present in the <strong>pond</strong> command. When used in this way, the <strong>--yes</strong> option is assumed by commands that support it, meaning user confirmation prompts will be automatically accepted for those operations (see <strong>COMMANDS</strong> to determine which commands this applies to).</p>
 <h2 id="options">Options</h2>
 <dl>
 <dt><strong>-h,</strong> <strong>--help</strong></dt>
@@ -173,37 +174,19 @@
 </dd>
 </dl>
 <h1 id="commands">COMMANDS</h1>
-<h2 id="create--e--empty--p--private-pond"><strong>create</strong> [<strong>-e</strong>|<strong>--empty</strong>] [<strong>-p</strong>|<strong>--private</strong>] <em>pond</em></h2>
-<p>Create a new pond named <em>pond</em>. Each pond comprises a directory tree containing a single file for storing shell variable definitions (i.e. <strong>set</strong>(1) commands) and a <em>functions</em> subdirectory intended for storing <em>autoloaded</em> fish functions (to be implemented in a future update).</p>
-<p>A pond may be marked <strong>--private</strong> during creation. Private ponds are intended to store shell variables that contain sensitive values (e.g. tokens or keys). Private ponds are stored in a separate directory tree to regular ponds and their collective parent directory is given 0700 permissions rather than the 0755 permissions used by regular ponds. In addition, private ponds may be treated differently by pond commands introduced in future updates.</p>
-<p>By default, a directory named <em>pond</em> is created within either the <strong>regular</strong> or <strong>private</strong> subdirectory under <strong>$__fish_config_dir/pond/</strong> dependent upon the type of the pond.</p>
-<p>When creating a new pond, an interactive editor is opened (unless the <strong>--empty</strong> option is specified) ready to add new shell variable definitions. See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> universal variable that controls which editor is used.</p>
-<dl>
-<dt><strong>-e</strong>, <strong>--empty</strong></dt>
-<dd><p>Create an empty pond without opening an interactive editor (this option is inferred when using <strong>pond</strong> in the context of a pipeline)</p>
-</dd>
-<dt><strong>-p</strong>, <strong>--private</strong></dt>
-<dd><p>Create a private pond</p>
-</dd>
-</dl>
+<h2 id="create-ponds"><strong>create</strong> <em>ponds…</em></h2>
+<p>Create ponds <em>ponds</em>. An empty directory will be created in <strong>$pond_home</strong> for each named pond.</p>
 <h2 id="remove--y--yes-ponds"><strong>remove</strong> [<strong>-y</strong>|<strong>--yes</strong>] <em>ponds…</em></h2>
-<p>Remove <em>ponds</em>. All pond data will be erased for each named pond (i.e. the pond directory located in <strong>$__fish_config_dir/pond/regular/</strong> or <strong>$__fish_config_dir/pond/private/</strong> for each named pond is erased). Confirmation is requested from the user for each named pond and a <strong>yes</strong> response confirms removal of the named pond. Confirmation prompts can be automatically accepted with the <strong>--yes</strong> option.</p>
+<p>Remove <em>ponds</em>. All pond data will be erased for each named pond. Confirmation is requested from the user for each named pond and a <strong>yes</strong> response confirms removal of the named pond. Confirmation prompts can be automatically accepted with the <strong>--yes</strong> option.</p>
 <dl>
 <dt><strong>-y</strong>, <strong>--yes</strong></dt>
 <dd><p>Automatically accept confirmation prompts (this option is inferred when using <strong>pond</strong> in the context of a pipeline)</p>
 </dd>
 </dl>
-<h2 id="list--p--private--r--regular--e--enabled--d--disabled"><strong>list</strong> [<strong>-p</strong>|<strong>--private</strong>] [<strong>-r</strong>|<strong>--regular</strong>] [<strong>-e</strong>|<strong>--enabled</strong>] [<strong>-d</strong>|<strong>--disabled</strong>]</h2>
-<p>List ponds. If no options are specified, <em>all</em> pond names will be printed to standard output, one per line (equivalent to combining all four options <strong>--private</strong>, <strong>--regular</strong>, <strong>--enabled</strong> and <strong>--disabled</strong>).</p>
-<p>If only one of <strong>-p</strong>|<strong>--private</strong> or <strong>-r</strong>|<strong>--regular</strong> is specified, the other option is assumed disabled (e.g. by specifying <strong>-p</strong>|<strong>--private</strong> only private ponds will be listed). If neither option is provided both are assumed enabled.</p>
-<p>If only one of <strong>-e</strong>|<strong>--enabled</strong> or <strong>-d</strong>|<strong>--disabled</strong> is specified, the other option is assumed disabled (e.g. by specifying <strong>-e</strong>|<strong>--enabled</strong>, only enabled ponds will be listed). If neither option is provided both are assumed enabled.</p>
+<h2 id="list--e--enabled--d--disabled"><strong>list</strong> [<strong>-e</strong>|<strong>--enabled</strong>] [<strong>-d</strong>|<strong>--disabled</strong>]</h2>
+<p>List ponds. If no options are specified, <em>all</em> pond names will be printed to standard output, one per line.</p>
+<p>If one of <strong>-e</strong>|<strong>--enabled</strong> or <strong>-d</strong>|<strong>--disabled</strong> is specified then only the names of ponds with a matching status will be output. If neither option is provided both options are assumed.</p>
 <dl>
-<dt><strong>-p</strong>, <strong>--private</strong></dt>
-<dd><p>List private ponds</p>
-</dd>
-<dt><strong>-r</strong>, <strong>--regular</strong></dt>
-<dd><p>List regular ponds</p>
-</dd>
 <dt><strong>-e</strong>, <strong>--enabled</strong></dt>
 <dd><p>List enabled ponds</p>
 </dd>
@@ -211,26 +194,27 @@
 <dd><p>List disabled ponds</p>
 </dd>
 </dl>
-<p><em>Example:</em> <strong>pond list --private</strong> (list private ponds, both enabled and disabled)</p>
-<p><em>Example:</em> <strong>pond list --disabled</strong> (list disabled ponds, both regular and private)</p>
-<p><em>Example:</em> <strong>pond list --enabled --private</strong> (list enabled private ponds only)</p>
-<h2 id="edit-pond"><strong>edit</strong> <em>pond</em></h2>
-<p>Open an interactive editor for modifying shell variables in a pond (i.e. <strong>set</strong>(1) commands). See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used.</p>
+<p><em>Example:</em> <strong>pond list</strong> or <strong>pond list –enabled –disabled</strong> (list all ponds)</p>
+<p><em>Example:</em> <strong>pond list --disabled</strong> (list disabled ponds only)</p>
+<p><em>Example:</em> <strong>pond list --enabled</strong> (list enabled ponds only)</p>
+<h2 id="init-pond"><strong>init</strong> <em>pond</em></h2>
+<p>Open the initialise function for <em>pond</em> in an interactive editor. The function will be created if it does not already exist and will be named after <em>pond</em> with the suffix _init.</p>
+<p>If <em>pond</em> is enabled (see <strong>enable</strong>) the function will be executed automatically during startup of new shell sessions. If <em>pond</em> is loaded (see <strong>load</strong>) then the function will be executed automatically in the current shell session.</p>
+<p>See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used when this command is invoked.</p>
+<h2 id="deinit-pond"><strong>deinit</strong> <em>pond</em></h2>
+<p>Open the deinitialise function for <em>pond</em> in an interactive editor. The function will be created if it does not already exist and will be named after <em>pond</em> with the suffix _deinit.</p>
+<p>If <em>pond</em> is unloaded (see <strong>unload</strong>) the function will be executed automatically. It is advisable to use a deinitialise function to perform cleanup of any operations present in a pond’s initialise function. For example, unsetting environment variables that were set. Doing so will ensure that unloading a pond (see <strong>unload</strong>) will remove any configuration for a pond from the shell environment.</p>
+<p>See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used when this command is invoked.</p>
 <h2 id="enable-ponds"><strong>enable</strong> <em>ponds…</em></h2>
-<p>Enable <em>ponds</em>. A symbolic link will be created in <strong>$__fish_config_dir/pond/links</strong> to the pond directory for each named pond (a pond’s directory path can be viewed using the <strong>status</strong> command). When a new shell session is created, the <strong>env_vars.fish</strong> file for each enabled pond is sourced into the shell environment, making shell variables created with the <strong>set</strong>(1) command accessible to the shell, and making exported variables (i.e. <strong>set -x</strong> …) available to child processes of the shell.</p>
+<p>Enable <em>ponds</em>. The path of each named pond will be added to the *$fish_function_path environment variable in new shells. Functions belonging to a pond may be autoloaded by name if a pond was enabled before the shell was created.</p>
 <h2 id="disable-ponds"><strong>disable</strong> <em>ponds…</em></h2>
-<p>Disable <em>ponds</em>. The symbolic link to the pond directory in <strong>$__fish_config_dir/pond/links</strong> for each named pond is removed. Any shell variables present in each named pond’s <strong>env_vars.fish</strong> file will no longer be sourced into shell sessions that are created after those ponds are disabled.</p>
+<p>Disable <em>ponds</em>. The path of each named pond will not be added to the *$fish_function_path environment variable in new shells. Functions belonging to a pond will be inaccessible in new shells.</p>
 <h2 id="load-ponds"><strong>load</strong> <em>ponds…</em></h2>
-<p>Load <em>ponds</em>. The path of each named pond’s <strong>env_vars.fish</strong> file will be passed to the <strong>source</strong>(1) command and its contents evaluated in the current shell session, making shell variables created with the <strong>set</strong>(1) command accessible to the current shell, and making exported variables (i.e. <strong>set -x</strong> …) available to child processes of the current shell.</p>
+<p>Load <em>ponds</em>. The path of each named pond will be added to the *$fish_function_path environment variable in the current shell. Functions belonging to <em>ponds</em> may be autoloaded by name in the current shell.</p>
 <h2 id="unload-ponds"><strong>unload</strong> <em>ponds…</em></h2>
-<p>Unload <em>ponds</em>. <strong>pond</strong> will attempt to parse each named pond’s <strong>env_vars.fish</strong> file for <strong>set</strong>(1) commands and will erase matching shell variables from the current shell session using <strong>set -e</strong>.</p>
-<dl>
-<dt><strong>-v</strong>, <strong>--verbose</strong></dt>
-<dd><p>Output variable names during unload</p>
-</dd>
-</dl>
+<p>Unload <em>ponds</em>. The path of each named pond will be remove from the *$fish_function_path environment variable in the current shell. Functions belonging to <em>ponds</em> will be inaccessible in the current shell.</p>
 <h2 id="status-ponds"><strong>status</strong> [<em>ponds…</em>]</h2>
-<p>View global status (without arguments) or status of <em>ponds</em>. Global status includes total pond count and enabled pond count. Pond status includes the <em>name</em> of the pond, its <em>enabled</em> state (<strong>yes</strong> or <strong>no</strong>), <em>private</em> state (<strong>yes</strong> or <strong>no</strong>) and the absolute <em>path</em> to the directory comprising its data.</p>
+<p>View global status (without arguments) or status of <em>ponds</em>. Global status includes total pond count and enabled pond count. Pond status includes the <em>name</em> of the pond, its <em>enabled</em> state (<strong>yes</strong> or <strong>no</strong>), and the absolute <em>path</em> to the directory comprising its data.</p>
 <h2 id="drain--y--yes-ponds"><strong>drain</strong> [<strong>-y</strong>|<strong>--yes</strong>] <em>ponds…</em></h2>
 <p>Drain <em>ponds</em>. All content is removed from the <strong>env_vars.fish</strong> file for each named pond. If any of the named ponds was enabled, or had been previously loaded into the current shell session with the <strong>load</strong> command, then its variables <em>will remain set</em> in the shell environment and continue to be accessible to processes spawned by the current shell until it exits.</p>
 <dl>
@@ -260,6 +244,6 @@
 <h1 id="author">AUTHOR</h1>
 <p>Marc Ransome <a href="mailto:marc.ransome@fidgetbox.co.uk" class="email">marc.ransome@fidgetbox.co.uk</a></p>
 <h1 id="see-also">SEE ALSO</h1>
-<p>fish(1), fish-doc(1), fish-completions(1), set(1)</p>
+<p>fish(1), fish-doc(1), fish-completions(1), function(1), set(1)</p>
 </body>
 </html>

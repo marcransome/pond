@@ -125,7 +125,7 @@ function my_app_init
 end
 ```
 
-This function is automatically executed during startup of a new shell if the pond is enabled. If a pond is _loaded_ using the `load` command then the function will be executed automatically in the current shell session.
+This function is automatically executed during startup of new shells if the pond is enabled. If a pond is loaded using the `load` command then the function will be executed automatically in the current shell session.
 
 ### Deinitialising ponds
 

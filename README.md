@@ -109,7 +109,7 @@ $ pond unload my_app
 Unloaded pond: my_app
 ```
 
-### Initialising ponds
+### Initialising ponds
 
 Use the `init` command to create an initialise function for a pond and open it in an interactive editor:
 
@@ -127,7 +127,7 @@ end
 
 This function is automatically executed during startup of a new shell if the pond is enabled. If a pond is _loaded_ using the `load` command then the function will be executed automatically in the current shell session.
 
-### Deinitialising ponds
+### Deinitialising ponds
 
 Use the `deinit` command to create a deinitialise function for a pond and open it in an interactive editor:
 

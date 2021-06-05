@@ -1,7 +1,5 @@
 source ./fixtures/variables.fish
 
-set -gx TERM xterm-256color
-
 set pond_usage "\
 Pond $pond_test_version
 

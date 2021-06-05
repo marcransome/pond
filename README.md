@@ -8,11 +8,11 @@ Pond is a shell environment manager for the [fish shell](https://fishshell.com).
 
 <hr>
 
+Group related functions together into named _ponds_ and expose them to the shell environment using `load`, `unload`, `enable`, or `disable` commands. Make use of automatically executed `init` and `deinit` functions to set or unset environment variables.
+
 ## Background
 
-Pond started life as a small idea: to group related shell configuration—primarily in the form of environment variables—into named collections (_ponds_) and to provide a simple mechanism for controlling when those groups are made accessible in the shell environment (through `load`, `unload`, `enable`, and `disable` commands respectively).
-
-It has since grown to leverage [autoloaded functions](https://fishshell.com/docs/current/index.html#autoloading-functions) as a means of encapsulating environment configuration and provides a simple set of subcommands to manage such configuration.
+Pond started life as a small idea: to group related shell environment variables and functions into named collections (_ponds_) and to provide a simple mechanism for controlling when those collections are made accessible in the shell environment. It does this by leveraging [autoloaded functions](https://fishshell.com/docs/current/index.html#autoloading-functions) as a means of encapsulating environment configuration and provides a simple set of subcommands to manage such configuration.
 
 📖 Read [The road to 1.0.0](https://github.com/marcransome/pond/wiki/The-road-to-1.0.0) for more historical context.
 

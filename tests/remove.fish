@@ -19,6 +19,8 @@ Removed pond: $pond_name_prefix-1
 Removed pond: $pond_name_prefix-2
 Removed pond: $pond_name_prefix-3"
 
+set not_exists_error (__pond_error_string "Pond does not exist: no-exist")
+
 function __pond_removed_event_intercept --on-event pond_removed -a event_pond_name event_pond_path
     set -ga event_pond_names $event_pond_name
     set -ga event_pond_paths $event_pond_path
@@ -150,7 +152,7 @@ end
 @echo "pond remove: validation failure output tests"
 @test "pond remove: command usage shown for missing pond name" (pond remove 2>&1 | string collect) = $command_usage
 @test "pond remove: command usage shown for malformed pond name" (pond remove _invalid 2>&1 | string collect) = $command_usage
-@test "pond remove: command error shown for non-existent pond" (pond remove no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond remove: command error shown for non-existent pond" (pond remove no-exist 2>&1 | string collect) = $not_exists_error
 
 for valid_option in -y --yes
     @test "pond remove: command usage shown for valid option $valid_option and missing pond name" (pond remove $valid_option 2>&1 | string collect) = $command_usage

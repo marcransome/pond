@@ -19,6 +19,8 @@ Drained pond: $pond_name_prefix-1
 Drained pond: $pond_name_prefix-2
 Drained pond: $pond_name_prefix-3"
 
+set not_exists_error (__pond_error_string "Pond does not exist: no-exist")
+
 function __pond_drained_event_intercept --on-event pond_drained -a got_pond_name got_pond_path
     set -ga event_pond_names $got_pond_name
     set -ga event_pond_paths $got_pond_path
@@ -82,7 +84,7 @@ end
 @echo "pond drain: validation failure output tests"
 @test "pond drain: command usage shown for missing pond name" (pond drain 2>&1 | string collect) = $command_usage
 @test "pond drain: command usage shown for malformed pond name" (pond drain _invalid 2>&1 | string collect) = $command_usage
-@test "pond drain: command error shown for non-existent pond" (pond drain no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond drain: command error shown for non-existent pond" (pond drain no-exist 2>&1 | string collect) = $not_exists_error
 
 for valid_option in -y --yes
     @test "pond drain: command usage shown for valid option $valid_option and missing pond name" (pond drain $valid_option 2>&1 | string collect) = $command_usage

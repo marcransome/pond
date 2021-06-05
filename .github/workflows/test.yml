@@ -42,7 +42,8 @@ jobs:
         shell: fish {0}
       - name: Run tests
         run: |
-          set -xg FORCE_COLOR 2
+          set -gx TERM xterm-256color
+          set -gx FORCE_COLOR 2
           cd $GITHUB_WORKSPACE/tests
           fishtape *.fish | $GITHUB_WORKSPACE/node_modules/.bin/tap-diff
         shell: fish {0}

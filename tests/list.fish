@@ -9,7 +9,7 @@ $pond_name_prefix-1
 $pond_name_prefix-2
 $pond_name_prefix-3"
 
-set no_match "No matching ponds"
+set no_match_error (__pond_error_string "No matching ponds")
 
 set command_usage "\
 Usage:
@@ -58,7 +58,7 @@ for command in "pond list "{-e,--enabled}
     @echo "$command: success tests for single disabled pond"
     __pond_setup 1 disabled unpopulated
     @test "pond list: success single disabled pond" (eval $command >/dev/null 2>&1) $status -eq $failure
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
     __pond_tear_down
 
 
@@ -71,7 +71,7 @@ for command in "pond list "{-e,--enabled}
     @echo "$command: success tests for multiple disabled ponds"
     __pond_setup 3 disabled unpopulated
     @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $failure
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
     __pond_tear_down
 
 end
@@ -81,7 +81,7 @@ for command in "pond list "{-d,--disabled}
     @echo "$command: success tests for single enabled pond"
     __pond_setup 1 enabled unpopulated
     @test "pond list: success single enabled pond" (eval $command >/dev/null 2>&1) $status -eq $failure
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
     __pond_tear_down
 
     @echo "$command: success tests for single disabled pond"
@@ -94,7 +94,7 @@ for command in "pond list "{-d,--disabled}
     @echo "$command: success tests for multiple enabled ponds"
     __pond_setup 3 enabled unpopulated
     @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $failure
-    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
     __pond_tear_down
 
     @echo "$command: success tests for multiple disabled ponds"

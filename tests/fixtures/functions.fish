@@ -91,6 +91,10 @@ function __pond_editor_reset
     set -ge pond_editor
 end
 
+function __pond_error_string -a message
+    printf (set_color red; and echo -n "Error: "; and set_color normal; and echo "$message")
+end
+
 function __pond_event_reset
     set -e event_pond_name
     set -e event_pond_path

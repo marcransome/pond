@@ -18,6 +18,8 @@ Created empty pond: $pond_name_prefix-1
 Created empty pond: $pond_name_prefix-2
 Created empty pond: $pond_name_prefix-3"
 
+set already_exists_error (__pond_error_string "Pond already exists: $pond_name")
+
 function __pond_created_event_intercept --on-event pond_created -a got_pond_name got_pond_path
     set -ga event_pond_names $got_pond_name
     set -ga event_pond_paths $got_pond_path
@@ -63,6 +65,6 @@ __pond_event_reset
 @test "pond create: command usage shown for missing pond name" (pond create 2>&1 | string collect) = $command_usage
 @test "pond create: command usage shown for malformed pond name" (pond create _invalid 2>&1 | string collect) = $command_usage
 __pond_setup 1 enabled unpopulated
-@test "pond create: command error shown for existing pond" (pond create $pond_name 2>&1 | string collect) = "Pond already exists: $pond_name"
+@test "pond create: command error shown for existing pond" (pond create $pond_name 2>&1 | string collect) = $already_exists_error
 __pond_tear_down
 __pond_event_reset

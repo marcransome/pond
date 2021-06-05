@@ -175,14 +175,14 @@ Usage:
     end
 
     function __pond_show_error -a message
-        printf (set_color red; and echo -n "Error: "; and set_color normal; and echo "$message") >&2
+        echo (set_color red; and echo -n "Error: "; and set_color normal; and echo "$message") >&2
     end
 
     function __pond_create_operation -a pond_name
         set -l pond_path $pond_home/$pond_name
 
         if test (mkdir -m 0755 -p $pond_path >/dev/null 2>&1) $status -ne 0
-            echo "Failed to create pond directory: $pond_path" >&2; and return 1
+            __pond_show_error "Failed to create pond directory: $pond_path"; and return 1
         end
 
         if test "$pond_enable_on_create" = "yes"
@@ -203,7 +203,7 @@ Usage:
 
         if ! test -f $pond_init_file
             if test (echo -e "function "{$pond_name}_{$pond_init_suffix}"\n\nend" >> $pond_init_file) $status -ne 0
-                echo "Unable to create init file: $pond_init_file" >&2; and return 1
+                __pond_show_error "Unable to create init file: $pond_init_file"; and return 1
             else
                 echo "Created init file: $pond_init_file"
             end
@@ -211,7 +211,7 @@ Usage:
 
         if test -z "$__pond_under_test"
             and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
-            echo "Editor not found: $pond_editor" >&2; and return 1
+            __pond_show_error "Editor not found: $pond_editor"; and return 1
         end
 
         $pond_editor $pond_init_file
@@ -223,7 +223,7 @@ Usage:
 
         if ! test -f $pond_deinit_file
             if test (echo -e "function "{$pond_name}_{$pond_deinit_suffix}"\n\nend" >> $pond_deinit_file) $status -ne 0
-                echo "Unable to create deinit file: $pond_deinit_file" >&2; and return 1
+                __pond_show_error "Unable to create deinit file: $pond_deinit_file"; and return 1
             else
                 echo "Created deinit file: $pond_deinit_file"
             end
@@ -231,7 +231,7 @@ Usage:
 
         if test -z "$__pond_under_test"
             and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
-            echo "Editor not found: $pond_editor" >&2; and return 1
+            __pond_show_error "Editor not found: $pond_editor"; and return 1
         end
 
         $pond_editor $pond_deinit_file
@@ -258,7 +258,7 @@ Usage:
         end
 
         if test (rm -rf $pond_path >/dev/null 2>&1) $status -ne 0
-            echo "Unable to remove pond: $pond_name" >&2; and return 1
+            __pond_show_error "Unable to remove pond: $pond_name"; and return 1
         end
 
         echo "Removed pond: $pond_name"
@@ -291,7 +291,7 @@ Usage:
         end
 
         if test $pond_count -eq 0
-            echo "No matching ponds" >&2; and return 1
+            __pond_show_error "No matching ponds"; and return 1
         end
     end
 
@@ -299,7 +299,7 @@ Usage:
         set -l pond_path  $pond_home/$pond_name
 
         if contains $pond_path $pond_function_path
-            echo "Pond already enabled: $pond_name" >&2; and return 1
+            __pond_show_error "Pond already enabled: $pond_name"; and return 1
         else
             set -U -a pond_function_path $pond_path
 
@@ -316,7 +316,7 @@ Usage:
         set -l pond_path $pond_home/$pond_name
 
         if not contains $pond_path $pond_function_path
-            echo "Pond already disabled: $pond_name" >&2; and return 1
+            __pond_show_error "Pond already disabled: $pond_name"; and return 1
         else
             set -l pond_function_path_index (contains -i $pond_path $pond_function_path)
             if test -n "$pond_function_path_index"
@@ -381,7 +381,7 @@ Usage:
         end
 
         if test (rm -rf $pond_path/* >/dev/null 2>&1) $status -ne 0
-            echo "Unable to drain pond: $pond_name" >&2; and return 1
+            __pond_show_error "Unable to drain pond: $pond_name"; and return 1
         end
 
         echo "Drained pond: $pond_name"
@@ -399,11 +399,11 @@ Usage:
     end
 
     function __pond_show_exists_error -a pond_name
-        echo "Pond already exists: $pond_name" >&2
+        __pond_show_error "Pond already exists: $pond_name"
     end
 
     function __pond_show_not_exists_error -a pond_name
-        echo "Pond does not exist: $pond_name" >&2
+        __pond_show_error "Pond does not exist: $pond_name"
     end
 
     function __pond_exists -a pond_name
@@ -708,7 +708,7 @@ Usage:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case '*'
-            __pond_show_error "Unknown command: $command" >&2; and __pond_cleanup; and return 1
+            __pond_show_error "Unknown command: $command"; and __pond_cleanup; and return 1
     end
 
     __pond_cleanup

@@ -33,6 +33,8 @@ name: $pond_name_prefix-3
 enabled: no
 path: $pond_home/$pond_name_prefix-3"
 
+set not_exists_error (__pond_error_string "Pond does not exist: no-exist")
+
 set command_usage "\
 Usage:
     pond status [ponds...]
@@ -98,4 +100,4 @@ __pond_tear_down
 
 @echo "pond status: validation failure output tests"
 @test "pond status: command usage shown for malformed pond name" (pond status _invalid 2>&1 | string collect) = $command_usage
-@test "pond status: command error shown for non-existent pond" (pond status no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond status: command error shown for non-existent pond" (pond status no-exist 2>&1 | string collect) = $not_exists_error

@@ -16,6 +16,8 @@ Loaded pond: $pond_name_prefix-1
 Loaded pond: $pond_name_prefix-2
 Loaded pond: $pond_name_prefix-3"
 
+set not_exists_error (__pond_error_string "Pond does not exist: no-exist")
+
 function __pond_loaded_event_intercept --on-event pond_loaded -a got_pond_name got_pond_path
     set -ga event_pond_names $got_pond_name
     set -ga event_pond_paths $got_pond_path
@@ -73,4 +75,4 @@ __pond_event_reset
 @echo "pond load: validation failure output tests"
 @test "pond load: command usage shown for missing pond name" (pond load 2>&1 | string collect) = $command_usage
 @test "pond load: command usage shown for malformed pond name" (pond load _invalid 2>&1 | string collect) = $command_usage
-@test "pond load: command error shown for non-existent pond" (pond load no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond load: command error shown for non-existent pond" (pond load no-exist 2>&1 | string collect) = $not_exists_error

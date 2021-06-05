@@ -16,6 +16,8 @@ Usage:
 Arguments:
     ponds  The name of one or more ponds to unload"
 
+set not_exists_error (__pond_error_string "Pond does not exist: no-exist")
+
 function __pond_unloaded_event_intercept --on-event pond_unloaded -a got_pond_name got_pond_path
     set -ga event_pond_names $got_pond_name
     set -ga event_pond_paths $got_pond_path
@@ -73,4 +75,4 @@ __pond_event_reset
 @echo "pond unload: validation failure output tests"
 @test "pond unload: command usage shown for missing pond name" (pond unload 2>&1 | string collect) = $command_usage
 @test "pond unload: command usage shown for malformed pond name" (pond unload _invalid 2>&1 | string collect) = $command_usage
-@test "pond unload: command error shown for non-existent pond" (pond unload no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond unload: command error shown for non-existent pond" (pond unload no-exist 2>&1 | string collect) = $not_exists_error

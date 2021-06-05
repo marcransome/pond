@@ -16,6 +16,9 @@ Enabled pond: $pond_name_prefix-1
 Enabled pond: $pond_name_prefix-2
 Enabled pond: $pond_name_prefix-3"
 
+set already_enabled_error (__pond_error_string "Pond already enabled: $pond_name")
+set not_exists_error (__pond_error_string "Pond does not exist: no-exist")
+
 function __pond_enabled_event_intercept --on-event pond_enabled -a got_pond_name got_pond_path
     set -ga event_pond_names $got_pond_name
     set -ga event_pond_paths $got_pond_path
@@ -60,7 +63,7 @@ __pond_event_reset
 @echo "pond enable: failure tests for single enabled pond"
 __pond_setup 1 enabled unpopulated
 @test "setup: pond enabled" (contains $pond_home/$pond_name $pond_function_path) $status -eq $success
-@test "pond enable: command error shown for enabled pond" (pond enable $pond_name 2>&1 | string collect) = "Pond already enabled: $pond_name"
+@test "pond enable: command error shown for enabled pond" (pond enable $pond_name 2>&1 | string collect) = $already_enabled_error
 __pond_tear_down
 
 @echo "pond enable: failure tests for multiple enabled ponds"
@@ -68,7 +71,7 @@ __pond_setup 3 enabled unpopulated
 @test "setup: pond enabled" (contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
 @test "setup: pond enabled" (contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
 @test "setup: pond enabled" (contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success
-@test "pond enable: command error shown for enabled pond" (pond enable $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 2>&1 | string collect) = "Pond already enabled: $pond_name_prefix-1"
+@test "pond enable: command error shown for enabled pond" (pond enable $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 2>&1 | string collect) = $already_enabled_error
 __pond_tear_down
 
 @echo "pond enable: validation failure exit code tests"
@@ -79,4 +82,4 @@ __pond_tear_down
 @echo "pond enable: validation failure output tests"
 @test "pond enable: command usage shown for missing pond name" (pond enable 2>&1 | string collect) = $command_usage
 @test "pond enable: command usage shown for malformed pond name" (pond enable _invalid 2>&1 | string collect) = $command_usage
-@test "pond enable: command error shown for non-existent pond" (pond enable no-exist 2>&1 | string collect) = "Pond does not exist: no-exist"
+@test "pond enable: command error shown for non-existent pond" (pond enable no-exist 2>&1 | string collect) = $not_exists_error

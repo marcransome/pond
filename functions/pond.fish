@@ -167,15 +167,15 @@ Arguments:
         echo
     end
 
-    function __pond_show_error -a message
-         printf (set_color red; and echo -n "Error: "; and set_color normal; and echo "$message") >&2
-     end
-
     function __pond_config_command_usage
         echo "\
 Usage:
     pond config" >&2
         echo
+    end
+
+    function __pond_show_error -a message
+        printf (set_color red; and echo -n "Error: "; and set_color normal; and echo "$message") >&2
     end
 
     function __pond_create_operation -a pond_name

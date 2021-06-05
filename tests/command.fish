@@ -1,6 +1,7 @@
 source ./fixtures/variables.fish
+source ./fixtures/functions.fish
 
-set unknown_command_error (set_color red; and echo -n "Error: "; and set_color normal; and echo "Unknown command: unknown")
+set unknown_command_error (__pond_error_string "Unknown command: unknown")
 
 @echo 'pond: unknown command failure exit code tests'
 @test 'pond fails for unknown command' (pond unknown >/dev/null 2>&1) $status -eq $failure

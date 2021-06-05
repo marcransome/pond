@@ -167,6 +167,10 @@ Arguments:
         echo
     end
 
+    function __pond_show_error -a message
+         printf (set_color red; and echo -n "Error: "; and set_color normal; and echo "$message") >&2
+     end
+
     function __pond_config_command_usage
         echo "\
 Usage:
@@ -704,8 +708,7 @@ Usage:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case '*'
-            __pond_usage
-            echo "Unknown command: $command" >&2; and __pond_cleanup; and return 1
+            __pond_show_error "Unknown command: $command" >&2; and __pond_cleanup; and return 1
     end
 
     __pond_cleanup

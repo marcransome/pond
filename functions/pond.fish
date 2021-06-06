@@ -303,10 +303,6 @@ Usage:
         else
             set -U -a pond_function_path $pond_path
 
-            if not contains $pond_path $fish_function_path
-                set -a fish_function_path $pond_path
-            end
-
             echo "Enabled pond: $pond_name"
             emit pond_enabled $pond_name $pond_path
         end

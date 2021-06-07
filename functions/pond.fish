@@ -185,12 +185,12 @@ Usage:
             __pond_show_error "Failed to create pond directory: $pond_path"; and return 1
         end
 
-        if test "$pond_enable_on_create" = "yes"
+        if test "$pond_enable_on_create" = "yes"; and not contains $pond_path $pond_function_path
             set -U -a pond_function_path $pond_path
         end
 
-        if not contains $pond_path $fish_function_path
-            set -a fish_function_path $pond_path
+        if test "$pond_load_on_create" = "yes"; and not contains $pond_path $fish_function_path
+            set -g -a fish_function_path $pond_path
         end
 
         echo "Created empty pond: $pond_name"

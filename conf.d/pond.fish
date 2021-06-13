@@ -31,10 +31,12 @@ function __pond_uninstall --on-event pond_uninstall
         end
     end
 
-    for pond_path in $pond_function_path
-        set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
-        if test -n "$fish_function_path_index"
-            set -e fish_function_path[$fish_function_path_index]
+    for fish_path in $fish_function_path
+        test -z "$pond_home"; and break
+        for pond_path in (string match -r "$pond_home/.*" -- $fish_function_path)
+            if set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
+                set -e fish_function_path[$fish_function_path_index]
+            end
         end
     end
 

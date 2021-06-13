@@ -28,10 +28,11 @@ function __pond_setup -a pond_count pond_state pond_data
     end
 end
 
-function __pond_remove_from_fish_function_path -a pond_name
-    set -l fish_function_path_index (contains -i $pond_home/$pond_name $fish_function_path)
-    if test -n "$fish_function_path_index"
-        set -e fish_function_path[$fish_function_path_index]
+function __pond_remove_from_fish_function_path
+    for pond_name in $argv
+        if set -l fish_function_path_index (contains -i $pond_home/$pond_name $fish_function_path)
+            set -e fish_function_path[$fish_function_path_index]
+        end
     end
 end
 
@@ -50,8 +51,7 @@ end
 function __pond_tear_down
     for pond_path in $pond_home/$pond_name_prefix-*
         rm -rf $pond_path
-        set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
-        if test -n "$fish_function_path_index"
+        if set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
             set -e fish_function_path[$fish_function_path_index]
         end
     end

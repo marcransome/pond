@@ -247,13 +247,11 @@ Usage:
             end
         end
 
-        set -l pond_function_path_index (contains -i $pond_path $pond_function_path)
-        if test -n "$pond_function_path_index"
+        if set -l pond_function_path_index (contains -i $pond_path $pond_function_path)
             set -e pond_function_path[$pond_function_path_index]
         end
 
-        set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
-        if test -n "$fish_function_path_index"
+        if set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
             set -e fish_function_path[$fish_function_path_index]
         end
 
@@ -314,13 +312,12 @@ Usage:
         if not contains $pond_path $pond_function_path
             __pond_show_error "Pond already disabled: $pond_name"; and return 1
         else
-            set -l pond_function_path_index (contains -i $pond_path $pond_function_path)
-            if test -n "$pond_function_path_index"
+
+            if set -l pond_function_path_index (contains -i $pond_path $pond_function_path)
                 set -e pond_function_path[$pond_function_path_index]
             end
 
-            set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
-            if test -n "$fish_function_path_index"
+            if set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
                 set -e fish_function_path[$fish_function_path_index]
             end
 
@@ -349,8 +346,7 @@ Usage:
 
         type -q $pond_deinit_function; and $pond_deinit_function
 
-        set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
-        if test -n "$fish_function_path_index"
+        if set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
             set -e fish_function_path[$fish_function_path_index]
         end
 

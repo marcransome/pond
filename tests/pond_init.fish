@@ -23,9 +23,7 @@ __pond_tear_down
 
 @echo "pond init: success tests for multiple enabled ponds"
 __pond_setup 3 enabled populated
-__pond_remove_from_fish_function_path $pond_name_prefix-1
-__pond_remove_from_fish_function_path $pond_name_prefix-2
-__pond_remove_from_fish_function_path $pond_name_prefix-3
+__pond_remove_from_fish_function_path $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3
 @test "setup: $pond_name_prefix-1 pond is enabled" (contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
 @test "setup: $pond_name_prefix-2 pond is enabled" (contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
 @test "setup: $pond_name_prefix-3 pond is enabled" (contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success

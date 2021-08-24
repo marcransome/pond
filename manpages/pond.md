@@ -121,7 +121,7 @@ View global status (without arguments) or status of _ponds_. Global status inclu
 **drain** [**-y**|**\--yes**] _ponds..._
 ---------------------------------------
 
-Drain _ponds_. All content is removed from the **env\_vars.fish** file for each named pond. If any of the named ponds was enabled, or had been previously loaded into the current shell session with the **load** command, then its variables _will remain set_ in the shell environment and continue to be accessible to processes spawned by the current shell until it exits.
+Drain _ponds_. All functions are removed from each named pond. If any of the named ponds was enabled for the current shell session or had been previously loaded in the current shell session with the **load** command, variables for that pond _will remain_ in the shell environment and continue to be accessible to processes until the current shell exits.
 
 **-y**, **\--yes**
 

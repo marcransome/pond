@@ -162,13 +162,12 @@ absolute \f[I]path\f[R] to the directory comprising its data.
 .SS \f[B]drain\f[R] [\f[B]-y\f[R]|\f[B]--yes\f[R]] \f[I]ponds\&...\f[R]
 .PP
 Drain \f[I]ponds\f[R].
-All content is removed from the \f[B]env_vars.fish\f[R] file for each
-named pond.
-If any of the named ponds was enabled, or had been previously loaded
-into the current shell session with the \f[B]load\f[R] command, then its
-variables \f[I]will remain set\f[R] in the shell environment and
-continue to be accessible to processes spawned by the current shell
-until it exits.
+All functions are removed from each named pond.
+If any of the named ponds was enabled for the current shell session or
+had been previously loaded in the current shell session with the
+\f[B]load\f[R] command, variables for that pond \f[I]will remain\f[R] in
+the shell environment and continue to be accessible to processes until
+the current shell exits.
 .TP
 \f[B]-y\f[R], \f[B]--yes\f[R]
 Automatically accept confirmation prompts (this option is inferred when

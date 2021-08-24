@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>pond(1) Version 1.0.1 | Pond User’s Guide</title>
+  <title>pond(1) Version 1.0.0 | Pond User’s Guide</title>
   <style>
     html {
       line-height: 1.5;
@@ -150,7 +150,7 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">pond(1) Version 1.0.1 | Pond User’s Guide</h1>
+<h1 class="title">pond(1) Version 1.0.0 | Pond User’s Guide</h1>
 </header>
 <h1 id="name">NAME</h1>
 <p><strong>pond</strong> — a shell environment manager for the fish shell</p>
@@ -216,7 +216,7 @@
 <h2 id="status-ponds"><strong>status</strong> [<em>ponds…</em>]</h2>
 <p>View global status (without arguments) or status of <em>ponds</em>. Global status includes total pond count and enabled pond count. Pond status includes the <em>name</em> of the pond, its <em>enabled</em> state (<strong>yes</strong> or <strong>no</strong>), and the absolute <em>path</em> to the directory comprising its data.</p>
 <h2 id="drain--y--yes-ponds"><strong>drain</strong> [<strong>-y</strong>|<strong>--yes</strong>] <em>ponds…</em></h2>
-<p>Drain <em>ponds</em>. All content is removed from the <strong>env_vars.fish</strong> file for each named pond. If any of the named ponds was enabled, or had been previously loaded into the current shell session with the <strong>load</strong> command, then its variables <em>will remain set</em> in the shell environment and continue to be accessible to processes spawned by the current shell until it exits.</p>
+<p>Drain <em>ponds</em>. All functions are removed from each named pond. If any of the named ponds was enabled for the current shell session or had been previously loaded in the current shell session with the <strong>load</strong> command, variables for that pond <em>will remain</em> in the shell environment and continue to be accessible to processes until the current shell exits.</p>
 <dl>
 <dt><strong>-y</strong>, <strong>--yes</strong></dt>
 <dd><p>Automatically accept confirmation prompts (this option is inferred when using <strong>pond</strong> in the context of a pipeline)</p>

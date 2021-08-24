@@ -7,8 +7,6 @@ end
 
 set timestamp (date +%s)
 
-echo $timestamp
-
 set http_code (curl --write-out "%{http_code}" --silent "https://raw.githubusercontent.com/marcransome/pond/main/manpages/pond.1?$timestamp" -o /usr/local/share/man/man1/pond.1)
 set curl_exit $status
 

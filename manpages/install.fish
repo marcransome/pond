@@ -5,7 +5,9 @@ if ! command -q curl
     exit 1
 end
 
-set http_code (curl --write-out "%{http_code}" --silent "https://raw.githubusercontent.com/marcransome/pond/main/manpages/pond.1" -o /usr/local/share/man/man1/pond.1)
+set timestamp (date +%s)
+
+set http_code (curl --write-out "%{http_code}" --silent "https://raw.githubusercontent.com/marcransome/pond/main/manpages/pond.1?$timestamp" -o /usr/local/share/man/man1/pond.1)
 set curl_exit $status
 
 if test $curl_exit -ne 0

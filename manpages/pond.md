@@ -1,4 +1,4 @@
-% pond(1) Version 1.0.1 | Pond User's Guide
+% pond(1) Version 2.0.0 | Pond User's Guide
 
 NAME
 ====
@@ -18,7 +18,7 @@ A *pond* represents a named collection of functions in the fish shell.
 
 Each pond comprises a directory containing one or more user-defined functions. Functions belonging to a pond may be *autoloaded* by name if a pond was enabled (see **enable**) prior to the shell being created or if the pond was loaded using the **load** command in the current shell.
 
-In addition to user-defined functions, two special functions (see **init** and **deinit**) are automatically executed if they exist. These functions are the recommended way of setting or unsetting environment variables for a pond (using **set**(1)).
+In addition to user-defined functions, two special functions (see **autoload** and **autounload**) are automatically executed if they exist. These functions are the recommended way of setting or unsetting environment variables for a pond (using **set**(1)).
 
 Arguments can be read from standard input when **pond** is used in a pipeline. For example, to remove all disabled ponds:
 
@@ -75,21 +75,21 @@ _Example:_ **pond list \--disabled** (list disabled ponds only)
 
 _Example:_ **pond list \--enabled** (list enabled ponds only)
 
-**init** _pond_
+**autoload** _pond_
 ---------------
 
-Open the initialise function for _pond_ in an interactive editor. The function will be created if it does not already exist and will be named after _pond_ with the suffix \_init.
+Open the autoload function for _pond_ in an interactive editor. The function will be created if it does not already exist and will be named after _pond_ with the suffix \_autoload.
 
 If _pond_ is enabled (see **enable**) the function will be executed automatically during startup of new shell sessions. If _pond_ is loaded (see **load**) then the function will be executed automatically in the current shell session.
 
 See **ENVIRONMENT** for a discussion of the **pond\_editor** _universal_ variable that controls which editor is used when this command is invoked.
 
-**deinit** _pond_
+**autounload** _pond_
 -----------------
 
-Open the deinitialise function for _pond_ in an interactive editor. The function will be created if it does not already exist and will be named after _pond_ with the suffix \_deinit.
+Open the autounload function for _pond_ in an interactive editor. The function will be created if it does not already exist and will be named after _pond_ with the suffix \_autounload.
 
-If _pond_ is unloaded (see **unload**) the function will be executed automatically. It is advisable to use a deinitialise function to perform cleanup of any operations present in a pond's initialise function. For example, unsetting environment variables that were set. Doing so will ensure that unloading a pond (see **unload**) will remove any configuration for a pond from the shell environment.
+If _pond_ is unloaded (see **unload**) the function will be executed automatically. It is advisable to use the autounload function to perform cleanup of any operations present in a pond's autoload function, if one exists. For example, unsetting environment variables that were previously set. Doing so will ensure that unloading a pond (see **unload**) will remove any configuration for a pond from the shell environment.
 
 See **ENVIRONMENT** for a discussion of the **pond\_editor** _universal_ variable that controls which editor is used when this command is invoked.
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>pond(1) Version 1.0.1 | Pond User’s Guide</title>
+  <title>pond(1) Version 2.0.0 | Pond User’s Guide</title>
   <style>
     html {
       line-height: 1.5;
@@ -150,7 +150,7 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">pond(1) Version 1.0.1 | Pond User’s Guide</h1>
+<h1 class="title">pond(1) Version 2.0.0 | Pond User’s Guide</h1>
 </header>
 <h1 id="name">NAME</h1>
 <p><strong>pond</strong> — a shell environment manager for the fish shell</p>
@@ -160,7 +160,7 @@
 <h1 id="description">DESCRIPTION</h1>
 <p>A <em>pond</em> represents a named collection of functions in the fish shell.</p>
 <p>Each pond comprises a directory containing one or more user-defined functions. Functions belonging to a pond may be <em>autoloaded</em> by name if a pond was enabled (see <strong>enable</strong>) prior to the shell being created or if the pond was loaded using the <strong>load</strong> command in the current shell.</p>
-<p>In addition to user-defined functions, two special functions (see <strong>init</strong> and <strong>deinit</strong>) are automatically executed if they exist. These functions are the recommended way of setting or unsetting environment variables for a pond (using <strong>set</strong>(1)).</p>
+<p>In addition to user-defined functions, two special functions (see <strong>autoload</strong> and <strong>autounload</strong>) are automatically executed if they exist. These functions are the recommended way of setting or unsetting environment variables for a pond (using <strong>set</strong>(1)).</p>
 <p>Arguments can be read from standard input when <strong>pond</strong> is used in a pipeline. For example, to remove all disabled ponds:</p>
 <p><em>Example:</em> <strong>pond list --disabled | pond remove</strong></p>
 <p>All arguments passed via standard input are appended to the arguments already present in the <strong>pond</strong> command. When used in this way, the <strong>--yes</strong> option is assumed by commands that support it, meaning user confirmation prompts will be automatically accepted for those operations (see <strong>COMMANDS</strong> to determine which commands this applies to).</p>
@@ -197,13 +197,13 @@
 <p><em>Example:</em> <strong>pond list</strong> or <strong>pond list –enabled –disabled</strong> (list all ponds)</p>
 <p><em>Example:</em> <strong>pond list --disabled</strong> (list disabled ponds only)</p>
 <p><em>Example:</em> <strong>pond list --enabled</strong> (list enabled ponds only)</p>
-<h2 id="init-pond"><strong>init</strong> <em>pond</em></h2>
-<p>Open the initialise function for <em>pond</em> in an interactive editor. The function will be created if it does not already exist and will be named after <em>pond</em> with the suffix _init.</p>
+<h2 id="autoload-pond"><strong>autoload</strong> <em>pond</em></h2>
+<p>Open the autoload function for <em>pond</em> in an interactive editor. The function will be created if it does not already exist and will be named after <em>pond</em> with the suffix _autoload.</p>
 <p>If <em>pond</em> is enabled (see <strong>enable</strong>) the function will be executed automatically during startup of new shell sessions. If <em>pond</em> is loaded (see <strong>load</strong>) then the function will be executed automatically in the current shell session.</p>
 <p>See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used when this command is invoked.</p>
-<h2 id="deinit-pond"><strong>deinit</strong> <em>pond</em></h2>
-<p>Open the deinitialise function for <em>pond</em> in an interactive editor. The function will be created if it does not already exist and will be named after <em>pond</em> with the suffix _deinit.</p>
-<p>If <em>pond</em> is unloaded (see <strong>unload</strong>) the function will be executed automatically. It is advisable to use a deinitialise function to perform cleanup of any operations present in a pond’s initialise function. For example, unsetting environment variables that were set. Doing so will ensure that unloading a pond (see <strong>unload</strong>) will remove any configuration for a pond from the shell environment.</p>
+<h2 id="autounload-pond"><strong>autounload</strong> <em>pond</em></h2>
+<p>Open the autounload function for <em>pond</em> in an interactive editor. The function will be created if it does not already exist and will be named after <em>pond</em> with the suffix _autounload.</p>
+<p>If <em>pond</em> is unloaded (see <strong>unload</strong>) the function will be executed automatically. It is advisable to use the autounload function to perform cleanup of any operations present in a pond’s autoload function, if one exists. For example, unsetting environment variables that were previously set. Doing so will ensure that unloading a pond (see <strong>unload</strong>) will remove any configuration for a pond from the shell environment.</p>
 <p>See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used when this command is invoked.</p>
 <h2 id="enable-ponds"><strong>enable</strong> <em>ponds…</em></h2>
 <p>Enable <em>ponds</em>. The path of each named pond will be added to the *$fish_function_path environment variable in new shells. Functions belonging to a pond may be autoloaded by name if a pond was enabled before the shell was created.</p>

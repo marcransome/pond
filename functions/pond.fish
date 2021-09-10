@@ -90,7 +90,9 @@ Usage:
 
 Options:
     -e, --enabled   List enabled ponds
-    -d, --disabled  List disabled ponds" >&2
+    -d, --disabled  List disabled ponds
+    -l, --loaded    List loaded ponds
+    -u, --unloaded  List unloaded ponds" >&2
         echo
     end
 
@@ -265,29 +267,48 @@ Usage:
         emit pond_removed $pond_name $pond_path
     end
 
-    function __pond_list_operation -a pond_list_enabled pond_list_disabled
-        set -l pond_names
+    function __pond_list_operation -a pond_list_enabled pond_list_disabled pond_list_loaded pond_list_unloaded
         set -l pond_count 0
+        set -l pond_matches
 
-        if test "$pond_list_enabled" = "yes"; and test "$pond_list_disabled" = "yes"
-            for pond_path in $pond_home/*
-                echo (basename $pond_path)
-                set pond_count (math $pond_count + 1)
-            end
-        else if test "$pond_list_enabled" = "yes"; and test "$pond_list_disabled" = "no"
-            for pond_path in $pond_home/*
+        for pond_path in $pond_home/*
+            set -l pond_short_name (basename $pond_path)
+
+            if test "$pond_list_enabled" = "yes"
                 if contains $pond_path $pond_function_path
-                    echo (basename $pond_path)
+                    set -a pond_matches $pond_short_name
                     set pond_count (math $pond_count + 1)
+                    continue
                 end
             end
-        else if test "$pond_list_enabled" = "no"; and test "$pond_list_disabled" = "yes"
-            for pond_path in $pond_home/*
+
+            if test "$pond_list_disabled" = "yes"
                 if not contains $pond_path $pond_function_path
-                    echo (basename $pond_path)
+                    set -a pond_matches $pond_short_name
                     set pond_count (math $pond_count + 1)
+                    continue
                 end
             end
+
+            if test "$pond_list_loaded" = "yes"
+                if contains $pond_path $fish_function_path
+                    set -a pond_matches $pond_short_name
+                    set pond_count (math $pond_count + 1)
+                    continue
+                end
+            end
+
+            if test "$pond_list_unloaded" = "yes"
+                if not contains $pond_path $fish_function_path
+                    set -a pond_matches $pond_short_name
+                    set pond_count (math $pond_count + 1)
+                    continue
+                end
+            end
+        end
+
+        for pond_match in $pond_matches
+            echo $pond_match
         end
 
         if test $pond_count -eq 0
@@ -571,22 +592,26 @@ Usage:
         case list
             set -l pond_list_enabled yes
             set -l pond_list_disabled yes
+            set -l pond_list_loaded yes
+            set -l pond_list_unloaded yes
 
             if test (count $argv) -gt 0
-                if ! argparse 'e/enabled' 'd/disabled' >/dev/null 2>&1 -- $argv
+                if ! argparse 'e/enabled' 'd/disabled' 'l/loaded' 'u/unloaded' >/dev/null 2>&1 -- $argv
                     __pond_list_command_usage
                     __pond_cleanup; and return 1
                 end
 
                 if test (count $argv) -ne 0; __pond_list_command_usage; and __pond_cleanup; and return 1; end
 
-                if set -q _flag_enabled; or set -q _flag_disabled
+                if set -q _flag_enabled; or set -q _flag_disabled; or set -q _flag_loaded; or set -q _flag_unloaded
                     set -q _flag_enabled; and set pond_list_enabled yes; or set pond_list_enabled no
                     set -q _flag_disabled; and set pond_list_disabled yes; or set pond_list_disabled no
+                    set -q _flag_loaded; and set pond_list_loaded yes; or set pond_list_loaded no
+                    set -q _flag_unloaded; and set pond_list_unloaded yes; or set pond_list_unloaded no
                 end
             end
 
-            __pond_list_operation $pond_list_enabled $pond_list_disabled
+            __pond_list_operation $pond_list_enabled $pond_list_disabled $pond_list_loaded $pond_list_unloaded
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case enable

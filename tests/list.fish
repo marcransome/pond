@@ -17,7 +17,9 @@ Usage:
 
 Options:
     -e, --enabled   List enabled ponds
-    -d, --disabled  List disabled ponds"
+    -d, --disabled  List disabled ponds
+    -l, --loaded    List loaded ponds
+    -u, --unloaded  List unloaded ponds"
 
 for command in "pond list"
 

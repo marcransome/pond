@@ -17,15 +17,15 @@ Application Options:
     -v, --version         Print the version string
 
 Commands:
-    create     Create a new pond
+    create     Create new pond
     autoload   Create or edit pond autoload function
     autounload Create or edit pond autounload function
     remove     Remove a pond and associated data
     list       List ponds
     enable     Enable a pond for new shell sessions
     disable    Disable a pond for new shell sessions
-    load       Load pond data into current shell session
-    unload     Unload pond data from current shell session
+    load       Load pond into current shell session
+    unload     Unload pond from current shell session
     status     View pond status
     drain      Drain all data from pond
     dir        Change current working directory to pond
@@ -210,7 +210,7 @@ Usage:
         end
 
         if test -z "$__pond_under_test"
-            and test (command -s $pond_editor >/dev/null 2>&1) $status -eq 0
+            and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
             __pond_show_error "Editor not found: '$pond_editor'"; and return 1
         end
 

@@ -183,9 +183,8 @@
 <dd><p>Automatically accept confirmation prompts (this option is inferred when using <strong>pond</strong> in the context of a pipeline)</p>
 </dd>
 </dl>
-<h2 id="list--e--enabled--d--disabled"><strong>list</strong> [<strong>-e</strong>|<strong>--enabled</strong>] [<strong>-d</strong>|<strong>--disabled</strong>]</h2>
-<p>List ponds. If no options are specified, <em>all</em> pond names will be printed to standard output, one per line.</p>
-<p>If one of <strong>-e</strong>|<strong>--enabled</strong> or <strong>-d</strong>|<strong>--disabled</strong> is specified then only the names of ponds with a matching status will be output. If neither option is provided both options are assumed.</p>
+<h2 id="list--e--enabled--d--disabled--l--loaded--u--unloaded"><strong>list</strong> [<strong>-e</strong>|<strong>--enabled</strong>] [<strong>-d</strong>|<strong>--disabled</strong>] [<strong>-l</strong>|<strong>--loaded</strong>] [<strong>-u</strong>|<strong>--unloaded</strong>]</h2>
+<p>List ponds. If no options are specified, <em>all</em> pond names will be printed to standard output regardless of their status. If one or more options are specified then only the names of ponds that match an option will be output.</p>
 <dl>
 <dt><strong>-e</strong>, <strong>--enabled</strong></dt>
 <dd><p>List enabled ponds</p>
@@ -193,10 +192,16 @@
 <dt><strong>-d</strong>, <strong>--disabled</strong></dt>
 <dd><p>List disabled ponds</p>
 </dd>
+<dt><strong>-l</strong>, <strong>--loaded</strong></dt>
+<dd><p>List loaded ponds</p>
+</dd>
+<dt><strong>-u</strong>, <strong>--unloaded</strong></dt>
+<dd><p>List unloaded ponds</p>
+</dd>
 </dl>
-<p><em>Example:</em> <strong>pond list</strong> or <strong>pond list –enabled –disabled</strong> (list all ponds)</p>
+<p><em>Example:</em> <strong>pond list</strong> (list all ponds)</p>
 <p><em>Example:</em> <strong>pond list --disabled</strong> (list disabled ponds only)</p>
-<p><em>Example:</em> <strong>pond list --enabled</strong> (list enabled ponds only)</p>
+<p><em>Example:</em> <strong>pond list --enabled --unloaded</strong> (list enabled <em>and</em> unloaded ponds only)</p>
 <h2 id="autoload-pond"><strong>autoload</strong> <em>pond</em></h2>
 <p>Open the autoload function for <em>pond</em> in an interactive editor. The function will be created if it does not already exist and will be named after <em>pond</em> with the suffix _autoload.</p>
 <p>If <em>pond</em> is enabled (see <strong>enable</strong>) the function will be executed automatically during startup of new shell sessions. If <em>pond</em> is loaded (see <strong>load</strong>) then the function will be executed automatically in the current shell session.</p>

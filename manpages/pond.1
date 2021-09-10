@@ -67,31 +67,33 @@ Confirmation prompts can be automatically accepted with the
 \f[B]-y\f[R], \f[B]--yes\f[R]
 Automatically accept confirmation prompts (this option is inferred when
 using \f[B]pond\f[R] in the context of a pipeline)
-.SS \f[B]list\f[R] [\f[B]-e\f[R]|\f[B]--enabled\f[R]] [\f[B]-d\f[R]|\f[B]--disabled\f[R]]
+.SS \f[B]list\f[R] [\f[B]-e\f[R]|\f[B]--enabled\f[R]] [\f[B]-d\f[R]|\f[B]--disabled\f[R]] [\f[B]-l\f[R]|\f[B]--loaded\f[R]] [\f[B]-u\f[R]|\f[B]--unloaded\f[R]]
 .PP
 List ponds.
 If no options are specified, \f[I]all\f[R] pond names will be printed to
-standard output, one per line.
-.PP
-If one of \f[B]-e\f[R]|\f[B]--enabled\f[R] or
-\f[B]-d\f[R]|\f[B]--disabled\f[R] is specified then only the names of
-ponds with a matching status will be output.
-If neither option is provided both options are assumed.
+standard output regardless of their status.
+If one or more options are specified then only the names of ponds that
+match an option will be output.
 .TP
 \f[B]-e\f[R], \f[B]--enabled\f[R]
 List enabled ponds
 .TP
 \f[B]-d\f[R], \f[B]--disabled\f[R]
 List disabled ponds
+.TP
+\f[B]-l\f[R], \f[B]--loaded\f[R]
+List loaded ponds
+.TP
+\f[B]-u\f[R], \f[B]--unloaded\f[R]
+List unloaded ponds
 .PP
-\f[I]Example:\f[R] \f[B]pond list\f[R] or \f[B]pond list \[en]enabled
-\[en]disabled\f[R] (list all ponds)
+\f[I]Example:\f[R] \f[B]pond list\f[R] (list all ponds)
 .PP
 \f[I]Example:\f[R] \f[B]pond list --disabled\f[R] (list disabled ponds
 only)
 .PP
-\f[I]Example:\f[R] \f[B]pond list --enabled\f[R] (list enabled ponds
-only)
+\f[I]Example:\f[R] \f[B]pond list --enabled --unloaded\f[R] (list
+enabled \f[I]and\f[R] unloaded ponds only)
 .SS \f[B]autoload\f[R] \f[I]pond\f[R]
 .PP
 Open the autoload function for \f[I]pond\f[R] in an interactive editor.

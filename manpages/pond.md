@@ -54,12 +54,10 @@ Remove _ponds_. All pond data will be erased for each named pond. Confirmation i
 
 :   Automatically accept confirmation prompts (this option is inferred when using **pond** in the context of a pipeline)
 
-**list** [**-e**|**\--enabled**] [**-d**|**\--disabled**]
----------------------------------------------------------
+**list** [**-e**|**\--enabled**] [**-d**|**\--disabled**] [**-l**|**\--loaded**] [**-u**|**\--unloaded**]
+---------------------------------------------------------------------------------------------------------
 
-List ponds. If no options are specified, _all_ pond names will be printed to standard output, one per line.
-
-If one of **-e**|**\--enabled** or **-d**|**\--disabled** is specified then only the names of ponds with a matching status will be output. If neither option is provided both options are assumed.
+List ponds. If no options are specified, _all_ pond names will be printed to standard output regardless of their status. If one or more options are specified then only the names of ponds that match an option will be output.
 
 **-e**, **\--enabled**
 
@@ -69,11 +67,19 @@ If one of **-e**|**\--enabled** or **-d**|**\--disabled** is specified then only
 
 :   List disabled ponds
 
-_Example:_ **pond list** or **pond list --enabled --disabled** (list all ponds)
+**-l**, **\--loaded**
+
+:   List loaded ponds
+
+**-u**, **\--unloaded**
+
+:   List unloaded ponds
+
+_Example:_ **pond list** (list all ponds)
 
 _Example:_ **pond list \--disabled** (list disabled ponds only)
 
-_Example:_ **pond list \--enabled** (list enabled ponds only)
+_Example:_ **pond list \--enabled \--unloaded** (list enabled _and_ unloaded ponds only)
 
 **autoload** _pond_
 ---------------

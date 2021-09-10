@@ -12,13 +12,20 @@ function __pond_autounload_populate -a pond_name
     echo -e "function $pond_autounload_function\n\nend" >> $pond_autounload_file
 end
 
-function __pond_setup -a pond_count pond_state pond_data
+function __pond_setup -a pond_count pond_enabled_state pond_loaded_state pond_data
     for pond_name in $pond_name_prefix-(seq $pond_count)
         mkdir -p $pond_home/$pond_name
 
-        if test "$pond_state" = "enabled"
-             set -U -a pond_function_path $pond_home/$pond_name # enabled
-             set -g -a fish_function_path $pond_home/$pond_name # loaded
+        if test "$pond_enabled_state" = "enabled"
+             set -U -a pond_function_path $pond_home/$pond_name
+        else
+            __pond_disable $pond_name
+        end
+
+        if test "$pond_loaded_state" = "loaded"
+             set -g -a fish_function_path $pond_home/$pond_name
+        else
+            __pond_unload $pond_name
         end
 
         if test "$pond_data" = "populated"
@@ -28,10 +35,17 @@ function __pond_setup -a pond_count pond_state pond_data
     end
 end
 
-function __pond_remove_from_fish_function_path -a pond_name
+function __pond_unload -a pond_name
     set -l fish_function_path_index (contains -i $pond_home/$pond_name $fish_function_path)
     if test -n "$fish_function_path_index"
         set -e fish_function_path[$fish_function_path_index]
+    end
+end
+
+function __pond_disable -a pond_name
+    set -l pond_function_path_index (contains -i $pond_home/$pond_name $pond_function_path)
+    if test -n "$pond_function_path_index"
+        set -e pond_function_path[$pond_function_path_index]
     end
 end
 

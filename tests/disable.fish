@@ -25,7 +25,7 @@ function __pond_disabled_event_intercept --on-event pond_disabled -a got_pond_na
 end
 
 @echo "pond disable: success tests for single pond"
-__pond_setup 1 enabled unpopulated
+__pond_setup 1 enabled loaded unpopulated
 @test "setup: pond enabled" (contains $pond_home/$pond_name $pond_function_path) $status -eq $success
 @test "pond disable: success exit code" (pond disable $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond disable: pond function path removed" (not contains $pond_home/$pond_name $pond_function_path) $status -eq $success
@@ -35,13 +35,13 @@ __pond_tear_down
 __pond_event_reset
 
 @echo "pond disable: output tests for single pond"
-__pond_setup 1 enabled unpopulated
+__pond_setup 1 enabled loaded unpopulated
 @test "pond disable: success output message" (pond disable $pond_name 2>&1) = $success_output_single_pond
 __pond_tear_down
 __pond_event_reset
 
 @echo "pond disable: success tests for multiple ponds"
-__pond_setup 3 enabled unpopulated
+__pond_setup 3 enabled loaded unpopulated
 @test "setup: pond enabled" (contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
 @test "setup: pond enabled" (contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
 @test "setup: pond enabled" (contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success
@@ -55,19 +55,19 @@ __pond_tear_down
 __pond_event_reset
 
 @echo "pond disable: output tests for multiple ponds"
-__pond_setup 3 enabled unpopulated
+__pond_setup 3 enabled loaded unpopulated
 @test "pond disable: success output message" (pond disable $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 2>&1 | string collect) = $success_output_multiple_ponds
 __pond_tear_down
 __pond_event_reset
 
 @echo "pond disable: failure tests for single disabled pond"
-__pond_setup 1 disabled unpopulated
+__pond_setup 1 disabled loaded unpopulated
 @test "setup: pond disabled" (not contains $pond_home/$pond_name $pond_function_path) $status -eq $success
 @test "pond disable: command error shown for disabled pond" (pond disable $pond_name 2>&1 | string collect) = $already_disabled_error
 __pond_tear_down
 
 @echo "pond disable: failure tests for multiple disabled ponds"
-__pond_setup 3 disabled unpopulated
+__pond_setup 3 disabled loaded unpopulated
 @test "setup: pond disabled" (not contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
 @test "setup: pond disabled" (not contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
 @test "setup: pond disabled" (not contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success

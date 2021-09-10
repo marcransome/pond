@@ -29,7 +29,7 @@ end
 for command in "pond remove "{-y,--yes}
 
     @echo "$command: success tests for single enabled pond"
-    __pond_setup 1 enabled populated
+    __pond_setup 1 enabled loaded populated
     @test "setup: pond directory exists" -d $pond_home/$pond_name
     @test "setup: pond function path present" (contains $pond_home/$pond_name $pond_function_path) $status -eq $success
     @test "setup: fish function path present" (contains $pond_home/$pond_name $fish_function_path) $status -eq $success
@@ -43,16 +43,16 @@ for command in "pond remove "{-y,--yes}
     __pond_event_reset
 
     @echo "$command: output tests for single enabled pond"
-    __pond_setup 1 enabled unpopulated
+    __pond_setup 1 enabled loaded unpopulated
     @test "pond remove: success output message" (eval $command $pond_name 2>&1) = $success_output_single_pond
     __pond_tear_down
     __pond_event_reset
 
     @echo "$command: success tests for single disabled pond"
-    __pond_setup 1 disabled populated
+    __pond_setup 1 disabled loaded populated
     @test "setup: pond directory exists" -d $pond_home/$pond_name
     @test "setup: pond function path absent" (not contains $pond_home/$pond_name $pond_function_path) $status -eq $success
-    @test "setup: fish function path present" (not contains $pond_home/$pond_name $fish_function_path) $status -eq $success
+    @test "setup: fish function path present" (contains $pond_home/$pond_name $fish_function_path) $status -eq $success
     @test "pond remove: success exit code" (eval $command $pond_name >/dev/null 2>&1) $status -eq $success
     @test "pond remove: pond directory removed" ! -d $pond_home/$pond_name
     @test "pond remove: pond function path absent" (not contains $pond_home/$pond_name $pond_function_path) $status -eq $success
@@ -63,13 +63,13 @@ for command in "pond remove "{-y,--yes}
     __pond_event_reset
 
     @echo "$command: output tests for single disabled pond"
-    __pond_setup 1 disabled unpopulated
+    __pond_setup 1 disabled loaded unpopulated
     @test "pond remove: success output message" (eval $command $pond_name 2>&1) = $success_output_single_pond
     __pond_tear_down
     __pond_event_reset
 
     @echo "$command: success tests for multiple enabled ponds"
-    __pond_setup 3 enabled populated
+    __pond_setup 3 enabled loaded populated
     @test "setup: $pond_name_prefix-1 pond directory exists" -d $pond_home/$pond_name_prefix-1
     @test "setup: $pond_name_prefix-2 pond directory exists" -d $pond_home/$pond_name_prefix-2
     @test "setup: $pond_name_prefix-3 pond directory exists" -d $pond_home/$pond_name_prefix-3
@@ -95,22 +95,22 @@ for command in "pond remove "{-y,--yes}
     __pond_event_reset
 
     @echo "$command: output tests for multiple enabled ponds"
-    __pond_setup 3 enabled unpopulated
+    __pond_setup 3 enabled loaded unpopulated
     @test "pond remove: success output message" (eval $command $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 2>&1 | string collect) = $success_output_multiple_ponds
     __pond_tear_down
     __pond_event_reset
 
     @echo "$command: success tests for multiple disabled ponds"
-    __pond_setup 3 disabled populated
+    __pond_setup 3 disabled loaded populated
     @test "setup: $pond_name_prefix-1 pond directory exists" -d $pond_home/$pond_name_prefix-1
     @test "setup: $pond_name_prefix-2 pond directory exists" -d $pond_home/$pond_name_prefix-2
     @test "setup: $pond_name_prefix-3 pond directory exists" -d $pond_home/$pond_name_prefix-3
     @test "setup: $pond_name_prefix-1 pond function path absent" (not contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
     @test "setup: $pond_name_prefix-2 pond function path absent" (not contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
     @test "setup: $pond_name_prefix-3 pond function path absent" (not contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success
-    @test "setup: $pond_name_prefix-1 fish function path absent" (not contains $pond_home/$pond_name_prefix-1 $fish_function_path) $status -eq $success
-    @test "setup: $pond_name_prefix-2 fish function path absent" (not contains $pond_home/$pond_name_prefix-2 $fish_function_path) $status -eq $success
-    @test "setup: $pond_name_prefix-3 fish function path absent" (not contains $pond_home/$pond_name_prefix-3 $fish_function_path) $status -eq $success
+    @test "setup: $pond_name_prefix-1 fish function path present" (contains $pond_home/$pond_name_prefix-1 $fish_function_path) $status -eq $success
+    @test "setup: $pond_name_prefix-2 fish function path present" (contains $pond_home/$pond_name_prefix-2 $fish_function_path) $status -eq $success
+    @test "setup: $pond_name_prefix-3 fish function path present" (contains $pond_home/$pond_name_prefix-3 $fish_function_path) $status -eq $success
     @test "pond remove: success exit code" (eval $command $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 >/dev/null 2>&1) $status -eq $success
     @test "pond remove: $pond_name_prefix-1 pond directory removed" ! -d $pond_home/$pond_name_prefix-1
     @test "pond remove: $pond_name_prefix-2 pond directory removed" ! -d $pond_home/$pond_name_prefix-2
@@ -127,7 +127,7 @@ for command in "pond remove "{-y,--yes}
     __pond_event_reset
 
     @echo "$command: output tests for multiple disabled ponds"
-    __pond_setup 3 disabled unpopulated
+    __pond_setup 3 disabled loaded unpopulated
     @test "pond remove: success output message" (eval $command $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 2>&1 | string collect) = $success_output_multiple_ponds
     __pond_tear_down
     __pond_event_reset

@@ -29,7 +29,7 @@ end
 for command in "pond drain "{-y,--yes}
 
     @echo "$command: success tests for single pond"
-    __pond_setup 1 enabled populated
+    __pond_setup 1 enabled loaded populated
     @test "setup: pond file exists" -f $pond_home/$pond_name/{$pond_name}_{$pond_autoload_suffix}.fish
     @test "pond drain: success exit code" (eval $command $pond_name >/dev/null 2>&1) $status -eq $success
     @test "pond drain: pond file removed" ! -f $pond_home/$pond_name/{$pond_name}_{$pond_autoload_suffix}.fish
@@ -39,13 +39,13 @@ for command in "pond drain "{-y,--yes}
     __pond_event_reset
 
     @echo "$command: output tests for single pond"
-    __pond_setup 1 enabled populated
+    __pond_setup 1 enabled loaded populated
     @test "pond drain: success output message" (eval $command $pond_name 2>&1) = $success_output_single_pond
     __pond_tear_down
     __pond_event_reset
 
     @echo "$command: success tests for multiple ponds"
-    __pond_setup 3 enabled populated
+    __pond_setup 3 enabled loaded populated
     @test "setup: $pond_name_prefix-1 pond file exists" -f $pond_home/$pond_name_prefix-1/{$pond_name_prefix-1}_{$pond_autoload_suffix}.fish
     @test "setup: $pond_name_prefix-2 pond file exists" -f $pond_home/$pond_name_prefix-2/{$pond_name_prefix-2}_{$pond_autoload_suffix}.fish
     @test "setup: $pond_name_prefix-3 pond file exists" -f $pond_home/$pond_name_prefix-3/{$pond_name_prefix-3}_{$pond_autoload_suffix}.fish
@@ -59,7 +59,7 @@ for command in "pond drain "{-y,--yes}
     __pond_event_reset
 
     @echo "$command: output tests for multiple ponds"
-    __pond_setup 3 enabled populated
+    __pond_setup 3 enabled loaded populated
     @test "pond drain: success output message" (eval $command $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 2>&1 | string collect) = $success_output_multiple_ponds
     __pond_tear_down
     __pond_event_reset

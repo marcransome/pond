@@ -191,7 +191,7 @@ Usage:
             set -U -a pond_function_path $pond_path
         end
 
-        if not contains $pond_path $fish_function_path
+        if test "$pond_load_on_create" = "yes"
             set -a fish_function_path $pond_path
         end
 
@@ -477,6 +477,7 @@ Usage:
     function __pond_config_operation
         echo "Pond home: $pond_home"
         echo "Enable ponds on creation: $pond_enable_on_create"
+        echo "Load pond on creation: $pond_load_on_create"
         echo "Pond editor command: $pond_editor"
     end
 

@@ -2,6 +2,7 @@ function __pond_install --on-event pond_install
     set -U pond_home $__fish_config_dir/pond
     set -U pond_message_prefix pond
     set -U pond_enable_on_create yes
+    set -U pond_load_on_create yes
     set -U pond_autoload_suffix autoload
     set -U pond_autounload_suffix autounload
 
@@ -41,6 +42,7 @@ function __pond_uninstall --on-event pond_uninstall
     set -e pond_home
     set -e pond_message_prefix
     set -e pond_enable_on_create
+    set -e pond_load_on_create
     set -e pond_editor
     set -e pond_autoload_suffix
     set -e pond_autounload_suffix

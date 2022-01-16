@@ -158,6 +158,12 @@ A number of _universal_ shell variables (see **set**(1) for discussion of _unive
 
     _Default:_ **yes**.
 
+**pond\_load\_on\_create**
+
+:   The value of this shell variable is set to **yes** by default and will cause all ponds created with the **create** command to be loaded by default. To disable this behaviour set the value of this variable to **no**.
+
+    _Default:_ **yes**.
+
 EXIT STATUS
 ===========
 

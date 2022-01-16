@@ -477,7 +477,7 @@ Usage:
     function __pond_config_operation
         echo "Pond home: $pond_home"
         echo "Enable ponds on creation: $pond_enable_on_create"
-        echo "Load pond on creation: $pond_load_on_create"
+        echo "Load ponds on creation: $pond_load_on_create"
         echo "Pond editor command: $pond_editor"
     end
 

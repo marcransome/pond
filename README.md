@@ -12,9 +12,7 @@ Group related functions together into named _ponds_ and expose them to the shell
 
 ## Background
 
-Pond started life as a small idea: to group related shell environment variables and functions into named collections (_ponds_) and to provide a simple mechanism for controlling when those collections are made accessible in the shell environment. It does this by leveraging [autoloaded functions](https://fishshell.com/docs/current/index.html#autoloading-functions) as a means of encapsulating environment configuration and provides a simple set of subcommands to manage such configuration.
-
-📖 Read [The road to 1.0.0](https://github.com/marcransome/pond/wiki/The-road-to-1.0.0) for more historical context.
+Pond started life as a small idea: to group related shell environment variables and functions into named collections (_ponds_) and to provide a simple mechanism for controlling when those collections are loaded into the shell environment. It does this by leveraging [autoloaded functions](https://fishshell.com/docs/current/index.html#autoloading-functions) as a means of encapsulating environment configuration and provides a simple set of subcommands to manage such configuration.
 
 ## Installation
 

@@ -17,31 +17,57 @@ Usage:
 
 Options:
     -e, --enabled   List enabled ponds
-    -d, --disabled  List disabled ponds"
+    -d, --disabled  List disabled ponds
+    -l, --loaded    List loaded ponds
+    -u, --unloaded  List unloaded ponds"
 
 for command in "pond list"
 
     @echo "$command: success tests for single enabled pond"
-    __pond_setup 1 enabled unpopulated
+    __pond_setup 1 enabled unloaded unpopulated
     @test "pond list: success single enabled pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_pond
     __pond_tear_down
 
     @echo "$command: success tests for single disabled pond"
-    __pond_setup 1 disabled unpopulated
+    __pond_setup 1 disabled unloaded unpopulated
     @test "pond list: success single disabled pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_pond
     __pond_tear_down
 
+    @echo "$command: success tests for single loaded pond"
+    __pond_setup 1 disabled loaded unpopulated
+    @test "pond list: success single loaded pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_pond
+    __pond_tear_down
+
+    @echo "$command: success tests for single unloaded pond"
+    __pond_setup 1 disabled unloaded unpopulated
+    @test "pond list: success single unloaded pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_pond
+    __pond_tear_down
+
     @echo "$command: success tests for multiple enabled ponds"
-    __pond_setup 3 enabled unpopulated
+    __pond_setup 3 enabled unloaded unpopulated
     @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_ponds
     __pond_tear_down
 
     @echo "$command: success tests for multiple disabled ponds"
-    __pond_setup 3 disabled unpopulated
+    __pond_setup 3 disabled unloaded unpopulated
     @test "pond list: success multiple disabled ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_ponds
+    __pond_tear_down
+
+    @echo "$command: success tests for multiple loaded ponds"
+    __pond_setup 3 disabled loaded unpopulated
+    @test "pond list: success multiple loaded ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_ponds
+    __pond_tear_down
+
+    @echo "$command: success tests for multiple unloaded ponds"
+    __pond_setup 3 disabled unloaded unpopulated
+    @test "pond list: success multiple unloaded ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_ponds
     __pond_tear_down
 
@@ -50,26 +76,25 @@ end
 for command in "pond list "{-e,--enabled}
 
     @echo "$command: success tests for single enabled pond"
-    __pond_setup 1 enabled unpopulated
+    __pond_setup 1 enabled unloaded unpopulated
     @test "pond list: success single enabled pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_pond
     __pond_tear_down
 
     @echo "$command: success tests for single disabled pond"
-    __pond_setup 1 disabled unpopulated
+    __pond_setup 1 disabled unloaded unpopulated
     @test "pond list: success single disabled pond" (eval $command >/dev/null 2>&1) $status -eq $failure
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
     __pond_tear_down
 
-
     @echo "$command: success tests for multiple enabled ponds"
-    __pond_setup 3 enabled unpopulated
+    __pond_setup 3 enabled unloaded unpopulated
     @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_ponds
     __pond_tear_down
 
     @echo "$command: success tests for multiple disabled ponds"
-    __pond_setup 3 disabled unpopulated
+    __pond_setup 3 disabled unloaded unpopulated
     @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $failure
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
     __pond_tear_down
@@ -79,27 +104,84 @@ end
 for command in "pond list "{-d,--disabled}
 
     @echo "$command: success tests for single enabled pond"
-    __pond_setup 1 enabled unpopulated
+    __pond_setup 1 enabled unloaded unpopulated
     @test "pond list: success single enabled pond" (eval $command >/dev/null 2>&1) $status -eq $failure
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
     __pond_tear_down
 
     @echo "$command: success tests for single disabled pond"
-    __pond_setup 1 disabled unpopulated
+    __pond_setup 1 disabled unloaded unpopulated
     @test "pond list: success single disabled pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_pond
     __pond_tear_down
 
 
     @echo "$command: success tests for multiple enabled ponds"
-    __pond_setup 3 enabled unpopulated
+    __pond_setup 3 enabled unloaded unpopulated
     @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $failure
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
     __pond_tear_down
 
     @echo "$command: success tests for multiple disabled ponds"
-    __pond_setup 3 disabled unpopulated
+    __pond_setup 3 disabled unloaded unpopulated
     @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_ponds
+    __pond_tear_down
+
+end
+
+for command in "pond list "{-l,--loaded}
+
+    @echo "$command: success tests for single loaded pond"
+    __pond_setup 1 disabled loaded unpopulated
+    @test "pond list: success single loaded pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_pond
+    __pond_tear_down
+
+    @echo "$command: success tests for single unloaded pond"
+    __pond_setup 1 disabled unloaded unpopulated
+    @test "pond list: success single unloaded pond" (eval $command >/dev/null 2>&1) $status -eq $failure
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
+    __pond_tear_down
+
+    @echo "$command: success tests for multiple loaded ponds"
+    __pond_setup 3 disabled loaded unpopulated
+    @test "pond list: success multiple loaded ponds" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_ponds
+    __pond_tear_down
+
+    @echo "$command: success tests for multiple unloaded ponds"
+    __pond_setup 3 disabled unloaded unpopulated
+    @test "pond list: success multiple unloaded ponds" (eval $command >/dev/null 2>&1) $status -eq $failure
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
+    __pond_tear_down
+
+end
+
+for command in "pond list "{-u,--unloaded}
+
+    @echo "$command: success tests for single loaded pond"
+    __pond_setup 1 disabled loaded unpopulated
+    @test "pond list: success single loaded pond" (eval $command >/dev/null 2>&1) $status -eq $failure
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
+    __pond_tear_down
+
+    @echo "$command: success tests for single unloaded pond"
+    __pond_setup 1 disabled unloaded unpopulated
+    @test "pond list: success single unloaded pond" (eval $command >/dev/null 2>&1) $status -eq $success
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_pond
+    __pond_tear_down
+
+
+    @echo "$command: success tests for multiple loaded ponds"
+    __pond_setup 3 disabled loaded unpopulated
+    @test "pond list: success multiple loaded ponds" (eval $command >/dev/null 2>&1) $status -eq $failure
+    @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $no_match_error
+    __pond_tear_down
+
+    @echo "$command: success tests for multiple unloaded ponds"
+    __pond_setup 3 disabled unloaded unpopulated
+    @test "pond list: success multiple unloaded ponds" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_multiple_ponds
     __pond_tear_down
 

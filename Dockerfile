@@ -1,12 +1,20 @@
-FROM alpine:latest
+FROM ubuntu:latest
 
-RUN apk update \
-    && apk add --no-cache fish curl git npm
+ENV TIMEZONE=Europe/London
+RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && \
+    echo $TIMEZONE > /etc/timezone
 
-RUN npm install -g tap-diff
+RUN apt update && \
+    apt install -y software-properties-common && \
+    apt-add-repository -y ppa:fish-shell/release-3 && \
+    apt update && \
+    apt install -y fish
+
+RUN apt install -y npm && \
+    npm install -g tap-diff
+
+RUN apt install -y git curl vim
 
 RUN /usr/bin/fish -c "curl -sL git.io/fisher | source; and fisher install jorgebucaran/{fisher,fishtape}"
-
-RUN /usr/bin/fish -c "curl -L https://get.oh-my.fish | fish"
 
 ENTRYPOINT ["/usr/bin/fish"]

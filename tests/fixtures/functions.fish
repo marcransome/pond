@@ -1,49 +1,51 @@
-function __pond_init_populate -a pond_name
-    set -l pond_init_function {$pond_name}_{$pond_init_suffix}
-    set -l pond_init_file $pond_home/$pond_name/$pond_init_function.fish
+function __pond_autoload_populate -a pond_name
+    set -l pond_autoload_function {$pond_name}_{$pond_autoload_suffix}
+    set -l pond_autoload_file $pond_home/$pond_name/$pond_autoload_function.fish
 
-    echo -e "function $pond_init_function\n\nend" >> $pond_init_file
+    echo -e "function $pond_autoload_function\n\nend" >> $pond_autoload_file
 end
 
-function __pond_deinit_populate -a pond_name
-    set -l pond_deinit_function {$pond_name}_{$pond_deinit_suffix}
-    set -l pond_deinit_file $pond_home/$pond_name/$pond_deinit_function.fish
+function __pond_autounload_populate -a pond_name
+    set -l pond_autounload_function {$pond_name}_{$pond_autounload_suffix}
+    set -l pond_autounload_file $pond_home/$pond_name/$pond_autounload_function.fish
 
-    echo -e "function $pond_deinit_function\n\nend" >> $pond_deinit_file
+    echo -e "function $pond_autounload_function\n\nend" >> $pond_autounload_file
 end
 
-function __pond_setup -a pond_count pond_state pond_data
+function __pond_setup -a pond_count pond_enabled_state pond_loaded_state pond_data
     for pond_name in $pond_name_prefix-(seq $pond_count)
         mkdir -p $pond_home/$pond_name
 
-        if test "$pond_state" = "enabled"
-             set -U -a pond_function_path $pond_home/$pond_name    # enabled
-             set -g -a fish_function_path $pond_home/$pond_name    # loaded
+        if test "$pond_enabled_state" = "enabled"
+             set -U -a pond_function_path $pond_home/$pond_name
+        else
+            __pond_disable $pond_name
+        end
+
+        if test "$pond_loaded_state" = "loaded"
+             set -g -a fish_function_path $pond_home/$pond_name
+        else
+            __pond_unload $pond_name
         end
 
         if test "$pond_data" = "populated"
-            __pond_init_populate $pond_name
-            __pond_deinit_populate $pond_name
+            __pond_autoload_populate $pond_name
+            __pond_autounload_populate $pond_name
         end
     end
 end
 
-function __pond_remove_from_fish_function_path -a pond_name
+function __pond_unload -a pond_name
     set -l fish_function_path_index (contains -i $pond_home/$pond_name $fish_function_path)
     if test -n "$fish_function_path_index"
         set -e fish_function_path[$fish_function_path_index]
     end
 end
 
-function __pond_load_init -a pond_count
-    for pond_name in $pond_name_prefix-(seq $pond_count)
-        {$pond_name}_{$pond_init_suffix}
-    end
-end
-
-function __pond_load_deinit -a pond_count
-    for pond_name in $pond_name_prefix-(seq $pond_count)
-        {$pond_name}_{$pond_init_suffix}
+function __pond_disable -a pond_name
+    set -l pond_function_path_index (contains -i $pond_home/$pond_name $pond_function_path)
+    if test -n "$pond_function_path_index"
+        set -e pond_function_path[$pond_function_path_index]
     end
 end
 
@@ -59,26 +61,26 @@ function __pond_tear_down
     set -e pond_function_path
 end
 
-function __pond_expect_init_path -a got_path
-    if ! test "$got_path" = "$pond_home/$pond_name/$pond_name"_{$pond_init_suffix}.fish
+function __pond_expect_autoload_path -a got_path
+    if ! test "$got_path" = "$pond_home/$pond_name/$pond_name"_{$pond_autoload_suffix}.fish
         return 1
     end
 end
 
-function __pond_expect_deinit_path -a got_path
-    if ! test "$got_path" = "$pond_home/$pond_name/$pond_name"_{$pond_deinit_suffix}.fish
+function __pond_expect_autounload_path -a got_path
+    if ! test "$got_path" = "$pond_home/$pond_name/$pond_name"_{$pond_autounload_suffix}.fish
         return 1
     end
 end
 
-function __pond_test_init_editor -a init_file_path
-    if ! test "$init_file_path" = "$pond_home/$pond_name/"{$pond_name}_{$pond_init_suffix}.fish
+function __pond_test_autoload_editor -a autoload_file_path
+    if ! test "$autoload_file_path" = "$pond_home/$pond_name/"{$pond_name}_{$pond_autoload_suffix}.fish
         return 1
     end
 end
 
-function __pond_test_deinit_editor -a deinit_file_path
-    if ! test "$deinit_file_path" = "$pond_home/$pond_name/"{$pond_name}_{$pond_deinit_suffix}.fish
+function __pond_test_autounload_editor -a autounload_file_path
+    if ! test "$autounload_file_path" = "$pond_home/$pond_name/"{$pond_name}_{$pond_autounload_suffix}.fish
         return 1
     end
 end

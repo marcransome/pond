@@ -1,5 +1,5 @@
 function pond -a command -d "A fish shell environment manager"
-    set -g pond_version 1.0.1
+    set -g pond_version 2.0.0
 
     function __pond_usage
         echo "\
@@ -17,19 +17,19 @@ Application Options:
     -v, --version         Print the version string
 
 Commands:
-    create   Create a new pond
-    init     Create/open pond init function
-    deinit   Create/open pond deinit function
-    remove   Remove a pond and associated data
-    list     List ponds
-    enable   Enable a pond for new shell sessions
-    disable  Disable a pond for new shell sessions
-    load     Load pond data into current shell session
-    unload   Unload pond data from current shell session
-    status   View pond status
-    drain    Drain all data from pond
-    dir      Change current working directory to pond
-    config   Show configuration settings" >&2
+    create     Create new pond
+    autoload   Create or edit pond autoload function
+    autounload Create or edit pond autounload function
+    remove     Remove a pond and associated data
+    list       List ponds
+    enable     Enable a pond for new shell sessions
+    disable    Disable a pond for new shell sessions
+    load       Load pond into current shell session
+    unload     Unload pond from current shell session
+    status     View pond status
+    drain      Drain all data from pond
+    dir        Change current working directory to pond
+    config     Show configuration settings" >&2
         echo
     end
 
@@ -46,27 +46,27 @@ Arguments:
         echo
     end
 
-    function __pond_init_command_usage
+    function __pond_autoload_command_usage
         echo "\
 Usage:
-    pond init <name>
+    pond autoload <name>
 
 Arguments:
-    name  The name of the pond for which an init function will
-          be opened in an editor and optionally created if it
-          does not already exist" >&2
+    name  The name of the pond for which an autoload function
+          will be opened in an editor and optionally created if
+          it does not already exist" >&2
         echo
     end
 
-    function __pond_deinit_command_usage
+    function __pond_autounload_command_usage
         echo "\
 Usage:
-    pond deinit <name>
+    pond autounload <name>
 
 Arguments:
-    name  The name of the pond for which a deinit function will
-          be opened in an editor and optionally created if it
-          does not already exist" >&2
+    name  The name of the pond for which an autounload function
+          will be opened in an editor and optionally created if
+          it does not already exist" >&2
         echo
     end
 
@@ -90,7 +90,9 @@ Usage:
 
 Options:
     -e, --enabled   List enabled ponds
-    -d, --disabled  List disabled ponds" >&2
+    -d, --disabled  List disabled ponds
+    -l, --loaded    List loaded ponds
+    -u, --unloaded  List unloaded ponds" >&2
         echo
     end
 
@@ -189,7 +191,7 @@ Usage:
             set -U -a pond_function_path $pond_path
         end
 
-        if not contains $pond_path $fish_function_path
+        if test "$pond_load_on_create" = "yes"
             set -a fish_function_path $pond_path
         end
 
@@ -197,44 +199,44 @@ Usage:
         emit pond_created $pond_name $pond_path
     end
 
-    function __pond_init_operation -a pond_name
+    function __pond_autoload_operation -a pond_name
         set -l pond_path $pond_home/$pond_name
-        set -l pond_init_file $pond_path/{$pond_name}_{$pond_init_suffix}.fish
+        set -l pond_autoload_file $pond_path/{$pond_name}_{$pond_autoload_suffix}.fish
 
-        if ! test -f $pond_init_file
-            if test (echo -e "function "{$pond_name}_{$pond_init_suffix}"\n\nend" >> $pond_init_file) $status -ne 0
-                __pond_show_error "Unable to create init file: $pond_init_file"; and return 1
+        if ! test -f $pond_autoload_file
+            if test (echo -e "function "{$pond_name}_{$pond_autoload_suffix}"\n\nend" >> $pond_autoload_file) $status -ne 0
+                __pond_show_error "Unable to create autoload function: $pond_autoload_file"; and return 1
             else
-                echo "Created init file: $pond_init_file"
+                echo "Created autoload function: $pond_autoload_file"
             end
         end
 
         if test -z "$__pond_under_test"
             and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
-            __pond_show_error "Editor not found: $pond_editor"; and return 1
+            __pond_show_error "Editor not found: '$pond_editor'"; and return 1
         end
 
-        $pond_editor $pond_init_file
+        $pond_editor $pond_autoload_file
     end
 
-    function __pond_deinit_operation -a pond_name
+    function __pond_autounload_operation -a pond_name
         set -l pond_path $pond_home/$pond_name
-        set -l pond_deinit_file $pond_path/{$pond_name}_{$pond_deinit_suffix}.fish
+        set -l pond_autounload_file $pond_path/{$pond_name}_{$pond_autounload_suffix}.fish
 
-        if ! test -f $pond_deinit_file
-            if test (echo -e "function "{$pond_name}_{$pond_deinit_suffix}"\n\nend" >> $pond_deinit_file) $status -ne 0
-                __pond_show_error "Unable to create deinit file: $pond_deinit_file"; and return 1
+        if ! test -f $pond_autounload_file
+            if test (echo -e "function "{$pond_name}_{$pond_autounload_suffix}"\n\nend" >> $pond_autounload_file) $status -ne 0
+                __pond_show_error "Unable to create autounload function: $pond_autounload_file"; and return 1
             else
-                echo "Created deinit file: $pond_deinit_file"
+                echo "Created autounload function: $pond_autounload_file"
             end
         end
 
         if test -z "$__pond_under_test"
             and test (command -s $pond_editor >/dev/null 2>&1) $status -ne 0
-            __pond_show_error "Editor not found: $pond_editor"; and return 1
+            __pond_show_error "Editor not found: '$pond_editor'"; and return 1
         end
 
-        $pond_editor $pond_deinit_file
+        $pond_editor $pond_autounload_file
     end
 
     function __pond_remove_operation -a pond_name
@@ -265,29 +267,48 @@ Usage:
         emit pond_removed $pond_name $pond_path
     end
 
-    function __pond_list_operation -a pond_list_enabled pond_list_disabled
-        set -l pond_names
+    function __pond_list_operation -a pond_list_enabled pond_list_disabled pond_list_loaded pond_list_unloaded
         set -l pond_count 0
+        set -l pond_matches
 
-        if test "$pond_list_enabled" = "yes"; and test "$pond_list_disabled" = "yes"
-            for pond_path in $pond_home/*
-                echo (basename $pond_path)
-                set pond_count (math $pond_count + 1)
-            end
-        else if test "$pond_list_enabled" = "yes"; and test "$pond_list_disabled" = "no"
-            for pond_path in $pond_home/*
+        for pond_path in $pond_home/*
+            set -l pond_short_name (basename $pond_path)
+
+            if test "$pond_list_enabled" = "yes"
                 if contains $pond_path $pond_function_path
-                    echo (basename $pond_path)
+                    set -a pond_matches $pond_short_name
                     set pond_count (math $pond_count + 1)
+                    continue
                 end
             end
-        else if test "$pond_list_enabled" = "no"; and test "$pond_list_disabled" = "yes"
-            for pond_path in $pond_home/*
+
+            if test "$pond_list_disabled" = "yes"
                 if not contains $pond_path $pond_function_path
-                    echo (basename $pond_path)
+                    set -a pond_matches $pond_short_name
                     set pond_count (math $pond_count + 1)
+                    continue
                 end
             end
+
+            if test "$pond_list_loaded" = "yes"
+                if contains $pond_path $fish_function_path
+                    set -a pond_matches $pond_short_name
+                    set pond_count (math $pond_count + 1)
+                    continue
+                end
+            end
+
+            if test "$pond_list_unloaded" = "yes"
+                if not contains $pond_path $fish_function_path
+                    set -a pond_matches $pond_short_name
+                    set pond_count (math $pond_count + 1)
+                    continue
+                end
+            end
+        end
+
+        for pond_match in $pond_matches
+            echo $pond_match
         end
 
         if test $pond_count -eq 0
@@ -319,11 +340,6 @@ Usage:
                 set -e pond_function_path[$pond_function_path_index]
             end
 
-            set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
-            if test -n "$fish_function_path_index"
-                set -e fish_function_path[$fish_function_path_index]
-            end
-
             echo "Disabled pond: $pond_name"
             emit pond_disabled $pond_name $pond_path
         end
@@ -331,13 +347,13 @@ Usage:
 
     function __pond_load_operation -a pond_name
         set -l pond_path $pond_home/$pond_name
-        set -l pond_init_function {$pond_name}_{$pond_init_suffix}
+        set -l pond_autoload_function {$pond_name}_{$pond_autoload_suffix}
 
         if not contains $pond_path $fish_function_path
             set -a fish_function_path $pond_path
         end
 
-        type -q $pond_init_function; and $pond_init_function
+        type -q $pond_autoload_function; and $pond_autoload_function
 
         echo "Loaded pond: $pond_name"
         emit pond_loaded $pond_name $pond_path
@@ -345,9 +361,9 @@ Usage:
 
     function __pond_unload_operation -a pond_name
         set -l pond_path $pond_home/$pond_name
-        set -l pond_deinit_function {$pond_name}_{$pond_deinit_suffix}
+        set -l pond_autounload_function {$pond_name}_{$pond_autounload_suffix}
 
-        type -q $pond_deinit_function; and $pond_deinit_function
+        type -q $pond_autounload_function; and $pond_autounload_function
 
         set -l fish_function_path_index (contains -i $pond_path $fish_function_path)
         if test -n "$fish_function_path_index"
@@ -358,12 +374,82 @@ Usage:
         emit pond_unloaded $pond_name $pond_path
     end
 
+    function __pond_global_status_operation
+        set -l pad_width 12
+        set -l pond_count (count $pond_home/*/)
+
+        set -l pond_health_indicator (set_color green)"●"(set_color normal)
+        set -l pond_health (set_color green)"good"(set_color normal)
+        for pond_function in $pond_home/**.fish
+            if test (fish --no-execute $pond_function 2>/dev/null 1>&2) $status -ne 0
+                set pond_health_indicator (set_color red)"●"(set_color normal)
+                set pond_health (set_color red)"poor"(set_color normal)" (syntax issues detected)"
+                break
+            end
+        end
+
+        echo -e "$pond_health_indicator pond $pond_version"
+
+        set -l pond_enabled_count (count (string match -r "$pond_home/.*" -- $pond_function_path))
+        set -l pond_loaded_count (count (string match -r "$pond_home/.*" -- $fish_function_path))
+
+        echo -e (string pad -w $pad_width "Health:") $pond_health
+        echo (string pad -w $pad_width "Ponds:") "$pond_count ($pond_enabled_count enabled; $pond_loaded_count loaded)"
+        echo -e (string pad -w $pad_width "Loaded:") $pond_home
+
+        set -l pond_load_indicator "•"
+        set -l pond_load_padding (string pad -w (math $pad_width + 1) "")
+
+        set -l pond_dirs $pond_home/*/
+        if test (count $pond_dirs) -gt 0
+            for pond_dir in $pond_dirs[..-2]
+                if contains (string sub -e -1 $pond_dir) $fish_function_path
+                    echo $pond_load_padding├─(set_color green)$pond_load_indicator(set_color normal) (basename $pond_dir)
+                else
+                    echo $pond_load_padding├─(set_color 8a8a8a brblack)$pond_load_indicator (basename $pond_dir)(set_color normal)
+                end
+            end
+
+            for pond_dir in $pond_dirs[-1]
+                if contains (string sub -e -1 $pond_dirs[-1]) $fish_function_path
+                    echo $pond_load_padding└─(set_color green)$pond_load_indicator(set_color normal) (basename $pond_dirs[-1])
+                else
+                    echo $pond_load_padding└─(set_color 8a8a8a brblack)$pond_load_indicator (basename $pond_dirs[-1])(set_color normal)
+                end
+            end
+        else
+            echo $pond_load_padding└─(set_color 8a8a8a brblack)$pond_load_indicator none(set_color normal)
+        end
+    end
+
     function __pond_status_operation -a pond_name
         set -l pond_path $pond_home/$pond_name
+        set -l pad_width 12
 
-        echo "name: $pond_name"
-        echo "enabled: "(contains $pond_path $pond_function_path; and echo 'yes'; or echo 'no')
-        echo "path: $pond_path"
+        if __pond_is_loaded $pond_path
+            echo -e (set_color green)"●"(set_color normal)" $pond_name ($pond_path)"
+        else
+            echo -e "● $pond_name ($pond_path)"
+        end
+
+        echo (string pad -w $pad_width "Status:") \
+            (__pond_is_loaded $pond_path; and echo "loaded"; or echo "unloaded"), \
+            (__pond_is_enabled $pond_path; and echo "enabled"; or echo "disabled")
+
+        set -l pond_health good
+        for pond_function in $pond_path/**.fish
+            if test (fish --no-execute $pond_function 2>/dev/null 1>&2) $status -ne 0
+                set pond_health (set_color red)"poor"(set_color normal)" (syntax issues detected)"
+                break
+            end
+        end
+
+        echo (string pad -w $pad_width "Health:") $pond_health
+        echo (string pad -w $pad_width "Autoload:") (test -f $pond_path/{$pond_name}_{$pond_autoload_suffix}.fish; and echo "present"; or echo "absent")
+        echo (string pad -w $pad_width "Autounload:") (test -f $pond_path/{$pond_name}_{$pond_autounload_suffix}.fish; and echo "present"; or echo "absent")
+        echo (string pad -w $pad_width "Functions:") (count $pond_path/**.fish)
+        echo (string pad -w $pad_width "Size:") (string trim (du -sh $pond_path | cut -f 1))
+
     end
 
     function __pond_drain_operation -a pond_name
@@ -391,6 +477,7 @@ Usage:
     function __pond_config_operation
         echo "Pond home: $pond_home"
         echo "Enable ponds on creation: $pond_enable_on_create"
+        echo "Load ponds on creation: $pond_load_on_create"
         echo "Pond editor command: $pond_editor"
     end
 
@@ -412,6 +499,14 @@ Usage:
         return (string match -r '^([A-Za-z0-9]{1}[A-Za-z0-9-_]*)$' -q -- $pond_name)
     end
 
+    function __pond_is_enabled -a pond_path
+        return (contains $pond_path $pond_function_path)
+    end
+
+    function __pond_is_loaded -a pond_path
+        return (contains $pond_path $fish_function_path)
+    end
+
     function __pond_cleanup
         functions -e __pond_cleanup
 
@@ -425,6 +520,9 @@ Usage:
         functions -e __pond_show_not_exists_error
         functions -e __pond_exists
         functions -e __pond_name_is_valid
+        functions -e __pond_is_enabled
+        functions -e __pond_name_is_valid
+        functions -e __pond_global_status_operation
         set -e pond_auto_accept
         set -e pond_version
     end
@@ -442,7 +540,7 @@ Usage:
     switch $command
         case -v --version
             if test (count $argv) -ne 0; __pond_usage; and __pond_cleanup; and return 1; end
-            echo "pond $pond_version"
+            echo "pond $pond_version ("(uname -s) (uname -m)")"
         case '' -h --help
             __pond_usage
         case create
@@ -495,22 +593,26 @@ Usage:
         case list
             set -l pond_list_enabled yes
             set -l pond_list_disabled yes
+            set -l pond_list_loaded yes
+            set -l pond_list_unloaded yes
 
             if test (count $argv) -gt 0
-                if ! argparse 'e/enabled' 'd/disabled' >/dev/null 2>&1 -- $argv
+                if ! argparse 'e/enabled' 'd/disabled' 'l/loaded' 'u/unloaded' >/dev/null 2>&1 -- $argv
                     __pond_list_command_usage
                     __pond_cleanup; and return 1
                 end
 
                 if test (count $argv) -ne 0; __pond_list_command_usage; and __pond_cleanup; and return 1; end
 
-                if set -q _flag_enabled; or set -q _flag_disabled
+                if set -q _flag_enabled; or set -q _flag_disabled; or set -q _flag_loaded; or set -q _flag_unloaded
                     set -q _flag_enabled; and set pond_list_enabled yes; or set pond_list_enabled no
                     set -q _flag_disabled; and set pond_list_disabled yes; or set pond_list_disabled no
+                    set -q _flag_loaded; and set pond_list_loaded yes; or set pond_list_loaded no
+                    set -q _flag_unloaded; and set pond_list_unloaded yes; or set pond_list_unloaded no
                 end
             end
 
-            __pond_list_operation $pond_list_enabled $pond_list_disabled
+            __pond_list_operation $pond_list_enabled $pond_list_disabled $pond_list_loaded $pond_list_unloaded
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case enable
@@ -596,12 +698,9 @@ Usage:
             end
         case status
             if test (count $argv) -eq 0
-                set -l pond_count (count $pond_home/*/)
-                set -l pond_enabled_count (count (string match -r "$pond_home/.*" -- $pond_function_path))
-
-                echo "$pond_count "(test $pond_count -eq 1; and echo "pond"; or echo "ponds")", $pond_enabled_count enabled"
-                __pond_cleanup
-                return 0
+                __pond_global_status_operation
+                set -l exit_code $status
+                __pond_cleanup; and return $exit_code
             end
 
             for pond_name in $argv
@@ -648,40 +747,40 @@ Usage:
                     __pond_cleanup; and return $exit_code
                 end
             end
-        case init
+        case autoload
             set -l pond_name $argv[-1]
             set argv $argv[1..-2]
 
             if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"
-                __pond_init_command_usage
+                __pond_autoload_command_usage
                 __pond_cleanup; and return 1
             end
 
             if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"; or test (count $argv) -ne 0
-                __pond_init_command_usage; and __pond_cleanup; and return 1
+                __pond_autoload_command_usage; and __pond_cleanup; and return 1
             else if ! __pond_exists $pond_name
                 __pond_show_not_exists_error $pond_name; and __pond_cleanup; and return 1
             end
 
-            __pond_init_operation $pond_name
+            __pond_autoload_operation $pond_name
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
-        case deinit
+        case autounload
             set -l pond_name $argv[-1]
             set argv $argv[1..-2]
 
             if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"
-                __pond_deinit_command_usage
+                __pond_autounload_command_usage
                 __pond_cleanup; and return 1
             end
 
             if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"; or test (count $argv) -ne 0
-                __pond_deinit_command_usage; and __pond_cleanup; and return 1
+                __pond_autounload_command_usage; and __pond_cleanup; and return 1
             else if ! __pond_exists $pond_name
                 __pond_show_not_exists_error $pond_name; and __pond_cleanup; and return 1
             end
 
-            __pond_deinit_operation $pond_name
+            __pond_autounload_operation $pond_name
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case dir

@@ -25,9 +25,29 @@ function __pond_created_event_intercept --on-event pond_created -a got_pond_name
     set -ga event_pond_paths $got_pond_path
 end
 
-@echo "pond create $pond_name: success tests for single pond"
+@echo "pond create $pond_name: success tests for single enabled pond"
+set -gx pond_enable_on_create yes
+@test "setup: pond_enable_on_create set to 'yes'" (echo $pond_enable_on_create) = "yes"
+set -gx pond_load_on_create no
+@test "setup: pond_load_on_create set to 'no'" (echo $pond_load_on_create) = "no"
 @test "pond create: success exit code" (pond create $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_home/$pond_name
+@test "pond create: pond enabled" (contains $pond_home/$pond_name $pond_function_path) $status -eq $success
+@test "pond create: pond not loaded" (not contains $pond_home/$pond_name $fish_function_path) $status -eq $success
+@test "pond create: got pond name in event" (echo $event_pond_names) = $pond_name
+@test "pond create: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_name
+__pond_tear_down
+__pond_event_reset
+
+@echo "pond create $pond_name: success tests for single loaded pond"
+set -gx pond_enable_on_create no
+@test "setup: pond_enable_on_create set to 'no'" (echo $pond_enable_on_create) = "no"
+set -gx pond_load_on_create yes
+@test "setup: pond_load_on_create set to 'yes'" (echo $pond_load_on_create) = "yes"
+@test "pond create: success exit code" (pond create $pond_name >/dev/null 2>&1) $status -eq $success
+@test "pond create: pond directory created" -d $pond_home/$pond_name
+@test "pond create: pond not enabled" (not contains $pond_home/$pond_name $pond_function_path) $status -eq $success
+@test "pond create: pond loaded" (contains $pond_home/$pond_name $fish_function_path) $status -eq $success
 @test "pond create: got pond name in event" (echo $event_pond_names) = $pond_name
 @test "pond create: got pond path in event" (echo $event_pond_paths) = $pond_home/$pond_name
 __pond_tear_down
@@ -38,11 +58,41 @@ __pond_event_reset
 __pond_tear_down
 __pond_event_reset
 
-@echo "pond create $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3: success tests for multiple ponds"
+@echo "pond create $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3: success tests for multiple enabled ponds"
+set -gx pond_enable_on_create yes
+@test "setup: pond_enable_on_create set to 'yes'" (echo $pond_enable_on_create) = "yes"
+set -gx pond_load_on_create no
+@test "setup: pond_load_on_create set to 'no'" (echo $pond_load_on_create) = "no"
 @test "pond create: success exit code" (pond create $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_home/$pond_name_prefix-1
 @test "pond create: pond directory created" -d $pond_home/$pond_name_prefix-2
 @test "pond create: pond directory created" -d $pond_home/$pond_name_prefix-3
+@test "pond create: pond enabled" (contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
+@test "pond create: pond enabled" (contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
+@test "pond create: pond enabled" (contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success
+@test "pond create: pond not loaded" (not contains $pond_home/$pond_name_prefix-1 $fish_function_path) $status -eq $success
+@test "pond create: pond not loaded" (not contains $pond_home/$pond_name_prefix-2 $fish_function_path) $status -eq $success
+@test "pond create: pond not loaded" (not contains $pond_home/$pond_name_prefix-3 $fish_function_path) $status -eq $success
+@test "pond create: got pond names in events" (echo $event_pond_names) = "$pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3"
+@test "pond create: got pond paths in events" (echo $event_pond_paths) = "$pond_home/$pond_name_prefix-1 $pond_home/$pond_name_prefix-2 $pond_home/$pond_name_prefix-3"
+__pond_tear_down
+__pond_event_reset
+
+@echo "pond create $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3: success tests for multiple loaded ponds"
+set -gx pond_enable_on_create no
+@test "setup: pond_enable_on_create set to 'no'" (echo $pond_enable_on_create) = "no"
+set -gx pond_load_on_create yes
+@test "setup: pond_load_on_create set to 'yes'" (echo $pond_load_on_create) = "yes"
+@test "pond create: success exit code" (pond create $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 >/dev/null 2>&1) $status -eq $success
+@test "pond create: pond directory created" -d $pond_home/$pond_name_prefix-1
+@test "pond create: pond directory created" -d $pond_home/$pond_name_prefix-2
+@test "pond create: pond directory created" -d $pond_home/$pond_name_prefix-3
+@test "pond create: pond not enabled" (not contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
+@test "pond create: pond not enabled" (not contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
+@test "pond create: pond not enabled" (not contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success
+@test "pond create: pond loaded" (contains $pond_home/$pond_name_prefix-1 $fish_function_path) $status -eq $success
+@test "pond create: pond loaded" (contains $pond_home/$pond_name_prefix-2 $fish_function_path) $status -eq $success
+@test "pond create: pond loaded" (contains $pond_home/$pond_name_prefix-3 $fish_function_path) $status -eq $success
 @test "pond create: got pond names in events" (echo $event_pond_names) = "$pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3"
 @test "pond create: got pond paths in events" (echo $event_pond_paths) = "$pond_home/$pond_name_prefix-1 $pond_home/$pond_name_prefix-2 $pond_home/$pond_name_prefix-3"
 __pond_tear_down
@@ -56,7 +106,7 @@ __pond_event_reset
 @echo "pond create: validation failure exit code tests"
 @test "pond create: fails for missing pond name" (pond create >/dev/null 2>&1) $status -eq $failure
 @test "pond create: fails for malformed pond name" (pond create _invalid >/dev/null 2>&1) $status -eq $failure
-__pond_setup 1 enabled unpopulated
+__pond_setup 1 enabled loaded unpopulated
 @test "pond create: fails for existing pond" (pond create $pond_name >/dev/null 2>&1) $status -eq $failure
 __pond_tear_down
 __pond_event_reset
@@ -64,7 +114,7 @@ __pond_event_reset
 @echo "pond create: validation failure output tests"
 @test "pond create: command usage shown for missing pond name" (pond create 2>&1 | string collect) = $command_usage
 @test "pond create: command usage shown for malformed pond name" (pond create _invalid 2>&1 | string collect) = $command_usage
-__pond_setup 1 enabled unpopulated
+__pond_setup 1 enabled loaded unpopulated
 @test "pond create: command error shown for existing pond" (pond create $pond_name 2>&1 | string collect) = $already_exists_error
 __pond_tear_down
 __pond_event_reset

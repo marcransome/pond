@@ -9,6 +9,7 @@ Usage:
 @test "pond config: success output message" (pond config 2>&1 | string collect) = "\
 Pond home: $pond_home
 Enable ponds on creation: $pond_enable_on_create
+Load ponds on creation: $pond_load_on_create
 Pond editor command: $pond_editor"
 
 @echo 'pond config: pond_enable_on_create universal variable tests'
@@ -17,6 +18,7 @@ set -gx pond_enable_on_create yes
 @test "pond config: success output message" (pond config 2>&1 | string collect) = "\
 Pond home: $pond_home
 Enable ponds on creation: yes
+Load ponds on creation: $pond_load_on_create
 Pond editor command: $pond_editor"
 
 @echo 'pond config: pond_enable_on_create universal variable tests'
@@ -25,6 +27,25 @@ set -gx pond_enable_on_create no
 @test "pond config: success output message" (pond config 2>&1 | string collect) = "\
 Pond home: $pond_home
 Enable ponds on creation: no
+Load ponds on creation: $pond_load_on_create
+Pond editor command: $pond_editor"
+
+@echo 'pond config: pond_load_on_create universal variable tests'
+set -gx pond_load_on_create yes
+@test "setup: pond_load_on_create set to 'yes'" (echo $pond_load_on_create) = "yes"
+@test "pond config: success output message" (pond config 2>&1 | string collect) = "\
+Pond home: $pond_home
+Enable ponds on creation: $pond_enable_on_create
+Load ponds on creation: yes
+Pond editor command: $pond_editor"
+
+@echo 'pond config: pond_load_on_create universal variable tests'
+set -gx pond_load_on_create no
+@test "setup: pond_load_on_create set to 'no'" (echo $pond_load_on_create) = "no"
+@test "pond config: success output message" (pond config 2>&1 | string collect) = "\
+Pond home: $pond_home
+Enable ponds on creation: $pond_enable_on_create
+Load ponds on creation: no
 Pond editor command: $pond_editor"
 
 @echo 'pond config: pond_editor universal variable tests'
@@ -33,6 +54,7 @@ set -gx pond_editor this-editor
 @test "pond config: success output message" (pond config 2>&1 | string collect) = "\
 Pond home: $pond_home
 Enable ponds on creation: $pond_enable_on_create
+Load ponds on creation: $pond_load_on_create
 Pond editor command: this-editor"
 
 @echo 'pond config: pond_editor universal variable tests'
@@ -41,6 +63,7 @@ set -gx pond_editor that-editor
 @test "pond config: success output message" (pond config 2>&1 | string collect) = "\
 Pond home: $pond_home
 Enable ponds on creation: $pond_enable_on_create
+Load ponds on creation: $pond_load_on_create
 Pond editor command: that-editor"
 
 @echo "pond config: validation failure exit code tests"

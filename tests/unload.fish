@@ -24,7 +24,7 @@ function __pond_unloaded_event_intercept --on-event pond_unloaded -a got_pond_na
 end
 
 @echo "pond unload: success tests for single pond"
-__pond_setup 1 enabled unpopulated
+__pond_setup 1 enabled loaded unpopulated
 @test "setup: pond function path present" (contains $pond_home/$pond_name $pond_function_path) $status -eq $success
 @test "setup: fish function path present" (contains $pond_home/$pond_name $fish_function_path) $status -eq $success
 @test "pond unload: success exit code" (pond unload $pond_name >/dev/null 2>&1) $status -eq $success
@@ -36,13 +36,13 @@ __pond_tear_down
 __pond_event_reset
 
 @echo "pond unload: output tests for single pond"
-__pond_setup 1 enabled unpopulated
+__pond_setup 1 enabled loaded unpopulated
 @test "pond unload: success output message" (pond unload $pond_name 2>&1) = "Unloaded pond: $pond_name"
 __pond_tear_down
 __pond_event_reset
 
 @echo "pond unload: success tests for multiple ponds"
-__pond_setup 3 enabled unpopulated
+__pond_setup 3 enabled loaded unpopulated
 @test "setup: $pond_name_prefix-1 pond function path present" (contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
 @test "setup: $pond_name_prefix-2 pond function path present" (contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
 @test "setup: $pond_name_prefix-3 pond function path present" (contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success
@@ -62,7 +62,7 @@ __pond_tear_down
 __pond_event_reset
 
 @echo "pond unload: output tests for multiple ponds"
-__pond_setup 3 enabled unpopulated
+__pond_setup 3 enabled loaded unpopulated
 @test "pond unload: success output message" (pond unload $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 2>&1 | string collect) = $success_output_multiple_ponds
 __pond_tear_down
 __pond_event_reset

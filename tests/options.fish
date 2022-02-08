@@ -1,7 +1,7 @@
 source ./fixtures/variables.fish
 
 set pond_usage "\
-Pond $pond_test_version
+Pond $pond_test_version_number
 
 Usage:
     pond [options]
@@ -15,19 +15,19 @@ Application Options:
     -v, --version         Print the version string
 
 Commands:
-    create   Create a new pond
-    init     Create/open pond init function
-    deinit   Create/open pond deinit function
-    remove   Remove a pond and associated data
-    list     List ponds
-    enable   Enable a pond for new shell sessions
-    disable  Disable a pond for new shell sessions
-    load     Load pond data into current shell session
-    unload   Unload pond data from current shell session
-    status   View pond status
-    drain    Drain all data from pond
-    dir      Change current working directory to pond
-    config   Show configuration settings"
+    create     Create new pond
+    autoload   Create or edit pond autoload function
+    autounload Create or edit pond autounload function
+    remove     Remove a pond and associated data
+    list       List ponds
+    enable     Enable a pond for new shell sessions
+    disable    Disable a pond for new shell sessions
+    load       Load pond into current shell session
+    unload     Unload pond from current shell session
+    status     View pond status
+    drain      Drain all data from pond
+    dir        Change current working directory to pond
+    config     Show configuration settings"
 
 @echo 'pond options: success exit code tests'
 @test 'pond -v success' (pond -v >/dev/null 2>&1) $status -eq $success
@@ -40,8 +40,8 @@ Commands:
 @test 'pond fails for invalid long option' (pond --invalid >/dev/null 2>&1) $status -eq $failure
 
 @echo 'pond options: version option output tests'
-@test 'pond -v reports correct version' (pond -v) = "pond $pond_test_version"
-@test 'pond --version reports correct version' (pond --version) = "pond $pond_test_version"
+@test 'pond -v reports correct version' (pond -v) = "$pond_test_version_string"
+@test 'pond --version reports correct version' (pond --version) = "$pond_test_version_string"
 
 @echo 'pond options: help option usage tests'
 @test 'pond -h reports usage' (pond -h 2>&1 | string collect) = $pond_usage

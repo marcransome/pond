@@ -2,13 +2,13 @@
 
 # Pond
 
-[![Tests Status](https://github.com/marcransome/pond/actions/workflows/test.yml/badge.svg)](https://github.com/marcransome/pond/actions?query=workflow%3Atests) [![License](https://img.shields.io/badge/license-MIT-blue)](http://opensource.org/licenses/mit-license.php) [![fish](https://img.shields.io/badge/fish-3.2.2-blue)](https://fishshell.com) [![Issues](https://img.shields.io/github/issues/marcransome/pond)](https://github.com/marcransome/pond/issues)
+[![Tests](https://img.shields.io/github/workflow/status/marcransome/pond/tests?color=brightgreen&label=tests)](https://github.com/marcransome/pond/actions) [![Issues](https://img.shields.io/github/issues/marcransome/pond)](https://github.com/marcransome/pond/issues) [![Dependabot](https://img.shields.io/badge/dependabot-active-brightgreen.svg)](https://github.com/marcransome/pond/network/dependencies) [![License](https://img.shields.io/badge/license-MIT-blue)](http://opensource.org/licenses/mit-license.php) [![fish](https://img.shields.io/badge/fish-3.3.1-blue)](https://fishshell.com)
 
 Pond is a shell environment manager for the [fish shell](https://fishshell.com).
 
 <hr>
 
-Group related functions together into named _ponds_ and expose them to the shell environment using `load`, `unload`, `enable`, or `disable` commands. Make use of automatically executed `init` and `deinit` functions to set or unset environment variables.
+Group related functions together into named _ponds_ and expose them to the shell environment using `load`, `unload`, `enable`, or `disable` commands. Use special `autoload` and `autounload` functions to set or unset environment variables when ponds are loaded or unloaded.
 
 ## Background
 
@@ -56,14 +56,14 @@ Move to the pond directory for which you wish to add a function:
 $ pond dir my_app
 ```
 
-Add one or more related functions here. For example:
+Add one or more related functions to the pond directory. For example:
 
 ```
 $ vi start_my_app.fish
 ...
 ```
 
-With a suitable function definition:
+Provide a suitable function definition:
 
 ```fish
 function start_my_app
@@ -73,7 +73,7 @@ end
 
 ### Enabling ponds
 
-Use the `enable` command to make functions belonging to a pond available in new shell sessions:
+Use the `enable` command to make functions belonging to a pond accessible to new shell sessions:
 
 ```console
 $ pond enable my_app
@@ -82,7 +82,7 @@ Enabled pond: my_app
 
 ### Disabling ponds
 
-Use the `disable` command to make pond functions belonging to a pond inaccessible in new shell sessions:
+Use the `disable` command to make functions belonging to a pond inaccessible to new shell sessions:
 
 ```console
 $ pond disable my_app
@@ -107,51 +107,72 @@ $ pond unload my_app
 Unloaded pond: my_app
 ```
 
-### Initialising ponds
+### Autoload functions
 
-Use the `init` command to create an initialise function for a pond and open it in an interactive editor:
+A pond may include an optional _autoload_ function which is automatically executed in the current shell whenever the pond is loaded using the `load` command. If a pond is enabled then its autoload function, if present, will be executed automatically in each new shell that is created. Autoload functions are the recommended way of exporting shell variables for a pond.
+
+To create or edit an existing autoload function for a pond and open it in an interactive editor:
 
 ```console
-$ pond init my_app
+$ pond autoload my_app
 ```
 
-Populate the function with environment variables as required:
+Populate the autoload function with environment variables as required:
 
-```
-function my_app_init
-    set -xg MY_APP_PORT 1234
+```fish
+function my_app_autoload
+    set -xg MY_APP_ADDR localhost
+    set -xg MY_APP_PORT 9999
 end
 ```
 
-This function is automatically executed during startup of new shells if the pond is enabled. If a pond is loaded using the `load` command then the function will be executed automatically in the current shell session.
+### Autounload functions
 
-### Deinitialising ponds
+A pond may include an optional _autounload_ function which is automatically executed in the current shell whenever the pond is unloaded using the `unload` command. Autoload functions are the recommended way of erasing shell variables for a pond that were previously set using an _autoload_ function.
 
-Use the `deinit` command to create a deinitialise function for a pond and open it in an interactive editor:
+To create or edit an existing autounload function for a pond and open it in an interactive editor:
 
 ```console
-$ pond deinit my_app
+$ pond autounload my_app
 ```
 
-Populate the function with any cleanup operations as required:
+Populate the autounload function with the required cleanup commands:
 
-```
-function my_app_deinit
+```fish
+function my_app_autounload
+    set -e MY_APP_ADDR
     set -e MY_APP_PORT
 end
 ```
 
 This function is automatically executed if a pond is unloaded.
 
-### Viewing the status of ponds
+### Viewing global status
+
+Use the `status` command without arguments to view the global status of all ponds:
+
+```console
+$ pond status
+● pond 2.0.0
+     Health: good
+      Ponds: 1 (1 enabled; 1 loaded)
+     Loaded: /root/.config/fish/pond
+             └─• my_app
+```
+
+### Viewing pond status
 
 Use the `status` command to view the status of a pond:
 
 ```console
-$ pond status my_app
-name: my_app
-enabled: yes
-path: /Users/<username>/.config/fish/pond/my_app
+$ pond status my-app
+● my_app (/root/.config/fish/pond/my_app)
+     Status: loaded, enabled
+     Health: good
+   Autoload: present
+ Autounload: absent
+  Functions: 1
+       Size: 8.0K
 ```
 
 ### Listing ponds
@@ -227,9 +248,9 @@ The current working directory will be changed to the pond directory.
 
 ## Additional documentation
 
-Only a small subset of operations is documented here. Additional documentation is provided by the `pond` command when invoked with no arguments or the `--help` option. Use `pond <command> --help` for details of a specific command.
+Only a small subset of operations is documented here. Additional documentation is provided through usage output when `pond` is invoked with no arguments, or by invoking it with the `--help` option. Use `pond <command> --help` for details of a specific command.
 
-Further documentation is provided in separate man page discussed below.
+An optional man page is provided and discussed in more detail below.
 
 ### Installing the man page
 
@@ -247,7 +268,7 @@ Or, using `bash`:
 $ bash -c "$(curl https://raw.githubusercontent.com/marcransome/pond/main/manpages/install.sh)"
 ```
 
-To install the matching version of the man page for your `pond` installation, replace the branch name `main` in the above URLs with the semantic version number (use `pond --version` to obtain the version string).
+To install the man page corresponding to a specific version of `pond`, replace the branch name `main` in the above URLs with the semantic version number (use `pond --version` to obtain the version string).
 
 ### Viewing the man page online
 

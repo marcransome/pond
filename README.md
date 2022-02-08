@@ -149,15 +149,32 @@ end
 
 This function is automatically executed if a pond is unloaded.
 
-### Viewing the status of ponds
+### Viewing global status
+
+Use the `status` command without arguments to view the global status of all ponds:
+
+```console
+$ pond status
+● pond 2.0.0
+     Health: good
+      Ponds: 1 (1 enabled; 1 loaded)
+     Loaded: /root/.config/fish/pond
+             └─• my_app
+```
+
+### Viewing pond status
 
 Use the `status` command to view the status of a pond:
 
 ```console
-$ pond status my_app
-name: my_app
-enabled: yes
-path: /Users/<username>/.config/fish/pond/my_app
+$ pond status my-app
+● my_app (/root/.config/fish/pond/my_app)
+     Status: loaded, enabled
+     Health: good
+   Autoload: present
+ Autounload: absent
+  Functions: 1
+       Size: 8.0K
 ```
 
 ### Listing ponds

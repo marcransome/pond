@@ -155,11 +155,54 @@ Functions belonging to \f[I]ponds\f[R] will be inaccessible in the
 current shell.
 .SS \f[B]status\f[R] [\f[I]ponds\&...\f[R]]
 .PP
-View global status (without arguments) or status of \f[I]ponds\f[R].
-Global status includes total pond count and enabled pond count.
-Pond status includes the \f[I]name\f[R] of the pond, its
-\f[I]enabled\f[R] state (\f[B]yes\f[R] or \f[B]no\f[R]), and the
-absolute \f[I]path\f[R] to the directory comprising its data.
+View global status (without arguments) or status of the specified
+\f[I]ponds\f[R].
+.PP
+The global status output includes a visual representation of the overall
+health of all ponds in the form of a leading dot symbol.
+The dot is coloured green or red to indicate the absence or presence of
+syntax issues in functions belonging to any ponds.
+This is followed by the version number of the pond command and a number
+of additional fields:
+.TP
+\f[B]Health\f[R]
+The word `good' (coloured green) or `poor' (coloured red) indicating
+whether there are syntax issues or not within one or more ponds
+.TP
+\f[B]Ponds\f[R]
+The total number of ponds followed by the number of enabled and loaded
+ponds in parentheses
+.TP
+\f[B]Loaded\f[R]
+The directory path where ponds are stored followed by an ASCII
+representation of ponds rooted in that directory, each of which is
+preceded by a small dot symbol whose colour indicates if the pond is
+loaded (green) or not (grey)
+.PP
+When used with one or more \f[I]ponds\f[R] the \f[B]status\f[R] command
+outputs the name of the pond preceded by a coloured dot symbol
+indicating if the pond is loaded (green) or not (grey) followed by the
+pond directory path and these additional fields:
+.TP
+\f[B]Status\f[R]
+Indicates whether the pond is loaded or unloaded, and whether the
+enabled or disabled
+.TP
+\f[B]Health\f[R]
+The word `good' or `poor' (in red) indicating whether there are syntax
+issues with functions in the pond
+.TP
+\f[B]Autload\f[R]
+Indicates whether an autoload function is present for the pond or not
+.TP
+\f[B]Autounload\f[R]
+Indicates whether an autounload function is present for the pond or not
+.TP
+\f[B]Functions\f[R]
+The number of functions in the pond
+.TP
+\f[B]Size\f[R]
+The size of the pond and unit suffix
 .SS \f[B]drain\f[R] [\f[B]-y\f[R]|\f[B]--yes\f[R]] \f[I]ponds\&...\f[R]
 .PP
 Drain \f[I]ponds\f[R].

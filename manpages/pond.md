@@ -122,7 +122,47 @@ Unload _ponds_. The path of each named pond will be remove from the *\$fish\_fun
 **status** [_ponds..._]
 -----------------------
 
-View global status (without arguments) or status of _ponds_. Global status includes total pond count and enabled pond count. Pond status includes the _name_ of the pond, its _enabled_ state (**yes** or **no**), and the absolute _path_ to the directory comprising its data.
+View global status (without arguments) or status of the specified _ponds_.
+
+The global status output includes a visual representation of the overall health of all ponds in the form of a leading dot symbol. The dot is coloured green or red to indicate the absence or presence of syntax issues in functions belonging to any ponds. This is followed by the version number of the pond command and a number of additional fields:
+
+**Health**
+
+:   The word 'good' (coloured green) or 'poor' (coloured red) indicating whether there are syntax issues or not within one or more ponds
+
+**Ponds**
+
+:   The total number of ponds followed by the number of enabled and loaded ponds in parentheses
+
+**Loaded**
+
+:   The directory path where ponds are stored followed by an ASCII representation of ponds rooted in that directory, each of which is preceded by a small dot symbol whose colour indicates if the pond is loaded (green) or not (grey)
+
+When used with one or more _ponds_ the **status** command outputs the name of the pond preceded by a coloured dot symbol indicating if the pond is loaded (green) or not (grey) followed by the pond directory path and these additional fields:
+
+**Status**
+
+:   Indicates whether the pond is loaded or unloaded, and whether the enabled or disabled
+
+**Health**
+
+: The word 'good' or 'poor' (in red) indicating whether there are syntax issues with functions in the pond
+
+**Autload**
+
+: Indicates whether an autoload function is present for the pond or not
+
+**Autounload**
+
+: Indicates whether an autounload function is present for the pond or not
+
+**Functions**
+
+: The number of functions in the pond
+
+**Size**
+
+: The size of the pond and unit suffix
 
 **drain** [**-y**|**\--yes**] _ponds..._
 ---------------------------------------

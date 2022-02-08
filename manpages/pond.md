@@ -57,7 +57,7 @@ Remove _ponds_. All pond data will be erased for each named pond. Confirmation i
 **list** [**-e**|**\--enabled**] [**-d**|**\--disabled**] [**-l**|**\--loaded**] [**-u**|**\--unloaded**]
 ---------------------------------------------------------------------------------------------------------
 
-List ponds. If no options are specified, _all_ pond names will be printed to standard output regardless of their status. If one or more options are specified then only the names of ponds that match an option will be output.
+List ponds. If no options are specified, _all_ pond names will be printed to standard output regardless of their status. If one or more options are specified, then only the names of ponds that match an option will be output.
 
 **-e**, **\--enabled**
 
@@ -148,7 +148,7 @@ When used with one or more _ponds_ the **status** command outputs the name of th
 
 : The word 'good' or 'poor' (in red) indicating whether there are syntax issues with functions in the pond
 
-**Autload**
+**Autoload**
 
 : Indicates whether an autoload function is present for the pond or not
 

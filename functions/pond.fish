@@ -378,22 +378,22 @@ Usage:
         set -l pad_width 12
         set -l pond_count (count $pond_home/*/)
 
-        set -l pond_syntax_indicator (set_color green)"●"(set_color normal)
-        set -l pond_syntax (set_color green)"good"(set_color normal)
+        set -l pond_health_indicator (set_color green)"●"(set_color normal)
+        set -l pond_health (set_color green)"good"(set_color normal)
         for pond_function in $pond_home/**.fish
             if test (fish --no-execute $pond_function 2>/dev/null 1>&2) $status -ne 0
-                set pond_syntax_indicator (set_color red)"●"(set_color normal)
-                set pond_syntax (set_color red)"bad"(set_color normal)" (syntax issues detected)"
+                set pond_health_indicator (set_color red)"●"(set_color normal)
+                set pond_health (set_color red)"poor"(set_color normal)" (syntax issues detected)"
                 break
             end
         end
 
-        echo -e "$pond_syntax_indicator pond $pond_version"
+        echo -e "$pond_health_indicator pond $pond_version"
 
         set -l pond_enabled_count (count (string match -r "$pond_home/.*" -- $pond_function_path))
         set -l pond_loaded_count (count (string match -r "$pond_home/.*" -- $fish_function_path))
 
-        echo -e (string pad -w $pad_width "Syntax:") $pond_syntax
+        echo -e (string pad -w $pad_width "Health:") $pond_health
         echo (string pad -w $pad_width "Ponds:") "$pond_count ($pond_enabled_count enabled; $pond_loaded_count loaded)"
         echo -e (string pad -w $pad_width "Loaded:") $pond_home
 
@@ -436,15 +436,15 @@ Usage:
             (__pond_is_loaded $pond_path; and echo "loaded"; or echo "unloaded"), \
             (__pond_is_enabled $pond_path; and echo "enabled"; or echo "disabled")
 
-        set -l pond_syntax good
+        set -l pond_health good
         for pond_function in $pond_path/**.fish
             if test (fish --no-execute $pond_function 2>/dev/null 1>&2) $status -ne 0
-                set pond_syntax (set_color red)"bad"(set_color normal)" (syntax issues)"
+                set pond_health (set_color red)"poor"(set_color normal)" (syntax issues detected)"
                 break
             end
         end
 
-        echo (string pad -w $pad_width "Syntax:") $pond_syntax
+        echo (string pad -w $pad_width "Health:") $pond_health
         echo (string pad -w $pad_width "Autoload:") (test -f $pond_path/{$pond_name}_{$pond_autoload_suffix}.fish; and echo "present"; or echo "absent")
         echo (string pad -w $pad_width "Autounload:") (test -f $pond_path/{$pond_name}_{$pond_autounload_suffix}.fish; and echo "present"; or echo "absent")
         echo (string pad -w $pad_width "Functions:") (count $pond_path/**.fish)
@@ -540,7 +540,7 @@ Usage:
     switch $command
         case -v --version
             if test (count $argv) -ne 0; __pond_usage; and __pond_cleanup; and return 1; end
-            echo "pond $pond_version"
+            echo "pond $pond_version ("(uname -s) (uname -m)")"
         case '' -h --help
             __pond_usage
         case create

@@ -1,5 +1,6 @@
-source ./fixtures/functions.fish
-source ./fixtures/variables.fish
+set parent (dirname (status --current-filename))
+source $parent/fixtures/functions.fish
+source $parent/fixtures/variables.fish
 
 set success_output_single_pond "\
 Unloaded pond: $pond_name"

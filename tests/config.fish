@@ -1,4 +1,5 @@
-source ./fixtures/variables.fish
+set parent (dirname (status --current-filename))
+source $parent/fixtures/variables.fish
 
 set command_usage "\
 Usage:

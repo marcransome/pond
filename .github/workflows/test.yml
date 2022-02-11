@@ -38,7 +38,7 @@ jobs:
         run: fisher install .
         shell: fish {0}
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@main
+        uses: fish-shop/run-fishtape-tests@v1
         with:
           pattern: tests/**.fish
   fisher-install:

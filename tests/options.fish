@@ -1,4 +1,5 @@
-source ./fixtures/variables.fish
+set parent (dirname (status --current-filename))
+source $parent/fixtures/variables.fish
 
 set pond_usage "\
 Pond $pond_test_version_number

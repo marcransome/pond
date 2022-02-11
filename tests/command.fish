@@ -1,5 +1,6 @@
-source ./fixtures/variables.fish
-source ./fixtures/functions.fish
+set parent (dirname (status --current-filename))
+source $parent/fixtures/variables.fish
+source $parent/fixtures/functions.fish
 
 set unknown_command_error (__pond_error_string "Unknown command: unknown")
 

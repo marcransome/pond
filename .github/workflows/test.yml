@@ -35,8 +35,10 @@ jobs:
           plugin-manager: fisher
           plugins: jorgebucaran/{fisher,fishtape}
       - name: Install pond
-        run: fisher install .
-        shell: fish {0}
+        uses: fish-shop/install-plugin@v1
+        with:
+          plugin-manager: fisher
+          plugins: (pwd)
       - name: Run Fishtape tests
         uses: fish-shop/run-fishtape-tests@v1
         with:

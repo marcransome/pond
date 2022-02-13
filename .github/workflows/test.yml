@@ -55,7 +55,7 @@ jobs:
         uses: fish-shop/install-plugin@v1
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
-          plugin: (pwd)
+          plugins: (pwd)
       - name: Check pond is installed
         run: functions -q pond
         shell: fish {0}

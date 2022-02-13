@@ -41,60 +41,21 @@ jobs:
         uses: fish-shop/run-fishtape-tests@v1
         with:
           pattern: tests/**.fish
-  fisher-install:
+  install:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+        plugin-manager: [fisher, oh-my-fish, ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - name: Install fish shell
         uses: fish-actions/install-fish@v1
-      - name: Install fisher
-        uses: fish-shop/install-plugin-manager@v1
+      - name: Install pond using ${{ matrix.plugin-manager }}
+        uses: fish-shop/install-plugin@v1
         with:
-          plugin-manager: fisher
-      - name: Test plugin installation
-        run: fisher install .
-        shell: fish {0}
-      - name: Check pond is installed
-        run: functions -q pond
-        shell: fish {0}
-  oh-my-fish-install:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install fish shell
-        uses: fish-actions/install-fish@v1
-      - name: Install oh-my-fish
-        uses: fish-shop/install-plugin-manager@v1
-        with:
-          plugin-manager: oh-my-fish
-      - name: Test plugin installation
-        run: omf install (pwd)
-        shell: fish {0}
-      - name: Check pond is installed
-        run: functions -q pond
-        shell: fish {0}
-  plug-fish-install:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install fish shell
-        uses: fish-actions/install-fish@v1
-      - name: Install plug.fish
-        uses: fish-shop/install-plugin-manager@v1
-        with:
-          plugin-manager: plug.fish
-      - name: Test plugin installation
-        run: plug install .
-        shell: fish {0}
+          plugin-manager: ${{ matrix.plugin-manager }}
+          plugin: (pwd)
       - name: Check pond is installed
         run: functions -q pond
         shell: fish {0}

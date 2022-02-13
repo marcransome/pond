@@ -33,7 +33,7 @@ jobs:
         uses: fish-shop/install-plugin@v1
         with:
           plugin-manager: fisher
-          plugins: fishtape
+          plugins: jorgebucaran/fishtape
       - name: Install pond
         uses: fish-shop/install-plugin@v1
         with:

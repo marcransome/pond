@@ -38,9 +38,8 @@ complete -c pond -n "__fish_seen_subcommand_from remove; and not __fish_seen_sub
 complete -c pond -n "__fish_seen_subcommand_from remove" -a "(pond list 2>/dev/null)"
 
 # Complete options or pond name for drain command
-complete -c pond -n "__fish_seen_subcommand_from drain; and not __fish_seen_subcommand_from -y --yes" -a "-y --yes" -d "Automatically accept confirmation prompts"
-complete -c pond -n "__fish_seen_subcommand_from drain; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"
-complete -c pond -n "__fish_seen_subcommand_from drain; and __fish_seen_subcommand_from -y --yes" -a "(pond list 2>/dev/null)"
+complete -c pond -n "__fish_seen_subcommand_from drain; and not __fish_seen_subcommand_from -y --yes; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "-y --yes" -d "Automatically accept confirmation prompts"
+complete -c pond -n "__fish_seen_subcommand_from drain" -a "(pond list 2>/dev/null)"
 
 # Complete long and short options
 complete -c pond -n "not __fish_seen_subcommand_from $commands" -s h -l help -d 'Print a short help text and exit'

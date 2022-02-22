@@ -22,7 +22,7 @@ jobs:
       with:
         # base-branch: main
         # check-modified-files-only: yes
-        # use-quiet-mode: 'yes'
+        use-verbose-mode: 'yes'
         folder-path: /github/workspace
     - name: Check links in all Markdown files
       if: github.event_name != 'pull_request'

@@ -24,6 +24,8 @@ complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'config' -d '
 # Complete options for list command
 complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -e --enabled" -a "-e --enabled" -d "List enabled ponds"
 complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -d --disabled" -a "-d --disabled" -d "List disabled ponds"
+complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -d --disabled" -a "-l --loaded" -d "List loaded ponds"
+complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -d --disabled" -a "-u --unloaded" -d "List unloaded ponds"
 
 # Complete pond name for commands that do not support options but accept a single pond name
 complete -c pond -n "__fish_seen_subcommand_from $commands_without_options_single_pond; and not __fish_seen_subcommand_from (pond list 2>/dev/null)" -a "(pond list 2>/dev/null)"

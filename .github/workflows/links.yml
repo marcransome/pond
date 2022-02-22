@@ -24,6 +24,7 @@ jobs:
         # check-modified-files-only: yes
         folder-path: /github/workspace
         use-verbose-mode: yes
+        file-path: './README.md'
     - name: Check links in all Markdown files
       if: github.event_name != 'pull_request'
       uses: gaurav-nelson/github-action-markdown-link-check@v1

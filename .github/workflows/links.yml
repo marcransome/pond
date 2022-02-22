@@ -23,7 +23,7 @@ jobs:
         # base-branch: main
         # check-modified-files-only: yes
         # use-quiet-mode: 'yes'
-        base-branch: main
+        folder-path: /github/workspace
     - name: Check links in all Markdown files
       if: github.event_name != 'pull_request'
       uses: gaurav-nelson/github-action-markdown-link-check@v1

@@ -18,3 +18,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Check links in modified Markdown files
       uses: gaurav-nelson/github-action-markdown-link-check@v1
+    - name: Debug output
+      run: |
+        pwd
+        find . -name '*.md'

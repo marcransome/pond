@@ -17,15 +17,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Check links in modified Markdown files
-      if: github.event_name == 'pull_request'
       uses: gaurav-nelson/github-action-markdown-link-check@v1
-      with:
-        # base-branch: main
-        # check-modified-files-only: yes
-        use-verbose-mode: 'yes'
-        folder-path: /github/workspace
-    - name: Check links in all Markdown files
-      if: github.event_name != 'pull_request'
-      uses: gaurav-nelson/github-action-markdown-link-check@v1
-      with:
-        use-verbose-mode: yes

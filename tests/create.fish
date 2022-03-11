@@ -7,10 +7,10 @@ Usage:
     pond create ponds...
 
 Arguments:
-    name  The name of one or more ponds to create; a pond name
-          must begin with an alphanumeric character followed by
-          any number of additional alphanumeric characters,
-          underscores or dashes"
+    ponds  The name of one or more ponds to create; a pond name
+           must begin with an alphanumeric character followed by
+           any number of additional alphanumeric characters,
+           underscores or dashes"
 
 set success_output_single_pond "Created empty pond: $pond_name"
 

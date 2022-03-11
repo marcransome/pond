@@ -39,10 +39,10 @@ Usage:
     pond create ponds...
 
 Arguments:
-    name  The name of one or more ponds to create; a pond name
-          must begin with an alphanumeric character followed by
-          any number of additional alphanumeric characters,
-          underscores or dashes" >&2
+    ponds  The name of one or more ponds to create; a pond name
+           must begin with an alphanumeric character followed by
+           any number of additional alphanumeric characters,
+           underscores or dashes" >&2
         echo
     end
 
@@ -142,7 +142,7 @@ Usage:
     pond status [ponds...]
 
 Arguments:
-    name  The name of one or more ponds" >&2
+    ponds  The name of one or more ponds" >&2
         echo
     end
 

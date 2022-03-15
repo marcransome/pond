@@ -22,6 +22,7 @@ Commands:
     autounload Create or edit pond autounload function
     remove     Remove a pond and associated data
     list       List ponds
+    check      Check pond functions for syntax issues
     enable     Enable a pond for new shell sessions
     disable    Disable a pond for new shell sessions
     load       Load pond into current shell session
@@ -449,7 +450,35 @@ Usage:
         echo (string pad -w $pad_width "Autounload:") (test -f $pond_path/{$pond_name}_{$pond_autounload_suffix}.fish; and echo "present"; or echo "absent")
         echo (string pad -w $pad_width "Functions:") (count $pond_path/**.fish)
         echo (string pad -w $pad_width "Size:") (string trim (du -sh $pond_path | cut -f 1))
+    end
 
+    function __pond_check_operation -a pond_name
+        set -l pond_path $pond_home/$pond_name
+        set -l passes 0
+        set -l failures 0
+
+        echo "Checking pond '$pond_name' for syntax issues.."
+
+        for pond_function in $pond_path/**.fish
+            echo -n "  "
+            if test (fish --no-execute $pond_function 2>/dev/null 1>&2) $status -eq 0
+                set_color green; and echo -n "✔"; and set_color normal
+                set passes (math $passes + 1)
+            else
+                set_color red; and echo -n "✖"; and set_color normal
+                set failures (math $failures + 1)
+            end
+
+            echo " "(basename $pond_function)
+        end
+
+        set -l total (math $passes + $failures)
+
+        set_color green; and echo -n "passed: $passes"; and set_color normal
+        echo -n "  "
+        set_color red; and echo -n "failed: $failures"; and set_color normal
+        echo "  of $total functions"
+        echo
     end
 
     function __pond_drain_operation -a pond_name
@@ -510,7 +539,7 @@ Usage:
     function __pond_cleanup
         functions -e __pond_cleanup
 
-        for command in create remove list enable disable load unload status drain dir config
+        for command in create remove list enable disable load unload status check drain dir config
             functions -e "__pond_"(echo $command)"_command_usage"
             functions -e "__pond_"(echo $command)"_operation"
         end
@@ -715,6 +744,26 @@ Usage:
                 end
 
                 __pond_status_operation $pond_name
+                set -l exit_code $status
+                if test $exit_code -gt 0
+                    __pond_cleanup; and return $exit_code
+                end
+            end
+        case check
+            if test (count $argv) -eq 0; __pond_check_command_usage; and __pond_cleanup; and return 1; end
+
+            for pond_name in $argv
+                if ! __pond_name_is_valid "$pond_name"
+                    __pond_check_command_usage
+                    __pond_cleanup
+                    return 1
+                else if ! __pond_exists $pond_name
+                    __pond_show_not_exists_error $pond_name
+                    __pond_cleanup
+                    return 1
+                end
+
+                __pond_check_operation $pond_name
                 set -l exit_code $status
                 if test $exit_code -gt 0
                     __pond_cleanup; and return $exit_code

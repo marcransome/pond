@@ -147,6 +147,16 @@ Arguments:
         echo
     end
 
+    function __pond_check_command_usage
+        echo "\
+Usage:
+    pond check [ponds...]
+
+Arguments:
+    ponds  The name of one or more ponds to check" >&2
+        echo
+    end
+
     function __pond_drain_command_usage
         echo "\
 Usage:

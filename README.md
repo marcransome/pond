@@ -153,7 +153,7 @@ Use the `status` command without arguments to view the global status of all pond
 
 ```console
 $ pond status
-● pond 2.1.0
+● pond 2.2.0
      Health: good
       Ponds: 1 (1 enabled; 1 loaded)
      Loaded: /root/.config/fish/pond

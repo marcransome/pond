@@ -4,7 +4,7 @@ source $parent/fixtures/variables.fish
 
 set command_usage "\
 Usage:
-    pond check [ponds...]
+    pond check ponds...
 
 Arguments:
     ponds  The name of one or more ponds to check"

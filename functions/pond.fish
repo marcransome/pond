@@ -150,7 +150,7 @@ Arguments:
     function __pond_check_command_usage
         echo "\
 Usage:
-    pond check [ponds...]
+    pond check ponds...
 
 Arguments:
     ponds  The name of one or more ponds to check" >&2

@@ -488,7 +488,10 @@ Usage:
         echo -n "  "
         set_color red; and echo -n "failed: $failures"; and set_color normal
         echo "  of $total functions"
-        echo
+
+        if test $failures -ne 0
+            return 1
+        end
     end
 
     function __pond_drain_operation -a pond_name

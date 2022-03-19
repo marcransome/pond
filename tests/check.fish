@@ -77,21 +77,15 @@ __pond_setup 1 enabled loaded populated
 @test "pond check: success output message" (pond check $pond_name 2>&1 | string collect) = $success_output_single_pond
 __pond_tear_down
 
-@echo "pond check: failure tests for single pond with invalid autoload/autounload functions"
 __pond_setup 1 enabled loaded populated
+@echo "pond check: failure tests for single pond with invalid autoload/autounload functions"
 echo "end" > $pond_home/$pond_name/{$pond_name}_autoload.fish
 echo "end" > $pond_home/$pond_name/{$pond_name}_autounload.fish
 @test "setup: invalid autoload function definition" (cat $pond_home/$pond_name/{$pond_name}_autoload.fish | string collect) = "end"
 @test "setup: invalid autounload function definition" (cat $pond_home/$pond_name/{$pond_name}_autounload.fish | string collect) = "end"
 @test "pond check: failure exit code" (pond check $pond_name >/dev/null 2>&1) $status -eq $failure
-__pond_tear_down
 
 @echo "pond check: failure output tests for single pond with invalid autoload/autounload functions"
-__pond_setup 1 enabled loaded populated
-echo "end" > $pond_home/$pond_name/{$pond_name}_autoload.fish
-echo "end" > $pond_home/$pond_name/{$pond_name}_autounload.fish
-@test "setup: invalid autoload function definition" (cat $pond_home/$pond_name/{$pond_name}_autoload.fish | string collect) = "end"
-@test "setup: invalid autounload function definition" (cat $pond_home/$pond_name/{$pond_name}_autounload.fish | string collect) = "end"
 @test "pond check: failure output message" (pond check $pond_name 2>&1 | string collect) = $failure_output_single_pond
 __pond_tear_down
 

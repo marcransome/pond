@@ -21,6 +21,7 @@ Commands:
     autounload Create or edit pond autounload function
     remove     Remove a pond and associated data
     list       List ponds
+    check      Check pond functions for syntax issues
     enable     Enable a pond for new shell sessions
     disable    Disable a pond for new shell sessions
     load       Load pond into current shell session

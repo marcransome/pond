@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>pond(1) Version 2.1.0 | Pond User’s Guide</title>
+  <title>pond(1) Version 2.2.0 | Pond User’s Guide</title>
   <style>
     html {
       line-height: 1.5;
@@ -29,6 +29,9 @@
       body {
         font-size: 0.9em;
         padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
       }
     }
     @media print {
@@ -134,6 +137,12 @@
     #TOC li {
       list-style: none;
     }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
     #TOC a:not(:hover) {
       text-decoration: none;
     }
@@ -151,7 +160,7 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">pond(1) Version 2.1.0 | Pond User’s Guide</h1>
+<h1 class="title">pond(1) Version 2.2.0 | Pond User’s Guide</h1>
 </header>
 <h1 id="name">NAME</h1>
 <p><strong>pond</strong> — a shell environment manager for the fish
@@ -244,6 +253,14 @@ will be output.</p>
 disabled ponds only)</p>
 <p><em>Example:</em> <strong>pond list --enabled --unloaded</strong>
 (list enabled <em>and</em> unloaded ponds only)</p>
+<h2 id="check-ponds"><strong>check</strong> <em>ponds…</em></h2>
+<p>Check <em>ponds</em> for syntax issues. A list of function filenames
+will be printed, one filename per line, for each named pond. Function
+filenames will be prefixed with a green tick or red cross, indicating
+syntax validation success or failure for that file. A trailing line will
+be printed with the total number of passes, failures, and total function
+count for the pond. This command will exit early if syntax issues are
+found, after the first pond with failures.</p>
 <h2 id="autoload-pond"><strong>autoload</strong> <em>pond</em></h2>
 <p>Open the autoload function for <em>pond</em> in an interactive
 editor. The function will be created if it does not already exist and

@@ -1,4 +1,4 @@
-% pond(1) Version 2.1.0 | Pond User's Guide
+% pond(1) Version 2.2.0 | Pond User's Guide
 
 NAME
 ====
@@ -81,8 +81,13 @@ _Example:_ **pond list \--disabled** (list disabled ponds only)
 
 _Example:_ **pond list \--enabled \--unloaded** (list enabled _and_ unloaded ponds only)
 
+**check** _ponds..._
+--------------------
+
+Check _ponds_ for syntax issues. A list of function filenames will be printed, one filename per line, for each named pond. Function filenames will be prefixed with a green tick or red cross, indicating syntax validation success or failure for that file. A trailing line will be printed with the total number of passes, failures, and total function count for the pond. This command will exit early if syntax issues are found, after the first pond with failures.
+
 **autoload** _pond_
----------------
+-------------------
 
 Open the autoload function for _pond_ in an interactive editor. The function will be created if it does not already exist and will be named after _pond_ with the suffix \_autoload.
 
@@ -91,7 +96,7 @@ If _pond_ is enabled (see **enable**) the function will be executed automaticall
 See **ENVIRONMENT** for a discussion of the **pond\_editor** _universal_ variable that controls which editor is used when this command is invoked.
 
 **autounload** _pond_
------------------
+---------------------
 
 Open the autounload function for _pond_ in an interactive editor. The function will be created if it does not already exist and will be named after _pond_ with the suffix \_autounload.
 

@@ -13,7 +13,7 @@ __pond_setup 1 enabled unloaded populated
 __pond_tear_down
 
 @echo "pond init: success tests for single disabled pond"
-__pond_setup 1 disabled populated
+__pond_setup 1 disabled unloaded populated
 @test "setup: pond is disabled" (not contains $pond_home/$pond_name $pond_function_path) $status -eq $success
 @test "setup: pond is not loaded" (not contains $pond_home/$pond_name $fish_function_path) $status -eq $success
 @test "pond init: success exit code" (__pond_init) $status -eq $success
@@ -42,7 +42,7 @@ __pond_setup 3 enabled unloaded populated
 __pond_tear_down
 
 @echo "pond init: success tests for multiple disabled ponds"
-__pond_setup 3 disabled populated
+__pond_setup 3 disabled unloaded populated
 @test "setup: $pond_name_prefix-1 pond is disabled" (not contains $pond_home/$pond_name_prefix-1 $pond_function_path) $status -eq $success
 @test "setup: $pond_name_prefix-2 pond is disabled" (not contains $pond_home/$pond_name_prefix-2 $pond_function_path) $status -eq $success
 @test "setup: $pond_name_prefix-3 pond is disabled" (not contains $pond_home/$pond_name_prefix-3 $pond_function_path) $status -eq $success

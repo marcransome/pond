@@ -20,6 +20,6 @@ By participating in the project you are expected to uphold the [Code of Conduct]
 Consistency makes maintaining and extending the codebase easier and can encourage others to contribute. Consider the following points when making code changes:
 
 * Use 4-space indents not tabs
-* Use UNIX line endings (`CR`) in all files
+* Use UNIX line endings (`LF`) in all files
 * Use descriptive function and variable names
 * Avoid code comments unless used to clarify something that is not otherwise obvious

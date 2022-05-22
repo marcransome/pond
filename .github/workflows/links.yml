@@ -10,7 +10,7 @@ on:
     types:
       - published
   schedule:
-    - cron: "0 18 * * *"
+    - cron: "0 18 * * 1"
 jobs:
   markdown-links:
     runs-on: ubuntu-latest

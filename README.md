@@ -2,7 +2,7 @@
 
 # Pond
 
-[![Tests](https://img.shields.io/github/workflow/status/marcransome/pond/tests?color=brightgreen&label=tests)](https://github.com/marcransome/pond/actions) [![Issues](https://img.shields.io/github/issues/marcransome/pond)](https://github.com/marcransome/pond/issues) [![Dependabot](https://img.shields.io/badge/dependabot-active-brightgreen.svg)](https://github.com/marcransome/pond/network/dependencies) [![License](https://img.shields.io/badge/license-MIT-blue)](http://opensource.org/licenses/mit-license.php) [![fish](https://img.shields.io/badge/fish-3.3.1-blue)](https://fishshell.com)
+[![Tests](https://img.shields.io/github/workflow/status/marcransome/pond/tests?color=brightgreen&label=tests)](https://github.com/marcransome/pond/actions) [![Issues](https://img.shields.io/github/issues/marcransome/pond)](https://github.com/marcransome/pond/issues) [![Dependabot](https://img.shields.io/badge/dependabot-active-brightgreen.svg)](https://github.com/marcransome/pond/network/dependencies) [![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/mit-license.php) [![fish](https://img.shields.io/badge/fish-3.3.1-blue)](https://fishshell.com)
 
 Pond is a shell environment manager for the [fish shell](https://fishshell.com).
 
@@ -303,7 +303,7 @@ end
 
 ## License
 
-Pond is provided under the terms of the [MIT License](http://opensource.org/licenses/mit-license.php).
+Pond is provided under the terms of the [MIT License](https://opensource.org/licenses/mit-license.php).
 
 ## Contact
 

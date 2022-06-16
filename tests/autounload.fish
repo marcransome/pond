@@ -7,9 +7,9 @@ Usage:
     pond autounload <name>
 
 Arguments:
-name  The name of the pond for which a autounload function will
-      be opened in an editor and optionally created if it
-      does not already exist"
+    name  The name of the pond for which an autounload function
+          will be opened in an editor and optionally created if
+          it does not already exist"
 
 @echo "pond autounload $pond_name: success tests for pond without autounload function"
 __pond_setup 1 enabled loaded unpopulated
@@ -40,3 +40,11 @@ __pond_editor_intercept_with __pond_test_autounload_editor
 __pond_tear_down
 
 __pond_editor_reset
+
+@echo "pond autounload: validation failure exit code tests"
+@test "pond autounload: fails for missing pond name" (pond autounload >/dev/null 2>&1) $status -eq $failure
+@test "pond autounload: fails for malformed pond name" (pond autounload _invalid >/dev/null 2>&1) $status -eq $failure
+
+@echo "pond autounload: validation failure output tests"
+@test "pond autounload: command usage shown for missing pond name" (pond autounload 2>&1 | string collect) = $command_usage
+@test "pond autounload: command usage shown for malformed pond name" (pond autounload _invalid 2>&1 | string collect) = $command_usage

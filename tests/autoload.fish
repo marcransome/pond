@@ -11,6 +11,8 @@ Arguments:
           will be opened in an editor and optionally created if
           it does not already exist" >&2
 
+set not_exists_error (__pond_error_string "Pond does not exist: no-exist")
+
 @echo "pond autoload $pond_name: success tests for pond without autoload function"
 __pond_setup 1 enabled loaded unpopulated
 __pond_editor_intercept_with __pond_test_autoload_editor
@@ -44,7 +46,9 @@ __pond_editor_reset
 @echo "pond autoload: validation failure exit code tests"
 @test "pond autoload: fails for missing pond name" (pond autoload >/dev/null 2>&1) $status -eq $failure
 @test "pond autoload: fails for malformed pond name" (pond autoload _invalid >/dev/null 2>&1) $status -eq $failure
+@test "pond autoload: fails for non-existent pond" (pond autoload no-exist >/dev/null 2>&1) $status -eq $failure
 
 @echo "pond autoload: validation failure output tests"
 @test "pond autoload: command usage shown for missing pond name" (pond autoload 2>&1 | string collect) = $command_usage
 @test "pond autoload: command usage shown for malformed pond name" (pond autoload _invalid 2>&1 | string collect) = $command_usage
+@test "pond autoload: command error shown for non-existent pond" (pond autoload no-exist 2>&1 | string collect) = $not_exists_error

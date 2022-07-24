@@ -16,3 +16,4 @@ RUN rm -rf /usr/share/doc
 RUN /usr/bin/fish -c "curl -sL git.io/fisher | source; and fisher install jorgebucaran/{fisher,fishtape}"
 
 ENTRYPOINT ["/usr/bin/fish"]
+

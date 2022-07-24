@@ -1,0 +1,3 @@
+#!/usr/bin/fish
+
+fishtape /workspaces/pond/tests/*.fish | tap-diff

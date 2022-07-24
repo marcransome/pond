@@ -1,0 +1,4 @@
+#!/usr/bin/fish
+
+fisher remove /workspaces/pond 2>/dev/null
+fisher install /workspaces/pond

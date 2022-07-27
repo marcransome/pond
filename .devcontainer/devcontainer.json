@@ -1,4 +1,5 @@
 {
+  "name": "pond",
   "build": { "dockerfile": "Dockerfile" },
   "settings": {
     "terminal.integrated.defaultProfile.linux": "fish", 

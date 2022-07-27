@@ -8,5 +8,12 @@
             "path": "/usr/bin/fish"
         }
     }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmalehorn.vscode-fish"
+      ]
+    }
   }
 }

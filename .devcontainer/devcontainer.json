@@ -12,7 +12,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "bmalehorn.vscode-fish"
+        "bmalehorn.vscode-fish",
+        "EditorConfig.EditorConfig"
       ]
     }
   }

@@ -1,4 +1,4 @@
-<img alt="pond" src="images/pond.png" width="180" align="left">
+<img alt="pond" src="images/pond.png" width="180" align="right">
 
 # Pond
 

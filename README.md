@@ -1,4 +1,4 @@
-<img alt="pond" src="images/fish-pond.png" width="180" align="left">
+<img alt="pond" src="images/pond.png" width="180" align="left">
 
 # Pond
 
@@ -298,7 +298,7 @@ end
 
 ## Acknowledgements
 
-* Icons made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com/)
+* Pond icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/)
 * Pond's [workflow](https://github.com/marcransome/pond/actions) uses the [fishtape](https://github.com/jorgebucaran/fishtape) test runner and [tap-diff](https://github.com/axross/tap-diff) to make things pretty
 
 ## License

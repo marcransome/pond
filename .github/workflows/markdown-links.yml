@@ -23,10 +23,10 @@ jobs:
         base-branch: main
         check-modified-files-only: yes
         use-verbose-mode: yes
-        config-file: "markdown_link_check_config.json"
+        config-file: .github/markdown-links.json
     - name: Check links in all Markdown files
       if: github.event_name != 'pull_request'
       uses: gaurav-nelson/github-action-markdown-link-check@v1
       with:
         use-verbose-mode: yes
-        config-file: "markdown_link_check_config.json"
+        config-file: .github/markdown-links.json

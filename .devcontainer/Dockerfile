@@ -15,5 +15,8 @@ RUN rm -rf /usr/share/doc
 
 RUN /usr/bin/fish -c "curl -sL git.io/fisher | source; and fisher install jorgebucaran/{fisher,fishtape}"
 
+COPY motd /etc/motd
+COPY fish_greeting.fish /root/.config/fish/functions
+
 ENTRYPOINT ["/usr/bin/fish"]
 

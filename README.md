@@ -311,7 +311,7 @@ cd ..
 docker run --rm -it -v $(pwd):/workspaces/pond pond
 ```
 
-The projects sources will be mounted at `/workspaces/pond`, and the container will be ready for you to begin making changes:
+The project sources will be mounted at `/workspaces/pond`, and the container will be ready for you to begin making changes:
 
 ```
 ░▄▀▀▄░▄▀▀▄░█▀▀▄░█▀▄

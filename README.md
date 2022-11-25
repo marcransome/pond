@@ -296,6 +296,44 @@ function pond_create_handler --on-event pond_created --argument-names pond_name 
 end
 ```
 
+## Contributing
+
+A pre-configured [dev container](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/introduction-to-dev-containers) is provided with all of the tools necessary to contribute changes to the project. [Create a codespace](https://docs.github.com/en/codespaces/developing-in-codespaces/creating-a-codespace-for-a-repository) from the `main` branch of the repository and open a terminal window for a brief overview of where to begin:
+
+<img alt="codespace" src="images/codespace.png">
+
+Alternatively, clone the repository and build a local container image, then mount your local repository when starting a container:
+
+```shell
+cd .devcontainers
+docker build -t pond .
+cd ..
+docker run --rm -it -v $(pwd):/workspaces/pond pond
+```
+
+The projects sources will be mounted at `/workspaces/pond`, and the container will be ready for you to begin making changes:
+
+```
+░▄▀▀▄░▄▀▀▄░█▀▀▄░█▀▄
+░█▄▄█░█░░█░█░▒█░█░█  dev container
+░█░░░░░▀▀░░▀░░▀░▀▀░  rockylinux:9.0-minimal
+
+ - See CONTRIBUTING.md and CODE_OF_CONDUCT.md before contributing changes
+   to the project
+ - Install/reinstall pond in the container by running: tools/install
+ - Start the full unit test suite by running: tools/test
+ - To run individual test files, invoke fishtape directly. For example, to
+   run the 'create' command tests: fishtape tests/create.fish
+ - To update the man pages, make your changes in the docs/pond.md file then
+   regenerate the html5 and roff format files in docs/ by running: tools/gen-doc
+
+ But most of all, have fun!
+
+root@0890fd0c5306 /#
+```
+
+However you chose to work, contributions are most welcome.
+
 ## Acknowledgements
 
 * Pond icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/)

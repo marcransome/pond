@@ -1,0 +1,7 @@
+#!/usr/bin/fish
+
+cd (dirname (status --current-filename))/../docs
+
+pandoc --from markdown --to man --standalone --output pond.1 pond.md
+pandoc --from markdown --to html5 --standalone --output pond.html pond.md
+

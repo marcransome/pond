@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Fetch repository history for access to tags in tests
-        run: git fetch --prune --unshallow --tags
+        run: git fetch --prune --unshallow --tags --force
       - name: Install fish shell
         uses: fish-actions/install-fish@v1
       - name: Install pond

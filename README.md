@@ -332,7 +332,7 @@ The project sources will be mounted at `/workspaces/pond`, and the container wil
 root@0890fd0c5306 /#
 ```
 
-However you chose to work, contributions are most welcome.
+However you choose to work, contributions are most welcome.
 
 ## Acknowledgements
 

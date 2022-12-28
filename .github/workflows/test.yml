@@ -38,7 +38,6 @@ jobs:
         uses: fish-shop/run-fishtape-tests@v1
         with:
           pattern: tests/**.fish
-          raw-output: 'true'
   install:
     strategy:
       matrix:

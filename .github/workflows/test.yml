@@ -35,7 +35,7 @@ jobs:
           plugin-manager: fisher
           plugins: (pwd)
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@raw-output
+        uses: fish-shop/run-fishtape-tests@v1
         with:
           pattern: tests/**.fish
           raw-output: 'true'

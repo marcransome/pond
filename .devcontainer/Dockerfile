@@ -6,7 +6,7 @@ RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && \
 
 RUN microdnf update -y \
   && microdnf install -y epel-release \
-  && microdnf install -y fish npm git curl vim tar pandoc \
+  && microdnf install -y fish npm git curl vim tar pandoc findutils \
   && microdnf clean all -y
 
 RUN npm install -g tap-diff

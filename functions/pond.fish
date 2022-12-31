@@ -1,5 +1,5 @@
 function pond -a command -d "A fish shell environment manager"
-    set -g pond_version 2.3.0
+    set -g pond_version 2.3.1
 
     function __pond_usage
         echo "\
@@ -504,8 +504,10 @@ Usage:
             end
         end
 
-        if test (rm -rf $pond_path/* >/dev/null 2>&1) $status -ne 0
-            __pond_show_error "Unable to drain pond: $pond_name"; and return 1
+        if test (count $pond_path/*) -ne 0
+            if test (rm -rf $pond_path/* >/dev/null 2>&1) $status -ne 0
+                __pond_show_error "Unable to drain pond: $pond_name"; and return 1
+            end
         end
 
         echo "Drained pond: $pond_name"
@@ -697,7 +699,6 @@ Usage:
                     __pond_cleanup; and return $exit_code
                 end
             end
-
         case load
             if test (count $argv) -eq 0; __pond_load_command_usage; and __pond_cleanup; and return 1; end
 

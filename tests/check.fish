@@ -12,25 +12,25 @@ Arguments:
 set not_exists_error (__pond_error_string "Pond does not exist: no-exist")
 
 function __pond_syntax_success_string_autoload -a pond_name
-    echo -n "  "; set_color green; and echo -n "✔"; and set_color normal; and echo " "{$pond_name}_autoload.fish;
+    echo -n "  "; and set_color green; and echo -n "✔"; and set_color normal; and echo " "{$pond_name}_autoload.fish
 end
 
 function __pond_syntax_success_string_autounload -a pond_name
-    echo -n "  "; set_color green; and echo -n "✔"; and set_color normal; and echo " "{$pond_name}_autounload.fish;
+    echo -n "  "; and set_color green; and echo -n "✔"; and set_color normal; and echo " "{$pond_name}_autounload.fish
 end
 
 function __pond_syntax_failure_string_autoload -a pond_name
-    echo -n "  "; set_color red; and echo -n "✖"; and set_color normal; and echo " "{$pond_name}_autoload.fish;
+    echo -n "  "; and set_color red; and echo -n "✖"; and set_color normal; and echo " "{$pond_name}_autoload.fish
 end
 
 function __pond_syntax_failure_string_autounload -a pond_name
-    echo -n "  "; set_color red; and echo -n "✖"; and set_color normal; and echo " "{$pond_name}_autounload.fish;
+    echo -n "  "; and set_color red; and echo -n "✖"; and set_color normal; and echo " "{$pond_name}_autounload.fish
 end
 
 function __pond_syntax_totals_string -a passed failed total
-    set_color green; and echo -n "passed: $passed";
-    and set_color normal; and echo -n "  ";
-    and set_color red; and echo -n "failed: $failed";
+    set_color green; and echo -n "passed: $passed"
+    and set_color normal; and echo -n "  "
+    and set_color red; and echo -n "failed: $failed"
     and set_color normal; and echo "  of $total functions"
 end
 
@@ -79,10 +79,10 @@ __pond_tear_down
 
 __pond_setup 1 enabled loaded populated
 @echo "pond check: failure tests for single pond with invalid autoload/autounload functions"
-echo "end" > $pond_home/$pond_name/{$pond_name}_autoload.fish
-echo "end" > $pond_home/$pond_name/{$pond_name}_autounload.fish
-@test "setup: invalid autoload function definition" (cat $pond_home/$pond_name/{$pond_name}_autoload.fish | string collect) = "end"
-@test "setup: invalid autounload function definition" (cat $pond_home/$pond_name/{$pond_name}_autounload.fish | string collect) = "end"
+echo end >$pond_home/$pond_name/{$pond_name}_autoload.fish
+echo end >$pond_home/$pond_name/{$pond_name}_autounload.fish
+@test "setup: invalid autoload function definition" (cat $pond_home/$pond_name/{$pond_name}_autoload.fish | string collect) = end
+@test "setup: invalid autounload function definition" (cat $pond_home/$pond_name/{$pond_name}_autounload.fish | string collect) = end
 @test "pond check: failure exit code" (pond check $pond_name >/dev/null 2>&1) $status -eq $failure
 
 @echo "pond check: failure output tests for single pond with invalid autoload/autounload functions"
@@ -99,10 +99,10 @@ __pond_tear_down
 
 __pond_setup 3 enabled loaded populated
 @echo "pond check: failure tests for multiple ponds with invalid autoload/autounload functions"
-echo "end" > $pond_home/$pond_name_prefix-1/{$pond_name_prefix-1}_autoload.fish
-echo "end" > $pond_home/$pond_name_prefix-1/{$pond_name_prefix-1}_autounload.fish
-@test "setup: $pond_name_prefix-1 invalid autoload function definition" (cat $pond_home/$pond_name_prefix-1/{$pond_name_prefix-1}_autoload.fish | string collect) = "end"
-@test "setup: $pond_name_prefix-1 invalid autounload function definition" (cat $pond_home/$pond_name_prefix-1/{$pond_name_prefix-1}_autounload.fish | string collect) = "end"
+echo end >$pond_home/$pond_name_prefix-1/{$pond_name_prefix-1}_autoload.fish
+echo end >$pond_home/$pond_name_prefix-1/{$pond_name_prefix-1}_autounload.fish
+@test "setup: $pond_name_prefix-1 invalid autoload function definition" (cat $pond_home/$pond_name_prefix-1/{$pond_name_prefix-1}_autoload.fish | string collect) = end
+@test "setup: $pond_name_prefix-1 invalid autounload function definition" (cat $pond_home/$pond_name_prefix-1/{$pond_name_prefix-1}_autounload.fish | string collect) = end
 @test "pond check: failure exit code" (pond check $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 >/dev/null 2>&1) $status -eq $failure
 
 @echo "pond check: failure output tests for multiple ponds with invalid autoload/autounload functions"

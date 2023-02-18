@@ -2,33 +2,33 @@ function __pond_autoload_populate -a pond_name
     set -l pond_autoload_function {$pond_name}_{$pond_autoload_suffix}
     set -l pond_autoload_file $pond_home/$pond_name/$pond_autoload_function.fish
 
-    echo -e "function $pond_autoload_function\n\nend" >> $pond_autoload_file
+    echo -e "function $pond_autoload_function\n\nend" >>$pond_autoload_file
 end
 
 function __pond_autounload_populate -a pond_name
     set -l pond_autounload_function {$pond_name}_{$pond_autounload_suffix}
     set -l pond_autounload_file $pond_home/$pond_name/$pond_autounload_function.fish
 
-    echo -e "function $pond_autounload_function\n\nend" >> $pond_autounload_file
+    echo -e "function $pond_autounload_function\n\nend" >>$pond_autounload_file
 end
 
 function __pond_setup -a pond_count pond_enabled_state pond_loaded_state pond_data
     for pond_name in $pond_name_prefix-(seq $pond_count)
         mkdir -p $pond_home/$pond_name
 
-        if test "$pond_enabled_state" = "enabled"
-             set -U -a pond_function_path $pond_home/$pond_name
+        if test "$pond_enabled_state" = enabled
+            set -U -a pond_function_path $pond_home/$pond_name
         else
             __pond_disable $pond_name
         end
 
-        if test "$pond_loaded_state" = "loaded"
-             set -g -a fish_function_path $pond_home/$pond_name
+        if test "$pond_loaded_state" = loaded
+            set -g -a fish_function_path $pond_home/$pond_name
         else
             __pond_unload $pond_name
         end
 
-        if test "$pond_data" = "populated"
+        if test "$pond_data" = populated
             __pond_autoload_populate $pond_name
             __pond_autounload_populate $pond_name
         end

@@ -198,11 +198,11 @@ Usage:
             __pond_show_error "Failed to create pond directory: $pond_path"; and return 1
         end
 
-        if test "$pond_enable_on_create" = "yes"
+        if test "$pond_enable_on_create" = yes
             set -U -a pond_function_path $pond_path
         end
 
-        if test "$pond_load_on_create" = "yes"
+        if test "$pond_load_on_create" = yes
             set -a fish_function_path $pond_path
         end
 
@@ -253,7 +253,7 @@ Usage:
     function __pond_remove_operation -a pond_name
         set -l pond_path $pond_home/$pond_name
 
-        if test "$pond_auto_accept" != "yes"
+        if test "$pond_auto_accept" != yes
             read --prompt-str "Remove pond: $pond_name? " answer
             if ! string length -q $answer; or ! string match -i -r '^(y|yes)$' -q $answer
                 return 0
@@ -285,7 +285,7 @@ Usage:
         for pond_path in $pond_home/*
             set -l pond_short_name (basename $pond_path)
 
-            if test "$pond_list_enabled" = "yes"
+            if test "$pond_list_enabled" = yes
                 if contains $pond_path $pond_function_path
                     set -a pond_matches $pond_short_name
                     set pond_count (math $pond_count + 1)
@@ -293,7 +293,7 @@ Usage:
                 end
             end
 
-            if test "$pond_list_disabled" = "yes"
+            if test "$pond_list_disabled" = yes
                 if not contains $pond_path $pond_function_path
                     set -a pond_matches $pond_short_name
                     set pond_count (math $pond_count + 1)
@@ -301,7 +301,7 @@ Usage:
                 end
             end
 
-            if test "$pond_list_loaded" = "yes"
+            if test "$pond_list_loaded" = yes
                 if contains $pond_path $fish_function_path
                     set -a pond_matches $pond_short_name
                     set pond_count (math $pond_count + 1)
@@ -309,7 +309,7 @@ Usage:
                 end
             end
 
-            if test "$pond_list_unloaded" = "yes"
+            if test "$pond_list_unloaded" = yes
                 if not contains $pond_path $fish_function_path
                     set -a pond_matches $pond_short_name
                     set pond_count (math $pond_count + 1)
@@ -328,7 +328,7 @@ Usage:
     end
 
     function __pond_enable_operation -a pond_name
-        set -l pond_path  $pond_home/$pond_name
+        set -l pond_path $pond_home/$pond_name
 
         if contains $pond_path $pond_function_path
             __pond_show_error "Pond already enabled: $pond_name"; and return 1
@@ -497,7 +497,7 @@ Usage:
     function __pond_drain_operation -a pond_name
         set -l pond_path $pond_home/$pond_name
 
-        if test "$pond_auto_accept" != "yes"
+        if test "$pond_auto_accept" != yes
             read --prompt-str "Drain pond: $pond_name? " answer
             if ! string length -q $answer; or ! string match -i -r '^(y|yes)$' -q $answer
                 return 0
@@ -583,12 +583,16 @@ Usage:
 
     switch $command
         case -v --version
-            if test (count $argv) -ne 0; __pond_usage; and __pond_cleanup; and return 1; end
+            if test (count $argv) -ne 0
+                __pond_usage; and __pond_cleanup; and return 1
+            end
             echo "pond $pond_version ("(uname -s) (uname -m)")"
         case '' -h --help
             __pond_usage
         case create
-            if test (count $argv) -eq 0; __pond_create_command_usage; and __pond_cleanup; and return 1; end
+            if test (count $argv) -eq 0
+                __pond_create_command_usage; and __pond_cleanup; and return 1
+            end
 
             for pond_name in $argv
                 if ! __pond_name_is_valid "$pond_name"
@@ -608,14 +612,16 @@ Usage:
                 end
             end
         case remove
-            if ! argparse 'y/yes' >/dev/null 2>&1 -- $argv
+            if ! argparse y/yes >/dev/null 2>&1 -- $argv
                 __pond_remove_command_usage
                 __pond_cleanup; and return 1
             end
 
             set -q _flag_yes; and set pond_auto_accept yes
 
-            if test (count $argv) -eq 0; __pond_remove_command_usage; and __pond_cleanup; and return 1; end
+            if test (count $argv) -eq 0
+                __pond_remove_command_usage; and __pond_cleanup; and return 1
+            end
 
             for pond_name in $argv
                 if ! __pond_name_is_valid "$pond_name"
@@ -641,12 +647,14 @@ Usage:
             set -l pond_list_unloaded yes
 
             if test (count $argv) -gt 0
-                if ! argparse 'e/enabled' 'd/disabled' 'l/loaded' 'u/unloaded' >/dev/null 2>&1 -- $argv
+                if ! argparse e/enabled d/disabled l/loaded u/unloaded >/dev/null 2>&1 -- $argv
                     __pond_list_command_usage
                     __pond_cleanup; and return 1
                 end
 
-                if test (count $argv) -ne 0; __pond_list_command_usage; and __pond_cleanup; and return 1; end
+                if test (count $argv) -ne 0
+                    __pond_list_command_usage; and __pond_cleanup; and return 1
+                end
 
                 if set -q _flag_enabled; or set -q _flag_disabled; or set -q _flag_loaded; or set -q _flag_unloaded
                     set -q _flag_enabled; and set pond_list_enabled yes; or set pond_list_enabled no
@@ -660,7 +668,9 @@ Usage:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case enable
-            if test (count $argv) -eq 0; __pond_enable_command_usage; and __pond_cleanup; and return 1; end
+            if test (count $argv) -eq 0
+                __pond_enable_command_usage; and __pond_cleanup; and return 1
+            end
 
             for pond_name in $argv
                 if ! __pond_name_is_valid "$pond_name"
@@ -680,7 +690,9 @@ Usage:
                 end
             end
         case disable
-            if test (count $argv) -eq 0; __pond_disable_command_usage; and __pond_cleanup; and return 1; end
+            if test (count $argv) -eq 0
+                __pond_disable_command_usage; and __pond_cleanup; and return 1
+            end
 
             for pond_name in $argv
                 if ! __pond_name_is_valid "$pond_name"
@@ -700,7 +712,9 @@ Usage:
                 end
             end
         case load
-            if test (count $argv) -eq 0; __pond_load_command_usage; and __pond_cleanup; and return 1; end
+            if test (count $argv) -eq 0
+                __pond_load_command_usage; and __pond_cleanup; and return 1
+            end
 
             for pond_name in $argv
                 if ! __pond_name_is_valid "$pond_name"
@@ -720,7 +734,9 @@ Usage:
                 end
             end
         case unload
-            if test (count $argv) -eq 0; __pond_unload_command_usage; and __pond_cleanup; and return 1; end
+            if test (count $argv) -eq 0
+                __pond_unload_command_usage; and __pond_cleanup; and return 1
+            end
 
             for pond_name in $argv
                 if ! __pond_name_is_valid "$pond_name"
@@ -764,7 +780,9 @@ Usage:
                 end
             end
         case check
-            if test (count $argv) -eq 0; __pond_check_command_usage; and __pond_cleanup; and return 1; end
+            if test (count $argv) -eq 0
+                __pond_check_command_usage; and __pond_cleanup; and return 1
+            end
 
             for pond_name in $argv
                 if ! __pond_name_is_valid "$pond_name"
@@ -784,14 +802,16 @@ Usage:
                 end
             end
         case drain
-            if ! argparse 'y/yes' >/dev/null 2>&1 -- $argv
+            if ! argparse y/yes >/dev/null 2>&1 -- $argv
                 __pond_drain_command_usage
                 __pond_cleanup; and return 1
             end
 
             set -q _flag_yes; and set pond_auto_accept yes
 
-            if test (count $argv) -eq 0; __pond_drain_command_usage; and __pond_cleanup; and return 1; end
+            if test (count $argv) -eq 0
+                __pond_drain_command_usage; and __pond_cleanup; and return 1
+            end
 
             for pond_name in $argv
                 if ! __pond_name_is_valid "$pond_name"
@@ -860,7 +880,9 @@ Usage:
             set -l exit_code $status
             __pond_cleanup; and return $exit_code
         case config
-            if test (count $argv) -ne 0; __pond_config_command_usage; and __pond_cleanup; and return 1; end
+            if test (count $argv) -ne 0
+                __pond_config_command_usage; and __pond_cleanup; and return 1
+            end
 
             __pond_config_operation
             set -l exit_code $status

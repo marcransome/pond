@@ -28,9 +28,9 @@ end
 
 @echo "pond create $pond_name: success tests for single enabled pond"
 set -gx pond_enable_on_create yes
-@test "setup: pond_enable_on_create set to 'yes'" (echo $pond_enable_on_create) = "yes"
+@test "setup: pond_enable_on_create set to 'yes'" (echo $pond_enable_on_create) = yes
 set -gx pond_load_on_create no
-@test "setup: pond_load_on_create set to 'no'" (echo $pond_load_on_create) = "no"
+@test "setup: pond_load_on_create set to 'no'" (echo $pond_load_on_create) = no
 @test "pond create: success exit code" (pond create $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_home/$pond_name
 @test "pond create: pond enabled" (contains $pond_home/$pond_name $pond_function_path) $status -eq $success
@@ -42,9 +42,9 @@ __pond_event_reset
 
 @echo "pond create $pond_name: success tests for single loaded pond"
 set -gx pond_enable_on_create no
-@test "setup: pond_enable_on_create set to 'no'" (echo $pond_enable_on_create) = "no"
+@test "setup: pond_enable_on_create set to 'no'" (echo $pond_enable_on_create) = no
 set -gx pond_load_on_create yes
-@test "setup: pond_load_on_create set to 'yes'" (echo $pond_load_on_create) = "yes"
+@test "setup: pond_load_on_create set to 'yes'" (echo $pond_load_on_create) = yes
 @test "pond create: success exit code" (pond create $pond_name >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_home/$pond_name
 @test "pond create: pond not enabled" (not contains $pond_home/$pond_name $pond_function_path) $status -eq $success
@@ -61,9 +61,9 @@ __pond_event_reset
 
 @echo "pond create $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3: success tests for multiple enabled ponds"
 set -gx pond_enable_on_create yes
-@test "setup: pond_enable_on_create set to 'yes'" (echo $pond_enable_on_create) = "yes"
+@test "setup: pond_enable_on_create set to 'yes'" (echo $pond_enable_on_create) = yes
 set -gx pond_load_on_create no
-@test "setup: pond_load_on_create set to 'no'" (echo $pond_load_on_create) = "no"
+@test "setup: pond_load_on_create set to 'no'" (echo $pond_load_on_create) = no
 @test "pond create: success exit code" (pond create $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_home/$pond_name_prefix-1
 @test "pond create: pond directory created" -d $pond_home/$pond_name_prefix-2
@@ -81,9 +81,9 @@ __pond_event_reset
 
 @echo "pond create $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3: success tests for multiple loaded ponds"
 set -gx pond_enable_on_create no
-@test "setup: pond_enable_on_create set to 'no'" (echo $pond_enable_on_create) = "no"
+@test "setup: pond_enable_on_create set to 'no'" (echo $pond_enable_on_create) = no
 set -gx pond_load_on_create yes
-@test "setup: pond_load_on_create set to 'yes'" (echo $pond_load_on_create) = "yes"
+@test "setup: pond_load_on_create set to 'yes'" (echo $pond_load_on_create) = yes
 @test "pond create: success exit code" (pond create $pond_name_prefix-1 $pond_name_prefix-2 $pond_name_prefix-3 >/dev/null 2>&1) $status -eq $success
 @test "pond create: pond directory created" -d $pond_home/$pond_name_prefix-1
 @test "pond create: pond directory created" -d $pond_home/$pond_name_prefix-2

@@ -7,20 +7,20 @@ set -l commands "create $commands_without_options_single_pond $commands_without_
 complete -c pond -f
 
 # Complete commands if no subcommand has been given so far
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'create' -d 'Create a new pond'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'autoload' -d 'Create or edit pond autoload function'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'autounload' -d 'Create or edit pond autounload function'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'remove' -d 'Remove a pond and associated data'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'list' -d 'List ponds'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'check' -d 'Check pond functions for syntax issues'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'enable' -d 'Enable a pond for new shell sessions'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'disable' -d 'Disable a pond for new shell sessions'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'load' -d 'Load pond into current shell session'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'unload' -d 'Unload pond from current shell session'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'status' -d 'View pond status'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'drain' -d 'Drain all data from pond'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'dir' -d 'Change current working directory to pond'
-complete -c pond -n "not __fish_seen_subcommand_from $commands" -a 'config' -d 'Show configuration settings'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a create -d 'Create a new pond'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a autoload -d 'Create or edit pond autoload function'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a autounload -d 'Create or edit pond autounload function'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a remove -d 'Remove a pond and associated data'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a list -d 'List ponds'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a check -d 'Check pond functions for syntax issues'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a enable -d 'Enable a pond for new shell sessions'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a disable -d 'Disable a pond for new shell sessions'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a load -d 'Load pond into current shell session'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a unload -d 'Unload pond from current shell session'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a status -d 'View pond status'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a drain -d 'Drain all data from pond'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a dir -d 'Change current working directory to pond'
+complete -c pond -n "not __fish_seen_subcommand_from $commands" -a config -d 'Show configuration settings'
 
 # Complete options for list command
 complete -c pond -n "__fish_seen_subcommand_from list; and not __fish_seen_subcommand_from -e --enabled" -a "-e --enabled" -d "List enabled ponds"

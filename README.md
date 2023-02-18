@@ -2,7 +2,7 @@
 
 # Pond
 
-[![Tests](https://img.shields.io/github/workflow/status/marcransome/pond/tests?color=brightgreen&label=tests)](https://github.com/marcransome/pond/actions) [![Issues](https://img.shields.io/github/issues/marcransome/pond)](https://github.com/marcransome/pond/issues) [![Dependabot](https://img.shields.io/badge/dependabot-active-brightgreen.svg)](https://github.com/marcransome/pond/network/dependencies) [![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/mit-license.php) [![fish](https://img.shields.io/badge/fish-3.3.1-blue)](https://fishshell.com)
+[![Tests](https://img.shields.io/github/actions/workflow/status/marcransome/pond/test.yml?branch=main&color=brightgreen&label=tests)](https://github.com/marcransome/pond/actions) [![Issues](https://img.shields.io/github/issues/marcransome/pond)](https://github.com/marcransome/pond/issues) [![Dependabot](https://img.shields.io/badge/dependabot-active-brightgreen.svg)](https://github.com/marcransome/pond/network/dependencies) [![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/mit-license.php) [![fish](https://img.shields.io/badge/fish-3.3.1-blue)](https://fishshell.com)
 
 Pond is a shell environment manager for the [fish shell](https://fishshell.com).
 
@@ -153,7 +153,7 @@ Use the `status` command without arguments to view the global status of all pond
 
 ```console
 $ pond status
-● pond 2.3.0
+● pond 2.3.1
      Health: good
       Ponds: 1 (1 enabled; 1 loaded)
      Loaded: /root/.config/fish/pond
@@ -332,7 +332,7 @@ The project sources will be mounted at `/workspaces/pond`, and the container wil
 root@0890fd0c5306 /#
 ```
 
-However you chose to work, contributions are most welcome.
+However you choose to work, contributions are most welcome.
 
 ## Acknowledgements
 
@@ -345,4 +345,4 @@ Pond is provided under the terms of the [MIT License](https://opensource.org/lic
 
 ## Contact
 
-Email me at [marc.ransome@fidgetbox.co.uk](mailto:marc.ransome@fidgetbox.co.uk) or tweet [@marcransome](http://www.twitter.com/marcransome).
+Email me at [marc.ransome@fidgetbox.co.uk](mailto:marc.ransome@fidgetbox.co.uk) or [create an issue](https://github.com/marcransome/pond/issues).

@@ -11,6 +11,7 @@ on:
       - published
   schedule:
     - cron: "0 18 * * 1"
+  workflow_dispatch:
 jobs:
   markdown-links:
     runs-on: ubuntu-latest

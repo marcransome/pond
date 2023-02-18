@@ -9,6 +9,7 @@ on:
   release:
     types:
       - published
+  workflow_dispatch:
 jobs:
   syntax:
     runs-on: ubuntu-latest

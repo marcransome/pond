@@ -1,4 +1,4 @@
-FROM rockylinux:9.0-minimal
+FROM rockylinux:9.1-minimal
 
 ENV TIMEZONE=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && \

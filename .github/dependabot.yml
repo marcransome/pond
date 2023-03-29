@@ -8,3 +8,7 @@ updates:
       - "marcransome"
     reviewers:
       - "marcransome"
+  - package-ecosystem: "docker"
+    directory: "/.devcontainer"
+    schedule:
+      interval: "daily"

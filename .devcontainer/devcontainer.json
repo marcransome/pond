@@ -1,20 +1,20 @@
 {
   "name": "pond",
   "build": { "dockerfile": "Dockerfile" },
-  "settings": {
-    "terminal.integrated.defaultProfile.linux": "fish", 
-    "terminal.integrated.profiles.linux": {
-        "fish": {
-            "path": "/usr/bin/fish"
-        }
-    }
-  },
   "customizations": {
     "vscode": {
       "extensions": [
         "bmalehorn.vscode-fish",
         "EditorConfig.EditorConfig"
-      ]
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "fish",
+        "terminal.integrated.profiles.linux": {
+          "fish": {
+              "path": "/usr/bin/fish"
+          }
+        }
+      }
     }
   }
 }

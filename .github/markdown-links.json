@@ -1,10 +1,15 @@
 {
+  "httpHeaders": [
+    {
+      "urls": ["https://docs.github.com/"],
+      "headers": {
+        "Accept-Encoding": "zstd, br, gzip, deflate"
+      }
+    }
+  ],
   "ignorePatterns": [
     {
       "pattern": "^https://opensource.org/licenses"
-    },
-    {
-      "pattern": "^https://docs.github.com/"
     }
   ]
 }

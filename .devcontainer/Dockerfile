@@ -13,7 +13,7 @@ RUN npm install -g tap-diff
 
 RUN rm -rf /usr/share/doc
 
-RUN /usr/bin/fish -c "curl -sL git.io/fisher | source; and fisher install jorgebucaran/{fisher,fishtape}"
+RUN /usr/bin/fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source; and fisher install jorgebucaran/{fisher,fishtape}"
 
 COPY motd /etc/motd
 COPY fish_greeting.fish /root/.config/fish/functions

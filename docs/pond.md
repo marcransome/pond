@@ -107,22 +107,22 @@ See **ENVIRONMENT** for a discussion of the **pond\_editor** _universal_ variabl
 **enable** _ponds..._
 ---------------------
 
-Enable _ponds_. The path of each named pond will be added to the *\$fish\_function\_path* environment variable in new shells. Functions belonging to a pond may be autoloaded by name if a pond was enabled before the shell was created.
+Enable _ponds_. The path of each named pond will be added to the **\$fish\_function\_path** environment variable in new shells. Functions belonging to a pond may be autoloaded by name if a pond was enabled before the shell was created.
 
 **disable** _ponds..._
 ----------------------
 
-Disable _ponds_. The path of each named pond will not be added to the *\$fish\_function\_path* environment variable in new shells. Functions belonging to a pond will be inaccessible in new shells.
+Disable _ponds_. The path of each named pond will not be added to the **\$fish\_function\_path** environment variable in new shells. Functions belonging to a pond will be inaccessible in new shells.
 
 **load** _ponds..._
 -------------------
 
-Load _ponds_. The path of each named pond will be added to the *\$fish\_function\_path* environment variable in the current shell. Functions belonging to _ponds_ may be autoloaded by name in the current shell.
+Load _ponds_. The path of each named pond will be added to the **\$fish\_function\_path** environment variable in the current shell. Functions belonging to _ponds_ may be autoloaded by name in the current shell.
 
 **unload** _ponds..._
 ---------------------
 
-Unload _ponds_. The path of each named pond will be remove from the *\$fish\_function\_path* environment variable in the current shell. Functions belonging to _ponds_ will be inaccessible in the current shell.
+Unload _ponds_. The path of each named pond will be remove from the **\$fish\_function\_path** environment variable in the current shell. Functions belonging to _ponds_ will be inaccessible in the current shell.
 
 **status** [_ponds..._]
 -----------------------

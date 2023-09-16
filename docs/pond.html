@@ -213,13 +213,13 @@
 <p>If <em>pond</em> is unloaded (see <strong>unload</strong>) the function will be executed automatically. It is advisable to use the autounload function to perform cleanup of any operations present in a pond’s autoload function, if one exists. For example, unsetting environment variables that were previously set. Doing so will ensure that unloading a pond (see <strong>unload</strong>) will remove any configuration for a pond from the shell environment.</p>
 <p>See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used when this command is invoked.</p>
 <h2 id="enable-ponds"><strong>enable</strong> <em>ponds…</em></h2>
-<p>Enable <em>ponds</em>. The path of each named pond will be added to the <em>$fish_function_path</em> environment variable in new shells. Functions belonging to a pond may be autoloaded by name if a pond was enabled before the shell was created.</p>
+<p>Enable <em>ponds</em>. The path of each named pond will be added to the <strong>$fish_function_path</strong> environment variable in new shells. Functions belonging to a pond may be autoloaded by name if a pond was enabled before the shell was created.</p>
 <h2 id="disable-ponds"><strong>disable</strong> <em>ponds…</em></h2>
-<p>Disable <em>ponds</em>. The path of each named pond will not be added to the <em>$fish_function_path</em> environment variable in new shells. Functions belonging to a pond will be inaccessible in new shells.</p>
+<p>Disable <em>ponds</em>. The path of each named pond will not be added to the <strong>$fish_function_path</strong> environment variable in new shells. Functions belonging to a pond will be inaccessible in new shells.</p>
 <h2 id="load-ponds"><strong>load</strong> <em>ponds…</em></h2>
-<p>Load <em>ponds</em>. The path of each named pond will be added to the <em>$fish_function_path</em> environment variable in the current shell. Functions belonging to <em>ponds</em> may be autoloaded by name in the current shell.</p>
+<p>Load <em>ponds</em>. The path of each named pond will be added to the <strong>$fish_function_path</strong> environment variable in the current shell. Functions belonging to <em>ponds</em> may be autoloaded by name in the current shell.</p>
 <h2 id="unload-ponds"><strong>unload</strong> <em>ponds…</em></h2>
-<p>Unload <em>ponds</em>. The path of each named pond will be remove from the <em>$fish_function_path</em> environment variable in the current shell. Functions belonging to <em>ponds</em> will be inaccessible in the current shell.</p>
+<p>Unload <em>ponds</em>. The path of each named pond will be remove from the <strong>$fish_function_path</strong> environment variable in the current shell. Functions belonging to <em>ponds</em> will be inaccessible in the current shell.</p>
 <h2 id="status-ponds"><strong>status</strong> [<em>ponds…</em>]</h2>
 <p>View global status (without arguments) or status of the specified <em>ponds</em>.</p>
 <p>The global status output includes a visual representation of the overall health of all ponds in the form of a leading dot symbol. The dot is coloured green or red to indicate the absence or presence of syntax issues in functions belonging to any ponds. This is followed by the version number of the pond command and a number of additional fields:</p>

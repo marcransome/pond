@@ -43,7 +43,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        plugin-manager: [fisher, oh-my-fish, plug.fish]
+        plugin-manager: [fisher, plug.fish]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4

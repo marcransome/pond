@@ -283,7 +283,7 @@ Usage:
         set -l pond_matches
 
         for pond_path in $pond_home/*
-            set -l pond_short_name (basename $pond_path)
+            set -l pond_short_name (path basename $pond_path)
 
             if test "$pond_list_enabled" = yes
                 if contains $pond_path $pond_function_path
@@ -415,17 +415,17 @@ Usage:
         if test (count $pond_dirs) -gt 0
             for pond_dir in $pond_dirs[..-2]
                 if contains (string sub -e -1 $pond_dir) $fish_function_path
-                    echo $pond_load_padding├─(set_color green)$pond_load_indicator(set_color normal) (basename $pond_dir)
+                    echo $pond_load_padding├─(set_color green)$pond_load_indicator(set_color normal) (path basename $pond_dir)
                 else
-                    echo $pond_load_padding├─(set_color 8a8a8a brblack)$pond_load_indicator (basename $pond_dir)(set_color normal)
+                    echo $pond_load_padding├─(set_color 8a8a8a brblack)$pond_load_indicator (path basename $pond_dir)(set_color normal)
                 end
             end
 
             for pond_dir in $pond_dirs[-1]
                 if contains (string sub -e -1 $pond_dirs[-1]) $fish_function_path
-                    echo $pond_load_padding└─(set_color green)$pond_load_indicator(set_color normal) (basename $pond_dirs[-1])
+                    echo $pond_load_padding└─(set_color green)$pond_load_indicator(set_color normal) (path basename $pond_dirs[-1])
                 else
-                    echo $pond_load_padding└─(set_color 8a8a8a brblack)$pond_load_indicator (basename $pond_dirs[-1])(set_color normal)
+                    echo $pond_load_padding└─(set_color 8a8a8a brblack)$pond_load_indicator (path basename $pond_dirs[-1])(set_color normal)
                 end
             end
         else
@@ -479,7 +479,7 @@ Usage:
                 set failures (math $failures + 1)
             end
 
-            echo " "(basename $pond_function)
+            echo " "(path basename $pond_function)
         end
 
         set -l total (math $passes + $failures)

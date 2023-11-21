@@ -31,7 +31,7 @@ jobs:
       - name: Install fish shell
         uses: fish-actions/install-fish@v1
       - name: Install pond
-        uses: fish-shop/install-plugin@v1
+        uses: fish-shop/install-plugin@v2
         with:
           plugin-manager: fisher
           plugins: (pwd)
@@ -50,7 +50,7 @@ jobs:
       - name: Install fish shell
         uses: fish-actions/install-fish@v1
       - name: Install pond using ${{ matrix.plugin-manager }}
-        uses: fish-shop/install-plugin@v1
+        uses: fish-shop/install-plugin@v2
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
           plugins: (pwd)

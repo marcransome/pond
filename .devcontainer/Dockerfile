@@ -1,4 +1,4 @@
-ARG BASE_IMAGE_VERSION=9.2-minimal
+ARG BASE_IMAGE_VERSION=9.3-minimal
 FROM rockylinux:${BASE_IMAGE_VERSION}
 
 ENV TIMEZONE=Europe/London
@@ -7,7 +7,10 @@ RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && \
 
 RUN microdnf update -y \
   && microdnf install -y epel-release \
-  && microdnf install -y fish npm git curl vim tar pandoc findutils \
+  && microdnf install -y npm git curl vim tar pandoc findutils \
+  && cd /etc/yum.repos.d \
+  && curl -O -L https://download.opensuse.org/repositories/shells:fish:release:3/CentOS_8/shells:fish:release:3.repo \
+  && microdnf install -y fish \
   && microdnf clean all -y
 
 RUN npm install -g tap-diff

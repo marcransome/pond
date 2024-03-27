@@ -38,7 +38,7 @@ jobs:
           plugin-manager: fisher
           plugins: (pwd)
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@7ece9be50a2ee1fb3530cff958fb07a935d55ff2 # v1.4.2
+        uses: fish-shop/run-fishtape-tests@aaa66d1e61ba0fcffb10b39b74ac40f837f8f2a1 # v1.4.3
         with:
           pattern: tests/**.fish
   install:

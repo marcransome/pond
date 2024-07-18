@@ -33,7 +33,7 @@ jobs:
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@d00909f23ad6c123a1a0e3c056d77dd9305b9daf # v1.0.6
       - name: Install pond
-        uses: fish-shop/install-plugin@85ba3543a365d40ab5e15c74c89498dbb414e432 # v2.2.8
+        uses: fish-shop/install-plugin@fda0e77e60b2ace5efd7115800dc1ef9b4111f6c # v2.2.9
         with:
           plugin-manager: fisher
           plugins: (pwd)
@@ -53,7 +53,7 @@ jobs:
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@d00909f23ad6c123a1a0e3c056d77dd9305b9daf # v1.0.6
       - name: Install pond using ${{ matrix.plugin-manager }}
-        uses: fish-shop/install-plugin@85ba3543a365d40ab5e15c74c89498dbb414e432 # v2.2.8
+        uses: fish-shop/install-plugin@fda0e77e60b2ace5efd7115800dc1ef9b4111f6c # v2.2.9
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
           plugins: (pwd)

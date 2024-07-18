@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@d00909f23ad6c123a1a0e3c056d77dd9305b9daf # v1.0.6
+        uses: fish-shop/install-fish-shell@5becbaf2d281dbd666395dafd55fc9d269866204 # v1.0.7
       - name: Syntax check fish files
         uses: fish-shop/syntax-check@v1
   tests:
@@ -31,7 +31,7 @@ jobs:
       - name: Fetch repository history for access to tags in tests
         run: git fetch --prune --unshallow --tags --force
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@d00909f23ad6c123a1a0e3c056d77dd9305b9daf # v1.0.6
+        uses: fish-shop/install-fish-shell@5becbaf2d281dbd666395dafd55fc9d269866204 # v1.0.7
       - name: Install pond
         uses: fish-shop/install-plugin@85ba3543a365d40ab5e15c74c89498dbb414e432 # v2.2.8
         with:
@@ -51,7 +51,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@d00909f23ad6c123a1a0e3c056d77dd9305b9daf # v1.0.6
+        uses: fish-shop/install-fish-shell@5becbaf2d281dbd666395dafd55fc9d269866204 # v1.0.7
       - name: Install pond using ${{ matrix.plugin-manager }}
         uses: fish-shop/install-plugin@85ba3543a365d40ab5e15c74c89498dbb414e432 # v2.2.8
         with:

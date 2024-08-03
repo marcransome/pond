@@ -14,9 +14,10 @@ jobs:
   syntax:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Install fish shell
-        uses: fish-actions/install-fish@v1
+        uses: fish-shop/install-fish-shell@81b9ed7df3410232158bb4da19425637d9e6f455 # v1.0.10
       - name: Syntax check fish files
         uses: fish-shop/syntax-check@v1
   tests:
@@ -25,18 +26,19 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Fetch repository history for access to tags in tests
         run: git fetch --prune --unshallow --tags --force
       - name: Install fish shell
-        uses: fish-actions/install-fish@v1
+        uses: fish-shop/install-fish-shell@81b9ed7df3410232158bb4da19425637d9e6f455 # v1.0.10
       - name: Install pond
-        uses: fish-shop/install-plugin@v2
+        uses: fish-shop/install-plugin@6b841c19617c8dcb06d31d8d1ad4c7a549488c4e # v2.2.14
         with:
           plugin-manager: fisher
           plugins: (pwd)
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@v1
+        uses: fish-shop/run-fishtape-tests@f761f39f9575c4194515c931c375caa2d775c46f # v1.5.14
         with:
           pattern: tests/**.fish
   install:
@@ -46,11 +48,12 @@ jobs:
         plugin-manager: [fisher, oh-my-fish]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Install fish shell
-        uses: fish-actions/install-fish@v1
+        uses: fish-shop/install-fish-shell@81b9ed7df3410232158bb4da19425637d9e6f455 # v1.0.10
       - name: Install pond using ${{ matrix.plugin-manager }}
-        uses: fish-shop/install-plugin@v2
+        uses: fish-shop/install-plugin@6b841c19617c8dcb06d31d8d1ad4c7a549488c4e # v2.2.14
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
           plugins: (pwd)

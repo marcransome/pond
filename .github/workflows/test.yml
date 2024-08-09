@@ -19,7 +19,7 @@ jobs:
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@71e42122c25804f971f89857d700c68a7efb3855 # v1.0.11
       - name: Syntax check fish files
-        uses: fish-shop/syntax-check@v1
+        uses: fish-shop/syntax-check@v2
   tests:
     strategy:
       matrix:

@@ -38,9 +38,9 @@ jobs:
           plugin-manager: fisher
           plugins: ${{ github.workspace }}
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@1eab61ecc5ee2fc265377e805b4e3c3b10ba5e6a # v1.5.17
+        uses: fish-shop/run-fishtape-tests@7a2d5ada1a5934c270c02ffdb971fd2f38552266 # v2.0.0
         with:
-          pattern: tests/**.fish
+          patterns: tests/**.fish
   install:
     strategy:
       matrix:

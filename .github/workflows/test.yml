@@ -36,7 +36,7 @@ jobs:
         uses: fish-shop/install-plugin@9b1d802d389c0226fe523ef0d214f3e50ec31087 # v2.3.1
         with:
           plugin-manager: fisher
-          plugins: (pwd)
+          plugins: ${{ github.workspace }}
       - name: Run Fishtape tests
         uses: fish-shop/run-fishtape-tests@1eab61ecc5ee2fc265377e805b4e3c3b10ba5e6a # v1.5.17
         with:
@@ -56,7 +56,7 @@ jobs:
         uses: fish-shop/install-plugin@9b1d802d389c0226fe523ef0d214f3e50ec31087 # v2.3.1
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
-          plugins: (pwd)
+          plugins: ${{ github.workspace }}
       - name: Check pond is installed
         run: functions -q pond
         shell: fish {0}

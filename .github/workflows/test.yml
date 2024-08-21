@@ -17,9 +17,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@71e42122c25804f971f89857d700c68a7efb3855 # v1.0.11
+        uses: fish-shop/install-fish-shell@720ad65b07b693d9332d73aaf811502196c1efb8 # v1.0.12
       - name: Syntax check fish files
-        uses: fish-shop/syntax-check@c2cb11395e21119ff8d6e7ea050430ee7d6f49ca # v2.0.0
+        uses: fish-shop/syntax-check@c8f871e9cf039810360c80e4c07f9b2c598baaa6 # v2.0.1
   tests:
     strategy:
       matrix:
@@ -31,14 +31,14 @@ jobs:
       - name: Fetch repository history for access to tags in tests
         run: git fetch --prune --unshallow --tags --force
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@71e42122c25804f971f89857d700c68a7efb3855 # v1.0.11
+        uses: fish-shop/install-fish-shell@720ad65b07b693d9332d73aaf811502196c1efb8 # v1.0.12
       - name: Install pond
-        uses: fish-shop/install-plugin@9b1d802d389c0226fe523ef0d214f3e50ec31087 # v2.3.1
+        uses: fish-shop/install-plugin@02f698ac752778153f33d90a19ff07e6c49fca23 # v2.3.2
         with:
           plugin-manager: fisher
           plugins: ${{ github.workspace }}
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@7a2d5ada1a5934c270c02ffdb971fd2f38552266 # v2.0.0
+        uses: fish-shop/run-fishtape-tests@e0a18c9a4d27a12377c62b29e16c379c71155e51 # v2.0.1
         with:
           patterns: tests/**.fish
   install:
@@ -51,9 +51,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@71e42122c25804f971f89857d700c68a7efb3855 # v1.0.11
+        uses: fish-shop/install-fish-shell@720ad65b07b693d9332d73aaf811502196c1efb8 # v1.0.12
       - name: Install pond using ${{ matrix.plugin-manager }}
-        uses: fish-shop/install-plugin@9b1d802d389c0226fe523ef0d214f3e50ec31087 # v2.3.1
+        uses: fish-shop/install-plugin@02f698ac752778153f33d90a19ff07e6c49fca23 # v2.3.2
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
           plugins: ${{ github.workspace }}

@@ -20,8 +20,6 @@ jobs:
         uses: fish-shop/install-fish-shell@71e42122c25804f971f89857d700c68a7efb3855 # v1.0.11
       - name: Check indentation
         uses: fish-shop/indent-check@01384bd3f3a949f5ede6ecece830993249f0a0b8 # v1.0.0
-        with:
-          patterns: '{conf.d,completions,hooks,functions,tests}/**.fish'
   syntax:
     runs-on: ubuntu-latest
     steps:

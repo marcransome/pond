@@ -21,7 +21,7 @@ jobs:
       - name: Check indentation
         uses: fish-shop/indent-check@action-implementation
         with:
-          patterns: src/**.fish tests/**.fish
+          patterns: '{conf.d,completions,hooks,functions,tests}/**.fish'
   syntax:
     runs-on: ubuntu-latest
     steps:

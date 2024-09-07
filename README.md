@@ -12,7 +12,7 @@ Group related functions together into named _ponds_ and expose them to the shell
 
 ## Background
 
-Pond started life as a small idea: to group related shell environment variables and functions into named collections (_ponds_) and to provide a simple mechanism for controlling when those collections are loaded into the shell environment. It does this by leveraging [autoloaded functions](https://fishshell.com/docs/current/index.html#autoloading-functions) as a means of encapsulating environment configuration and provides a simple set of subcommands to manage such configuration.
+Pond started life as a small idea: to group related shell environment variables and functions into named collections (_ponds_) and to provide a simple mechanism for controlling when those collections are loaded into the shell environment. It does this by leveraging [autoloaded functions](https://fishshell.com/docs/current/language.html#autoloading-functions) as a means of encapsulating environment configuration and provides a simple set of subcommands to manage such configuration.
 
 ## Installation
 
@@ -270,7 +270,7 @@ As an alternative to installing the man page, [view the latest version of the ma
 
 ## Event handlers
 
-Pond emits events for many successful operations. Setup an [event handler](https://fishshell.com/docs/current/index.html#event) to repond to such events with your own code:
+Pond emits events for many successful operations. Setup an [event handler](https://fishshell.com/docs/current/language.html#event-handlers) to repond to such events with your own code:
 
 Event name      | Description                     | Arguments
 --------------- | --------------------------------| ----------------------------------------------

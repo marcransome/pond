@@ -4,7 +4,10 @@ source $parent/fixtures/variables.fish
 
 set command_usage "\
 Usage:
-    pond autoload <name>
+    pond autoload [options] <name>
+
+Options:
+    -s, --show  Show autoload function without opening editor
 
 Arguments:
     name  The name of the pond for which an autoload function

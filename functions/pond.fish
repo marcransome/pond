@@ -50,7 +50,10 @@ Arguments:
     function __pond_autoload_command_usage
         echo "\
 Usage:
-    pond autoload <name>
+    pond autoload [options] <name>
+
+Options:
+    -s, --show  Show autoload function without opening editor
 
 Arguments:
     name  The name of the pond for which an autoload function
@@ -62,7 +65,10 @@ Arguments:
     function __pond_autounload_command_usage
         echo "\
 Usage:
-    pond autounload <name>
+    pond autounload [options] <name>
+
+Options:
+    -s, --show  Show autounload function without opening editor
 
 Arguments:
     name  The name of the pond for which an autounload function
@@ -230,6 +236,17 @@ Usage:
         $pond_editor $pond_autoload_file
     end
 
+    function __pond_autoload_show_operation -a pond_name
+        set -l pond_path $pond_home/$pond_name
+        set -l pond_autoload_file $pond_path/{$pond_name}_{$pond_autoload_suffix}.fish
+
+        if ! test -f $pond_autoload_file
+            __pond_show_error "No autoload function in pond: $pond_name"; and return 1
+        end
+
+        cat $pond_autoload_file
+    end
+
     function __pond_autounload_operation -a pond_name
         set -l pond_path $pond_home/$pond_name
         set -l pond_autounload_file $pond_path/{$pond_name}_{$pond_autounload_suffix}.fish
@@ -248,6 +265,17 @@ Usage:
         end
 
         $pond_editor $pond_autounload_file
+    end
+
+    function __pond_autounload_show_operation -a pond_name
+        set -l pond_path $pond_home/$pond_name
+        set -l pond_autounload_file $pond_path/{$pond_name}_{$pond_autounload_suffix}.fish
+
+        if ! test -f $pond_autounload_file
+            __pond_show_error "No autounload function in pond: $pond_name"; and return 1
+        end
+
+        cat $pond_autounload_file
     end
 
     function __pond_remove_operation -a pond_name
@@ -831,13 +859,17 @@ Usage:
                 end
             end
         case autoload
-            set -l pond_name $argv[-1]
-            set argv $argv[1..-2]
-
-            if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"
+            if ! argparse s/show >/dev/null 2>&1 -- $argv
                 __pond_autoload_command_usage
                 __pond_cleanup; and return 1
             end
+
+            if test (count $argv) -eq 0
+                __pond_autoload_command_usage; and __pond_cleanup; and return 1
+            end
+
+            set -l pond_name $argv[-1]
+            set argv $argv[1..-2]
 
             if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"; or test (count $argv) -ne 0
                 __pond_autoload_command_usage; and __pond_cleanup; and return 1
@@ -845,17 +877,27 @@ Usage:
                 __pond_show_not_exists_error $pond_name; and __pond_cleanup; and return 1
             end
 
-            __pond_autoload_operation $pond_name
-            set -l exit_code $status
-            __pond_cleanup; and return $exit_code
+            if set -q _flag_show
+                __pond_autoload_show_operation $pond_name
+                set -l exit_code $status
+                __pond_cleanup; and return $exit_code
+            else
+                __pond_autoload_operation $pond_name
+                set -l exit_code $status
+                __pond_cleanup; and return $exit_code
+            end
         case autounload
-            set -l pond_name $argv[-1]
-            set argv $argv[1..-2]
-
-            if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"
+            if ! argparse s/show >/dev/null 2>&1 -- $argv
                 __pond_autounload_command_usage
                 __pond_cleanup; and return 1
             end
+
+            if test (count $argv) -eq 0
+                __pond_autounload_command_usage; and __pond_cleanup; and return 1
+            end
+
+            set -l pond_name $argv[-1]
+            set argv $argv[1..-2]
 
             if test -z "$pond_name"; or ! __pond_name_is_valid "$pond_name"; or test (count $argv) -ne 0
                 __pond_autounload_command_usage; and __pond_cleanup; and return 1
@@ -863,9 +905,15 @@ Usage:
                 __pond_show_not_exists_error $pond_name; and __pond_cleanup; and return 1
             end
 
-            __pond_autounload_operation $pond_name
-            set -l exit_code $status
-            __pond_cleanup; and return $exit_code
+            if set -q _flag_show
+                __pond_autounload_show_operation $pond_name
+                set -l exit_code $status
+                __pond_cleanup; and return $exit_code
+            else
+                __pond_autounload_operation $pond_name
+                set -l exit_code $status
+                __pond_cleanup; and return $exit_code
+            end
         case dir
             set -l pond_name $argv[-1]
             set argv $argv[1..-2]

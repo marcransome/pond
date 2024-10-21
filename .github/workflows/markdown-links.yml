@@ -19,7 +19,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Check links in Markdown files
-        uses: umbrelladocs/action-linkspector@04615112d3a3fa32c5d2f08feb9c34715571116a # v1.2.3
+        uses: umbrelladocs/action-linkspector@fc382e19892aca958e189954912fe379a8df270c # v1.2.4
         with:
           fail_on_error: true
           filter_mode: nofilter

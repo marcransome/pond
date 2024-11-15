@@ -28,6 +28,9 @@ Or with [Oh My Fish](https://github.com/oh-my-fish/oh-my-fish):
 $ omf install https://github.com/marcransome/pond
 ```
 
+> [!Note]
+> Oh My Fish is currently [unmaintained](https://github.com/oh-my-fish/oh-my-fish/issues/947). Future updates may remove support for this plugin manager.
+
 ### Creating ponds
 
 Create an empty pond using the `create` command:

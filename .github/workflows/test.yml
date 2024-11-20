@@ -19,7 +19,7 @@ jobs:
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@4f662f18997e7ae80d3d57a36e508526b0b236d1 # v1.0.31
       - name: Check indentation
-        uses: fish-shop/indent-check@f2518f68426ea197f6967c7294459cba6c875070 # v1.0.17
+        uses: fish-shop/indent-check@49c4e2c2d8afdee520a7f57f49cb9465b55ad80a # v1.0.18
   syntax:
     runs-on: ubuntu-latest
     steps:
@@ -28,7 +28,7 @@ jobs:
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@4f662f18997e7ae80d3d57a36e508526b0b236d1 # v1.0.31
       - name: Syntax check fish files
-        uses: fish-shop/syntax-check@39b039416b7a4227f506a1e0474ce81375140d33 # v2.2.18
+        uses: fish-shop/syntax-check@c857e8c84e4470d5d1dc19164c15bbbf34cd3868 # v2.2.19
   tests:
     strategy:
       matrix:
@@ -42,12 +42,12 @@ jobs:
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@4f662f18997e7ae80d3d57a36e508526b0b236d1 # v1.0.31
       - name: Install pond
-        uses: fish-shop/install-plugin@79d5562f2b251800c72be314bee334cef583057c # v2.3.20
+        uses: fish-shop/install-plugin@6a9272ca33598905b03c61c5052a28abfbc63c98 # v2.3.21
         with:
           plugin-manager: fisher
           plugins: ${{ github.workspace }}
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@7b6bf8d7c5ffd0ab0fec4590b2e7363eb2464dad # v2.3.18
+        uses: fish-shop/run-fishtape-tests@b1c25552f080f605095b69254639fdb79339d141 # v2.3.19
         with:
           patterns: tests/**.fish
   install:
@@ -62,7 +62,7 @@ jobs:
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@4f662f18997e7ae80d3d57a36e508526b0b236d1 # v1.0.31
       - name: Install pond using ${{ matrix.plugin-manager }}
-        uses: fish-shop/install-plugin@79d5562f2b251800c72be314bee334cef583057c # v2.3.20
+        uses: fish-shop/install-plugin@6a9272ca33598905b03c61c5052a28abfbc63c98 # v2.3.21
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
           plugins: ${{ github.workspace }}

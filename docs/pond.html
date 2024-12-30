@@ -4,12 +4,9 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>pond(1) Version 2.6.0 | Pond User’s Guide</title>
+  <title>pond(1) Version 2.6.1 | Pond User’s Guide</title>
   <style>
     html {
-      line-height: 1.5;
-      font-family: Georgia, serif;
-      font-size: 20px;
       color: #1a1a1a;
       background-color: #fdfdfd;
     }
@@ -21,17 +18,23 @@
       padding-top: 50px;
       padding-bottom: 50px;
       hyphens: auto;
-      word-wrap: break-word;
+      overflow-wrap: break-word;
       text-rendering: optimizeLegibility;
       font-kerning: normal;
     }
     @media (max-width: 600px) {
       body {
         font-size: 0.9em;
-        padding: 1em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
       }
     }
     @media print {
+      html {
+        background-color: white;
+      }
       body {
         background-color: transparent;
         color: black;
@@ -55,6 +58,10 @@
       color: #1a1a1a;
     }
     img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
       max-width: 100%;
     }
     h1, h2, h3, h4, h5, h6 {
@@ -81,9 +88,10 @@
       color: #606060;
     }
     code {
-      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
       font-size: 85%;
       margin: 0;
+      hyphens: manual;
     }
     pre {
       margin: 1em 0;
@@ -92,6 +100,7 @@
     pre code {
       padding: 0;
       overflow: visible;
+      overflow-wrap: normal;
     }
     .sourceCode {
      background-color: transparent;
@@ -133,160 +142,309 @@
     #TOC li {
       list-style: none;
     }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
     #TOC a:not(:hover) {
       text-decoration: none;
     }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">pond(1) Version 2.6.0 | Pond User’s Guide</h1>
+<h1 class="title">pond(1) Version 2.6.1 | Pond User’s Guide</h1>
 </header>
 <h1 id="name">NAME</h1>
-<p><strong>pond</strong> — a shell environment manager for the fish shell</p>
+<p><strong>pond</strong> — a shell environment manager for the fish
+shell</p>
 <h1 id="synopsis">SYNOPSIS</h1>
 <div class="line-block"><strong>pond</strong> [<em>options</em>]<br />
 <strong>pond</strong> <em>command</em> [<em>options</em>] …</div>
 <h1 id="description">DESCRIPTION</h1>
-<p>A <em>pond</em> represents a named collection of functions in the fish shell.</p>
-<p>Each pond comprises a directory containing one or more user-defined functions. Functions belonging to a pond may be <em>autoloaded</em> by name if a pond was enabled (see <strong>enable</strong>) prior to the shell being created or if the pond was loaded using the <strong>load</strong> command in the current shell.</p>
-<p>In addition to user-defined functions, two special functions (see <strong>autoload</strong> and <strong>autounload</strong>) are automatically executed if they exist. These functions are the recommended way of setting or unsetting environment variables for a pond (using <strong>set</strong>(1)).</p>
-<p>Arguments can be read from standard input when <strong>pond</strong> is used in a pipeline. For example, to remove all disabled ponds:</p>
-<p><em>Example:</em> <strong>pond list --disabled | pond remove</strong></p>
-<p>All arguments passed via standard input are appended to the arguments already present in the <strong>pond</strong> command. When used in this way, the <strong>--yes</strong> option is assumed by commands that support it, meaning user confirmation prompts will be automatically accepted for those operations (see <strong>COMMANDS</strong> to determine which commands this applies to).</p>
+<p>A <em>pond</em> represents a named collection of functions in the
+fish shell.</p>
+<p>Each pond comprises a directory containing one or more user-defined
+functions. Functions belonging to a pond may be <em>autoloaded</em> by
+name if a pond was enabled (see <strong>enable</strong>) prior to the
+shell being created or if the pond was loaded using the
+<strong>load</strong> command in the current shell.</p>
+<p>In addition to user-defined functions, two special functions (see
+<strong>autoload</strong> and <strong>autounload</strong>) are
+automatically executed if they exist. These functions are the
+recommended way of setting or unsetting environment variables for a pond
+(using <strong>set</strong>(1)).</p>
+<p>Arguments can be read from standard input when <strong>pond</strong>
+is used in a pipeline. For example, to remove all disabled ponds:</p>
+<p><em>Example:</em> <strong>pond list --disabled | pond
+remove</strong></p>
+<p>All arguments passed via standard input are appended to the arguments
+already present in the <strong>pond</strong> command. When used in this
+way, the <strong>--yes</strong> option is assumed by commands that
+support it, meaning user confirmation prompts will be automatically
+accepted for those operations (see <strong>COMMANDS</strong> to
+determine which commands this applies to).</p>
 <h2 id="options">Options</h2>
 <dl>
 <dt><strong>-h,</strong> <strong>--help</strong></dt>
-<dd><p>Print brief usage information</p>
+<dd>
+<p>Print brief usage information</p>
 </dd>
 <dt><strong>-v,</strong> <strong>--version</strong></dt>
-<dd><p>Print the current version string</p>
+<dd>
+<p>Print the current version string</p>
 </dd>
 </dl>
 <h1 id="commands">COMMANDS</h1>
 <h2 id="create-ponds"><strong>create</strong> <em>ponds…</em></h2>
-<p>Create ponds <em>ponds</em>. An empty directory will be created in <strong>$pond_home</strong> for each named pond.</p>
-<h2 id="remove--y--yes-ponds"><strong>remove</strong> [<strong>-y</strong>|<strong>--yes</strong>] <em>ponds…</em></h2>
-<p>Remove <em>ponds</em>. All pond data will be erased for each named pond. Confirmation is requested from the user for each named pond and a <strong>yes</strong> response confirms removal of the named pond. Confirmation prompts can be automatically accepted with the <strong>--yes</strong> option.</p>
+<p>Create ponds <em>ponds</em>. An empty directory will be created in
+<strong>$pond_home</strong> for each named pond.</p>
+<h2 id="remove--y--yes-ponds"><strong>remove</strong>
+[<strong>-y</strong>|<strong>--yes</strong>] <em>ponds…</em></h2>
+<p>Remove <em>ponds</em>. All pond data will be erased for each named
+pond. Confirmation is requested from the user for each named pond and a
+<strong>yes</strong> response confirms removal of the named pond.
+Confirmation prompts can be automatically accepted with the
+<strong>--yes</strong> option.</p>
 <dl>
 <dt><strong>-y</strong>, <strong>--yes</strong></dt>
-<dd><p>Automatically accept confirmation prompts (this option is inferred when using <strong>pond</strong> in the context of a pipeline)</p>
+<dd>
+<p>Automatically accept confirmation prompts (this option is inferred
+when using <strong>pond</strong> in the context of a pipeline)</p>
 </dd>
 </dl>
-<h2 id="list--e--enabled--d--disabled--l--loaded--u--unloaded"><strong>list</strong> [<strong>-e</strong>|<strong>--enabled</strong>] [<strong>-d</strong>|<strong>--disabled</strong>] [<strong>-l</strong>|<strong>--loaded</strong>] [<strong>-u</strong>|<strong>--unloaded</strong>]</h2>
-<p>List ponds. If no options are specified, <em>all</em> pond names will be printed to standard output regardless of their status. If one or more options are specified, then only the names of ponds that match an option will be output.</p>
+<h2
+id="list--e--enabled--d--disabled--l--loaded--u--unloaded"><strong>list</strong>
+[<strong>-e</strong>|<strong>--enabled</strong>]
+[<strong>-d</strong>|<strong>--disabled</strong>]
+[<strong>-l</strong>|<strong>--loaded</strong>]
+[<strong>-u</strong>|<strong>--unloaded</strong>]</h2>
+<p>List ponds. If no options are specified, <em>all</em> pond names will
+be printed to standard output regardless of their status. If one or more
+options are specified, then only the names of ponds that match an option
+will be output.</p>
 <dl>
 <dt><strong>-e</strong>, <strong>--enabled</strong></dt>
-<dd><p>List enabled ponds</p>
+<dd>
+<p>List enabled ponds</p>
 </dd>
 <dt><strong>-d</strong>, <strong>--disabled</strong></dt>
-<dd><p>List disabled ponds</p>
+<dd>
+<p>List disabled ponds</p>
 </dd>
 <dt><strong>-l</strong>, <strong>--loaded</strong></dt>
-<dd><p>List loaded ponds</p>
+<dd>
+<p>List loaded ponds</p>
 </dd>
 <dt><strong>-u</strong>, <strong>--unloaded</strong></dt>
-<dd><p>List unloaded ponds</p>
+<dd>
+<p>List unloaded ponds</p>
 </dd>
 </dl>
 <p><em>Example:</em> <strong>pond list</strong> (list all ponds)</p>
-<p><em>Example:</em> <strong>pond list --disabled</strong> (list disabled ponds only)</p>
-<p><em>Example:</em> <strong>pond list --enabled --unloaded</strong> (list enabled <em>and</em> unloaded ponds only)</p>
+<p><em>Example:</em> <strong>pond list --disabled</strong> (list
+disabled ponds only)</p>
+<p><em>Example:</em> <strong>pond list --enabled --unloaded</strong>
+(list enabled <em>and</em> unloaded ponds only)</p>
 <h2 id="check-ponds"><strong>check</strong> <em>ponds…</em></h2>
-<p>Check <em>ponds</em> for syntax issues. A list of function filenames will be printed, one filename per line, for each named pond. Function filenames will be prefixed with a green tick or red cross, indicating syntax validation success or failure for that file. A trailing line will be printed with the total number of passes, failures, and total function count for the pond. This command will exit early if syntax issues are found, after the first pond with failures.</p>
+<p>Check <em>ponds</em> for syntax issues. A list of function filenames
+will be printed, one filename per line, for each named pond. Function
+filenames will be prefixed with a green tick or red cross, indicating
+syntax validation success or failure for that file. A trailing line will
+be printed with the total number of passes, failures, and total function
+count for the pond. This command will exit early if syntax issues are
+found, after the first pond with failures.</p>
 <h2 id="autoload-pond"><strong>autoload</strong> <em>pond</em></h2>
-<p>Open the autoload function for <em>pond</em> in an interactive editor. The function will be created if it does not already exist and will be named after <em>pond</em> with the suffix _autoload.</p>
-<p>If <em>pond</em> is enabled (see <strong>enable</strong>) the function will be executed automatically during startup of new shell sessions. If <em>pond</em> is loaded (see <strong>load</strong>) then the function will be executed automatically in the current shell session.</p>
-<p>See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used when this command is invoked.</p>
+<p>Open the autoload function for <em>pond</em> in an interactive
+editor. The function will be created if it does not already exist and
+will be named after <em>pond</em> with the suffix _autoload.</p>
+<p>If <em>pond</em> is enabled (see <strong>enable</strong>) the
+function will be executed automatically during startup of new shell
+sessions. If <em>pond</em> is loaded (see <strong>load</strong>) then
+the function will be executed automatically in the current shell
+session.</p>
+<p>See <strong>ENVIRONMENT</strong> for a discussion of the
+<strong>pond_editor</strong> <em>universal</em> variable that controls
+which editor is used when this command is invoked.</p>
 <h2 id="autounload-pond"><strong>autounload</strong> <em>pond</em></h2>
-<p>Open the autounload function for <em>pond</em> in an interactive editor. The function will be created if it does not already exist and will be named after <em>pond</em> with the suffix _autounload.</p>
-<p>If <em>pond</em> is unloaded (see <strong>unload</strong>) the function will be executed automatically. It is advisable to use the autounload function to perform cleanup of any operations present in a pond’s autoload function, if one exists. For example, unsetting environment variables that were previously set. Doing so will ensure that unloading a pond (see <strong>unload</strong>) will remove any configuration for a pond from the shell environment.</p>
-<p>See <strong>ENVIRONMENT</strong> for a discussion of the <strong>pond_editor</strong> <em>universal</em> variable that controls which editor is used when this command is invoked.</p>
+<p>Open the autounload function for <em>pond</em> in an interactive
+editor. The function will be created if it does not already exist and
+will be named after <em>pond</em> with the suffix _autounload.</p>
+<p>If <em>pond</em> is unloaded (see <strong>unload</strong>) the
+function will be executed automatically. It is advisable to use the
+autounload function to perform cleanup of any operations present in a
+pond’s autoload function, if one exists. For example, unsetting
+environment variables that were previously set. Doing so will ensure
+that unloading a pond (see <strong>unload</strong>) will remove any
+configuration for a pond from the shell environment.</p>
+<p>See <strong>ENVIRONMENT</strong> for a discussion of the
+<strong>pond_editor</strong> <em>universal</em> variable that controls
+which editor is used when this command is invoked.</p>
 <h2 id="enable-ponds"><strong>enable</strong> <em>ponds…</em></h2>
-<p>Enable <em>ponds</em>. The path of each named pond will be added to the <strong>$fish_function_path</strong> environment variable in new shells. Functions belonging to a pond may be autoloaded by name if a pond was enabled before the shell was created.</p>
+<p>Enable <em>ponds</em>. The path of each named pond will be added to
+the <strong>$fish_function_path</strong> environment variable in new
+shells. Functions belonging to a pond may be autoloaded by name if a
+pond was enabled before the shell was created.</p>
 <h2 id="disable-ponds"><strong>disable</strong> <em>ponds…</em></h2>
-<p>Disable <em>ponds</em>. The path of each named pond will not be added to the <strong>$fish_function_path</strong> environment variable in new shells. Functions belonging to a pond will be inaccessible in new shells.</p>
+<p>Disable <em>ponds</em>. The path of each named pond will not be added
+to the <strong>$fish_function_path</strong> environment variable in new
+shells. Functions belonging to a pond will be inaccessible in new
+shells.</p>
 <h2 id="load-ponds"><strong>load</strong> <em>ponds…</em></h2>
-<p>Load <em>ponds</em>. The path of each named pond will be added to the <strong>$fish_function_path</strong> environment variable in the current shell. Functions belonging to <em>ponds</em> may be autoloaded by name in the current shell.</p>
+<p>Load <em>ponds</em>. The path of each named pond will be added to the
+<strong>$fish_function_path</strong> environment variable in the current
+shell. Functions belonging to <em>ponds</em> may be autoloaded by name
+in the current shell.</p>
 <h2 id="unload-ponds"><strong>unload</strong> <em>ponds…</em></h2>
-<p>Unload <em>ponds</em>. The path of each named pond will be remove from the <strong>$fish_function_path</strong> environment variable in the current shell. Functions belonging to <em>ponds</em> will be inaccessible in the current shell.</p>
+<p>Unload <em>ponds</em>. The path of each named pond will be remove
+from the <strong>$fish_function_path</strong> environment variable in
+the current shell. Functions belonging to <em>ponds</em> will be
+inaccessible in the current shell.</p>
 <h2 id="status-ponds"><strong>status</strong> [<em>ponds…</em>]</h2>
-<p>View global status (without arguments) or status of the specified <em>ponds</em>.</p>
-<p>The global status output includes a visual representation of the overall health of all ponds in the form of a leading dot symbol. The dot is coloured green or red to indicate the absence or presence of syntax issues in functions belonging to any ponds. This is followed by the version number of the pond command and a number of additional fields:</p>
+<p>View global status (without arguments) or status of the specified
+<em>ponds</em>.</p>
+<p>The global status output includes a visual representation of the
+overall health of all ponds in the form of a leading dot symbol. The dot
+is coloured green or red to indicate the absence or presence of syntax
+issues in functions belonging to any ponds. This is followed by the
+version number of the pond command and a number of additional
+fields:</p>
 <dl>
 <dt><strong>Health</strong></dt>
-<dd><p>The word ‘good’ (coloured green) or ‘poor’ (coloured red) indicating whether there are syntax issues or not within one or more ponds</p>
+<dd>
+<p>The word ‘good’ (coloured green) or ‘poor’ (coloured red) indicating
+whether there are syntax issues or not within one or more ponds</p>
 </dd>
 <dt><strong>Ponds</strong></dt>
-<dd><p>The total number of ponds followed by the number of enabled and loaded ponds in parentheses</p>
+<dd>
+<p>The total number of ponds followed by the number of enabled and
+loaded ponds in parentheses</p>
 </dd>
 <dt><strong>Loaded</strong></dt>
-<dd><p>The directory path where ponds are stored followed by an ASCII representation of ponds rooted in that directory, each of which is preceded by a small dot symbol whose colour indicates if the pond is loaded (green) or not (grey)</p>
+<dd>
+<p>The directory path where ponds are stored followed by an ASCII
+representation of ponds rooted in that directory, each of which is
+preceded by a small dot symbol whose colour indicates if the pond is
+loaded (green) or not (grey)</p>
 </dd>
 </dl>
-<p>When used with one or more <em>ponds</em> the <strong>status</strong> command outputs the name of the pond preceded by a coloured dot symbol indicating if the pond is loaded (green) or not (grey) followed by the pond directory path and these additional fields:</p>
+<p>When used with one or more <em>ponds</em> the <strong>status</strong>
+command outputs the name of the pond preceded by a coloured dot symbol
+indicating if the pond is loaded (green) or not (grey) followed by the
+pond directory path and these additional fields:</p>
 <dl>
 <dt><strong>Status</strong></dt>
-<dd><p>Indicates whether the pond is loaded or unloaded, and whether the enabled or disabled</p>
+<dd>
+<p>Indicates whether the pond is loaded or unloaded, and whether the
+enabled or disabled</p>
 </dd>
 <dt><strong>Health</strong></dt>
-<dd><p>The word ‘good’ or ‘poor’ (in red) indicating whether there are syntax issues with functions in the pond</p>
+<dd>
+<p>The word ‘good’ or ‘poor’ (in red) indicating whether there are
+syntax issues with functions in the pond</p>
 </dd>
 <dt><strong>Autoload</strong></dt>
-<dd><p>Indicates whether an autoload function is present for the pond or not</p>
+<dd>
+<p>Indicates whether an autoload function is present for the pond or
+not</p>
 </dd>
 <dt><strong>Autounload</strong></dt>
-<dd><p>Indicates whether an autounload function is present for the pond or not</p>
+<dd>
+<p>Indicates whether an autounload function is present for the pond or
+not</p>
 </dd>
 <dt><strong>Functions</strong></dt>
-<dd><p>The number of functions in the pond</p>
+<dd>
+<p>The number of functions in the pond</p>
 </dd>
 <dt><strong>Size</strong></dt>
-<dd><p>The size of the pond and unit suffix</p>
+<dd>
+<p>The size of the pond and unit suffix</p>
 </dd>
 </dl>
-<h2 id="drain--y--yes-ponds"><strong>drain</strong> [<strong>-y</strong>|<strong>--yes</strong>] <em>ponds…</em></h2>
-<p>Drain <em>ponds</em>. All functions are removed from each named pond. If any of the named ponds was enabled for the current shell session or had been previously loaded in the current shell session with the <strong>load</strong> command, variables for that pond <em>will remain</em> in the shell environment and continue to be accessible to processes until the current shell exits.</p>
+<h2 id="drain--y--yes-ponds"><strong>drain</strong>
+[<strong>-y</strong>|<strong>--yes</strong>] <em>ponds…</em></h2>
+<p>Drain <em>ponds</em>. All functions are removed from each named pond.
+If any of the named ponds was enabled for the current shell session or
+had been previously loaded in the current shell session with the
+<strong>load</strong> command, variables for that pond <em>will
+remain</em> in the shell environment and continue to be accessible to
+processes until the current shell exits.</p>
 <dl>
 <dt><strong>-y</strong>, <strong>--yes</strong></dt>
-<dd><p>Automatically accept confirmation prompts (this option is inferred when using <strong>pond</strong> in the context of a pipeline)</p>
+<dd>
+<p>Automatically accept confirmation prompts (this option is inferred
+when using <strong>pond</strong> in the context of a pipeline)</p>
 </dd>
 </dl>
 <h2 id="dir-pond"><strong>dir</strong> <em>pond</em></h2>
-<p>Change the current working directory to the pond directory for <em>pond</em>.</p>
+<p>Change the current working directory to the pond directory for
+<em>pond</em>.</p>
 <h2 id="config"><strong>config</strong></h2>
 <p>Print the current configuration settings.</p>
 <h1 id="environment">ENVIRONMENT</h1>
-<p>A number of <em>universal</em> shell variables (see <strong>set</strong>(1) for discussion of <em>universal</em> variables) are set during installation. These variables control different aspects of functionality of <strong>pond</strong> and may be modified as described here:</p>
+<p>A number of <em>universal</em> shell variables (see
+<strong>set</strong>(1) for discussion of <em>universal</em> variables)
+are set during installation. These variables control different aspects
+of functionality of <strong>pond</strong> and may be modified as
+described here:</p>
 <dl>
 <dt><strong>pond_editor</strong></dt>
-<dd><p>The editor to open when using the <strong>create</strong> or <strong>edit</strong> commands. May be set to an absolute path or the name of a command accessible via one of the paths specified in the <strong>PATH</strong> environment variable. During installation this variable is set to the value of the <strong>EDITOR</strong> environment variable, if set, or one of <strong>vim</strong>, <strong>vi</strong>, <strong>emacs</strong>, or <strong>nano</strong>, whichever is found first in one of the paths set in <strong>PATH</strong>, working from left to right. An error may be generated during installation if no suitable editor is found.</p>
+<dd>
+<p>The editor to open when using the <strong>create</strong> or
+<strong>edit</strong> commands. May be set to an absolute path or the
+name of a command accessible via one of the paths specified in the
+<strong>PATH</strong> environment variable. During installation this
+variable is set to the value of the <strong>EDITOR</strong> environment
+variable, if set, or one of <strong>vim</strong>, <strong>vi</strong>,
+<strong>emacs</strong>, or <strong>nano</strong>, whichever is found
+first in one of the paths set in <strong>PATH</strong>, working from
+left to right. An error may be generated during installation if no
+suitable editor is found.</p>
 </dd>
 <dt><strong>pond_enable_on_create</strong></dt>
-<dd><p>The value of this shell variable is set to <strong>yes</strong> by default and will cause all ponds created with the <strong>create</strong> command to be enabled by default. To disable this behaviour set the value of this variable to <strong>no</strong>.</p>
+<dd>
+<p>The value of this shell variable is set to <strong>yes</strong> by
+default and will cause all ponds created with the
+<strong>create</strong> command to be enabled by default. To disable
+this behaviour set the value of this variable to
+<strong>no</strong>.</p>
 <p><em>Default:</em> <strong>yes</strong>.</p>
 </dd>
 <dt><strong>pond_load_on_create</strong></dt>
-<dd><p>The value of this shell variable is set to <strong>yes</strong> by default and will cause all ponds created with the <strong>create</strong> command to be loaded by default. To disable this behaviour set the value of this variable to <strong>no</strong>.</p>
+<dd>
+<p>The value of this shell variable is set to <strong>yes</strong> by
+default and will cause all ponds created with the
+<strong>create</strong> command to be loaded by default. To disable this
+behaviour set the value of this variable to <strong>no</strong>.</p>
 <p><em>Default:</em> <strong>yes</strong>.</p>
 </dd>
 </dl>
 <h1 id="exit-status">EXIT STATUS</h1>
-<p><strong>pond</strong> exits 0 on success, and &gt;0 if an error occurs.</p>
+<p><strong>pond</strong> exits 0 on success, and &gt;0 if an error
+occurs.</p>
 <h1 id="bugs">BUGS</h1>
 <p>See GitHub Issues: https://github.com/marcransome/pond/issues</p>
 <h1 id="author">AUTHOR</h1>
-<p>Marc Ransome <a href="mailto:marc.ransome@fidgetbox.co.uk" class="email">marc.ransome@fidgetbox.co.uk</a></p>
+<p>Marc Ransome <a href="mailto:marc.ransome@fidgetbox.co.uk"
+class="email">marc.ransome@fidgetbox.co.uk</a></p>
 <h1 id="see-also">SEE ALSO</h1>
 <p>fish(1), fish-doc(1), fish-completions(1), function(1), set(1)</p>
 </body>

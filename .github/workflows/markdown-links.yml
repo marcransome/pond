@@ -18,6 +18,9 @@ jobs:
         uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
         with:
           egress-policy: audit
+      - name: Disable unprivileged user namespaces restrictions
+        run: echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
+        shell: bash
       - name: Check links in Markdown files
         uses: umbrelladocs/action-linkspector@fc382e19892aca958e189954912fe379a8df270c # v1.2.4
         with:

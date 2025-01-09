@@ -10,6 +10,9 @@ on:
     types:
       - published
   workflow_dispatch:
+
+permissions: read-all
+
 jobs:
   indentation:
     runs-on: ubuntu-latest

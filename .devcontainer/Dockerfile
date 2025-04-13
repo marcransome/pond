@@ -1,5 +1,6 @@
+ARG BUILD_TYPE=codespaces
 ARG BASE_IMAGE_VERSION=9.3-minimal
-FROM rockylinux:${BASE_IMAGE_VERSION}
+FROM rockylinux:${BASE_IMAGE_VERSION} as base
 
 ENV TIMEZONE=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && \
@@ -14,16 +15,23 @@ RUN microdnf update -y \
   && microdnf clean all -y
 
 RUN npm install -g tap-diff
-
 RUN rm -rf /usr/share/doc
-
 RUN /usr/bin/fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source; and fisher install jorgebucaran/{fisher,fishtape}"
 
-ARG BASE_IMAGE_VERSION
-COPY motd /etc/motd
-RUN sed -i "s/{{BASE_IMAGE_VERSION}}/$BASE_IMAGE_VERSION/" /etc/motd
+FROM base as codespaces-build
 
+COPY motd /etc/motd
 COPY fish_greeting.fish /root/.config/fish/functions
 
-ENTRYPOINT ["/usr/bin/fish"]
+FROM base as docker-build
 
+COPY .devcontainer/motd /etc/motd
+COPY .devcontainer/fish_greeting.fish /root/.config/fish/functions
+COPY . /workspaces/pond
+
+FROM ${BUILD_TYPE}-build AS final
+
+ARG BASE_IMAGE_VERSION
+RUN sed -i "s/{{BASE_IMAGE_VERSION}}/$BASE_IMAGE_VERSION/" /etc/motd
+WORKDIR /workspaces/pond
+ENTRYPOINT ["/usr/bin/fish"]

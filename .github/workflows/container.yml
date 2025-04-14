@@ -4,7 +4,7 @@ on:
     branches:
       - docker-container
     tags:
-      - 't*'
+      - 'v*'
 
 env:
   REGISTRY: ghcr.io

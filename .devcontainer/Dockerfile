@@ -1,6 +1,6 @@
 ARG BUILD_TYPE=codespaces
 ARG BASE_IMAGE_VERSION=9.3-minimal
-FROM rockylinux:${BASE_IMAGE_VERSION} as base
+FROM rockylinux:${BASE_IMAGE_VERSION} AS base
 
 ENV TIMEZONE=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && \
@@ -18,12 +18,12 @@ RUN npm install -g tap-diff
 RUN rm -rf /usr/share/doc
 RUN /usr/bin/fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source; and fisher install jorgebucaran/{fisher,fishtape}"
 
-FROM base as codespaces-build
+FROM base AS codespaces-build
 
 COPY motd /etc/motd
 COPY fish_greeting.fish /root/.config/fish/functions
 
-FROM base as docker-build
+FROM base AS docker-build
 
 COPY .devcontainer/motd /etc/motd
 COPY .devcontainer/fish_greeting.fish /root/.config/fish/functions

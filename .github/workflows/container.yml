@@ -1,6 +1,8 @@
 name: Build container image
 on:
   push:
+    branches:
+      - docker-container
     tags:
       - 't*'
 

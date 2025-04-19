@@ -45,12 +45,12 @@ jobs:
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@4fdff31de68e524f6cd3efb9fa75a1cb5f4469e2 # v1.0.56
       - name: Install pond
-        uses: fish-shop/install-plugin@ceb52f99792200034fca5cb5f32b5f3a2f2ad8fe # v2.3.46
+        uses: fish-shop/install-plugin@7e20a1e540f67d03e7f849de53542e3fcaf39303 # v2.3.47
         with:
           plugin-manager: fisher
           plugins: ${{ github.workspace }}
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@1ef1602b4a7434cd65ba619fba1028d23d39c016 # v2.3.46
+        uses: fish-shop/run-fishtape-tests@626cf8faee1774caa104991b39a50a627dfd2593 # v2.3.47
         with:
           patterns: tests/**.fish
   install:
@@ -65,7 +65,7 @@ jobs:
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@4fdff31de68e524f6cd3efb9fa75a1cb5f4469e2 # v1.0.56
       - name: Install pond using ${{ matrix.plugin-manager }}
-        uses: fish-shop/install-plugin@ceb52f99792200034fca5cb5f32b5f3a2f2ad8fe # v2.3.46
+        uses: fish-shop/install-plugin@7e20a1e540f67d03e7f849de53542e3fcaf39303 # v2.3.47
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
           plugins: ${{ github.workspace }}

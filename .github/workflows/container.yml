@@ -1,6 +1,8 @@
 name: Container image
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
@@ -38,6 +40,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
+            type=ref,event=branch
             type=semver,pattern={{version}}
       - name: Build and push Docker image
         id: build-and-push

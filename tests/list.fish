@@ -116,7 +116,6 @@ for command in "pond list "{-d,--disabled}
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_pond
     __pond_tear_down
 
-
     @echo "$command: success tests for multiple enabled ponds"
     __pond_setup 3 enabled unloaded unpopulated
     @test "pond list: success multiple enabled ponds" (eval $command >/dev/null 2>&1) $status -eq $failure
@@ -172,7 +171,6 @@ for command in "pond list "{-u,--unloaded}
     @test "pond list: success single unloaded pond" (eval $command >/dev/null 2>&1) $status -eq $success
     @test "pond list: output message correct" (eval $command 2>&1 | string collect) = $success_output_single_pond
     __pond_tear_down
-
 
     @echo "$command: success tests for multiple loaded ponds"
     __pond_setup 3 disabled loaded unpopulated

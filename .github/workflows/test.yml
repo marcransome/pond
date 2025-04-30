@@ -1,4 +1,4 @@
-name: tests
+name: Tests
 on:
   push:
     branches:
@@ -15,8 +15,13 @@ permissions: read-all
 
 jobs:
   indentation:
+    name: Indentation check
     runs-on: ubuntu-latest
     steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        with:
+          egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Install fish shell
@@ -24,8 +29,13 @@ jobs:
       - name: Check indentation
         uses: fish-shop/indent-check@e0a9a2b957d02f47c234f378e266bac468989a9a # v2.2.48
   syntax:
+    name: Syntax check
     runs-on: ubuntu-latest
     steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        with:
+          egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Install fish shell
@@ -33,11 +43,16 @@ jobs:
       - name: Syntax check fish files
         uses: fish-shop/syntax-check@babee4fa93736a4317b456ad177f311177d3159e # v2.2.47
   tests:
+    name: Unit tests
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        with:
+          egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Fetch repository history for access to tags in tests
@@ -54,12 +69,17 @@ jobs:
         with:
           patterns: tests/**.fish
   install:
+    name: Install tests
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
         plugin-manager: [fisher, oh-my-fish]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        with:
+          egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Install fish shell

@@ -6,12 +6,15 @@ on:
     tags:
       - 'v*'
 
+permissions: read-all
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-image:
+    name: Container image
     runs-on: ubuntu-latest
     permissions:
       contents: read

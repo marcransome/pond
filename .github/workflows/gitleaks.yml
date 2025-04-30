@@ -1,0 +1,28 @@
+name: Gitleaks SAST scan
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '00 19 * * 1'
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  scan:
+    name: Gitleaks SAST scan
+    runs-on: ubuntu-latest
+    permissions:
+        pull-requests: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2.3.9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_NOTIFY_USER_LIST: "@marcransome"

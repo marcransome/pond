@@ -1,4 +1,4 @@
-name: markdown-links
+name: Markdown links check
 on:
   pull_request:
     branches:
@@ -8,6 +8,7 @@ permissions: read-all
 
 jobs:
   markdown-links:
+    name: Markdown links check
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write

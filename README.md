@@ -302,7 +302,7 @@ A pre-configured [dev container](https://docs.github.com/en/codespaces/setting-u
 Alternatively, clone the repository and build a local container image, then mount your local repository when starting a container:
 
 ```shell
-cd .devcontainers
+cd .devcontainer
 docker build -t pond .
 cd ..
 docker run --rm -it -v $(pwd):/workspaces/pond pond

@@ -313,7 +313,7 @@ The project sources will be mounted at `/workspaces/pond`, and the container wil
 ```
 ░▄▀▀▄░▄▀▀▄░█▀▀▄░█▀▄
 ░█▄▄█░█░░█░█░▒█░█░█  dev container
-░█░░░░░▀▀░░▀░░▀░▀▀░  rockylinux:9.3-minimal
+░█░░░░░▀▀░░▀░░▀░▀▀░  rockylinux/rockylinux:9.6-minimal
 
  - See CONTRIBUTING.md and CODE_OF_CONDUCT.md before contributing changes
    to the project

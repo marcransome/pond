@@ -1,6 +1,6 @@
 ARG BUILD_TYPE=codespaces
-ARG BASE_IMAGE_VERSION=9.3-minimal
-FROM rockylinux:${BASE_IMAGE_VERSION} AS base
+ARG BASE_IMAGE_VERSION=9.6-minimal
+FROM rockylinux/rockylinux:${BASE_IMAGE_VERSION} AS base
 
 ENV TIMEZONE=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && \

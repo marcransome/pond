@@ -23,7 +23,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@d51ac6a5f52340c068ecfec429e545233fc5bcd0 # v2.0.33
       - name: Check indentation
@@ -37,7 +37,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@d51ac6a5f52340c068ecfec429e545233fc5bcd0 # v2.0.33
       - name: Syntax check fish files
@@ -54,7 +54,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Fetch repository history for access to tags in tests
         run: git fetch --prune --unshallow --tags --force
       - name: Install fish shell
@@ -81,7 +81,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       - name: Install fish shell
         uses: fish-shop/install-fish-shell@d51ac6a5f52340c068ecfec429e545233fc5bcd0 # v2.0.33
       - name: Install pond using ${{ matrix.plugin-manager }}

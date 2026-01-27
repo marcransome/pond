@@ -19,29 +19,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9 # v2.14.1
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@df09b9652ffb1ddac57400071342ce4014391c01 # v2.0.39
+        uses: fish-shop/install-fish-shell@e7fed4dd856223b5c96b9681c587ee85ab185024 # v2.0.40
       - name: Check indentation
-        uses: fish-shop/indent-check@ad1c27e91b10779f7e694c62e2817477a373f183 # v2.2.85
+        uses: fish-shop/indent-check@b36df137ca7d4cc04b3dc0957cc93a2aacea51bb # v2.2.86
   syntax:
     name: Syntax check
     runs-on: ubuntu-latest
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9 # v2.14.1
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@df09b9652ffb1ddac57400071342ce4014391c01 # v2.0.39
+        uses: fish-shop/install-fish-shell@e7fed4dd856223b5c96b9681c587ee85ab185024 # v2.0.40
       - name: Syntax check fish files
-        uses: fish-shop/syntax-check@5892b6b7938572d247c213cf7d9fc246deb7f519 # v2.2.84
+        uses: fish-shop/syntax-check@cb0217ce920b1155f382e4afa9a09309199b89af # v2.2.85
   tests:
     name: Unit tests
     strategy:
@@ -50,22 +50,22 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9 # v2.14.1
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Fetch repository history for access to tags in tests
         run: git fetch --prune --unshallow --tags --force
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@df09b9652ffb1ddac57400071342ce4014391c01 # v2.0.39
+        uses: fish-shop/install-fish-shell@e7fed4dd856223b5c96b9681c587ee85ab185024 # v2.0.40
       - name: Install pond
-        uses: fish-shop/install-plugin@fcfecc2bcd40ce477739164c37aa86f52631b7ec # v2.3.87
+        uses: fish-shop/install-plugin@2a8c84d4e8b2364a360c09e68fd64fb90045a079 # v2.3.88
         with:
           plugin-manager: fisher
           plugins: ${{ github.workspace }}
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@3b7f633949af0a545abd4baa4194f8eb98584d96 # v2.3.87
+        uses: fish-shop/run-fishtape-tests@2f8046669ddb6d1b177e752c4dc6380e8b1d823f # v2.3.88
         with:
           patterns: tests/**.fish
   install:
@@ -77,15 +77,15 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+        uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9 # v2.14.1
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@df09b9652ffb1ddac57400071342ce4014391c01 # v2.0.39
+        uses: fish-shop/install-fish-shell@e7fed4dd856223b5c96b9681c587ee85ab185024 # v2.0.40
       - name: Install pond using ${{ matrix.plugin-manager }}
-        uses: fish-shop/install-plugin@fcfecc2bcd40ce477739164c37aa86f52631b7ec # v2.3.87
+        uses: fish-shop/install-plugin@2a8c84d4e8b2364a360c09e68fd64fb90045a079 # v2.3.88
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
           plugins: ${{ github.workspace }}

@@ -19,13 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e # v2.14.2
+        uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b # v2.15.0
         with:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@64afe83d5e3ffdd22ae43a811b9c376e0fe19568 # v2.0.445
+        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.0.445
       - name: Check indentation
         uses: fish-shop/indent-check@2218580d752ec8ec6129b93be3ed2aac48f2778a # v2.2.91
   syntax:
@@ -33,13 +33,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e # v2.14.2
+        uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b # v2.15.0
         with:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@64afe83d5e3ffdd22ae43a811b9c376e0fe19568 # v2.0.445
+        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.0.445
       - name: Syntax check fish files
         uses: fish-shop/syntax-check@29c81b04829b240de4c5c564bc5ad1c1d3af4e77 # v2.2.890
   tests:
@@ -50,7 +50,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e # v2.14.2
+        uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b # v2.15.0
         with:
           egress-policy: audit
       - name: Checkout repository
@@ -58,7 +58,7 @@ jobs:
       - name: Fetch repository history for access to tags in tests
         run: git fetch --prune --unshallow --tags --force
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@64afe83d5e3ffdd22ae43a811b9c376e0fe19568 # v2.0.445
+        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.0.445
       - name: Install pond
         uses: fish-shop/install-plugin@71a14ccf85f1c9d8c585183ac7e4f242e1540b3d # v2.3.93
         with:
@@ -77,13 +77,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e # v2.14.2
+        uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b # v2.15.0
         with:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@64afe83d5e3ffdd22ae43a811b9c376e0fe19568 # v2.0.445
+        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.0.445
       - name: Install pond using ${{ matrix.plugin-manager }}
         uses: fish-shop/install-plugin@71a14ccf85f1c9d8c585183ac7e4f242e1540b3d # v2.3.93
         with:

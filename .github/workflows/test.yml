@@ -25,7 +25,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.0.445
+        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.1.1
       - name: Check indentation
         uses: fish-shop/indent-check@1de62bceb1a2eaf5dcdff35c7221008ab2abfd32 # v2.2.92
   syntax:
@@ -39,9 +39,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.0.445
+        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.1.1
       - name: Syntax check fish files
-        uses: fish-shop/syntax-check@d307551d95125dd60ee32dc29efc3bd2a277dd70 # v2.2.890
+        uses: fish-shop/syntax-check@d307551d95125dd60ee32dc29efc3bd2a277dd70 # v2.2.90
   tests:
     name: Unit tests
     strategy:
@@ -58,7 +58,7 @@ jobs:
       - name: Fetch repository history for access to tags in tests
         run: git fetch --prune --unshallow --tags --force
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.0.445
+        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.1.1
       - name: Install pond
         uses: fish-shop/install-plugin@938e81c17b61e2074527bdb1cb86867fff28f6ae # v2.3.94
         with:
@@ -83,7 +83,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.0.445
+        uses: fish-shop/install-fish-shell@3b9b2213d22b47bf119124905593b3c9ecaf6681 # v2.1.1
       - name: Install pond using ${{ matrix.plugin-manager }}
         uses: fish-shop/install-plugin@938e81c17b61e2074527bdb1cb86867fff28f6ae # v2.3.94
         with:

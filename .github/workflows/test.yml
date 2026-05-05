@@ -19,29 +19,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
         with:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@939056556c2bfd55b3e2c039e9d34b237c0b9d5b # v2.1.11
+        uses: fish-shop/install-fish-shell@ccc661674ad75f594cc6b6bf96e4ed76633454e2 # v2.1.12
       - name: Check indentation
-        uses: fish-shop/indent-check@82531182f7b5431da27f590467d4774bab1c1eec # v2.2.102
+        uses: fish-shop/indent-check@a365d8444d4fec84f3be7ab8dcc65f70872718d7 # v2.2.103
   syntax:
     name: Syntax check
     runs-on: ubuntu-latest
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
         with:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@939056556c2bfd55b3e2c039e9d34b237c0b9d5b # v2.1.11
+        uses: fish-shop/install-fish-shell@ccc661674ad75f594cc6b6bf96e4ed76633454e2 # v2.1.12
       - name: Syntax check fish files
-        uses: fish-shop/syntax-check@27c94ee9456333e716f92b50e0f99effd768e0ee # v2.2.100
+        uses: fish-shop/syntax-check@ce500638314592d14785eb6be77f8e6e48653eed # v2.2.101
   tests:
     name: Unit tests
     strategy:
@@ -50,7 +50,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
         with:
           egress-policy: audit
       - name: Checkout repository
@@ -58,14 +58,14 @@ jobs:
       - name: Fetch repository history for access to tags in tests
         run: git fetch --prune --unshallow --tags --force
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@939056556c2bfd55b3e2c039e9d34b237c0b9d5b # v2.1.11
+        uses: fish-shop/install-fish-shell@ccc661674ad75f594cc6b6bf96e4ed76633454e2 # v2.1.12
       - name: Install pond
-        uses: fish-shop/install-plugin@8e0e56ba1ac1a37098ec523878f8f1c2d0306177 # v2.3.104
+        uses: fish-shop/install-plugin@c34c26ba8d5eedcfba91ec07ec0d620a344e812c # v2.3.105
         with:
           plugin-manager: fisher
           plugins: ${{ github.workspace }}
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@b9427c3b6e670abc1c70c41a3cf46b8f2b67c5d5 # v2.3.104
+        uses: fish-shop/run-fishtape-tests@bb2c0c0177b5e3c021e008e30c708970b5cc8c7f # v2.3.105
         with:
           patterns: tests/**.fish
   install:
@@ -77,15 +77,15 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        uses: step-security/harden-runner@a5ad31d6a139d249332a2605b85202e8c0b78450 # v2.19.1
         with:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@939056556c2bfd55b3e2c039e9d34b237c0b9d5b # v2.1.11
+        uses: fish-shop/install-fish-shell@ccc661674ad75f594cc6b6bf96e4ed76633454e2 # v2.1.12
       - name: Install pond using ${{ matrix.plugin-manager }}
-        uses: fish-shop/install-plugin@8e0e56ba1ac1a37098ec523878f8f1c2d0306177 # v2.3.104
+        uses: fish-shop/install-plugin@c34c26ba8d5eedcfba91ec07ec0d620a344e812c # v2.3.105
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
           plugins: ${{ github.workspace }}

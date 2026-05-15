@@ -303,8 +303,7 @@ Alternatively, clone the repository and build a local container image, then moun
 
 ```shell
 cd .devcontainer
-docker build -t pond .
-cd ..
+docker build --build-arg BUILD_TYPE=docker -f .devcontainer/Dockerfile . -t pond
 docker run --rm -it -v $(pwd):/workspaces/pond pond
 ```
 
@@ -313,7 +312,7 @@ The project sources will be mounted at `/workspaces/pond`, and the container wil
 ```
 ░▄▀▀▄░▄▀▀▄░█▀▀▄░█▀▄
 ░█▄▄█░█░░█░█░▒█░█░█  dev container
-░█░░░░░▀▀░░▀░░▀░▀▀░  rockylinux/rockylinux:9.6-minimal
+░█░░░░░▀▀░░▀░░▀░▀▀░  rockylinux/rockylinux:10.1-minimal
 
  - See CONTRIBUTING.md and CODE_OF_CONDUCT.md before contributing changes
    to the project

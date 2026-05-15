@@ -1,5 +1,5 @@
 ARG BUILD_TYPE=codespaces
-ARG BASE_IMAGE_VERSION=9.6-minimal
+ARG BASE_IMAGE_VERSION=10.1-minimal
 FROM rockylinux/rockylinux:${BASE_IMAGE_VERSION} AS base
 
 ENV TIMEZONE=Europe/London

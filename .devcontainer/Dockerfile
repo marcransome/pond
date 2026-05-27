@@ -14,7 +14,6 @@ RUN microdnf update -y \
   && microdnf install -y fish \
   && microdnf clean all -y
 
-RUN npm install -g tap-diff
 RUN rm -rf /usr/share/doc
 RUN /usr/bin/fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source; and fisher install jorgebucaran/{fisher,fishtape}"
 

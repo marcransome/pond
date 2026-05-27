@@ -332,7 +332,6 @@ However you choose to work, contributions are most welcome.
 ## Acknowledgements
 
 * Pond icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/)
-* Pond's [workflow](https://github.com/marcransome/pond/actions) uses the [fishtape](https://github.com/jorgebucaran/fishtape) test runner and [tap-diff](https://github.com/axross/tap-diff) to make things pretty
 
 ## License
 

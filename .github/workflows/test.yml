@@ -25,9 +25,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@17c2b2fbcd85a9c9b38df604844590910b164b6b # v2.1.17
+        uses: fish-shop/install-fish-shell@97fc21600a678ad8c35136316d344fbc22d52b50 # v2.1.18
       - name: Check indentation
-        uses: fish-shop/indent-check@11f86650806990311d0654c75038f12d83219770 # v2.2.108
+        uses: fish-shop/indent-check@c6338e4ff9391c73e00a99888491e006880e1554 # v2.2.109
   syntax:
     name: Syntax check
     runs-on: ubuntu-latest
@@ -39,9 +39,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@17c2b2fbcd85a9c9b38df604844590910b164b6b # v2.1.17
+        uses: fish-shop/install-fish-shell@97fc21600a678ad8c35136316d344fbc22d52b50 # v2.1.18
       - name: Syntax check fish files
-        uses: fish-shop/syntax-check@b7450a98402bf58615afcc6b36805a801182f22d # v2.2.106
+        uses: fish-shop/syntax-check@94b38995daa6b96259ff2411f5257d89e65dd9ac # v2.2.107
   tests:
     name: Unit tests
     strategy:
@@ -58,14 +58,14 @@ jobs:
       - name: Fetch repository history for access to tags in tests
         run: git fetch --prune --unshallow --tags --force
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@17c2b2fbcd85a9c9b38df604844590910b164b6b # v2.1.17
+        uses: fish-shop/install-fish-shell@97fc21600a678ad8c35136316d344fbc22d52b50 # v2.1.18
       - name: Install pond
-        uses: fish-shop/install-plugin@70c0ea4dd8bef7b6c0c18c82c2ed528b23f0a52f # v2.3.110
+        uses: fish-shop/install-plugin@508d7dbccdd50a08d9cc500fa1f438984bd047a2 # v2.3.111
         with:
           plugin-manager: fisher
           plugins: ${{ github.workspace }}
       - name: Run Fishtape tests
-        uses: fish-shop/run-fishtape-tests@c3ebfac40746a042e2f82064e4d047c6a3ee6b37 # v2.3.110
+        uses: fish-shop/run-fishtape-tests@4f88d2d85e7178ad6f01d9d01f693b8859ada52c # v2.3.111
         with:
           patterns: tests/**.fish
   install:
@@ -83,9 +83,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       - name: Install fish shell
-        uses: fish-shop/install-fish-shell@17c2b2fbcd85a9c9b38df604844590910b164b6b # v2.1.17
+        uses: fish-shop/install-fish-shell@97fc21600a678ad8c35136316d344fbc22d52b50 # v2.1.18
       - name: Install pond using ${{ matrix.plugin-manager }}
-        uses: fish-shop/install-plugin@70c0ea4dd8bef7b6c0c18c82c2ed528b23f0a52f # v2.3.110
+        uses: fish-shop/install-plugin@508d7dbccdd50a08d9cc500fa1f438984bd047a2 # v2.3.111
         with:
           plugin-manager: ${{ matrix.plugin-manager }}
           plugins: ${{ github.workspace }}
